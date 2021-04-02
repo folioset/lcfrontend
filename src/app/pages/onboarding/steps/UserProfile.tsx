@@ -1,5 +1,5 @@
 import * as React from 'react';
-
+import { useQueryClient } from 'react-query';
 import { Formik, Form } from 'formik';
 
 // MUI
@@ -34,28 +34,47 @@ const useStyles = makeStyles((theme) => {
 // Formik
 const initialValues = {
 	name: 'Guest User',
+	email: 'guest@example.com',
 	linkedinUrl: '',
 	githubUrl: '',
 };
 
 const UserProfile: React.FC = () => {
 	const classes = useStyles();
+	const queryClient = useQueryClient();
+	const user = queryClient.getQueryData('user') as any;
 
 	return (
 		<Box className={classes.container}>
 			<Typography variant='h4'>User Profile</Typography>
-			<Formik onSubmit={() => {}} {...{ initialValues }}>
+			<Formik
+				onSubmit={() => {}}
+				initialValues={{
+					...initialValues,
+					name: user && user.name,
+					email: user && user.email,
+				}}>
 				{() => {
 					return (
 						<Container>
 							<Grid container component={Form} spacing={4} autoComplete='off'>
-								<Grid item xl={12}>
+								<Grid item xl={6}>
 									<FormInput
 										disabled
 										fullWidth
 										variant='outlined'
 										label='Name'
 										name='name'
+										required
+									/>
+								</Grid>
+								<Grid item xl={6}>
+									<FormInput
+										disabled
+										fullWidth
+										variant='outlined'
+										label='Email'
+										name='email'
 										required
 									/>
 								</Grid>

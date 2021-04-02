@@ -1,5 +1,8 @@
 import * as React from 'react';
-import { Link as RouterLink, useHistory } from 'react-router-dom';
+import {
+	Link as RouterLink,
+	// useHistory
+} from 'react-router-dom';
 
 // Material UI
 import Grid from '@material-ui/core/Grid';
@@ -53,7 +56,7 @@ const useStyles = makeStyles((theme) => {
 
 const Home: React.FC = () => {
 	const classes = useStyles();
-	const history = useHistory();
+	// const history = useHistory();
 
 	return (
 		<Container>
@@ -72,7 +75,7 @@ const Home: React.FC = () => {
 						<Typography>OR</Typography>
 						<Box className={classes.googleRegister__btns}>
 							<Button
-								onClick={() => history.replace('/onboarding')}
+								href='/api/auth/google'
 								color='secondary'
 								variant='outlined'>
 								Sign Up With google

@@ -112,6 +112,7 @@ const Login: React.FC = () => {
 					<Button
 						disableElevation
 						fullWidth
+						href='/api/auth/google'
 						size='large'
 						color='secondary'
 						variant='contained'>

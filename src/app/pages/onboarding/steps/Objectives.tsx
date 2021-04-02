@@ -48,7 +48,7 @@ const Objectives: React.FC = () => {
 					className={classes.masonry}
 					columnClassName={classes.masonry_cols}>
 					{OBJECTIVES.map((objective) => {
-						return <ObjectiveCard {...{ objective }} />;
+						return <ObjectiveCard key={objective} {...{ objective }} />;
 					})}
 				</Masonry>
 			</Container>

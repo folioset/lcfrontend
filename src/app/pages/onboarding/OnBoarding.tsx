@@ -13,6 +13,8 @@ import Box from '@material-ui/core/Box';
 import UserProfile from './steps/UserProfile';
 import Objectives from './steps/Objectives';
 import FinalSlider from './steps/FinalSlider';
+import { useQueryClient } from 'react-query';
+import { useHistory } from 'react-router';
 
 // components
 const useStyles = makeStyles((theme: Theme) =>
@@ -49,6 +51,9 @@ function getStepContent(stepIndex: number) {
 }
 
 export default function OnBoarding() {
+	const history = useHistory();
+	const queryClient = useQueryClient();
+	const user = queryClient.getQueryData('user');
 	const classes = useStyles();
 	const [activeStep, setActiveStep] = React.useState(0);
 	const steps = getSteps();
@@ -60,6 +65,12 @@ export default function OnBoarding() {
 	const handleBack = () => {
 		setActiveStep((prevActiveStep) => prevActiveStep - 1);
 	};
+
+	React.useEffect(() => {
+		if (!user) {
+			return history.replace('/');
+		}
+	}, [user, history]);
 
 	return (
 		<div className={classes.root}>
