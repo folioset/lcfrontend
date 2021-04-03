@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useHistory } from 'react-router';
 
 // MUI
 import Typography from '@material-ui/core/Typography';
@@ -10,12 +11,9 @@ import { makeStyles } from '@material-ui/core';
 const useStyles = makeStyles({
 	container: {
 		textAlign: 'center',
+		marginTop: 150,
 
 		'& h1': {
-			marginBottom: 10,
-		},
-
-		'& h4': {
 			marginBottom: 70,
 		},
 	},
@@ -23,17 +21,19 @@ const useStyles = makeStyles({
 
 const FinalSlider: React.FC = () => {
 	const classes = useStyles();
+	const history = useHistory();
 
 	return (
 		<Box className={classes.container}>
 			<Typography color='primary' variant='h1'>
 				Welcome.
 			</Typography>
-			<Typography color='textSecondary' variant='h4'>
-				Verify your email to use our services
-			</Typography>
-			<Button color='secondary' variant='outlined'>
-				Resend Email Confirmation
+
+			<Button
+				onClick={() => history.replace('/dashboard/schedule')}
+				color='secondary'
+				variant='outlined'>
+				Get Started
 			</Button>
 		</Box>
 	);

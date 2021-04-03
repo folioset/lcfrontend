@@ -18,9 +18,6 @@ const UserContextProvider: React.FC<UserContextProps> = ({ children }: any) => {
 			return res.data;
 		},
 		{
-			onSuccess: () => {
-				history.replace('/onboarding');
-			},
 			onError: () => {
 				history.replace('/');
 			},

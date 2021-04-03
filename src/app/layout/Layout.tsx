@@ -2,7 +2,7 @@ import { Box, CircularProgress } from '@material-ui/core';
 import React from 'react';
 import { LayoutContext } from '../contexts/LayoutContext';
 import { UserContext } from '../contexts/UserContext';
-import HomeLayout from './page-layouts/HomeLayout';
+import AppLayout from './page-layouts/AppLayout';
 import OnBoardingLayout from './page-layouts/OnBoardingLayout';
 
 const Layout: React.FC = () => {
@@ -21,7 +21,7 @@ const Layout: React.FC = () => {
 		);
 	}
 
-	return <>{layout === 'OnBoarding' ? <OnBoardingLayout /> : <HomeLayout />}</>;
+	return <>{layout === 'OnBoarding' ? <OnBoardingLayout /> : <AppLayout />}</>;
 };
 
 export default Layout;

@@ -4,7 +4,7 @@ import Navigation from '../Navigation/Navigation';
 
 interface Props {}
 
-const HomeLayout: React.FC = (props: Props) => {
+const AppLayout: React.FC = (props: Props) => {
 	return (
 		<>
 			<Navigation />
@@ -13,4 +13,4 @@ const HomeLayout: React.FC = (props: Props) => {
 	);
 };
 
-export default HomeLayout;
+export default AppLayout;

@@ -36,7 +36,7 @@ const initialValues = {
 	name: 'Guest User',
 	email: 'guest@example.com',
 	linkedinUrl: '',
-	githubUrl: '',
+	phoneNumber: '',
 };
 
 const UserProfile: React.FC = () => {
@@ -81,16 +81,17 @@ const UserProfile: React.FC = () => {
 								<Grid item xl={6}>
 									<FormInput
 										fullWidth
-										variant='outlined'
+										variant='filled'
 										label='LinkedIn'
 										name='linkedinUrl'
 										required
 									/>
 									<FormInput
 										fullWidth
-										variant='outlined'
-										label='Github'
-										name='githubUrl'
+										variant='filled'
+										label='Phone Number'
+										required
+										name='phoneNumber'
 									/>
 								</Grid>
 								<Grid item xl={6}>

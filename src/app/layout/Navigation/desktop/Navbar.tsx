@@ -12,6 +12,7 @@ import { makeStyles } from '@material-ui/core';
 
 import Menu from '@material-ui/icons/Menu';
 import NavItem from './NavItem';
+import { useQueryClient } from 'react-query';
 
 // Styles
 const useStyles = makeStyles(() => {
@@ -25,6 +26,9 @@ const useStyles = makeStyles(() => {
 const Navbar: React.FC = () => {
 	const classes = useStyles();
 	const history = useHistory();
+	const queryClient = useQueryClient();
+
+	const user = queryClient.getQueryData('user');
 
 	return (
 		<AppBar color='transparent' elevation={0} position='static'>
@@ -36,14 +40,30 @@ const Navbar: React.FC = () => {
 					Home
 				</Typography>
 				<Hidden only={['sm', 'xs']}>
-					<Box ml='auto'>
-						<NavItem to='/' exact>
-							Home
-						</NavItem>
-						<NavItem color='primary' variant='outlined' to='/auth/login' exact>
-							Login
-						</NavItem>
-					</Box>
+					{!user && (
+						<Box ml='auto'>
+							<NavItem to='/' exact>
+								Home
+							</NavItem>
+							<NavItem
+								color='primary'
+								variant='outlined'
+								to='/auth/login'
+								exact>
+								Login
+							</NavItem>
+						</Box>
+					)}
+					{user && (
+						<Box ml='auto'>
+							<NavItem color='primary' exact to='/dashboard/schedule'>
+								Schedule
+							</NavItem>
+							<NavItem exact to='/auth/logout'>
+								Logout
+							</NavItem>
+						</Box>
+					)}
 				</Hidden>
 				<Hidden only={['xl', 'lg', 'md']}>
 					<Box ml='auto'>
