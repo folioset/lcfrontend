@@ -9,11 +9,19 @@ import Avatar from '@material-ui/core/Avatar';
 import Box from '@material-ui/core/Box';
 import CardActionArea from '@material-ui/core/CardActionArea';
 
-// Sty;es
+// Styles
 const useStyles = makeStyles({
 	root: {
 		minWidth: 275,
 		marginBottom: 40,
+		minHeight: 340,
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	actionarea: {
+		height: 340,
 	},
 	bullet: {
 		display: 'inline-block',
@@ -47,12 +55,12 @@ const ObjectiveCard: React.FC<Props> = ({ objective }) => {
 
 	return (
 		<Card className={classes.root} color='primary' variant='outlined'>
-			<CardActionArea>
+			<CardActionArea className={classes.actionarea}>
 				<CardContent>
 					<Box className={classes.iconContainer}>
 						<Avatar className={classes.icon} />
 					</Box>
-					<Box textAlign='center' marginTop={2}>
+					<Box textAlign='center' marginTop={6}>
 						<Typography variant='h5' component='p'>
 							{objective}
 						</Typography>

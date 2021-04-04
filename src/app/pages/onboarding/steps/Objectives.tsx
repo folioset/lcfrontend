@@ -1,8 +1,11 @@
 import React from 'react';
-import Masonry from 'react-masonry-css';
 
 // MUI
-import { Box, Container, makeStyles, Typography } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core';
 
 // Components
 import ObjectiveCard from '../../../components/onboarding/ObjectiveCard';
@@ -14,14 +17,8 @@ const OBJECTIVES = [
 ];
 
 const useStyles = makeStyles({
-	masonry: {
-		display: 'flex',
-		marginLeft: -30,
-		width: 'auto',
-	},
-	masonry_cols: {
-		paddingLeft: 30,
-		backgroundClip: 'padding-box',
+	root: {
+		minHeight: '70vh',
 	},
 	heading: {
 		textAlign: 'center',
@@ -33,19 +30,20 @@ const Objectives: React.FC = () => {
 	const classes = useStyles();
 
 	return (
-		<Box>
+		<Box className={classes.root}>
 			<Container>
 				<Typography className={classes.heading} variant='h4' component='h1'>
 					Your Objectives
 				</Typography>
-				<Masonry
-					breakpointCols={3}
-					className={classes.masonry}
-					columnClassName={classes.masonry_cols}>
+				<Grid container spacing={4}>
 					{OBJECTIVES.map((objective) => {
-						return <ObjectiveCard key={objective} {...{ objective }} />;
+						return (
+							<Grid item md={4} sm={6} xs={12}>
+								<ObjectiveCard {...{ objective }} />
+							</Grid>
+						);
 					})}
-				</Masonry>
+				</Grid>
 			</Container>
 		</Box>
 	);

@@ -23,7 +23,7 @@ const FormInput: React.FC<FieldAttributes<{}> & TextFieldProps> = (props) => {
 			className={classes.textField}
 			as={TextField}
 			error={touched && !!error}
-			helperText={touched && !!error && error}
+			helperText={touched && !!error ? error : ''}
 			{...field}
 			{...props}
 		/>

@@ -1,8 +1,5 @@
 import * as React from 'react';
-import {
-	Link as RouterLink,
-	// useHistory
-} from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 // Material UI
 import Grid from '@material-ui/core/Grid';
@@ -56,7 +53,6 @@ const useStyles = makeStyles((theme) => {
 
 const Home: React.FC = () => {
 	const classes = useStyles();
-	// const history = useHistory();
 
 	return (
 		<Container>

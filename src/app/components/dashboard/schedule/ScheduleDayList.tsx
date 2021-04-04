@@ -14,8 +14,13 @@ import { makeStyles } from '@material-ui/core';
 import ScheduleDayItem from './ScheduleDayItem';
 
 // Styles
-const useStyles = makeStyles(() => {
+const useStyles = makeStyles((theme) => {
 	return {
+		day: {
+			textTransform: 'uppercase',
+			fontWeight: 500,
+			color: theme.palette.primary.main,
+		},
 		textUppercase: {
 			textTransform: 'uppercase',
 		},
@@ -62,7 +67,7 @@ const ScheduleDayList: React.FC<Props> = ({ day, requiredDates }) => {
 
 	return (
 		<Grid item md={3} key={day}>
-			<Typography className={classes.textUppercase} variant='h6'>
+			<Typography className={classes.day} variant='body1'>
 				{DAYS[date.getDay()]}
 			</Typography>
 			<Typography className={classes.textUppercase} variant='caption'>

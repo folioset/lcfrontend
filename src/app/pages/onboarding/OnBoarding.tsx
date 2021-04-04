@@ -1,4 +1,6 @@
 import React from 'react';
+import { useQueryClient } from 'react-query';
+import { useHistory } from 'react-router';
 
 // MUI
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
@@ -8,20 +10,43 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
 
 // Components
 import UserProfile from './steps/UserProfile';
 import Objectives from './steps/Objectives';
 import FinalSlider from './steps/FinalSlider';
-import { useQueryClient } from 'react-query';
-import { useHistory } from 'react-router';
+import AdditionalDetails from './steps/AdditionalDetails';
+import StepperIcon from '../../components/onboarding/StepperIcon';
+import StepConnector from '../../components/onboarding/StepConnector';
 
 // components
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		root: {
 			width: '100%',
+			position: 'relative',
+
+			[theme.breakpoints.down('md')]: {
+				padding: `${theme.spacing(3)}px 0`,
+			},
 		},
+		brand: {
+			padding: theme.spacing(3),
+			[theme.breakpoints.down('sm')]: {
+				textAlign: 'center',
+			},
+		},
+		stepper: {
+			[theme.breakpoints.down('lg')]: {
+				marginBottom: theme.spacing(3),
+			},
+
+			[theme.breakpoints.down('sm')]: {
+				marginBottom: theme.spacing(4),
+			},
+		},
+
 		backButton: {
 			marginRight: theme.spacing(1),
 		},
@@ -36,7 +61,13 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 function getSteps() {
-	return ['Tell Us About Yourself', 'Your Objectives'];
+	return [
+		{
+			label: 'Tell Us About Yourself',
+		},
+		{ label: 'Additional Details' },
+		{ label: 'Your Objectives' },
+	];
 }
 
 function getStepContent(stepIndex: number) {
@@ -44,6 +75,8 @@ function getStepContent(stepIndex: number) {
 		case 0:
 			return <UserProfile />;
 		case 1:
+			return <AdditionalDetails />;
+		case 2:
 			return <Objectives />;
 		default:
 			return 'Unknown stepIndex';
@@ -74,10 +107,17 @@ export default function OnBoarding() {
 
 	return (
 		<div className={classes.root}>
-			<Stepper activeStep={activeStep} alternativeLabel>
-				{steps.map((label) => (
+			<Box className={classes.brand}>
+				<Typography variant='h5'>Brand Name</Typography>
+			</Box>
+			<Stepper
+				connector={<StepConnector />}
+				className={classes.stepper}
+				activeStep={activeStep}
+				alternativeLabel>
+				{steps.map(({ label }) => (
 					<Step key={label}>
-						<StepLabel>{label}</StepLabel>
+						<StepLabel StepIconComponent={StepperIcon}>{label}</StepLabel>
 					</Step>
 				))}
 			</Stepper>

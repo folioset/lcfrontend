@@ -1,15 +1,14 @@
 import * as React from 'react';
 import { useQueryClient } from 'react-query';
 import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
 
 // MUI
-import {
-	Box,
-	Container,
-	Grid,
-	Typography,
-	makeStyles,
-} from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core';
 
 // Components
 import FormInput from '../../../components/shared/FormInput/FormInput';
@@ -18,7 +17,7 @@ import FormInput from '../../../components/shared/FormInput/FormInput';
 const useStyles = makeStyles((theme) => {
 	return {
 		container: {
-			height: '75vh',
+			minHeight: '70vh',
 			flexDirection: 'column',
 			display: 'flex',
 			justifyContent: 'center',
@@ -32,11 +31,26 @@ const useStyles = makeStyles((theme) => {
 });
 
 // Formik
+const LinkedInRegExp = /(ftp|http|https):\/\/?((www|\w\w)\.)?linkedin.com(\w+:{0,1}\w*@)?(\S+)(:([0-9])+)?(\/|\/([\w#!:.?+=&%@!]))?/;
+
 const initialValues = {
 	name: 'Guest User',
 	email: 'guest@example.com',
 	linkedinUrl: '',
+	about: '',
 };
+
+const validationSchema = Yup.object().shape({
+	name: Yup.string()
+		.min(2, 'Too Short!')
+		.max(50, 'Too Long!')
+		.required('name is required'),
+	email: Yup.string().email().required('Email is required'),
+	linkedinUrl: Yup.string()
+		.required('Users must provide their linkedin profile url')
+		.matches(LinkedInRegExp, 'Please enter a valid linkedin url'),
+	about: Yup.string().required('Cannot be empty'),
+});
 
 const UserProfile: React.FC = () => {
 	const classes = useStyles();
@@ -52,11 +66,12 @@ const UserProfile: React.FC = () => {
 					...initialValues,
 					name: user && user.name,
 					email: user && user.email,
-				}}>
+				}}
+				{...{ validationSchema }}>
 				{() => {
 					return (
-						<Container>
-							<Grid container component={Form} spacing={4} autoComplete='off'>
+						<Container component={Form} autoComplete='off'>
+							<Grid container spacing={4}>
 								<Grid item xs={12}>
 									<FormInput
 										disabled
