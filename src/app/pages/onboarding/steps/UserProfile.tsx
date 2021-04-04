@@ -36,7 +36,6 @@ const initialValues = {
 	name: 'Guest User',
 	email: 'guest@example.com',
 	linkedinUrl: '',
-	phoneNumber: '',
 };
 
 const UserProfile: React.FC = () => {
@@ -58,7 +57,7 @@ const UserProfile: React.FC = () => {
 					return (
 						<Container>
 							<Grid container component={Form} spacing={4} autoComplete='off'>
-								<Grid item xl={6}>
+								<Grid item xs={12}>
 									<FormInput
 										disabled
 										fullWidth
@@ -68,7 +67,7 @@ const UserProfile: React.FC = () => {
 										required
 									/>
 								</Grid>
-								<Grid item xl={6}>
+								<Grid item xs={12}>
 									<FormInput
 										disabled
 										fullWidth
@@ -78,7 +77,7 @@ const UserProfile: React.FC = () => {
 										required
 									/>
 								</Grid>
-								<Grid item xl={6}>
+								<Grid item xs={12}>
 									<FormInput
 										fullWidth
 										variant='filled'
@@ -86,15 +85,8 @@ const UserProfile: React.FC = () => {
 										name='linkedinUrl'
 										required
 									/>
-									<FormInput
-										fullWidth
-										variant='filled'
-										label='Phone Number'
-										required
-										name='phoneNumber'
-									/>
 								</Grid>
-								<Grid item xl={6}>
+								<Grid item xs={12}>
 									<FormInput
 										fullWidth
 										variant='filled'

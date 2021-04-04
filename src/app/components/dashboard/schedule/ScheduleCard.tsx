@@ -27,10 +27,10 @@ const useStyles = makeStyles((theme) => {
 // Constants
 
 const REQUIRED_DATES = {
-	'3': ['-', '-', '6 pm'],
-	'4': ['-', '-', '-', '7 pm'],
+	'3': ['6 pm'],
+	'4': ['7 pm'],
 	'6': ['12 pm', '5 pm'],
-	'7': ['12 pm', '-', '6 pm'],
+	'7': ['12 pm', '6 pm'],
 };
 
 const ScheduleCard: React.FC = () => {

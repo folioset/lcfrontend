@@ -8,14 +8,9 @@ import { Box, Container, makeStyles, Typography } from '@material-ui/core';
 import ObjectiveCard from '../../../components/onboarding/ObjectiveCard';
 
 const OBJECTIVES = [
-	'Start a Company',
-	'Hire People',
-	'Organize Events',
-	'Mentor Others',
-	'Meet Interesting People',
-	'Search for a job',
-	'raise funding',
-	'Find a Mentor',
+	'Lorem ipsum dolor sit',
+	'amet consectetur',
+	'adipisicing elit',
 ];
 
 const useStyles = makeStyles({
