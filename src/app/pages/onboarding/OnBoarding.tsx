@@ -20,7 +20,9 @@ import AdditionalDetails from './steps/AdditionalDetails';
 import StepperIcon from '../../components/onboarding/StepperIcon';
 import StepConnector from '../../components/onboarding/StepConnector';
 
-// components
+// assets
+
+// styles
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		root: {
@@ -108,7 +110,7 @@ export default function OnBoarding() {
 	return (
 		<div className={classes.root}>
 			<Box className={classes.brand}>
-				<Typography variant='h5'>Brand Name</Typography>
+				<Typography variant='h5'>Learning Center</Typography>
 			</Box>
 			<Stepper
 				connector={<StepConnector />}
@@ -121,7 +123,7 @@ export default function OnBoarding() {
 					</Step>
 				))}
 			</Stepper>
-			<Container>
+			<Container maxWidth='md'>
 				{activeStep === steps.length ? (
 					<div>
 						<Box className={classes.instructions}>

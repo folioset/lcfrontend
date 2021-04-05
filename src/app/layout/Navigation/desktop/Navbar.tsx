@@ -38,7 +38,7 @@ const Navbar: React.FC = () => {
 					onClick={() => history.push('/')}
 					className={classes.navbarBrand}
 					variant='h5'>
-					Home
+					Learning Center
 				</Typography>
 				<Hidden only={['sm', 'xs']}>
 					{!user && (
@@ -60,7 +60,7 @@ const Navbar: React.FC = () => {
 							<NavItem color='primary' exact to='/dashboard/schedule'>
 								Schedule
 							</NavItem>
-							<Button href="/api/logout" style={{ color: 'red' }} >
+							<Button href='/api/logout' style={{ color: 'red' }}>
 								Logout
 							</Button>
 						</Box>
