@@ -4,7 +4,8 @@ import * as React from 'react';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles, Typography } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core';
 
 // Components
 
@@ -38,10 +39,10 @@ const useStyles = makeStyles((theme) => {
 // Constants
 
 const REQUIRED_DATES = {
-	'3': ['6 pm'],
-	'4': ['7 pm'],
-	'6': ['12 pm', '5 pm'],
-	'7': ['12 pm', '6 pm'],
+	'3': ['6-pm'],
+	'4': ['7-pm'],
+	'6': ['12-pm', '5-pm'],
+	'7': ['12-pm', '6-pm'],
 };
 
 const ScheduleCard: React.FC = () => {

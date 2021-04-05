@@ -6,7 +6,7 @@ import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { Card, makeStyles } from '@material-ui/core';
+import { Card, CircularProgress, makeStyles } from '@material-ui/core';
 
 // Context
 import { ScheduleContext } from '../../contexts/ScheduleContext';
@@ -38,7 +38,11 @@ const useStyles = makeStyles((theme) => {
 
 const Schedule: React.FC = () => {
 	const classes = useStyles();
-	const { yourSchedule } = React.useContext(ScheduleContext);
+	const {
+		newSchedule,
+		saveNewSchedule,
+		saveNewScheduleLoading,
+	} = React.useContext(ScheduleContext);
 
 	return (
 		<Box className={classes.root}>
@@ -49,9 +53,16 @@ const Schedule: React.FC = () => {
 						<ScheduleCard />
 					</Container>
 				</Card>
-				{yourSchedule!.length > 0 && (
-					<Button color='primary' variant='contained' className={classes.btn}>
-						Sign Up for {yourSchedule?.length} match
+				{newSchedule!.length > 0 && (
+					<Button
+						onClick={saveNewSchedule}
+						startIcon={
+							saveNewScheduleLoading ? <CircularProgress size='1rem' /> : null
+						}
+						color='primary'
+						variant='contained'
+						className={classes.btn}>
+						Sign Up for {newSchedule?.length} match
 					</Button>
 				)}
 			</Container>

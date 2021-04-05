@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { useQueryClient } from 'react-query';
 import { useHistory } from 'react-router';
 
@@ -7,20 +7,17 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
-import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 
 // Components
-import UserProfile from './steps/UserProfile';
-import Objectives from './steps/Objectives';
-import FinalSlider from './steps/FinalSlider';
-import AdditionalDetails from './steps/AdditionalDetails';
+import StepperContent from './StepperContent';
 import StepperIcon from '../../components/onboarding/StepperIcon';
 import StepConnector from '../../components/onboarding/StepConnector';
 
-// assets
+// hooks
+import useAuthRoute from './../../hooks/useAuthRoute';
 
 // styles
 const useStyles = makeStyles((theme: Theme) =>
@@ -70,20 +67,8 @@ function getSteps() {
 	];
 }
 
-function getStepContent(stepIndex: number) {
-	switch (stepIndex) {
-		case 0:
-			return <UserProfile />;
-		case 1:
-			return <Objectives />;
-		case 2:
-			return <AdditionalDetails />;
-		default:
-			return 'Unknown stepIndex';
-	}
-}
-
 export default function OnBoarding() {
+	useAuthRoute();
 	const history = useHistory();
 	const queryClient = useQueryClient();
 	const user = queryClient.getQueryData('user');
@@ -105,6 +90,12 @@ export default function OnBoarding() {
 		}
 	}, [user, history]);
 
+	React.useEffect(() => {
+		if (activeStep === steps.length) {
+			return history.replace('/dashboard/schedule');
+		}
+	}, [activeStep, history, steps]);
+
 	return (
 		<div className={classes.root}>
 			<Box className={classes.brand}>
@@ -122,30 +113,7 @@ export default function OnBoarding() {
 				))}
 			</Stepper>
 			<Container maxWidth='md'>
-				{activeStep === steps.length ? (
-					<div>
-						<Box className={classes.instructions}>
-							<FinalSlider />
-						</Box>
-					</div>
-				) : (
-					<div>
-						<Box className={classes.instructions}>
-							{getStepContent(activeStep)}
-						</Box>
-						<Box className={classes.btns}>
-							<Button
-								disabled={activeStep === 0}
-								onClick={handleBack}
-								className={classes.backButton}>
-								Back
-							</Button>
-							<Button variant='contained' color='primary' onClick={handleNext}>
-								{activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-							</Button>
-						</Box>
-					</div>
-				)}
+				<StepperContent {...{ handleNext, activeStep, steps, handleBack }} />
 			</Container>
 		</div>
 	);

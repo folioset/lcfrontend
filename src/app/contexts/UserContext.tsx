@@ -1,5 +1,5 @@
-import axios from 'axios';
 import * as React from 'react';
+import axios from 'axios';
 import { useQuery } from 'react-query';
 import { useHistory } from 'react-router';
 
@@ -18,6 +18,17 @@ const UserContextProvider: React.FC<UserContextProps> = ({ children }: any) => {
 			return res.data;
 		},
 		{
+			onSuccess: (data) => {
+				if (data) {
+					if (!data.isUpdated) {
+						history.replace('/onboarding');
+					} else {
+						history.replace('/dashboard/schedule');
+					}
+				} else {
+					history.replace('/');
+				}
+			},
 			onError: () => {
 				history.replace('/');
 			},

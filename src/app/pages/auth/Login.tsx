@@ -12,6 +12,9 @@ import { makeStyles } from '@material-ui/core';
 // Components
 import FormInput from '../../components/shared/FormInput/FormInput';
 
+// Hooks
+import useAuthRoute from './../../hooks/useAuthRoute';
+
 // Styles
 const useStyles = makeStyles((theme) => {
 	return {
@@ -73,6 +76,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const Login: React.FC = () => {
+	useAuthRoute('not-protected');
 	const classes = useStyles();
 
 	return (

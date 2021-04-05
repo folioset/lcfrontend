@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { useHistory } from 'react-router';
 
+import { useQueryClient } from 'react-query';
+
 // Material UI
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
@@ -11,9 +13,11 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core';
 
+// Icons
 import Menu from '@material-ui/icons/Menu';
+
+// Components
 import NavItem from './NavItem';
-import { useQueryClient } from 'react-query';
 
 // Styles
 const useStyles = makeStyles(() => {
@@ -35,7 +39,9 @@ const Navbar: React.FC = () => {
 		<AppBar color='transparent' elevation={0} position='static'>
 			<Toolbar>
 				<Typography
-					onClick={() => history.push('/')}
+					onClick={() =>
+						user ? history.push('/dashboard/schedule') : history.push('/')
+					}
 					className={classes.navbarBrand}
 					variant='h5'>
 					Learning Center

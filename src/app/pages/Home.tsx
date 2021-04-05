@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core';
+import useAuthRoute from '../hooks/useAuthRoute';
 
 // Styles
 const useStyles = makeStyles((theme) => {
@@ -52,6 +53,7 @@ const useStyles = makeStyles((theme) => {
 });
 
 const Home: React.FC = () => {
+	useAuthRoute('not-protected');
 	const classes = useStyles();
 
 	return (
@@ -74,7 +76,7 @@ const Home: React.FC = () => {
 								href='/api/auth/google'
 								color='secondary'
 								variant='outlined'>
-								Sign Up With google
+								Continue With google
 							</Button>
 							&nbsp;
 							<Typography color='textSecondary' variant='body2'>
