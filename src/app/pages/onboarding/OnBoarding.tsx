@@ -64,11 +64,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function getSteps() {
 	return [
-		{
-			label: 'Tell Us About Yourself',
-		},
-		{ label: 'Additional Details' },
+		{ label: 'Tell Us About Yourself' },
 		{ label: 'Your Objectives' },
+		{ label: 'Additional Details' },
 	];
 }
 
@@ -77,9 +75,9 @@ function getStepContent(stepIndex: number) {
 		case 0:
 			return <UserProfile />;
 		case 1:
-			return <AdditionalDetails />;
-		case 2:
 			return <Objectives />;
+		case 2:
+			return <AdditionalDetails />;
 		default:
 			return 'Unknown stepIndex';
 	}
