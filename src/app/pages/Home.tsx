@@ -96,7 +96,7 @@ const Home: React.FC = () => {
 					</Typography>
 					<Box mt={2}>
 						<Typography variant='subtitle1'>
-							Learn from others experiences!
+							"Learn from others' experiences!""
 						</Typography>
 					</Box>
 
@@ -135,32 +135,49 @@ const Home: React.FC = () => {
 				</Grid>
 				<Grid item lg={6} xs={12}>
 					<Box mt={3}>
-						<Typography color='primary' variant='h4'>
-							For Free!
-						</Typography>
 						<Typography color='textSecondary' variant='h5'>
-							How does it work? By Giving & Receiving{' '}
+							Our community works on the concept of
 						</Typography>
+						<Box>
+							<Typography color='primary' variant='h5' component='span'>
+								“Giving & Receiving”{' '}
+							</Typography>
+							<Typography color='textSecondary' variant='h5' component='span'>
+								where:
+							</Typography>
+						</Box>
 					</Box>
 					<Box mt={3}>
 						<Typography variant='h6'>
 							<Typography color='primary' variant='h5'>
 								Call 1 (Receiving)
 							</Typography>
-							<Typography variant='h6'>
-								{' '}
+							<Typography variant='h6' component='span'>
+								You will get matched with experienced folks in any field you are
+								interested in -
+								{/* {' '}
 								Get matched with experienced folks in any <br />
-								field you are interested in
+								field you are interested in */}
+							</Typography>
+							<Typography variant='subtitle1' component='span'>
+								{' '}
+								where you can ask them about their experiences and get career
+								guidance or even just read articles together and discuss trends
+								in the field.
 							</Typography>
 						</Typography>
 						<Box my={2}>
 							<Typography color='primary' variant='h5'>
 								Call 2 (Giving):
 							</Typography>
-							<Typography variant='h6'>
-								Get matched with someone who can learn
-								<br />
-								something from you
+							<Typography variant='h6' component='span'>
+								You will get matched with someone who can learn something from
+								you -
+							</Typography>
+							<Typography variant='subtitle1' component='span'>
+								{' '}
+								where you can have discussions about something you have
+								knowledge about.
 							</Typography>
 						</Box>
 						<Typography variant='h6'>

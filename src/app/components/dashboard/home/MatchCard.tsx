@@ -4,15 +4,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import {
-	Box,
-	Button,
-	CardHeader,
-	Grid,
-	Link,
-	makeStyles,
-	Menu,
-} from '@material-ui/core';
+import { Box, Button, Grid, Link, makeStyles, Menu } from '@material-ui/core';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
@@ -29,6 +21,12 @@ const useStyles = makeStyles((theme) => {
 		},
 		link: {
 			cursor: 'pointer',
+		},
+		moreDetailsContainer: {
+			alignSelf: 'flex-end',
+			display: 'flex',
+			justifyContent: 'flex-end',
+			padding: '0, 4px 4px 0',
 		},
 	};
 });
@@ -109,15 +107,6 @@ const MatchCard: React.FC<Props> = ({ meet }) => {
 	return (
 		<>
 			<Card className={classes.root}>
-				<CardHeader
-					action={
-						<Button
-							onClick={() => setShowDetails(!showDetails)}
-							endIcon={!showDetails ? <ExpandMoreIcon /> : <ExpandLessIcon />}>
-							{showDetails ? 'Hide Details' : 'More Details'}
-						</Button>
-					}
-				/>
 				<CardContent>
 					<Grid
 						spacing={5}
@@ -141,7 +130,7 @@ const MatchCard: React.FC<Props> = ({ meet }) => {
 									component={RouterLink}
 									style={{ cursor: 'pointer' }}
 									color='secondary'>
-									Change Timing ?
+									Change Timing
 								</Link>
 							</Box>
 
@@ -173,6 +162,15 @@ const MatchCard: React.FC<Props> = ({ meet }) => {
 									</Box>
 								</Menu>
 							</Box>
+						</Grid>
+						<Grid item xs={12} sm={4} className={classes.moreDetailsContainer}>
+							<Button
+								onClick={() => setShowDetails(!showDetails)}
+								endIcon={
+									!showDetails ? <ExpandMoreIcon /> : <ExpandLessIcon />
+								}>
+								{showDetails ? 'Hide Details' : 'More Details'}
+							</Button>
 						</Grid>
 					</Grid>
 

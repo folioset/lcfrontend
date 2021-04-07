@@ -193,7 +193,6 @@ const StepperContent: React.FC<Props> = ({
 		},
 		{
 			onSuccess: (data) => {
-				console.log({ data });
 				queryClient.setQueryData('user', data);
 			},
 			onSettled: (data) => {

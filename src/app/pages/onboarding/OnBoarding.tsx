@@ -70,10 +70,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function getSteps() {
 	return [
-		{ label: 'Tell Us About Yourself' },
-		{ label: 'Who do you want to get matched with and learn from ?' },
-		{ label: 'What is your primary objective?' },
-		{ label: 'What can others talk to you about?' },
+		{ label: 'About You' },
+		{ label: 'Desired Matches' },
+		{ label: 'Objectives' },
+		{ label: 'Experience' },
 	];
 }
 
