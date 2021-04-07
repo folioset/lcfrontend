@@ -98,9 +98,6 @@ const Schedule: React.FC = () => {
 					</Tabs>
 				</AppBar>
 				<TabPanel value={value} index={0}>
-					<Typography variant='h4' className={classes.heading}>
-						We are excited to match you with interesting folk
-					</Typography>
 					{schedule && schedule.length === 0 && (
 						<>
 							<Typography

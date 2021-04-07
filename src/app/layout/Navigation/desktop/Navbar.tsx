@@ -67,7 +67,7 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 						alt='logo'
 					/>
 					<Typography className={classes.navbarBrand} variant='h5'>
-						Learning Center
+						Learning Circle
 					</Typography>
 				</Box>
 

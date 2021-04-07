@@ -14,17 +14,18 @@ import { useQueryClient } from 'react-query';
 const OBJECTIVES = [
 	{
 		name: 'Career guidance',
-		description: 'Seek help from the experts to build your portfolio',
+		description:
+			'Get advice on how to break into a certain field/company or move up the ladder',
 	},
 	{
 		name: 'Upskilling ',
 		description:
-			'Discussing trends, reading articles together, learning from their experience',
+			'Read articles together, discuss trends and learn from others experiences',
 	},
 	{
-		name: 'Build Connections',
+		name: 'Building Connections',
 		description:
-			'Connect with people from diverse backgrounds, learn about their experiences',
+			'Connect with people from diverse background and learn about their experiences',
 	},
 ];
 

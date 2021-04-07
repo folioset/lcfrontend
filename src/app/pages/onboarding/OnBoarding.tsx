@@ -124,7 +124,7 @@ export default function OnBoarding() {
 					src={Logo}
 					alt='logo'
 				/>
-				<Typography variant='h5'>Learning Center</Typography>
+				<Typography variant='h5'>Learning Circle</Typography>
 			</Box>
 			<Stepper
 				connector={<StepConnector />}

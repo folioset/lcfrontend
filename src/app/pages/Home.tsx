@@ -12,13 +12,21 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core';
 import useAuthRoute from '../hooks/useAuthRoute';
 
-import { ReactComponent as SvgBackground } from './../../assets/home.svg';
+// import { ReactComponent as SvgBackground } from './../../assets/home.svg';
+// import theme from '../theme';
 
 // Styles
 const useStyles = makeStyles((theme) => {
 	return {
 		grid: {
 			height: '93vh',
+			'& > *': {
+				padding: theme.spacing(6),
+
+				[theme.breakpoints.down('sm')]: {
+					padding: theme.spacing(2),
+				},
+			},
 		},
 		gridHeading: {
 			[theme.breakpoints.down('xl')]: {
@@ -81,15 +89,14 @@ const Home: React.FC = () => {
 
 	return (
 		<Container>
-			<Grid alignItems='center' spacing={4} container className={classes.grid}>
+			<Grid alignItems='center' container className={classes.grid}>
 				<Grid item lg={6} xs={12} className={classes.gridHeading}>
 					<Typography variant='h3' component='h1'>
-						Please Register or Login to Continue
+						Have 1:1 calls with experts in your field
 					</Typography>
 					<Box mt={2}>
 						<Typography variant='subtitle1'>
-							Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error
-							voluptates expedita, maiores sed asperiores vel non voluptas.
+							Learn from others experiences!
 						</Typography>
 					</Box>
 
@@ -98,7 +105,7 @@ const Home: React.FC = () => {
 							href='/api/auth/google'
 							color='secondary'
 							variant='outlined'>
-							Continue With google
+							Signup With google
 						</Button>
 					</Box>
 					{/* <Box className={classes.registerForm}>
@@ -127,7 +134,43 @@ const Home: React.FC = () => {
 					</Box> */}
 				</Grid>
 				<Grid item lg={6} xs={12}>
-					<SvgBackground style={{ maxWidth: '100%', height: '100%' }} />
+					<Box mt={3}>
+						<Typography color='primary' variant='h4'>
+							For Free!
+						</Typography>
+						<Typography color='textSecondary' variant='h5'>
+							How does it work? By Giving & Receiving{' '}
+						</Typography>
+					</Box>
+					<Box mt={3}>
+						<Typography variant='h6'>
+							<Typography color='primary' variant='h5'>
+								Call 1 (Receiving)
+							</Typography>
+							<Typography variant='h6'>
+								{' '}
+								Get matched with experienced folks in any <br />
+								field you are interested in
+							</Typography>
+						</Typography>
+						<Box my={2}>
+							<Typography color='primary' variant='h5'>
+								Call 2 (Giving):
+							</Typography>
+							<Typography variant='h6'>
+								Get matched with someone who can learn
+								<br />
+								something from you
+							</Typography>
+						</Box>
+						<Typography variant='h6'>
+							<Typography color='primary' variant='h5'>
+								Call 3 Onwards:
+							</Typography>
+							<Typography variant='h6'>Cycle continues</Typography>
+						</Typography>
+					</Box>
+					{/* <SvgBackground style={{ maxWidth: '100%', height: '100%' }} /> */}
 				</Grid>
 			</Grid>
 		</Container>

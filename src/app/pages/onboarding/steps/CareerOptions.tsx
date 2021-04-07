@@ -85,7 +85,7 @@ const CarrerOptions: React.FC<Props> = ({
 			{!isLoading && (
 				<Box mb={3}>
 					<Box mb={2}>
-						<Typography color='error'>*Select atleast 1 options </Typography>
+						<Typography color='error'>*Select atleast 1 option </Typography>
 					</Box>
 					<Typography color='secondary' variant='h6'>
 						You selected {careerOptions.length} options(s)
@@ -100,7 +100,7 @@ const CarrerOptions: React.FC<Props> = ({
 			<Grid container spacing={4}>
 				{options?.map((option: CareerOptionsType) => {
 					return (
-						<Grid item key={option._id} xs={12} sm={6} lg={4}>
+						<Grid item key={option._id} xs={12} sm={6} md={4}>
 							<CareerOptionCard {...{ option, handleOptions, careerOptions }} />
 						</Grid>
 					);

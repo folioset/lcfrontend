@@ -59,16 +59,14 @@ const REQUIRED_DATES = {
 };
 
 const getNextWeekDates = (date: Date) => {
+	let newDate = date;
 	let day: number | Date | null;
-	let dayNow = date.getDay();
 	for (let i = 0; i < 7; i++) {
-		if (i + dayNow === 5) {
-			day = add(date, { days: i + 1 });
-		}
+		day = newDate;
 	}
-
 	let days = [];
 	const requiredDates = { ...REQUIRED_DATES } as any;
+
 	for (let i = 0; i < 7; i++) {
 		const newFullDate = add(day!, { days: i });
 		const newDay = newFullDate.getDay();

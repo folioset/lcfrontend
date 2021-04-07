@@ -14,7 +14,7 @@ import { CareerOptions } from '../../types';
 const useStyles = makeStyles((theme) => {
 	return {
 		root: {
-			minWidth: 280,
+			minWidth: 200,
 			height: 300,
 			display: 'flex',
 			flexDirection: 'column',
