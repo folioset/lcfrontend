@@ -28,14 +28,24 @@ const OBJECTIVES = [
 	},
 ];
 
-const useStyles = makeStyles({
-	root: {
-		minHeight: '70vh',
-	},
-	heading: {
-		textAlign: 'center',
-		marginBottom: 40,
-	},
+const useStyles = makeStyles((theme) => {
+	return {
+		root: {
+			minHeight: '70vh',
+		},
+		heading: {
+			textAlign: 'center',
+			marginBottom: 40,
+
+			[theme.breakpoints.down('md')]: {
+				fontSize: 30,
+			},
+
+			[theme.breakpoints.down('md')]: {
+				fontSize: 28,
+			},
+		},
+	};
 });
 
 interface Props {
@@ -70,7 +80,7 @@ const Objectives: React.FC<Props> = ({
 	}, [user, setObjectives]);
 
 	React.useEffect(() => {
-		if (objectives.length > 1) {
+		if (objectives.length >= 1) {
 			setObjectiveValid(true);
 		} else {
 			setObjectiveValid(false);
@@ -81,11 +91,11 @@ const Objectives: React.FC<Props> = ({
 		<Box className={classes.root}>
 			<Container>
 				<Typography className={classes.heading} variant='h4' component='h1'>
-					Your Objectives
+					What is your primary objective?
 				</Typography>
 				<Box mb={3}>
 					<Box mb={2}>
-						<Typography color='error'>Select atleast 2 objectives </Typography>
+						<Typography color='error'>*Select atleast 1 objective </Typography>
 					</Box>
 					<Typography color='secondary' variant='h6'>
 						You selected {objectives.length} objective(s)

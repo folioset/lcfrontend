@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 // Material UI
-import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core';
@@ -64,7 +63,7 @@ const ScheduleDayList: React.FC<Props> = ({ data, update }) => {
 
 	return (
 		<>
-			<Grid item md={3}>
+			<Box p={2}>
 				<Typography className={classes.day} variant='body1'>
 					{DAYS[day]}
 				</Typography>
@@ -87,7 +86,7 @@ const ScheduleDayList: React.FC<Props> = ({ data, update }) => {
 						);
 					})}
 				</Box>
-			</Grid>
+			</Box>
 		</>
 	);
 };

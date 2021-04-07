@@ -28,6 +28,14 @@ const useStyles = makeStyles((theme) => {
 		},
 		grid: {
 			padding: theme.spacing(4),
+
+			[theme.breakpoints.down('xl')]: {
+				padding: theme.spacing(2),
+			},
+
+			[theme.breakpoints.down('md')]: {
+				padding: 0,
+			},
 		},
 		scheduleCardFooter: {
 			backgroundColor: 'rgba(204, 204, 204, .34)',
@@ -130,7 +138,11 @@ const ScheduleCard: React.FC<Props> = ({ update }) => {
 						className={classes.scheduleCard}>
 						<Grid className={classes.grid} container justify='center'>
 							{nextWeekDates.map((data: NextWeekDate, i: number) => {
-								return <ScheduleDayList key={i} {...{ data, update }} />;
+								return (
+									<Grid item xl={3}>
+										<ScheduleDayList key={i} {...{ data, update }} />
+									</Grid>
+								);
 							})}
 						</Grid>
 						<CardActions className={classes.scheduleCardFooter}>

@@ -34,7 +34,7 @@ function TabPanel(props: TabPanelProps) {
 			id={`simple-tabpanel-${index}`}
 			aria-labelledby={`simple-tab-${index}`}
 			{...other}>
-			{value === index && <Box p={3}>{children}</Box>}
+			{value === index && <Box pt={3}>{children}</Box>}
 		</div>
 	);
 }
@@ -52,9 +52,23 @@ const useStyles = makeStyles((theme) => {
 			height: '100vh',
 			backgroundColor: theme.palette.grey['200'],
 			padding: theme.spacing(4),
+
+			[theme.breakpoints.down('md')]: {
+				padding: theme.spacing(2),
+				height: 'auto',
+				minHeight: '100vh',
+			},
+
+			[theme.breakpoints.down('sm')]: {
+				padding: 0,
+			},
 		},
 		heading: {
 			marginBottom: theme.spacing(4),
+
+			[theme.breakpoints.down('sm')]: {
+				fontSize: 30,
+			},
 		},
 	};
 });
@@ -117,7 +131,7 @@ const Schedule: React.FC = () => {
 					<Typography variant='h4' className={classes.heading}>
 						Your Past Meets
 					</Typography>
-					<Box my={3}>
+					<Box my={3} p={0}>
 						<Typography variant='h6' color='error'>
 							You did not attend any meets yet!
 						</Typography>

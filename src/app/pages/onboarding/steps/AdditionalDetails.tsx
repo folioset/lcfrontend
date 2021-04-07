@@ -34,8 +34,7 @@ const AdditionalDetails: React.FC<Props> = () => {
 
 	return (
 		<Box className={classes.container}>
-			<Typography variant='h4'>Contact Information</Typography>
-
+			<Typography variant='h4'>What can others talk to you about?</Typography>
 			<Container>
 				<FormInput
 					fullWidth

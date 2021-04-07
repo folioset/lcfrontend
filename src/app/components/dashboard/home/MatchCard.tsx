@@ -150,7 +150,7 @@ const MatchCard: React.FC<Props> = ({ meet }) => {
 						container
 						justify='space-between'
 						alignItems='center'>
-						<Grid item xs={8}>
+						<Grid item xs={12}>
 							<Typography color='primary' variant='h6'>
 								{meet.time.split('-').join(' ')} on {MONTHS[meet.month]}{' '}
 								{meet.date}, {meet.year}{' '}
@@ -171,7 +171,7 @@ const MatchCard: React.FC<Props> = ({ meet }) => {
 						</Grid>
 						<Grid
 							item
-							xs={3}
+							xs={12}
 							style={{ display: 'flex', justifyContent: 'flex-end' }}>
 							<Button
 								onClick={() => setShowDetails(!showDetails)}

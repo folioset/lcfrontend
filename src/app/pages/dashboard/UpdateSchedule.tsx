@@ -23,6 +23,19 @@ const useStyles = makeStyles((theme) => {
 			height: '100vh',
 			backgroundColor: theme.palette.grey['200'],
 			padding: theme.spacing(4),
+
+			[theme.breakpoints.down('lg')]: {
+				padding: theme.spacing(1),
+				paddingTop: theme.spacing(3),
+			},
+
+			[theme.breakpoints.down('md')]: {
+				padding: 0,
+				paddingTop: theme.spacing(2),
+				paddingBottom: theme.spacing(1),
+				height: 'auto',
+				minHeight: '100vh',
+			},
 		},
 		scheduleContainer: {
 			padding: theme.spacing(5),
@@ -31,6 +44,10 @@ const useStyles = makeStyles((theme) => {
 
 			'& h4': {
 				marginBottom: theme.spacing(3),
+			},
+
+			[theme.breakpoints.down('lg')]: {
+				padding: theme.spacing(1),
 			},
 		},
 		btn: {

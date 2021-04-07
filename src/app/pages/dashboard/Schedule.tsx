@@ -21,6 +21,11 @@ const useStyles = makeStyles((theme) => {
 			height: '100vh',
 			backgroundColor: theme.palette.grey['200'],
 			padding: theme.spacing(4),
+
+			[theme.breakpoints.down('lg')]: {
+				padding: 0,
+				paddingTop: theme.spacing(3),
+			},
 		},
 		scheduleContainer: {
 			padding: theme.spacing(5),
@@ -30,7 +35,12 @@ const useStyles = makeStyles((theme) => {
 			'& h4': {
 				marginBottom: theme.spacing(3),
 			},
+
+			[theme.breakpoints.down('lg')]: {
+				padding: theme.spacing(1),
+			},
 		},
+
 		btn: {
 			marginTop: theme.spacing(3),
 		},

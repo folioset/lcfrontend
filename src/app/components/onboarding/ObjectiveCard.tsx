@@ -7,6 +7,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import CardActionArea from '@material-ui/core/CardActionArea';
+import { Box } from '@material-ui/core';
 
 // Styles
 const useStyles = makeStyles(() => {
@@ -14,7 +15,7 @@ const useStyles = makeStyles(() => {
 		root: {
 			minWidth: 275,
 			marginBottom: 40,
-			height: 340,
+			height: 300,
 			display: 'flex',
 			flexDirection: 'column',
 			justifyContent: 'center',
@@ -33,6 +34,11 @@ const useStyles = makeStyles(() => {
 			alignItems: 'center',
 			textAlign: 'center',
 		},
+		cardContent: {
+			display: 'flex',
+			justifyContent: 'center',
+			alignItems: 'center',
+		},
 		icon: {
 			height: 70,
 			width: 70,
@@ -47,7 +53,7 @@ const useStyles = makeStyles(() => {
 			height: '100%',
 		},
 		active: {
-			backgroundColor: 'rgba(0, 0, 0, .07)',
+			backgroundColor: 'rgba(0, 0, 0, .2)',
 		},
 		media: {
 			height: 140,
@@ -77,13 +83,19 @@ const ObjectiveCard: React.FC<Props> = ({
 						classes.actionCard,
 						objectives.some((el) => el === objective.name) && classes.active
 					)}>
-					<CardContent>
-						<Typography gutterBottom variant='h5' component='h2'>
-							{objective.name}
-						</Typography>
-						<Typography variant='body2' color='textSecondary' component='p'>
-							{objective.description}
-						</Typography>
+					<CardContent className={classes.cardContent}>
+						<Box textAlign='center'>
+							<Typography
+								color='primary'
+								gutterBottom
+								variant='h5'
+								component='h2'>
+								{objective.name}
+							</Typography>
+							<Typography variant='body2' color='textSecondary' component='p'>
+								{objective.description}
+							</Typography>
+						</Box>
 					</CardContent>
 				</CardActionArea>
 			</Card>

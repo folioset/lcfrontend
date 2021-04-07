@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => {
 	return {
 		root: {
 			minWidth: 280,
-			height: 340,
+			height: 300,
 			display: 'flex',
 			flexDirection: 'column',
 			justifyContent: 'center',
@@ -35,7 +35,12 @@ const useStyles = makeStyles((theme) => {
 			height: '100%',
 		},
 		active: {
-			backgroundColor: 'rgba(0, 0, 0, .07)',
+			backgroundColor: 'rgba(0, 0, 0, .1)',
+		},
+		cardContent: {
+			display: 'flex',
+			justifyContent: 'center',
+			alignItems: 'center',
 		},
 	};
 });
@@ -66,8 +71,8 @@ const CareerOptionCard: React.FC<Props> = ({
 						classes.actionCard,
 						careerOptions.some((el) => el._id === option._id) && classes.active
 					)}>
-					<CardContent>
-						<Box marginTop={6}>
+					<CardContent className={classes.cardContent}>
+						<Box textAlign='center'>
 							<Typography color='primary' variant='h6' component='p'>
 								{option.name}
 							</Typography>

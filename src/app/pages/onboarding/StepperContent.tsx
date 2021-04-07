@@ -56,7 +56,9 @@ const otherInitValues = (user: any) => {
 };
 
 const otherDetailsSchema = Yup.object().shape({
-	about: Yup.string().required('Cannot be empty'),
+	about: Yup.string()
+		.required('This Field Cannot be empty')
+		.min(20, 'Too Short! You should atleast have 20 characters'),
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -127,7 +129,7 @@ const getValues = (stepIndex: number, user: any) => {
 // Get Form Validation Schema
 const getSchema = (stepIndex: number) => {
 	switch (stepIndex) {
-		case 2:
+		case 3:
 			return otherDetailsSchema;
 		default:
 			return userProfileValidationSchema;

@@ -53,13 +53,12 @@ const Navbar: React.FC = () => {
 							<NavItem to='/' exact>
 								Home
 							</NavItem>
-							<NavItem
+							<Button
 								color='primary'
 								variant='outlined'
-								to='/auth/login'
-								exact>
+								href='/api/auth/google'>
 								Login
-							</NavItem>
+							</Button>
 						</Box>
 					)}
 					{user && (

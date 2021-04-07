@@ -65,11 +65,11 @@ const UserProfile: React.FC = () => {
 						/>
 					</Grid>
 
-					<Grid item xs={1}>
+					<Grid item md={1} xs={2}>
 						<FormInput disabled variant='outlined' name='code' />
 					</Grid>
 
-					<Grid item xs={11}>
+					<Grid item md={11} xs={10}>
 						<FormInput
 							fullWidth
 							variant='filled'

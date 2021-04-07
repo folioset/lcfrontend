@@ -29,6 +29,12 @@ const useStyles = makeStyles((theme: Theme) =>
 			[theme.breakpoints.down('md')]: {
 				padding: `${theme.spacing(3)}px 0`,
 			},
+
+			[theme.breakpoints.down('sm')]: {
+				padding: 0,
+				paddingTop: theme.spacing(1),
+				paddingBottom: theme.spacing(1),
+			},
 		},
 		brand: {
 			padding: theme.spacing(3),
@@ -42,6 +48,8 @@ const useStyles = makeStyles((theme: Theme) =>
 			},
 
 			[theme.breakpoints.down('sm')]: {
+				padding: 0,
+				paddingTop: theme.spacing(2),
 				marginBottom: theme.spacing(4),
 			},
 		},
@@ -62,9 +70,9 @@ const useStyles = makeStyles((theme: Theme) =>
 function getSteps() {
 	return [
 		{ label: 'Tell Us About Yourself' },
-		{ label: 'Career Options' },
-		{ label: 'Your Objectives' },
-		{ label: 'Additional Details' },
+		{ label: 'Who do you want to get matched with and learn from ?' },
+		{ label: 'What is your primary objective?' },
+		{ label: 'What can others talk to you about?' },
 	];
 }
 
