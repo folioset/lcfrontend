@@ -29,7 +29,11 @@ const useStyles = makeStyles(() => {
 	};
 });
 
-const Navbar: React.FC = () => {
+interface Props {
+	onOpen: () => void;
+}
+
+const Navbar: React.FC<Props> = ({ onOpen }) => {
 	const classes = useStyles();
 	const history = useHistory();
 	const queryClient = useQueryClient();
@@ -74,7 +78,7 @@ const Navbar: React.FC = () => {
 				</Hidden>
 				<Hidden only={['xl', 'lg', 'md']}>
 					<Box ml='auto'>
-						<IconButton>
+						<IconButton onClick={onOpen}>
 							<Menu />
 						</IconButton>
 					</Box>

@@ -39,10 +39,12 @@ const useStyles = makeStyles((theme) => {
 		},
 		scheduleCardFooter: {
 			backgroundColor: 'rgba(204, 204, 204, .34)',
+			display: 'flex',
+			alignItems: 'center',
+			justifyContent: 'space-between',
 
 			'& span': {
 				display: 'block',
-				marginLeft: 'auto',
 			},
 		},
 	};
@@ -146,6 +148,7 @@ const ScheduleCard: React.FC<Props> = ({ update }) => {
 							})}
 						</Grid>
 						<CardActions className={classes.scheduleCardFooter}>
+							<Typography variant='caption'>Choose times to meet!</Typography>
 							<Typography variant='caption'>These times are in IST</Typography>
 						</CardActions>
 					</Card>
@@ -164,6 +167,7 @@ const ScheduleCard: React.FC<Props> = ({ update }) => {
 						})}
 					</Grid>
 					<CardActions className={classes.scheduleCardFooter}>
+						<Typography variant='caption'>Choose times to meet!</Typography>
 						<Typography variant='caption'>These times are in IST</Typography>
 					</CardActions>
 				</Card>

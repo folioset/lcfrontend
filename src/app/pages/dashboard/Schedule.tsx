@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 // Material UI
-
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
@@ -32,7 +31,7 @@ const useStyles = makeStyles((theme) => {
 			borderRadius: theme.spacing(0.5),
 			backgroundColor: '#fff',
 
-			'& h4': {
+			'& h5': {
 				marginBottom: theme.spacing(3),
 			},
 
@@ -61,7 +60,9 @@ const Schedule: React.FC = () => {
 			<Container maxWidth={'md'}>
 				<Card variant='outlined' className={classes.scheduleContainer}>
 					<Container maxWidth='sm'>
-						<Typography variant='h4'>Schedule Now</Typography>
+						<Typography variant='h5'>
+							Schedule Your First Learning Call
+						</Typography>
 						<ScheduleCard />
 					</Container>
 				</Card>
