@@ -13,6 +13,7 @@ import { ScheduleContext } from '../../contexts/ScheduleContext';
 
 // Components
 import ScheduleCard from '../../components/dashboard/schedule/ScheduleCard';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => {
 	return {
@@ -41,6 +42,7 @@ const Schedule: React.FC = () => {
 	const {
 		newSchedule,
 		saveNewSchedule,
+		isBooked,
 		saveNewScheduleLoading,
 	} = React.useContext(ScheduleContext);
 
@@ -53,17 +55,35 @@ const Schedule: React.FC = () => {
 						<ScheduleCard />
 					</Container>
 				</Card>
-				{newSchedule!.length > 0 && (
-					<Button
-						onClick={saveNewSchedule}
-						startIcon={
-							saveNewScheduleLoading ? <CircularProgress size='1rem' /> : null
-						}
-						color='primary'
-						variant='contained'
-						className={classes.btn}>
-						Sign Up for {newSchedule?.length} match
-					</Button>
+				{!isBooked ? (
+					newSchedule!.length > 0 && (
+						<Button
+							onClick={saveNewSchedule}
+							startIcon={
+								saveNewScheduleLoading ? <CircularProgress size='1rem' /> : null
+							}
+							color='primary'
+							variant='outlined'
+							className={classes.btn}>
+							Sign Up for this week
+						</Button>
+					)
+				) : (
+					// : (
+					// 	<Button color='primary' variant='outlined' className={classes.btn}>
+					// 		Pass for this week
+					// 	</Button>
+					// )
+					<Box textAlign='center' mt={3}>
+						<Typography color='error'>
+							You have booked your slot for this week
+						</Typography>
+						<Box mt={2}>
+							<Button color='primary' component={Link} to='/dashboard'>
+								Check your slot
+							</Button>
+						</Box>
+					</Box>
 				)}
 			</Container>
 		</Box>

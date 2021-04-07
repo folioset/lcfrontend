@@ -1,13 +1,15 @@
 import * as React from 'react';
 import { useQueryClient } from 'react-query';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
+import { User } from '../types';
 
 const useAuthRoute: (t?: 'protected' | 'not-protected') => void = (
 	type = 'protected'
 ) => {
 	const history = useHistory();
 	const queryClient = useQueryClient();
-	const user = queryClient.getQueryData('user');
+	const location = useLocation();
+	const user = queryClient.getQueryData<User>('user');
 
 	React.useEffect(() => {
 		if (type === 'protected' && !user) {
@@ -15,7 +17,7 @@ const useAuthRoute: (t?: 'protected' | 'not-protected') => void = (
 		} else if (type === 'not-protected' && user) {
 			return history.goBack();
 		}
-	}, [type, history, user]);
+	}, [type, history, user, location]);
 };
 
 export default useAuthRoute;

@@ -1,18 +1,13 @@
 import * as React from 'react';
-import { format } from 'date-fns';
-import add from 'date-fns/add';
 
 // Material UI
-
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core';
 
 // Components
-
 import ScheduleDayItem from './ScheduleDayItem';
-
 // Styles
 const useStyles = makeStyles((theme) => {
 	return {
@@ -29,19 +24,19 @@ const useStyles = makeStyles((theme) => {
 
 // Types
 interface Props {
-	day: number;
-	requiredDates: any;
+	data: any;
+	update?: boolean;
 }
 
 // Constants
 const DAYS = [
+	'sunday',
 	'monday',
 	'tuesday',
 	'wednesday',
 	'thursday',
 	'friday',
 	'saturday',
-	'sunday',
 ];
 
 const MONTHS = [
@@ -59,31 +54,41 @@ const MONTHS = [
 	'dec',
 ];
 
-const ScheduleDayList: React.FC<Props> = ({ day, requiredDates }) => {
+const ScheduleDayList: React.FC<Props> = ({ data, update }) => {
 	const classes = useStyles();
-	const date = add(new Date(Date.now()), { days: day });
-	const month = new Date(Date.now()).getMonth();
-	const year = new Date(Date.now()).getFullYear();
+	const { date: fullDate, time } = data;
+	const month = fullDate.getMonth();
+	const year = fullDate.getFullYear();
+	const day = fullDate.getDay();
+	const date = fullDate.getDate();
 
 	return (
-		<Grid item md={3} key={day}>
-			<Typography className={classes.day} variant='body1'>
-				{DAYS[date.getDay()]}
-			</Typography>
-			<Typography className={classes.textUppercase} variant='caption'>
-				{format(date, 'dd')} {MONTHS[date.getMonth()]}
-			</Typography>
-			<Box
-				mt={3}
-				display='flex'
-				alignItems='center'
-				flexDirection='column'
-				textAlign='center'>
-				{requiredDates[`${day}`].map((time: string, i: number) => {
-					return <ScheduleDayItem key={i} {...{ time, day, month, year }} />;
-				})}
-			</Box>
-		</Grid>
+		<>
+			<Grid item md={3}>
+				<Typography className={classes.day} variant='body1'>
+					{DAYS[day]}
+				</Typography>
+				<Typography className={classes.textUppercase} variant='caption'>
+					{date} {MONTHS[month]}
+				</Typography>
+				<Box
+					mt={3}
+					display='flex'
+					alignItems='center'
+					flexDirection='column'
+					textAlign='center'>
+					{time.map((time: string, i: number) => {
+						return (
+							<ScheduleDayItem
+								update={update}
+								key={i}
+								{...{ time, day, month, year, date }}
+							/>
+						);
+					})}
+				</Box>
+			</Grid>
+		</>
 	);
 };
 

@@ -3,7 +3,6 @@ import * as React from 'react';
 // MUI
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core';
 
@@ -38,20 +37,16 @@ const AdditionalDetails: React.FC<Props> = () => {
 			<Typography variant='h4'>Contact Information</Typography>
 
 			<Container>
-				<Grid container spacing={4}>
-					<Grid item xs={1}>
-						<FormInput disabled variant='outlined' name='code' />
-					</Grid>
-					<Grid item xs={11}>
-						<FormInput
-							fullWidth
-							variant='filled'
-							label='Phone Number'
-							name='phoneNumber'
-							required
-						/>
-					</Grid>
-				</Grid>
+				<FormInput
+					fullWidth
+					variant='filled'
+					multiline
+					rows={6}
+					required
+					name='about'
+					label='What can others talk to you about?'
+					placeholder={`My experience designing large-scale software systems at Microsoft.\n\nNote: If you are a student, you can share something specific that you have knowledge in,\nthat others might be interested in knowing.`}
+				/>
 			</Container>
 		</Box>
 	);

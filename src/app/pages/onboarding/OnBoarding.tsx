@@ -62,6 +62,7 @@ const useStyles = makeStyles((theme: Theme) =>
 function getSteps() {
 	return [
 		{ label: 'Tell Us About Yourself' },
+		{ label: 'Career Options' },
 		{ label: 'Your Objectives' },
 		{ label: 'Additional Details' },
 	];

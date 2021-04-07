@@ -27,18 +27,14 @@ const useStyles = makeStyles((theme) => {
 	};
 });
 
-interface Props {
-	// setValid: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const UserProfile: React.FC<Props> = () => {
+const UserProfile: React.FC = () => {
 	const classes = useStyles();
 
 	return (
 		<Box className={classes.container}>
 			<Typography variant='h4'>User Profile</Typography>
 			<Container>
-				<Grid container spacing={4}>
+				<Grid container spacing={1}>
 					<Grid item xs={12}>
 						<FormInput
 							disabled
@@ -68,15 +64,18 @@ const UserProfile: React.FC<Props> = () => {
 							required
 						/>
 					</Grid>
-					<Grid item xs={12}>
+
+					<Grid item xs={1}>
+						<FormInput disabled variant='outlined' name='code' />
+					</Grid>
+
+					<Grid item xs={11}>
 						<FormInput
 							fullWidth
 							variant='filled'
-							multiline
-							rows={5}
+							label='Phone Number'
+							name='phoneNumber'
 							required
-							name='about'
-							label='Tell us about yourself'
 						/>
 					</Grid>
 				</Grid>

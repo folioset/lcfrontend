@@ -18,6 +18,7 @@ import Menu from '@material-ui/icons/Menu';
 
 // Components
 import NavItem from './NavItem';
+import { User } from '../../../types';
 
 // Styles
 const useStyles = makeStyles(() => {
@@ -33,14 +34,14 @@ const Navbar: React.FC = () => {
 	const history = useHistory();
 	const queryClient = useQueryClient();
 
-	const user = queryClient.getQueryData('user');
+	const user = queryClient.getQueryData<User>('user');
 
 	return (
 		<AppBar color='transparent' elevation={0} position='static'>
 			<Toolbar>
 				<Typography
 					onClick={() =>
-						user ? history.push('/dashboard/schedule') : history.push('/')
+						user ? history.push('/dashboard') : history.push('/')
 					}
 					className={classes.navbarBrand}
 					variant='h5'>

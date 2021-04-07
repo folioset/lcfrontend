@@ -12,9 +12,20 @@ import ObjectiveCard from '../../../components/onboarding/ObjectiveCard';
 import { useQueryClient } from 'react-query';
 
 const OBJECTIVES = [
-	'Lorem ipsum dolor sit',
-	'amet consectetur',
-	'adipisicing elit',
+	{
+		name: 'Career guidance',
+		description: 'Seek help from the experts to build your portfolio',
+	},
+	{
+		name: 'Upskilling ',
+		description:
+			'Discussing trends, reading articles together, learning from their experience',
+	},
+	{
+		name: 'Build Connections',
+		description:
+			'Connect with people from diverse backgrounds, learn about their experiences',
+	},
 ];
 
 const useStyles = makeStyles({
@@ -83,10 +94,9 @@ const Objectives: React.FC<Props> = ({
 				<Grid container spacing={4}>
 					{OBJECTIVES.map((objective) => {
 						return (
-							<Grid key={objective} item md={4} sm={6} xs={12}>
+							<Grid key={objective.name} item md={4} sm={6} xs={12}>
 								<ObjectiveCard
-									name={objective}
-									{...{ handleObjectives, objectives }}
+									{...{ handleObjectives, objectives, objective }}
 								/>
 							</Grid>
 						);

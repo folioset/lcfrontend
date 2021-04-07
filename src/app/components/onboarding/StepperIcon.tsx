@@ -8,6 +8,7 @@ import { makeStyles, StepIconProps } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import InfoIcon from '@material-ui/icons/Info';
 import TouchAppIcon from '@material-ui/icons/TouchApp';
+import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 
 const useStyles = makeStyles((theme) => {
 	return {
@@ -39,7 +40,8 @@ const StepperIcon: React.FC<StepIconProps> = (props) => {
 	const icons: { [index: string]: React.ReactElement } = {
 		1: <AccountCircleIcon />,
 		2: <InfoIcon />,
-		3: <TouchAppIcon />,
+		3: <PermIdentityIcon />,
+		4: <TouchAppIcon />,
 	};
 
 	return (

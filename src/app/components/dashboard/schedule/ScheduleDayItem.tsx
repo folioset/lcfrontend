@@ -2,13 +2,13 @@ import * as React from 'react';
 
 // Material UI
 import Button from '@material-ui/core/Button';
-import Tooltip from '@material-ui/core/Tooltip';
 import { makeStyles } from '@material-ui/core';
 
 // Context
 
 import { ScheduleContext } from '../../../contexts/ScheduleContext';
 import { useQueryClient } from 'react-query';
+import { User } from '../../../types';
 
 // Types
 interface Props {
@@ -16,6 +16,8 @@ interface Props {
 	day: number;
 	month: number;
 	year: number;
+	date: number;
+	update?: boolean;
 }
 
 // Styles
@@ -34,49 +36,98 @@ const useStyles = makeStyles((theme) => {
 	};
 });
 
-const ScheduleDayItem: React.FC<Props> = ({ time, day, month, year }) => {
+const ScheduleDayItem: React.FC<Props> = ({
+	time,
+	day,
+	month,
+	year,
+	date,
+	update,
+}) => {
 	const [selected, setSelected] = React.useState<boolean>(false);
-	const { addToSchedule, removeFromSchedule } = React.useContext(
-		ScheduleContext
-	);
+	const {
+		newSchedule,
+		isBooked,
+		addToSchedule,
+		removeFromSchedule,
+		setUpdateExistingSchedule,
+		updateExistingSchedule,
+	} = React.useContext(ScheduleContext);
 	const classes = useStyles();
 	const queryClient = useQueryClient();
-	const schedule = queryClient.getQueryData('schedule') as any;
-	const user = queryClient.getQueryData('user') as any;
+	const user = queryClient.getQueryData<User>('user')!;
+	const _id = `${user._id}__${day}-${date}-${month}-${year}-${time}`;
 
-	const disabled = schedule?.findIndex(
-		(el: any) => el._id === `${user._id}__${day}-${month}-${year}-${time}`
-	);
+	// Create
+	React.useEffect(() => {
+		if (newSchedule!.findIndex((el) => el._id === _id) === -1) {
+			setSelected(false);
+		} else {
+			setSelected(true);
+		}
+	}, [newSchedule, _id]);
+
+	// Update
+	React.useEffect(() => {
+		if (
+			updateExistingSchedule &&
+			updateExistingSchedule.new &&
+			updateExistingSchedule.new._id === _id &&
+			updateExistingSchedule.old._id !== _id
+		) {
+			setSelected(true);
+		} else {
+			setSelected(false);
+		}
+	}, [updateExistingSchedule, _id]);
 
 	const updateSchedule = () => {
-		if (disabled === -1) {
+		if (!isBooked) {
 			if (!selected) {
 				addToSchedule!({
 					time,
 					day,
 					month,
 					year,
+					date,
 				});
 			} else {
-				removeFromSchedule!(`${day}-${month}-${year}-${time}`);
+				removeFromSchedule!(
+					`${user._id}__${day}-${date}-${month}-${year}-${time}`
+				);
 			}
-			setSelected(!selected);
+		}
+
+		if (update) {
+			if (updateExistingSchedule.old._id !== _id) {
+				setUpdateExistingSchedule!({
+					...updateExistingSchedule,
+					new: {
+						time,
+						day,
+						month,
+						year,
+						date,
+						_id,
+					},
+				});
+			} else {
+				setUpdateExistingSchedule!({
+					...updateExistingSchedule,
+					new: null,
+				});
+			}
 		}
 	};
 
-	if (disabled !== -1) {
+	if (isBooked && !update) {
 		return (
-			<Tooltip
-				arrow
-				title='You have already booked for this time slot'
-				aria-label='booked'>
-				<Button
-					disableTouchRipple
-					disableElevation
-					className={classes.btnDisabled}>
-					{time === '-' ? <span>&nbsp;</span> : time.split('-').join(' ')}
-				</Button>
-			</Tooltip>
+			<Button
+				disableTouchRipple
+				disableElevation
+				className={classes.btnDisabled}>
+				{time === '-' ? <span>&nbsp;</span> : time.split('-').join(' ')}
+			</Button>
 		);
 	}
 
@@ -85,7 +136,15 @@ const ScheduleDayItem: React.FC<Props> = ({ time, day, month, year }) => {
 			disableElevation
 			onClick={updateSchedule}
 			color={selected ? 'secondary' : 'default'}
-			variant={selected ? 'contained' : 'text'}
+			variant={
+				selected
+					? 'contained'
+					: update &&
+					  updateExistingSchedule &&
+					  updateExistingSchedule.old._id === _id
+					? 'outlined'
+					: 'text'
+			}
 			className={classes.btn}>
 			{time === '-' ? <span>&nbsp;</span> : time.split('-').join(' ')}
 		</Button>

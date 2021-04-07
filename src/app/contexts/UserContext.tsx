@@ -1,7 +1,8 @@
 import * as React from 'react';
 import axios from 'axios';
 import { useQuery } from 'react-query';
-import { useHistory } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
+import { User } from '../types';
 
 interface UserContextProps {
 	isLoading?: boolean;
@@ -11,7 +12,8 @@ export const UserContext = React.createContext<Partial<UserContextProps>>({});
 
 const UserContextProvider: React.FC<UserContextProps> = ({ children }: any) => {
 	const history = useHistory();
-	const { isLoading } = useQuery(
+	const location = useLocation();
+	const { isLoading } = useQuery<User, Error>(
 		'user',
 		async () => {
 			const res = await axios('/api/checkAuth');
@@ -23,7 +25,11 @@ const UserContextProvider: React.FC<UserContextProps> = ({ children }: any) => {
 					if (!data.isUpdated) {
 						history.replace('/onboarding');
 					} else {
-						history.replace('/dashboard/schedule');
+						history.replace(
+							location.pathname.startsWith('/dashboard')
+								? location.pathname
+								: '/dashboard'
+						);
 					}
 				} else {
 					history.replace('/');

@@ -6,14 +6,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 import CardActionArea from '@material-ui/core/CardActionArea';
+import { CareerOptions } from '../../types';
 
 // Styles
-const useStyles = makeStyles(() => {
+const useStyles = makeStyles((theme) => {
 	return {
 		root: {
-			minWidth: 275,
-			marginBottom: 40,
+			minWidth: 280,
 			height: 340,
 			display: 'flex',
 			flexDirection: 'column',
@@ -27,19 +28,6 @@ const useStyles = makeStyles(() => {
 			transform: 'scale(0.8)',
 		},
 
-		iconContainer: {
-			display: 'flex',
-			justifyContent: 'center',
-			alignItems: 'center',
-			textAlign: 'center',
-		},
-		icon: {
-			height: 70,
-			width: 70,
-		},
-		title: {
-			fontSize: 14,
-		},
 		pos: {
 			marginBottom: 12,
 		},
@@ -49,41 +37,41 @@ const useStyles = makeStyles(() => {
 		active: {
 			backgroundColor: 'rgba(0, 0, 0, .07)',
 		},
-		media: {
-			height: 140,
-		},
 	};
 });
 
 interface Props {
-	objective: any;
-	handleObjectives: (n: string) => void;
-	objectives: any[];
+	careerOptions: CareerOptions[];
+	option: CareerOptions;
+	handleOptions: (opt: CareerOptions) => void;
 }
 
-const ObjectiveCard: React.FC<Props> = ({
-	objective,
-	handleObjectives,
-	objectives,
+const CareerOptionCard: React.FC<Props> = ({
+	option,
+	handleOptions,
+	careerOptions,
 }) => {
 	const classes = useStyles();
 
+	const handleClick = () => {
+		handleOptions(option);
+	};
+
 	return (
 		<>
-			<Card className={classes.root}>
+			<Card className={classes.root} color='primary' variant='outlined'>
 				<CardActionArea
-					onClick={() => handleObjectives(objective.name)}
+					onClick={handleClick}
 					className={clsx(
 						classes.actionCard,
-						objectives.some((el) => el === objective.name) && classes.active
+						careerOptions.some((el) => el._id === option._id) && classes.active
 					)}>
 					<CardContent>
-						<Typography gutterBottom variant='h5' component='h2'>
-							{objective.name}
-						</Typography>
-						<Typography variant='body2' color='textSecondary' component='p'>
-							{objective.description}
-						</Typography>
+						<Box marginTop={6}>
+							<Typography color='primary' variant='h6' component='p'>
+								{option.name}
+							</Typography>
+						</Box>
 					</CardContent>
 				</CardActionArea>
 			</Card>
@@ -91,4 +79,4 @@ const ObjectiveCard: React.FC<Props> = ({
 	);
 };
 
-export default ObjectiveCard;
+export default CareerOptionCard;
