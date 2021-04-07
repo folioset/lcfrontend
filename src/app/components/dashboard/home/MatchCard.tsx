@@ -4,23 +4,14 @@ import { Link as RouterLink } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import {
-	Box,
-	Button,
-	CardHeader,
-	Grid,
-	IconButton,
-	Link,
-	makeStyles,
-	Menu,
-} from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
+import { Box, Button, Grid, Link, makeStyles, Menu } from '@material-ui/core';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import { Schedule } from '../../../types';
 import { useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
+import theme from '../../../theme';
 
 const useStyles = makeStyles((theme) => {
 	return {
@@ -110,68 +101,66 @@ const MatchCard: React.FC<Props> = ({ meet }) => {
 	return (
 		<>
 			<Card className={classes.root}>
-				<CardHeader
-					action={
-						<>
-							<IconButton
-								aria-controls='simple-menu'
-								aria-haspopup='true'
-								onClick={handleClick}
-								aria-label='delete'>
-								<DeleteIcon color='error' />
-							</IconButton>
-							<Menu
-								id='simple-menu'
-								anchorEl={anchorEl}
-								keepMounted
-								style={{ outline: 'none' }}
-								open={Boolean(anchorEl)}
-								onClose={handleClose}>
-								<Box style={{ outline: 'none' }} p={3}>
-									<Typography>Are you sure you want to delete ?</Typography>
-									<Box mt={4} textAlign='center'>
-										<Button
-											onClick={() => mutate()}
-											disableElevation
-											color='secondary'
-											variant='contained'>
-											Yes
-										</Button>
-										<Button onClick={handleClose}>No</Button>
-									</Box>
-								</Box>
-							</Menu>
-						</>
-					}
-				/>
 				<CardContent>
 					<Grid
 						spacing={5}
 						container
 						justify='space-between'
 						alignItems='center'>
-						<Grid item xs={12}>
-							<Typography color='primary' variant='h6'>
-								{meet.time.split('-').join(' ')} on {MONTHS[meet.month]}{' '}
-								{meet.date}, {meet.year}{' '}
-								<span style={{ textTransform: 'capitalize' }}>
-									{' '}
-									({DAYS[meet.day]})
-								</span>
-							</Typography>
-							<Box mt={3}>
+						<Grid item xs={12} sm={6}>
+							<Box ml={0.5}>
+								<Typography color='primary' variant='h6'>
+									{meet.time.split('-').join(' ')} on {MONTHS[meet.month]}{' '}
+									{meet.date}, {meet.year}{' '}
+									<span style={{ textTransform: 'capitalize' }}>
+										{' '}
+										({DAYS[meet.day]})
+									</span>
+								</Typography>
+							</Box>
+							<Box mt={2} ml={0.5}>
 								<Link
 									to='/dashboard/schedule/update'
 									component={RouterLink}
 									style={{ cursor: 'pointer' }}
-									color='textSecondary'>
+									color='secondary'>
 									Change Timing ?
 								</Link>
+							</Box>
+
+							<Box mt={4} color={theme.palette.text.secondary}>
+								<Button color='inherit' size='small' onClick={handleClick}>
+									Can't Attend this week
+								</Button>
+								<Menu
+									id='simple-menu'
+									anchorEl={anchorEl}
+									keepMounted
+									style={{ outline: 'none' }}
+									open={Boolean(anchorEl)}
+									onClose={handleClose}>
+									<Box style={{ outline: 'none' }} p={3}>
+										<Typography>
+											Are you sure you want to skip this week's call ?
+										</Typography>
+										<Box mt={4} textAlign='center'>
+											<Button
+												onClick={() => mutate()}
+												disableElevation
+												color='secondary'
+												variant='contained'>
+												Yes
+											</Button>
+											<Button onClick={handleClose}>No</Button>
+										</Box>
+									</Box>
+								</Menu>
 							</Box>
 						</Grid>
 						<Grid
 							item
 							xs={12}
+							sm={6}
 							style={{ display: 'flex', justifyContent: 'flex-end' }}>
 							<Button
 								onClick={() => setShowDetails(!showDetails)}

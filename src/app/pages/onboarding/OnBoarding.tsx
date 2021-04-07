@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useQueryClient } from 'react-query';
 import { useHistory } from 'react-router';
+import Logo from './../../../assets/logo.png';
 
 // MUI
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
@@ -107,7 +108,22 @@ export default function OnBoarding() {
 
 	return (
 		<div className={classes.root}>
-			<Box className={classes.brand}>
+			<Box
+				className={classes.brand}
+				display='flex'
+				alignItems='center'
+				justifyContent='center'
+				onClick={() => (user ? history.push('/dashboard') : history.push('/'))}>
+				<img
+					style={{
+						maxWidth: '100%',
+						height: 70,
+						paddingTop: 2,
+						marginRight: 6,
+					}}
+					src={Logo}
+					alt='logo'
+				/>
 				<Typography variant='h5'>Learning Center</Typography>
 			</Box>
 			<Stepper

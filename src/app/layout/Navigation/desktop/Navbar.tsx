@@ -3,6 +3,8 @@ import { useHistory } from 'react-router';
 
 import { useQueryClient } from 'react-query';
 
+import Logo from './../../../../assets/logo.png';
+
 // Material UI
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
@@ -41,16 +43,34 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 	const user = queryClient.getQueryData<User>('user');
 
 	return (
-		<AppBar color='transparent' elevation={0} position='static'>
+		<AppBar
+			color='transparent'
+			style={{ padding: 3 }}
+			elevation={0}
+			position='static'>
 			<Toolbar>
-				<Typography
+				<Box
+					display='flex'
+					alignItems='center'
+					justifyContent='center'
 					onClick={() =>
 						user ? history.push('/dashboard') : history.push('/')
-					}
-					className={classes.navbarBrand}
-					variant='h5'>
-					Learning Center
-				</Typography>
+					}>
+					<img
+						style={{
+							maxWidth: '100%',
+							height: 70,
+							paddingTop: 2,
+							marginRight: 6,
+						}}
+						src={Logo}
+						alt='logo'
+					/>
+					<Typography className={classes.navbarBrand} variant='h5'>
+						Learning Center
+					</Typography>
+				</Box>
+
 				<Hidden only={['sm', 'xs']}>
 					{!user && (
 						<Box ml='auto'>

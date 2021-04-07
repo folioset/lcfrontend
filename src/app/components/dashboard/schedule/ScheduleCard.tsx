@@ -8,7 +8,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core';
 
 // Components
-
 import ScheduleDayList from './ScheduleDayList';
 import add from 'date-fns/add';
 import { ScheduleContext } from '../../../contexts/ScheduleContext';
@@ -63,7 +62,7 @@ const getNextWeekDates = (date: Date) => {
 	let day: number | Date | null;
 	let dayNow = date.getDay();
 	for (let i = 0; i < 7; i++) {
-		if (i + dayNow === 6) {
+		if (i + dayNow === 5) {
 			day = add(date, { days: i + 1 });
 		}
 	}
