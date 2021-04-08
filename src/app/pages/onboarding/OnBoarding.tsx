@@ -72,8 +72,8 @@ function getSteps() {
 	return [
 		{ label: 'Desired Matches' },
 		{ label: 'Objectives' },
-		{ label: 'About You' },
 		{ label: 'Experience' },
+		{ label: 'About You' },
 	];
 }
 

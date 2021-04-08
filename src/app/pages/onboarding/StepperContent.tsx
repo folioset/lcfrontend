@@ -108,9 +108,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function getStepContent(stepIndex: number) {
 	switch (stepIndex) {
-		case 2:
-			return <UserProfile />;
 		case 3:
+			return <UserProfile />;
+		case 2:
 			return <AdditionalDetails />;
 		default:
 			return 'Unknown stepIndex';
@@ -120,7 +120,7 @@ function getStepContent(stepIndex: number) {
 // Get Form initialValues
 const getValues = (stepIndex: number, user: any) => {
 	switch (stepIndex) {
-		case 2:
+		case 3:
 			return otherInitValues(user);
 		default:
 			return userProfileInitState(user);
@@ -130,7 +130,7 @@ const getValues = (stepIndex: number, user: any) => {
 // Get Form Validation Schema
 const getSchema = (stepIndex: number) => {
 	switch (stepIndex) {
-		case 3:
+		case 2:
 			return otherDetailsSchema;
 		default:
 			return userProfileValidationSchema;
@@ -140,11 +140,7 @@ const getSchema = (stepIndex: number) => {
 // Get Initial Form Validity
 const getInitialIsValid = (stepIndex: number, user: any) => {
 	switch (stepIndex) {
-		case 0:
-			return;
-		case 1:
-			return;
-		case 3:
+		case 2:
 			return user.about.trim().length > 0;
 		default:
 			return (
@@ -200,7 +196,7 @@ const StepperContent: React.FC<Props> = ({
 				if (data) {
 					handleNext();
 
-					if (data.about) {
+					if (data.isUpdated) {
 						history.replace('/dashboard/schedule');
 					}
 				}
@@ -278,7 +274,7 @@ const StepperContent: React.FC<Props> = ({
 			onSubmit={(values) => {
 				mutate(values as any);
 			}}>
-			{({ isValid, isSubmitting }) => {
+			{({ isValid }) => {
 				return (
 					<Form autoComplete='off'>
 						<Box className={classes.instructions}>
@@ -296,7 +292,7 @@ const StepperContent: React.FC<Props> = ({
 								</Button>
 								<Button
 									startIcon={
-										isSubmitting ? <CircularProgress size='1rem' /> : null
+										isLoading ? <CircularProgress size='1rem' /> : null
 									}
 									disabled={!isValid || isLoading}
 									type='submit'
