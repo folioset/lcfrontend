@@ -1,4 +1,6 @@
 import * as React from 'react';
+import add from 'date-fns/add';
+import { useQueryClient } from 'react-query';
 
 // Material UI
 import Card from '@material-ui/core/Card';
@@ -7,12 +9,14 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core';
 
+// context
+import { ScheduleContext } from '../../../contexts/ScheduleContext';
+
 // Components
 import ScheduleDayList from './ScheduleDayList';
-import add from 'date-fns/add';
-import { ScheduleContext } from '../../../contexts/ScheduleContext';
+
+// Types
 import { NextWeekDate, Schedule, User } from '../../../types';
-import { useQueryClient } from 'react-query';
 
 // Styles
 

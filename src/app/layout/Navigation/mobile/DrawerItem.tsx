@@ -1,7 +1,9 @@
 import * as React from 'react';
+import { NavLink } from 'react-router-dom';
+
+// Components
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { NavLink } from 'react-router-dom';
 
 interface Props {
 	text: string;

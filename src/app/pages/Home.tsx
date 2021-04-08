@@ -1,19 +1,15 @@
 import * as React from 'react';
-// import { Link as RouterLink } from 'react-router-dom';
 
 // Material UI
 import Grid from '@material-ui/core/Grid';
-// import Link from '@material-ui/core/Link';
-// import TextField from '@material-ui/core/TextField';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core';
-import useAuthRoute from '../hooks/useAuthRoute';
 
-// import { ReactComponent as SvgBackground } from './../../assets/home.svg';
-// import theme from '../theme';
+// Hooks
+import useAuthRoute from '../hooks/useAuthRoute';
 
 // Styles
 const useStyles = makeStyles((theme) => {

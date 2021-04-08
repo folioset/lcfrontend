@@ -2,6 +2,8 @@ import * as React from 'react';
 import axios from 'axios';
 import { useQuery } from 'react-query';
 import { useHistory, useLocation } from 'react-router';
+
+// types
 import { User } from '../types';
 
 interface UserContextProps {

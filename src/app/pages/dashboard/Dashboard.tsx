@@ -1,21 +1,25 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
+import { useQueryClient } from 'react-query';
 
 // Material UI
-
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
-import { Button, makeStyles } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core';
 
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import { useQueryClient } from 'react-query';
+
+// Types
 import { Schedule as ScheduleType } from '../../types';
 
+// context
 import { ScheduleContext } from '../../contexts/ScheduleContext';
 
+// components
 import MatchCard from '../../components/dashboard/home/MatchCard';
 
 interface TabPanelProps {

@@ -1,8 +1,10 @@
 import * as React from 'react';
 import axios from 'axios';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { Schedule, User } from '../types';
 import { useHistory } from 'react-router';
+
+// types
+import { Schedule, User } from '../types';
 
 interface ScheduleContextProps {
 	newSchedule?: Schedule[];

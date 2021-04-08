@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useQueryClient } from 'react-query';
 
 // Material UI
 import Button from '@material-ui/core/Button';
@@ -7,7 +8,8 @@ import { makeStyles } from '@material-ui/core';
 // Context
 
 import { ScheduleContext } from '../../../contexts/ScheduleContext';
-import { useQueryClient } from 'react-query';
+
+// types
 import { User } from '../../../types';
 
 // Types

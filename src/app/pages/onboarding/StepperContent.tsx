@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { Formik, Form } from 'formik';
+import { useHistory } from 'react-router';
 import { useMutation, useQueryClient } from 'react-query';
 
 // MUI
@@ -14,8 +15,10 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import UserProfile from './steps/UserProfile';
 import Objectives from './steps/Objectives';
 import AdditionalDetails from './steps/AdditionalDetails';
-import { useHistory } from 'react-router';
 import CareerOptions from './steps/CareerOptions';
+
+// Types
+
 import { CareerOptions as CareerOptionsType } from '../../types';
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,8 +30,6 @@ const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2
 
 const userProfileInitState = (user: any) => {
 	return {
-		name: user.name,
-		email: user.email,
 		linkedinUrl: user.linkedinUrl || '',
 		about: user.about || '',
 		phoneNumber: user.phone.phoneNumber || '',
@@ -107,7 +108,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function getStepContent(stepIndex: number) {
 	switch (stepIndex) {
-		case 0:
+		case 2:
 			return <UserProfile />;
 		case 3:
 			return <AdditionalDetails />;
@@ -139,9 +140,9 @@ const getSchema = (stepIndex: number) => {
 // Get Initial Form Validity
 const getInitialIsValid = (stepIndex: number, user: any) => {
 	switch (stepIndex) {
-		case 1:
+		case 0:
 			return;
-		case 2:
+		case 1:
 			return;
 		case 3:
 			return user.about.trim().length > 0;
@@ -208,11 +209,11 @@ const StepperContent: React.FC<Props> = ({
 	);
 
 	// Content for objectives
-	if (activeStep === 2) {
+	if (activeStep === 1) {
 		return (
 			<>
 				<Objectives {...{ setObjectiveValid, objectives, setObjectives }} />
-				<Box className={classes.btns}>
+				<Box p={3} className={classes.btns}>
 					<Button
 						disabled={activeStep === 0 || isLoading}
 						onClick={handleBack}
@@ -237,7 +238,7 @@ const StepperContent: React.FC<Props> = ({
 		);
 	}
 
-	if (activeStep === 1) {
+	if (activeStep === 0) {
 		return (
 			<Box p={3}>
 				<CareerOptions

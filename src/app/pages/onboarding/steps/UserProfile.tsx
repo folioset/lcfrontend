@@ -37,31 +37,12 @@ const UserProfile: React.FC = () => {
 				<Grid container spacing={1}>
 					<Grid item xs={12}>
 						<FormInput
-							disabled
-							fullWidth
-							variant='outlined'
-							label='Name'
-							name='name'
-							required
-						/>
-					</Grid>
-					<Grid item xs={12}>
-						<FormInput
-							disabled
-							fullWidth
-							variant='outlined'
-							label='Email'
-							name='email'
-							required
-						/>
-					</Grid>
-					<Grid item xs={12}>
-						<FormInput
 							fullWidth
 							variant='filled'
 							label='LinkedIn'
 							name='linkedinUrl'
 							required
+							helperText='If you are on mobile, you can find this url by going to the Linkedin app -> View Profile -> Scrolling down on your profile -> In the Contact section, you will find your profile’s url which you can copy-paste here'
 						/>
 					</Grid>
 

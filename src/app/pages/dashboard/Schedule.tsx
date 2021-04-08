@@ -1,18 +1,20 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 
 // Material UI
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { Card, CircularProgress, makeStyles } from '@material-ui/core';
+import Card from '@material-ui/core/Card';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { makeStyles } from '@material-ui/core';
 
 // Context
 import { ScheduleContext } from '../../contexts/ScheduleContext';
 
 // Components
 import ScheduleCard from '../../components/dashboard/schedule/ScheduleCard';
-import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => {
 	return {

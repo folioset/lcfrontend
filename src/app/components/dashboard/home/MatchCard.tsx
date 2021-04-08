@@ -1,17 +1,26 @@
 import * as React from 'react';
+import axios from 'axios';
 import { Link as RouterLink } from 'react-router-dom';
+import { useMutation, useQueryClient } from 'react-query';
 
+// MUI
+import theme from '../../../theme';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import Link from '@material-ui/core/Link';
+import Menu from '@material-ui/core/Menu';
 import Typography from '@material-ui/core/Typography';
-import { Box, Button, Grid, Link, makeStyles, Menu } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
+// icons
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+
+// types
 import { Schedule } from '../../../types';
-import { useMutation, useQueryClient } from 'react-query';
-import axios from 'axios';
-import theme from '../../../theme';
 
 const useStyles = makeStyles((theme) => {
 	return {

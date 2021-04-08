@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core';
 
 // Components
 import ScheduleDayItem from './ScheduleDayItem';
+
 // Styles
 const useStyles = makeStyles((theme) => {
 	return {

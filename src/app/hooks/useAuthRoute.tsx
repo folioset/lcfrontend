@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { useQueryClient } from 'react-query';
 import { useHistory, useLocation } from 'react-router';
+
+// types
 import { User } from '../types';
 
 const useAuthRoute: (t?: 'protected' | 'not-protected') => void = (

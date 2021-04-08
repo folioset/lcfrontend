@@ -1,13 +1,16 @@
-import React from 'react';
+import * as React from 'react';
+import axios from 'axios';
+import { useQuery, useQueryClient } from 'react-query';
 
 // MUI
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import { useQuery, useQueryClient } from 'react-query';
-import axios from 'axios';
-import { CareerOptions as CareerOptionsType, User } from '../../../types';
 import CareerOptionCard from '../../../components/onboarding/CareerOptionCard';
-import { Grid, makeStyles } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core';
+
+// Types
+import { CareerOptions as CareerOptionsType, User } from '../../../types';
 
 interface Props {
 	careerOptions: CareerOptionsType[];

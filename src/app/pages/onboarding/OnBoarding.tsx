@@ -70,9 +70,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function getSteps() {
 	return [
-		{ label: 'About You' },
 		{ label: 'Desired Matches' },
 		{ label: 'Objectives' },
+		{ label: 'About You' },
 		{ label: 'Experience' },
 	];
 }

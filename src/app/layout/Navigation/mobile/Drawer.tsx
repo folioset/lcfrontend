@@ -1,8 +1,12 @@
 import * as React from 'react';
+import { useQueryClient } from 'react-query';
+
+// MUI
 import MUIDrawer from '@material-ui/core/Drawer';
 import ListItem from '@material-ui/core/ListItem';
+
+// Components
 import DrawerItem from './DrawerItem';
-import { useQueryClient } from 'react-query';
 
 interface Props {
 	isOpen: boolean;

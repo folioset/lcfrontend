@@ -3,6 +3,7 @@ import { useHistory } from 'react-router';
 
 import { useQueryClient } from 'react-query';
 
+// assets
 import Logo from './../../../../assets/logo.png';
 
 // Material UI
@@ -20,6 +21,8 @@ import Menu from '@material-ui/icons/Menu';
 
 // Components
 import NavItem from './NavItem';
+
+// types
 import { User } from '../../../types';
 
 // Styles

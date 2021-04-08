@@ -8,6 +8,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import CardActionArea from '@material-ui/core/CardActionArea';
+
+// types
 import { CareerOptions } from '../../types';
 
 // Styles
