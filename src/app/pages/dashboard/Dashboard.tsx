@@ -94,6 +94,7 @@ const Schedule: React.FC = () => {
 			<Container maxWidth={'md'}>
 				<AppBar color='transparent' elevation={0} position='static'>
 					<Tabs
+						indicatorColor='primary'
 						value={value}
 						onChange={handleChange}
 						aria-label='upcoming and past meet'>

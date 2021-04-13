@@ -124,7 +124,7 @@ const MatchCard: React.FC<Props> = ({ meet }) => {
 						alignItems='center'>
 						<Grid item xs={12} sm={6}>
 							<Box ml={0.5}>
-								<Typography color='primary' variant='h6'>
+								<Typography color='textPrimary' variant='h6'>
 									{meet.time.split('-').join(' ')} on {MONTHS[meet.month]}{' '}
 									{meet.date}, {meet.year}{' '}
 									<span style={{ textTransform: 'capitalize' }}>
@@ -138,12 +138,12 @@ const MatchCard: React.FC<Props> = ({ meet }) => {
 									to='/dashboard/schedule/update'
 									component={RouterLink}
 									style={{ cursor: 'pointer' }}
-									color='secondary'>
+									color='primary'>
 									Change Timing
 								</Link>
 							</Box>
 
-							<Box mt={4} color={theme.palette.text.secondary}>
+							<Box mt={2} color={theme.palette.text.secondary}>
 								<Button color='inherit' size='small' onClick={handleClick}>
 									Can't Attend this week
 								</Button>
