@@ -29,16 +29,24 @@ const useStyles = makeStyles((theme) => {
 			},
 		},
 		scheduleContainer: {
+			height: '60vh',
 			padding: theme.spacing(5),
+			paddingBottom: theme.spacing(10),
 			borderRadius: theme.spacing(0.5),
 			backgroundColor: '#fff',
 
 			'& h5': {
-				marginBottom: theme.spacing(3),
+				marginBottom: theme.spacing(5),
+				marginTop: theme.spacing(5),
+				textAlign: 'center',
 			},
 
 			[theme.breakpoints.down('lg')]: {
 				padding: theme.spacing(1),
+			},
+
+			[theme.breakpoints.down('sm')]: {
+				height: '65vh',
 			},
 		},
 
@@ -63,7 +71,7 @@ const Schedule: React.FC = () => {
 				<Card variant='outlined' className={classes.scheduleContainer}>
 					<Container maxWidth='sm'>
 						<Typography variant='h5'>
-							Schedule Your First Learning Call
+							Schedule Your First Learning Circle Call
 						</Typography>
 						<ScheduleCard />
 					</Container>
@@ -82,11 +90,6 @@ const Schedule: React.FC = () => {
 						</Button>
 					)
 				) : (
-					// : (
-					// 	<Button color='primary' variant='outlined' className={classes.btn}>
-					// 		Pass for this week
-					// 	</Button>
-					// )
 					<Box textAlign='center' mt={3}>
 						<Typography color='error'>
 							You have booked your slot for this week

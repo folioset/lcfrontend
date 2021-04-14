@@ -3,10 +3,11 @@ import { Redirect, Route, Switch } from 'react-router';
 
 // Pages
 import ErrorPage from '../pages/404';
-// import Auth from '../pages/auth';
 import Dashboard from '../pages/dashboard';
 import Home from '../pages/Home';
-import OnBoarding from '../pages/onboarding/OnBoarding';
+
+// import OnBoarding from '../pages/onboarding/OnBoarding';
+// import Auth from '../pages/auth';
 
 const Body: React.FC = () => {
 	return (
@@ -19,9 +20,9 @@ const Body: React.FC = () => {
 				<Auth />
 			</Route> */}
 
-			<Route path='/onboarding' exact>
+			{/* <Route path='/onboarding' exact>
 				<OnBoarding />
-			</Route>
+			</Route> */}
 
 			<Route path='/dashboard'>
 				<Dashboard />
