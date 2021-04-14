@@ -79,7 +79,7 @@ const getNextWeekDates = (date: Date) => {
 			([3, 4, 6].includes(newDay) && [3, 4, 6].map((el) => el <= newDay)[0]) ||
 			newDay === 0
 		) {
-			if (days.length > 0 && newDay === 0) {
+			if (days.length > 0 && newDay === 1) {
 				break;
 			}
 
