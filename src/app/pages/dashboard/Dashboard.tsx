@@ -3,19 +3,19 @@ import { Link } from 'react-router-dom';
 import { useQueryClient } from 'react-query';
 
 // Material UI
-import MUILink from '@material-ui/core/Link';
+// import MUILink from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { makeStyles, Toolbar } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
 // Types
-import { Schedule as ScheduleType, User } from '../../types';
+import { Schedule as ScheduleType } from '../../types';
 
 // context
 import { ScheduleContext } from '../../contexts/ScheduleContext';
@@ -82,7 +82,7 @@ const useStyles = makeStyles((theme) => {
 const Schedule: React.FC = () => {
 	const classes = useStyles();
 	const queryClient = useQueryClient();
-	const user = queryClient.getQueryData<User>('user')!;
+	// const user = queryClient.getQueryData<User>('user')!;
 	const { userScheduleLoading } = React.useContext(ScheduleContext);
 	const [value, setValue] = React.useState(0);
 
@@ -93,23 +93,6 @@ const Schedule: React.FC = () => {
 
 	return (
 		<>
-			{(user.phone?.phoneNumber.toString().length === 0 ||
-				user.linkedinUrl?.trim().length === 0) && (
-				<AppBar position='static'>
-					<Container maxWidth={'md'}>
-						<Toolbar style={{ padding: 0 }}>
-							<Box textAlign='center' mx='auto'>
-								<MUILink
-									color='inherit'
-									component={Link}
-									to='/dashboard/me/update'>
-									Click here to update your linkedin and phone number
-								</MUILink>
-							</Box>
-						</Toolbar>
-					</Container>
-				</AppBar>
-			)}
 			<Box className={classes.root}>
 				<Container maxWidth={'md'}>
 					<Box my={5}>

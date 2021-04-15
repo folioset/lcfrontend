@@ -10,7 +10,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
+// import Link from '@material-ui/core/Link';
 import Menu from '@material-ui/core/Menu';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core';
@@ -135,16 +135,17 @@ const MeetCard: React.FC<Props> = ({ meet }) => {
 								</Typography>
 							</Box>
 							<Box mt={2} ml={0.5}>
-								<Link
+								<Button
 									to='/dashboard/schedule/update'
 									component={RouterLink}
+									size='small'
 									style={{ cursor: 'pointer' }}
 									color='primary'>
 									Change Timing
-								</Link>
+								</Button>
 							</Box>
 
-							<Box mt={2} color={theme.palette.text.secondary}>
+							<Box ml={0.5} mt={2} color={theme.palette.text.secondary}>
 								<Button color='inherit' size='small' onClick={handleClick}>
 									Can't Attend this week
 								</Button>

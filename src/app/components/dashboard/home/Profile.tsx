@@ -11,6 +11,7 @@ import { useQueryClient } from 'react-query';
 import FormInput from '../../shared/FormInput/FormInput';
 import { User } from '../../../types';
 import { LinkedIn } from '@material-ui/icons';
+import { Link as RouterLink } from 'react-router-dom';
 
 interface Props {
 	view: 'edit' | 'private' | 'public';
@@ -55,7 +56,7 @@ const useStyles = makeStyles((theme) => {
 
 const Profile: React.FC<Props> = ({ view }) => {
 	const queryClient = useQueryClient();
-	const user = queryClient.getQueryData<User>('user');
+	const user = queryClient.getQueryData<User>('user')!;
 	const classes = useStyles();
 
 	if (view === 'edit') {
@@ -108,14 +109,26 @@ const Profile: React.FC<Props> = ({ view }) => {
 					<Typography variant='h6'>{user?.about}</Typography>
 				</Box>
 				<Box mt={3}>
-					<Link
-						className={classes.linkedinUrl}
-						href={`https://${user?.linkedinUrl && user?.linkedinUrl}`}
-						color='secondary'>
-						<LinkedIn />
+					{user && user.linkedinUrl!.trim().length > 0 ? (
+						<Link
+							className={classes.linkedinUrl}
+							href={`https://${user?.linkedinUrl && user?.linkedinUrl}`}
+							color='secondary'>
+							<LinkedIn />
 
-						{user?.linkedinUrl}
-					</Link>
+							{user?.linkedinUrl}
+						</Link>
+					) : (
+						<Link
+							className={classes.linkedinUrl}
+							component={RouterLink}
+							to='/dashboard/me/update'
+							color='secondary'>
+							<LinkedIn />
+							Update Linkedin URL
+							{user?.linkedinUrl}
+						</Link>
+					)}
 				</Box>
 			</Grid>
 			{/* <Grid className={classes.profilePhoto} item xs={12} md={4}>

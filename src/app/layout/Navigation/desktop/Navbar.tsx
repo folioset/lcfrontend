@@ -84,7 +84,8 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 								Home
 							</NavItem>
 							<Button
-								color='secondary'
+								style={{ color: '#fff' }}
+								color='primary'
 								variant='contained'
 								href='/api/auth/google'>
 								Login
