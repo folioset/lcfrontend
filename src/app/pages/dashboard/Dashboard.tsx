@@ -20,7 +20,7 @@ import { Schedule as ScheduleType } from '../../types';
 import { ScheduleContext } from '../../contexts/ScheduleContext';
 
 // components
-import MatchCard from '../../components/dashboard/home/MatchCard';
+import MatchCard from '../../components/dashboard/home/MeetCard';
 import Profile from '../../components/dashboard/home/Profile';
 
 interface TabPanelProps {
@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => {
 	return {
 		root: {
 			height: '100vh',
-			backgroundColor: theme.palette.grey['200'],
+			backgroundColor: theme.palette.common.white,
 			padding: theme.spacing(4),
 
 			[theme.breakpoints.down('md')]: {

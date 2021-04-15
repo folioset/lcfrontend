@@ -1,10 +1,10 @@
 import {
-	Avatar,
+	// Avatar,
 	Box,
 	Button,
 	Container,
 	Grid,
-	IconButton,
+	Link,
 	makeStyles,
 	Typography,
 } from '@material-ui/core';
@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => {
 	return {
 		profile: {
 			justifyContent: 'center',
-			marginBottom: theme.spacing(2),
+			marginBottom: theme.spacing(4),
 		},
 		profileDetails: {
 			[theme.breakpoints.down('sm')]: {
@@ -74,6 +74,14 @@ const useStyles = makeStyles((theme) => {
 				justifyContent: 'center',
 				textAlign: 'center',
 				order: 1,
+			},
+		},
+		linkedinUrl: {
+			display: 'flex',
+			alignItems: 'center',
+
+			'& a': {
+				marginLeft: theme.spacing(4),
 			},
 		},
 	};
@@ -148,24 +156,25 @@ const Profile = ({ view }: Props) => {
 
 	return (
 		<Grid className={classes.profile} container spacing={2} justify='center'>
-			<Grid className={classes.profileDetails} item xs={12} md={8}>
-				<Typography color='primary' variant='h4'>
-					{user?.name}
-				</Typography>
+			<Grid className={classes.profileDetails} item xs={12}>
+				<Typography variant='h4'>{user?.name}</Typography>
 				<Box mt={2}>
 					<Typography variant='h6'>{user?.about}</Typography>
 				</Box>
 				<Box mt={3}>
-					<IconButton
-						component='a'
-						href={`https://${user?.linkedinUrl && user?.linkedinUrl}`}>
+					<Link
+						className={classes.linkedinUrl}
+						href={`https://${user?.linkedinUrl && user?.linkedinUrl}`}
+						color='secondary'>
 						<LinkedIn />
-					</IconButton>
+
+						{user?.linkedinUrl}
+					</Link>
 				</Box>
 			</Grid>
-			<Grid className={classes.profilePhoto} item xs={12} md={4}>
+			{/* <Grid className={classes.profilePhoto} item xs={12} md={4}>
 				<Avatar variant='square' style={{ height: '8rem', width: '8rem' }} />
-			</Grid>
+			</Grid> */}
 		</Grid>
 	);
 };

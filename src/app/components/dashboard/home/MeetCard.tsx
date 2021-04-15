@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => {
 		root: {
 			marginBottom: theme.spacing(5),
 			padding: theme.spacing(0),
+			backgroundColor: '#f7f7f7',
 		},
 		link: {
 			cursor: 'pointer',
@@ -69,7 +70,7 @@ const MONTHS = [
 	'December',
 ];
 
-const MatchCard: React.FC<Props> = ({ meet }) => {
+const MeetCard: React.FC<Props> = ({ meet }) => {
 	const classes = useStyles();
 	const queryClient = useQueryClient();
 	const [showDetails, setShowDetails] = React.useState<boolean>(false);
@@ -204,4 +205,4 @@ const MatchCard: React.FC<Props> = ({ meet }) => {
 	);
 };
 
-export default MatchCard;
+export default MeetCard;
