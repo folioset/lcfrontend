@@ -26,8 +26,11 @@ import NavItem from './NavItem';
 import { User } from '../../../types';
 
 // Styles
-const useStyles = makeStyles(() => {
+const useStyles = makeStyles((theme) => {
 	return {
+		appBar: {
+			backgroundColor: theme.palette.common.white,
+		},
 		navbarBrand: {
 			cursor: 'pointer',
 		},
@@ -47,7 +50,7 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 
 	return (
 		<AppBar
-			color='transparent'
+			className={classes.appBar}
 			style={{ padding: 3 }}
 			elevation={0}
 			position='static'>
@@ -81,8 +84,8 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 								Home
 							</NavItem>
 							<Button
-								color='primary'
-								variant='outlined'
+								color='secondary'
+								variant='contained'
 								href='/api/auth/google'>
 								Login
 							</Button>

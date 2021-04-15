@@ -1,7 +1,7 @@
 import * as React from 'react';
 import axios from 'axios';
 import { useQuery } from 'react-query';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 // types
 import { User } from '../types';
@@ -14,7 +14,7 @@ export const UserContext = React.createContext<Partial<UserContextProps>>({});
 
 const UserContextProvider: React.FC<UserContextProps> = ({ children }: any) => {
 	const history = useHistory();
-	// const location = useLocation();
+	const location = useLocation();
 	const { isLoading } = useQuery<User, Error>(
 		'user',
 		async () => {
@@ -24,20 +24,11 @@ const UserContextProvider: React.FC<UserContextProps> = ({ children }: any) => {
 		{
 			onSuccess: (data) => {
 				if (data) {
-					if (data.schedule.length > 0) {
-						history.replace('/dashboard');
-					} else {
-						history.replace('/dashboard/schedule');
-					}
-					// if (!data.isUpdated) {
-					// 	history.replace('/onboarding');
-					// } else {
-					// 	history.replace(
-					// 		location.pathname.startsWith('/dashboard')
-					// 			? location.pathname
-					// 			: '/dashboard'
-					// 	);
-					// }
+					history.replace(
+						location.pathname.startsWith('/dashboard')
+							? location.pathname
+							: '/dashboard'
+					);
 				} else {
 					history.replace('/');
 				}

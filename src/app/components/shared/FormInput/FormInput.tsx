@@ -8,8 +8,14 @@ import { makeStyles } from '@material-ui/core';
 // styles
 const useStyles = makeStyles((theme) => {
 	return {
-		textField: {
-			marginBottom: theme.spacing(3),
+		textField: () => {
+			return {
+				marginBottom: theme.spacing(3),
+
+				'& .MuiFilledInput-root': {
+					backgroundColor: '#f7f7f7',
+				},
+			};
 		},
 	};
 });

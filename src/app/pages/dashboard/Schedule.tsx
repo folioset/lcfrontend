@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => {
 			},
 		},
 		scheduleContainer: {
-			height: '60vh',
+			height: '70vh',
 			padding: theme.spacing(5),
 			paddingBottom: theme.spacing(10),
 			borderRadius: theme.spacing(0.5),
@@ -71,7 +71,7 @@ const Schedule: React.FC = () => {
 				<Card variant='outlined' className={classes.scheduleContainer}>
 					<Container maxWidth='sm'>
 						<Typography variant='h5'>
-							Schedule Your First Learning Circle Call
+							Schedule your first Learning Circle call
 						</Typography>
 						<ScheduleCard />
 					</Container>
@@ -84,7 +84,7 @@ const Schedule: React.FC = () => {
 								saveNewScheduleLoading ? <CircularProgress size='1rem' /> : null
 							}
 							color='primary'
-							variant='outlined'
+							variant='contained'
 							className={classes.btn}>
 							Sign Up for this week
 						</Button>
@@ -95,7 +95,11 @@ const Schedule: React.FC = () => {
 							You have booked your slot for this week
 						</Typography>
 						<Box mt={2}>
-							<Button color='primary' component={Link} to='/dashboard'>
+							<Button
+								variant='contained'
+								color='primary'
+								component={Link}
+								to='/dashboard'>
 								Check your slot
 							</Button>
 						</Box>

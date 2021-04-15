@@ -16,9 +16,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core';
 
 // icons
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-
+// import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+// import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+//
 // types
 import { Schedule } from '../../../types';
 
@@ -73,7 +73,7 @@ const MONTHS = [
 const MeetCard: React.FC<Props> = ({ meet }) => {
 	const classes = useStyles();
 	const queryClient = useQueryClient();
-	const [showDetails, setShowDetails] = React.useState<boolean>(false);
+	// const [showDetails, setShowDetails] = React.useState<boolean>(false);
 
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -174,17 +174,17 @@ const MeetCard: React.FC<Props> = ({ meet }) => {
 							</Box>
 						</Grid>
 						<Grid item xs={12} sm={4} className={classes.moreDetailsContainer}>
-							<Button
+							{/* <Button
 								onClick={() => setShowDetails(!showDetails)}
 								endIcon={
 									!showDetails ? <ExpandMoreIcon /> : <ExpandLessIcon />
 								}>
 								{showDetails ? 'Hide Details' : 'More Details'}
-							</Button>
+							</Button> */}
 						</Grid>
 					</Grid>
 
-					{showDetails && (
+					{/* {showDetails && (
 						<Box padding={3} mt={3}>
 							<Box mb={1} textAlign='center'>
 								<Typography color='secondary' variant='h6'>
@@ -198,7 +198,7 @@ const MeetCard: React.FC<Props> = ({ meet }) => {
 								</Typography>
 							</Box>
 						</Box>
-					)}
+					)} */}
 				</CardContent>
 			</Card>
 		</>
