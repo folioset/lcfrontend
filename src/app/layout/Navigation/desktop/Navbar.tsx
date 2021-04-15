@@ -90,7 +90,13 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 					)}
 					{user && (
 						<Box ml='auto'>
-							<NavItem color='primary' exact to='/dashboard/schedule'>
+							<NavItem exact to='/dashboard'>
+								Profile
+							</NavItem>
+							<NavItem exact to='/dashboard/me/update'>
+								Edit Profile
+							</NavItem>
+							<NavItem exact to='/dashboard/schedule'>
 								Schedule
 							</NavItem>
 							<Button href='/api/logout' style={{ color: 'red' }}>

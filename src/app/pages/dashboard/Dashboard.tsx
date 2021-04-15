@@ -21,6 +21,7 @@ import { ScheduleContext } from '../../contexts/ScheduleContext';
 
 // components
 import MatchCard from '../../components/dashboard/home/MatchCard';
+import Profile from '../../components/dashboard/home/Profile';
 
 interface TabPanelProps {
 	children?: React.ReactNode;
@@ -92,6 +93,7 @@ const Schedule: React.FC = () => {
 	return (
 		<Box className={classes.root}>
 			<Container maxWidth={'md'}>
+				<Profile view='private' />
 				<AppBar color='transparent' elevation={0} position='static'>
 					<Tabs
 						indicatorColor='primary'

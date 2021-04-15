@@ -12,6 +12,9 @@ const useStyles = makeStyles((theme) => {
 			marginRight: theme.spacing(1),
 			marginLeft: theme.spacing(1),
 		},
+		active: {
+			color: theme.palette.primary.main,
+		},
 	};
 });
 
@@ -35,6 +38,7 @@ const NavItem: React.FC<Props> = ({
 	return (
 		<Button
 			className={classes.navLink}
+			activeClassName={classes.active}
 			{...{ to, exact, variant, color }}
 			component={NavLink}>
 			{children}

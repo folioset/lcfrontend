@@ -39,6 +39,11 @@ const Drawer: React.FC<Props> = ({ isOpen, onClose }) => {
 					<>
 						<DrawerItem text='Dashboard' to='/dashboard' onClose={onClose} />
 						<DrawerItem
+							text='Edit Profile'
+							to='/dashboard/me/update'
+							onClose={onClose}
+						/>
+						<DrawerItem
 							text='Schedule'
 							to='/dashboard/schedule'
 							onClose={onClose}

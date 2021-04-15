@@ -10,6 +10,7 @@ import UpdateSchedule from './UpdateSchedule';
 import Dashboard from './Dashboard';
 
 import useAuthRoute from '../../hooks/useAuthRoute';
+import UpdateProfile from './UpdateProfile';
 
 const DashboardRoutes: React.FC = () => {
 	useAuthRoute();
@@ -28,6 +29,10 @@ const DashboardRoutes: React.FC = () => {
 
 				<Route path={`${path}/schedule/update`} exact>
 					<UpdateSchedule />
+				</Route>
+
+				<Route path={`${path}/me/update`} exact>
+					<UpdateProfile />
 				</Route>
 
 				<Redirect to='/error' />

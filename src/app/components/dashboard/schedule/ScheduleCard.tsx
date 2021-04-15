@@ -70,6 +70,7 @@ const getNextWeekDates = (date: Date) => {
 	}
 	let days = [];
 	const requiredDates = { ...REQUIRED_DATES } as any;
+	let endOfWeek = false;
 
 	for (let i = 0; i < 7; i++) {
 		const newFullDate = add(day!, { days: i });
@@ -79,14 +80,20 @@ const getNextWeekDates = (date: Date) => {
 			([3, 4, 6].includes(newDay) && [3, 4, 6].map((el) => el <= newDay)[0]) ||
 			newDay === 0
 		) {
-			if (days.length > 0 && newDay === 1) {
-				break;
-			}
+			console.log({ newDay });
 
 			days.push({
 				date: newFullDate,
 				time: requiredDates[newDay],
 			});
+
+			if (newDay === 0) {
+				endOfWeek = true;
+			}
+		}
+
+		if (endOfWeek) {
+			break;
 		}
 	}
 
