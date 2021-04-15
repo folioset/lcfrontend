@@ -61,16 +61,17 @@ const Home: React.FC = () => {
 					<Box ml={'-5px'}>
 						<Typography
 							className={classes.mainHeading}
-							variant='h3'
+							variant='h4'
 							component='h1'>
-							Learn Product Management Together!
+							Join the Exclusive Invite-Only Community of Product Managers
+							Learning Together!
 						</Typography>
 					</Box>
 
 					<Box mt={2}>
 						<Typography variant='subtitle1'>
-							Get matched with other PMs/PM Aspirants <br /> Meet Virtually Once
-							a Week
+							Get matched with 2 PMs from our community every week <br />
+							and read articles, solve cases, discuss trends together.
 						</Typography>
 					</Box>
 					<Box mt={3}>

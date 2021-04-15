@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 import { useQueryClient } from 'react-query';
 
 // assets
-import Logo from './../../../../assets/logo.png';
+import { ReactComponent as Logo } from './../../../../assets/logo.svg';
 
 // Material UI
 import AppBar from '@material-ui/core/AppBar';
@@ -62,7 +62,15 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 					onClick={() =>
 						user ? history.push('/dashboard') : history.push('/')
 					}>
-					<img
+					<Logo
+						style={{
+							height: 70,
+							width: 70,
+							paddingTop: 2,
+							marginRight: 6,
+						}}
+					/>
+					{/* <img
 						style={{
 							maxWidth: '100%',
 							height: 70,
@@ -71,7 +79,7 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 						}}
 						src={Logo}
 						alt='logo'
-					/>
+					/> */}
 					<Typography className={classes.navbarBrand} variant='h5'>
 						Learning Circle
 					</Typography>

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useQueryClient } from 'react-query';
 import { useHistory } from 'react-router';
-import Logo from './../../../assets/logo.png';
+import Logo from './../../../assets/logo.svg';
 
 // MUI
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
