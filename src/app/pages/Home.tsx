@@ -63,7 +63,7 @@ const Home: React.FC = () => {
 							className={classes.mainHeading}
 							variant='h4'
 							component='h1'>
-							Join the Exclusive Invite-Only Community of Product Managers
+							Join the Exclusive Community of Product Managers
 							Learning Together!
 						</Typography>
 					</Box>
