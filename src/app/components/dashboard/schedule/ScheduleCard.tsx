@@ -55,12 +55,18 @@ const useStyles = makeStyles((theme) => {
 
 // Constants
 
+// const REQUIRED_DATES = {
+// 	'4': ['6-pm'], // Thursday
+// 	'3': ['7-pm'], // Wednesday
+// 	'6': ['12-pm', '5-pm'], // Saturday
+// 	'0': ['12-pm', '6-pm'], // Sunday
+// };
+
 const REQUIRED_DATES = {
-	'4': ['6-pm'], // Thursday
-	'3': ['7-pm'], // Wednesday
-	'6': ['12-pm', '5-pm'], // Saturday
+	'6': ['12-pm'], // Saturday
 	'0': ['12-pm', '6-pm'], // Sunday
 };
+
 
 const getNextWeekDates = (date: Date) => {
 	let newDate = date;
@@ -77,7 +83,7 @@ const getNextWeekDates = (date: Date) => {
 		const newDay = newFullDate.getDay();
 
 		if (
-			([3, 4, 6].includes(newDay) && [3, 4, 6].map((el) => el <= newDay)[0]) ||
+			([6].includes(newDay) && [6].map((el) => el <= newDay)[0]) ||
 			newDay === 0
 		) {
 			console.log({ newDay });
