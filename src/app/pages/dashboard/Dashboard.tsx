@@ -104,8 +104,8 @@ const Schedule: React.FC = () => {
 							value={value}
 							onChange={handleChange}
 							aria-label='upcoming and past meet'>
-							<Tab label='Upcoming' {...a11yProps(0)} />
-							<Tab label='Past' {...a11yProps(1)} />
+							<Tab label='Upcoming Learning Calls' {...a11yProps(0)} />
+							<Tab label='Past Learning Calls' {...a11yProps(1)} />
 						</Tabs>
 					</AppBar>
 					<TabPanel value={value} index={0}>

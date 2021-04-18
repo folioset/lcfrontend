@@ -66,7 +66,7 @@ const Profile: React.FC<Props> = ({ view }) => {
 					<FormInput
 						fullWidth
 						variant='filled'
-						label='LinkedIn'
+						label='LinkedIn URL'
 						name='linkedinUrl'
 						required
 						helperText='If you are on mobile, you can find this url by going to the Linkedin app -> View Profile -> Scrolling down on your profile -> In the Contact section, you will find your profile’s url which you can copy-paste here'
@@ -84,6 +84,7 @@ const Profile: React.FC<Props> = ({ view }) => {
 						label='Phone Number'
 						name='phoneNumber'
 						required
+						helperText='Please provide us with your phone number as this will help us add you to relevant groups and send you reminders about your calls'
 					/>
 				</Grid>
 
@@ -94,7 +95,7 @@ const Profile: React.FC<Props> = ({ view }) => {
 					rows={6}
 					required
 					name='about'
-					label='Bio'
+					label='Tell us about yourself'
 					placeholder={`Product Manager at Zerodha. IIM Calcutta grad. Former Engineer who loves finance and fin-tech products`}
 				/>
 			</Grid>
@@ -124,8 +125,8 @@ const Profile: React.FC<Props> = ({ view }) => {
 							component={RouterLink}
 							to='/dashboard/me/update'
 							color='secondary'>
-							<LinkedIn />
-							Update Linkedin URL
+							<LinkedIn />   {'  '}
+						    	Please update Linkedin URL here
 							{user?.linkedinUrl}
 						</Link>
 					)}

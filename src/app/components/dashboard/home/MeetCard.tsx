@@ -124,7 +124,7 @@ const MeetCard: React.FC<Props> = ({ meet }) => {
 						justify='space-between'
 						alignItems='center'>
 						<Grid item xs={12} sm={6}>
-							<Box ml={0.5}>
+							<Box ml={1.0}>
 								<Typography color='textPrimary' variant='h6'>
 									{meet.time.split('-').join(' ')} on {MONTHS[meet.month]}{' '}
 									{meet.date}, {meet.year}{' '}
@@ -133,16 +133,6 @@ const MeetCard: React.FC<Props> = ({ meet }) => {
 										({DAYS[meet.day]})
 									</span>
 								</Typography>
-							</Box>
-							<Box mt={2} ml={0.5}>
-								<Button
-									to='/dashboard/schedule/update'
-									component={RouterLink}
-									size='small'
-									style={{ cursor: 'pointer' }}
-									color='primary'>
-									Change Timing
-								</Button>
 							</Box>
 
 							<Box ml={0.5} mt={2} color={theme.palette.text.secondary}>
@@ -172,6 +162,17 @@ const MeetCard: React.FC<Props> = ({ meet }) => {
 										</Box>
 									</Box>
 								</Menu>
+							</Box>
+							<Box mt={1} ml={0.5}>
+								<Button
+									to='/dashboard/schedule/update'
+									component={RouterLink}
+									size='small'
+									style={{ cursor: 'pointer' }}
+									color='primary'
+									font-weight='bold'>
+									Change Timing
+								</Button>
 							</Box>
 						</Grid>
 						<Grid item xs={12} sm={4} className={classes.moreDetailsContainer}>

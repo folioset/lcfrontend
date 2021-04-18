@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => {
 			'& h5': {
 				marginBottom: theme.spacing(5),
 				marginTop: theme.spacing(5),
-				textAlign: 'center',
+				// textAlign: 'center',
 			},
 
 			[theme.breakpoints.down('lg')]: {
@@ -71,7 +71,7 @@ const Schedule: React.FC = () => {
 				<Card variant='outlined' className={classes.scheduleContainer}>
 					<Container maxWidth='sm'>
 						<Typography variant='h5'>
-							Schedule your first Learning Circle call
+							Please select one of the times below to schedule your first learning call
 						</Typography>
 						<ScheduleCard />
 					</Container>

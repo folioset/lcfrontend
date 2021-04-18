@@ -77,7 +77,7 @@ const UpdateProfile = (props: Props) => {
 	return (
 		<>
 			<Box my={6} textAlign='center'>
-				<Typography variant='h4'>Update Profile</Typography>
+				<Typography variant='h4'>Edit Profile</Typography>
 			</Box>
 			<Formik
 				initialValues={userProfileInitState(user)}

@@ -62,7 +62,8 @@ const Home: React.FC = () => {
 						<Typography
 							className={classes.mainHeading}
 							variant='h4'
-							component='h1'>
+							component='h1'
+							style={{ fontWeight: 'bold' }}>
 							Join the Exclusive Community of Product Managers
 							Learning Together!
 						</Typography>
@@ -89,7 +90,7 @@ const Home: React.FC = () => {
 							href='/api/auth/google'
 							color='primary'
 							variant='contained'>
-							Sign up With google
+							Sign Up with Google
 						</Button>
 					</Box>
 				</Grid>
