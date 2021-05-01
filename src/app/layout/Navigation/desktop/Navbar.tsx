@@ -70,16 +70,6 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 							marginRight: 6,
 						}}
 					/>
-					{/* <img
-						style={{
-							maxWidth: '100%',
-							height: 70,
-							paddingTop: 2,
-							marginRight: 6,
-						}}
-						src={Logo}
-						alt='logo'
-					/> */}
 					<Typography className={classes.navbarBrand} variant='h5'>
 						Learning Circle
 					</Typography>
@@ -102,6 +92,9 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 					)}
 					{user && (
 						<Box ml='auto'>
+							<NavItem exact to='/projects'>
+								Projects
+							</NavItem>
 							<NavItem exact to='/dashboard'>
 								Profile
 							</NavItem>

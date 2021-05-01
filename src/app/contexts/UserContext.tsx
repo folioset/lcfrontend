@@ -25,7 +25,8 @@ const UserContextProvider: React.FC<UserContextProps> = ({ children }: any) => {
 			onSuccess: (data) => {
 				if (data) {
 					history.replace(
-						location.pathname.startsWith('/dashboard')
+						location.pathname.startsWith('/dashboard') ||
+							location.pathname.startsWith('/projects')
 							? location.pathname
 							: '/dashboard'
 					);
