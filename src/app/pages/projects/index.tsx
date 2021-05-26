@@ -30,7 +30,7 @@ import { User } from '../../types';
 
 import { ReactComponent as Logo } from './../../../assets/logo.svg';
 import { Box, Button } from '@material-ui/core';
-import { Add } from '@material-ui/icons';
+import { Add, ChevronLeft } from '@material-ui/icons';
 import CreateProject from './CreateProject';
 import { NavLink } from 'react-router-dom';
 import SidebarNavLink from '../../components/projects/SidebarNavLink';
@@ -167,7 +167,7 @@ const Projects: React.FC<Props> = (props) => {
 	return (
 		<div className={classes.root}>
 			<AppBar elevation={0} position='fixed' className={classes.appBar}>
-				<Toolbar>
+				<Toolbar className={classes.toolbar}>
 					<IconButton
 						color='inherit'
 						aria-label='open drawer'
@@ -176,10 +176,21 @@ const Projects: React.FC<Props> = (props) => {
 						className={classes.menuButton}>
 						<MenuIcon />
 					</IconButton>
-					<Typography variant='h6' noWrap>
-						Create New Project
-					</Typography>
-					<Box marginLeft='auto'>
+					<Box
+						width='100%'
+						display='flex'
+						alignItems='center'
+						justifyContent='space-between'>
+						<Button
+							onClick={() => history.push('/dashboard')}
+							startIcon={<ChevronLeft />}
+							color='default'>
+							Dashboard
+						</Button>
+
+						<Typography variant='h6' noWrap>
+							Create New Project
+						</Typography>
 						<Button
 							variant='contained'
 							onClick={showView === 'edit' ? displayView : editView}>

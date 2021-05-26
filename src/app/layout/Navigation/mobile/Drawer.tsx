@@ -7,32 +7,31 @@ import ListItem from '@material-ui/core/ListItem';
 
 // Components
 import DrawerItem from './DrawerItem';
+import { Box, ListItemText } from '@material-ui/core';
 
 interface Props {
 	isOpen: boolean;
 	onClose: () => void;
 }
 
+const DRAWER_WIDTH = 280;
+
 const Drawer: React.FC<Props> = ({ isOpen, onClose }) => {
 	const queryClient = useQueryClient();
 	const user = queryClient.getQueryData('user');
 	return (
 		<MUIDrawer
-			style={{ width: 250 }}
+			style={{ width: DRAWER_WIDTH }}
 			anchor={'right'}
 			open={isOpen}
 			onClose={onClose}>
-			<div style={{ width: 250 }}>
+			<Box width={DRAWER_WIDTH}>
+				<Box></Box>
 				{!user ? (
 					<>
 						<DrawerItem text='Home' to='/' onClose={onClose} />
-
-						<ListItem
-							component='a'
-							style={{ width: '100%' }}
-							color='primary'
-							href='/api/auth/google'>
-							Login
+						<ListItem component={'a'} button href='/api/auth/google'>
+							<ListItemText primary={'Login'} />
 						</ListItem>
 					</>
 				) : (
@@ -57,7 +56,7 @@ const Drawer: React.FC<Props> = ({ isOpen, onClose }) => {
 						</ListItem>
 					</>
 				)}
-			</div>
+			</Box>
 		</MUIDrawer>
 	);
 };

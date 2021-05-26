@@ -25,9 +25,11 @@ const userProfileInitState = (user: any) => {
 	};
 };
 
-const LinkedInRegExp = /((www|\w\w)\.)?linkedin.com(\w+:{0,1}\w*@)?(\S+)(:([0-9])+)?(\/|\/([\w#!:.?+=&%@!]))?/;
+const LinkedInRegExp =
+	/((www|\w\w)\.)?linkedin.com(\w+:{0,1}\w*@)?(\S+)(:([0-9])+)?(\/|\/([\w#!:.?+=&%@!]))?/;
 
-const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+const phoneRegExp =
+	/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const userProfileValidationSchema = Yup.object().shape({
 	about: Yup.string().min(
@@ -39,7 +41,6 @@ const userProfileValidationSchema = Yup.object().shape({
 		'Please enter a valid linkedin url'
 	),
 	phoneNumber: Yup.string()
-
 		.length(10, 'Please enter a valid phone number')
 		.matches(phoneRegExp, 'Please enter a valid phone number'),
 });
@@ -87,7 +88,7 @@ const UpdateProfile = (props: Props) => {
 				}}>
 				{({ isValid }) => {
 					return (
-						<Container>
+						<Container maxWidth='md'>
 							<Form autoComplete='off' noValidate>
 								<Profile view='edit' />
 								<Button

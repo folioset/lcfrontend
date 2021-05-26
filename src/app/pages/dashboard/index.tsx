@@ -4,13 +4,14 @@ import { Redirect, Route, Switch, useRouteMatch } from 'react-router';
 // Context
 import ScheduleContextProvider from '../../contexts/ScheduleContext';
 
-// Pages
-import Schedule from './Schedule';
-import UpdateSchedule from './UpdateSchedule';
-import Dashboard from './Dashboard';
-
+// hooks
 import useAuthRoute from '../../hooks/useAuthRoute';
-import UpdateProfile from './UpdateProfile';
+
+// Pages
+const Schedule = React.lazy(() => import('./Schedule'));
+const UpdateSchedule = React.lazy(() => import('./UpdateSchedule'));
+const Dashboard = React.lazy(() => import('./Dashboard'));
+const UpdateProfile = React.lazy(() => import('./UpdateProfile'));
 
 const DashboardRoutes: React.FC = () => {
 	useAuthRoute();
