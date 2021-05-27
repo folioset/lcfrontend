@@ -28,20 +28,34 @@ const useStyles = makeStyles((theme) => {
 				[theme.breakpoints.down('sm')]: {
 					padding: theme.spacing(2),
 				},
+
+				[theme.breakpoints.down('xs')]: {
+					padding: theme.spacing(1),
+				},
 			},
 		},
 		mainHeading: {
-			[theme.breakpoints.down('sm')]: {
+			[theme.breakpoints.down('md')]: {
+				marginTop: theme.spacing(4),
 				fontSize: 40,
 			},
 
+			[theme.breakpoints.down('sm')]: {
+				fontSize: 30,
+			},
+
 			[theme.breakpoints.down('xs')]: {
-				fontSize: 35,
+				fontSize: 28,
 			},
 		},
 		gBtn: {
 			color: theme.palette.common.white,
 			textTransform: 'capitalize',
+		},
+		subHeading: {
+			[theme.breakpoints.down('xs')]: {
+				fontSize: 15,
+			},
 		},
 	};
 });
@@ -61,16 +75,18 @@ const Home: React.FC = () => {
 					<Box ml={'-5px'}>
 						<Typography
 							className={classes.mainHeading}
-							variant='h3'
-							component='h1'>
-							Learn Product Management Together!
+							variant='h4'
+							component='h1'
+							style={{ fontWeight: 'bold' }}>
+							Join the Exclusive Community of Product Managers Learning
+							Together!
 						</Typography>
 					</Box>
 
 					<Box mt={2}>
-						<Typography variant='subtitle1'>
-							Get matched with other PMs/PM Aspirants <br /> Meet Virtually Once
-							a Week
+						<Typography className={classes.subHeading} variant='subtitle1'>
+							Get matched with 2 PMs from our community every week <br />
+							and read articles, solve cases, discuss trends together.
 						</Typography>
 					</Box>
 					<Box mt={3}>
@@ -88,7 +104,7 @@ const Home: React.FC = () => {
 							href='/api/auth/google'
 							color='primary'
 							variant='contained'>
-							Sign up With google
+							Sign Up with Google
 						</Button>
 					</Box>
 				</Grid>

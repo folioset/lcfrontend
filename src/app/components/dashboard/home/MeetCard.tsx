@@ -10,15 +10,15 @@ import CardContent from '@material-ui/core/CardContent';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
+// import Link from '@material-ui/core/Link';
 import Menu from '@material-ui/core/Menu';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core';
 
 // icons
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-
+// import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+// import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+//
 // types
 import { Schedule } from '../../../types';
 
@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => {
 		root: {
 			marginBottom: theme.spacing(5),
 			padding: theme.spacing(0),
+			backgroundColor: '#f7f7f7',
 		},
 		link: {
 			cursor: 'pointer',
@@ -69,10 +70,10 @@ const MONTHS = [
 	'December',
 ];
 
-const MatchCard: React.FC<Props> = ({ meet }) => {
+const MeetCard: React.FC<Props> = ({ meet }) => {
 	const classes = useStyles();
 	const queryClient = useQueryClient();
-	const [showDetails, setShowDetails] = React.useState<boolean>(false);
+	// const [showDetails, setShowDetails] = React.useState<boolean>(false);
 
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -123,7 +124,7 @@ const MatchCard: React.FC<Props> = ({ meet }) => {
 						justify='space-between'
 						alignItems='center'>
 						<Grid item xs={12} sm={6}>
-							<Box ml={0.5}>
+							<Box ml={1.0}>
 								<Typography color='textPrimary' variant='h6'>
 									{meet.time.split('-').join(' ')} on {MONTHS[meet.month]}{' '}
 									{meet.date}, {meet.year}{' '}
@@ -133,17 +134,8 @@ const MatchCard: React.FC<Props> = ({ meet }) => {
 									</span>
 								</Typography>
 							</Box>
-							<Box mt={2} ml={0.5}>
-								<Link
-									to='/dashboard/schedule/update'
-									component={RouterLink}
-									style={{ cursor: 'pointer' }}
-									color='primary'>
-									Change Timing
-								</Link>
-							</Box>
 
-							<Box mt={2} color={theme.palette.text.secondary}>
+							<Box ml={0.5} mt={2} color={theme.palette.text.secondary}>
 								<Button color='inherit' size='small' onClick={handleClick}>
 									Can't Attend this week
 								</Button>
@@ -171,19 +163,30 @@ const MatchCard: React.FC<Props> = ({ meet }) => {
 									</Box>
 								</Menu>
 							</Box>
+							<Box mt={1} ml={0.5}>
+								<Button
+									to='/dashboard/schedule/update'
+									component={RouterLink}
+									size='small'
+									style={{ cursor: 'pointer' }}
+									color='primary'
+									font-weight='bold'>
+									Change Timing
+								</Button>
+							</Box>
 						</Grid>
 						<Grid item xs={12} sm={4} className={classes.moreDetailsContainer}>
-							<Button
+							{/* <Button
 								onClick={() => setShowDetails(!showDetails)}
 								endIcon={
 									!showDetails ? <ExpandMoreIcon /> : <ExpandLessIcon />
 								}>
 								{showDetails ? 'Hide Details' : 'More Details'}
-							</Button>
+							</Button> */}
 						</Grid>
 					</Grid>
 
-					{showDetails && (
+					{/* {showDetails && (
 						<Box padding={3} mt={3}>
 							<Box mb={1} textAlign='center'>
 								<Typography color='secondary' variant='h6'>
@@ -197,11 +200,11 @@ const MatchCard: React.FC<Props> = ({ meet }) => {
 								</Typography>
 							</Box>
 						</Box>
-					)}
+					)} */}
 				</CardContent>
 			</Card>
 		</>
 	);
 };
 
-export default MatchCard;
+export default MeetCard;

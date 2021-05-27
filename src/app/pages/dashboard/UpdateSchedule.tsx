@@ -109,7 +109,7 @@ const UpdateSchedule: React.FC = () => {
 						onClick={() => mutate()}
 						startIcon={isLoading ? <CircularProgress size='1rem' /> : null}
 						color='primary'
-						variant='outlined'
+						variant='contained'
 						className={classes.btn}>
 						Update Time Slot
 					</Button>

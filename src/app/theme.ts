@@ -3,7 +3,7 @@ import indigo from '@material-ui/core/colors/indigo';
 
 const palette = {
 	primary: {
-		main: '#F9A826',
+		main: '#00BFA6',
 	},
 	secondary: {
 		main: indigo['A700'],
@@ -11,7 +11,7 @@ const palette = {
 };
 
 const typography = {
-	fontFamily: '"Poppins", sans-serif',
+	fontFamily: "'Montserrat', sans-serif",
 };
 
 const theme = createMuiTheme({ palette, typography });

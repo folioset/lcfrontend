@@ -29,7 +29,7 @@ export type User = {
 	email: string;
 	linkedinUrl?: string;
 	about?: string;
-	phoneNumber?: Phone;
+	phone?: Phone;
 	isUpdated?: boolean;
 	schedule: Schedule[];
 	careerOptions: CareerOptions[];

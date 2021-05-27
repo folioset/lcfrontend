@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useQueryClient } from 'react-query';
 
 // Material UI
+// import MUILink from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
@@ -20,7 +21,8 @@ import { Schedule as ScheduleType } from '../../types';
 import { ScheduleContext } from '../../contexts/ScheduleContext';
 
 // components
-import MatchCard from '../../components/dashboard/home/MatchCard';
+import MatchCard from '../../components/dashboard/home/MeetCard';
+import Profile from '../../components/dashboard/home/Profile';
 
 interface TabPanelProps {
 	children?: React.ReactNode;
@@ -54,7 +56,7 @@ const useStyles = makeStyles((theme) => {
 	return {
 		root: {
 			height: '100vh',
-			backgroundColor: theme.palette.grey['200'],
+			backgroundColor: theme.palette.common.white,
 			padding: theme.spacing(4),
 
 			[theme.breakpoints.down('md')]: {
@@ -80,74 +82,79 @@ const useStyles = makeStyles((theme) => {
 const Schedule: React.FC = () => {
 	const classes = useStyles();
 	const queryClient = useQueryClient();
+	// const user = queryClient.getQueryData<User>('user')!;
 	const { userScheduleLoading } = React.useContext(ScheduleContext);
 	const [value, setValue] = React.useState(0);
 
 	const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
 		setValue(newValue);
 	};
-
 	const schedule = queryClient.getQueryData<ScheduleType[]>('schedule');
 
 	return (
-		<Box className={classes.root}>
-			<Container maxWidth={'md'}>
-				<AppBar color='transparent' elevation={0} position='static'>
-					<Tabs
-						indicatorColor='primary'
-						value={value}
-						onChange={handleChange}
-						aria-label='upcoming and past meet'>
-						<Tab label='Upcoming' {...a11yProps(0)} />
-						<Tab label='Past' {...a11yProps(1)} />
-					</Tabs>
-				</AppBar>
-				<TabPanel value={value} index={0}>
-					{schedule && schedule.length === 0 && (
-						<>
-							<Typography
-								color='error'
-								variant='h6'
-								className={classes.heading}>
-								You do not have any scheduled meets
-							</Typography>
-							<Button
-								component={Link}
-								to='/dashboard/schedule'
-								variant='outlined'
-								color='primary'>
-								Schedule One!
-							</Button>
-						</>
-					)}
-					{userScheduleLoading && (
-						<Box textAlign='center'>
-							<Typography color='primary'>Loading schedule...</Typography>
-						</Box>
-					)}
-					{schedule?.map((meet) => {
-						return <MatchCard key={meet._id} {...{ meet }} />;
-					})}
-				</TabPanel>
-				<TabPanel value={value} index={1}>
-					<Typography variant='h4' className={classes.heading}>
-						Your Past Meets
-					</Typography>
-					<Box my={3} p={0}>
-						<Typography variant='h6' color='error'>
-							You did not attend any meets yet!
-						</Typography>
+		<>
+			<Box className={classes.root}>
+				<Container maxWidth={'md'}>
+					<Box my={5}>
+						<Profile view='private' />
 					</Box>
-					<Button
-						component={Link}
-						to='/dashboard/schedule'
-						variant='outlined'
-						color='primary'>
-						Schedule One!
-					</Button>
-				</TabPanel>
-			</Container>
-		</Box>
+					<AppBar color='transparent' elevation={0} position='static'>
+						<Tabs
+							indicatorColor='primary'
+							value={value}
+							onChange={handleChange}
+							aria-label='upcoming and past meet'>
+							<Tab label='Upcoming Learning Calls' {...a11yProps(0)} />
+							<Tab label='Past Learning Calls' {...a11yProps(1)} />
+						</Tabs>
+					</AppBar>
+					<TabPanel value={value} index={0}>
+						{schedule && schedule.length === 0 && (
+							<>
+								<Typography
+									color='error'
+									variant='h6'
+									className={classes.heading}>
+									You do not have any scheduled meets
+								</Typography>
+								<Button
+									component={Link}
+									to='/dashboard/schedule'
+									variant='contained'
+									color='primary'>
+									Schedule One!
+								</Button>
+							</>
+						)}
+						{userScheduleLoading && (
+							<Box textAlign='center'>
+								<Typography color='primary'>Loading schedule...</Typography>
+							</Box>
+						)}
+						{schedule?.map((meet) => {
+							return <MatchCard key={meet._id} {...{ meet }} />;
+						})}
+					</TabPanel>
+					<TabPanel value={value} index={1}>
+						<Typography variant='h6' className={classes.heading}>
+							Your past meets
+						</Typography>
+						<Box my={3} p={0}>
+							<Typography color='error'>
+								You did not attend any meets yet!
+							</Typography>
+						</Box>
+						<Button
+							component={Link}
+							to='/dashboard/schedule'
+							variant='contained'
+							color='primary'>
+							Schedule One!
+						</Button>
+					</TabPanel>
+				</Container>
+			</Box>
+		</>
 	);
 };
 

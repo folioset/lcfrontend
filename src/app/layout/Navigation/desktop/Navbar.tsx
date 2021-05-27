@@ -1,10 +1,6 @@
 import * as React from 'react';
 import { useHistory } from 'react-router';
-
 import { useQueryClient } from 'react-query';
-
-// assets
-import Logo from './../../../../assets/logo.png';
 
 // Material UI
 import AppBar from '@material-ui/core/AppBar';
@@ -13,7 +9,6 @@ import Box from '@material-ui/core/Box';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core';
 
 // Icons
@@ -24,12 +19,19 @@ import NavItem from './NavItem';
 
 // types
 import { User } from '../../../types';
+import Logo from '../../../components/shared/Logo/Logo';
 
 // Styles
-const useStyles = makeStyles(() => {
+const useStyles = makeStyles((theme) => {
 	return {
-		navbarBrand: {
-			cursor: 'pointer',
+		appBar: {
+			backgroundColor: theme.palette.common.white,
+			padding: theme.spacing(1),
+		},
+		toolbar: {
+			[theme.breakpoints.down('sm')]: {
+				padding: 0,
+			},
 		},
 	};
 });
@@ -46,33 +48,13 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 	const user = queryClient.getQueryData<User>('user');
 
 	return (
-		<AppBar
-			color='transparent'
-			style={{ padding: 3 }}
-			elevation={0}
-			position='static'>
-			<Toolbar>
-				<Box
-					display='flex'
-					alignItems='center'
-					justifyContent='center'
+		<AppBar className={classes.appBar} elevation={0} position='static'>
+			<Toolbar className={classes.toolbar}>
+				<Logo
 					onClick={() =>
 						user ? history.push('/dashboard') : history.push('/')
-					}>
-					<img
-						style={{
-							maxWidth: '100%',
-							height: 70,
-							paddingTop: 2,
-							marginRight: 6,
-						}}
-						src={Logo}
-						alt='logo'
-					/>
-					<Typography className={classes.navbarBrand} variant='h5'>
-						Learning Circle
-					</Typography>
-				</Box>
+					}
+				/>
 
 				<Hidden only={['sm', 'xs']}>
 					{!user && (
@@ -81,8 +63,9 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 								Home
 							</NavItem>
 							<Button
+								style={{ color: '#fff' }}
 								color='primary'
-								variant='outlined'
+								variant='contained'
 								href='/api/auth/google'>
 								Login
 							</Button>
@@ -90,7 +73,16 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 					)}
 					{user && (
 						<Box ml='auto'>
-							<NavItem color='primary' exact to='/dashboard/schedule'>
+							<NavItem exact to='/projects'>
+								Projects
+							</NavItem>
+							<NavItem exact to='/dashboard'>
+								Profile
+							</NavItem>
+							<NavItem exact to='/dashboard/me/update'>
+								Edit Profile
+							</NavItem>
+							<NavItem exact to='/dashboard/schedule'>
 								Schedule
 							</NavItem>
 							<Button href='/api/logout' style={{ color: 'red' }}>

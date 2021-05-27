@@ -5,9 +5,10 @@ import { useHistory, useLocation } from 'react-router';
 // types
 import { User } from '../types';
 
-const useAuthRoute: (t?: 'protected' | 'not-protected') => void = (
-	type = 'protected'
-) => {
+const useAuthRoute: (
+	t?: 'protected' | 'not-protected',
+	path?: string
+) => void = (type = 'protected', path) => {
 	const history = useHistory();
 	const queryClient = useQueryClient();
 	const location = useLocation();
@@ -17,9 +18,9 @@ const useAuthRoute: (t?: 'protected' | 'not-protected') => void = (
 		if (type === 'protected' && !user) {
 			return history.replace('/');
 		} else if (type === 'not-protected' && user) {
-			return history.goBack();
+			// return path ? history.replace(path) : history.goBack();
 		}
-	}, [type, history, user, location]);
+	}, [type, history, user, location, path]);
 };
 
 export default useAuthRoute;
