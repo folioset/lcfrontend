@@ -17,9 +17,6 @@ import { ReactComponent as SvgBackground } from '../../assets/home.svg';
 // Styles
 const useStyles = makeStyles((theme) => {
 	return {
-		container: {
-			backgroundColor: theme.palette.common.white,
-		},
 		grid: {
 			height: '90vh',
 			'& > *': {
@@ -48,7 +45,7 @@ const useStyles = makeStyles((theme) => {
 				fontSize: 28,
 			},
 		},
-		gBtn: {
+		googleBtn: {
 			color: theme.palette.common.white,
 			textTransform: 'capitalize',
 		},
@@ -65,7 +62,7 @@ const Home: React.FC = () => {
 	const classes = useStyles();
 
 	return (
-		<Container maxWidth='xl' className={classes.container}>
+		<Container maxWidth='xl'>
 			<Grid
 				alignItems='center'
 				justify='center'
@@ -100,7 +97,7 @@ const Home: React.FC = () => {
 
 					<Box mt={2}>
 						<Button
-							className={classes.gBtn}
+							className={classes.googleBtn}
 							href='/api/auth/google'
 							color='primary'
 							variant='contained'>

@@ -59,9 +59,6 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 				<Hidden only={['sm', 'xs']}>
 					{!user && (
 						<Box ml='auto'>
-							<NavItem to='/' exact>
-								Home
-							</NavItem>
 							<Button
 								style={{ color: '#fff' }}
 								color='primary'
@@ -71,19 +68,14 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 							</Button>
 						</Box>
 					)}
+
 					{user && (
 						<Box ml='auto'>
-							<NavItem exact to='/projects'>
-								Projects
-							</NavItem>
 							<NavItem exact to='/dashboard'>
 								Profile
 							</NavItem>
 							<NavItem exact to='/dashboard/me/update'>
 								Edit Profile
-							</NavItem>
-							<NavItem exact to='/dashboard/schedule'>
-								Schedule
 							</NavItem>
 							<Button href='/api/logout' style={{ color: 'red' }}>
 								Logout

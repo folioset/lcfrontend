@@ -7,7 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 
 // Components
 import DrawerItem from './DrawerItem';
-import { Box, ListItemText } from '@material-ui/core';
+import { Box, ListItemText, Typography, useTheme } from '@material-ui/core';
 
 interface Props {
 	isOpen: boolean;
@@ -19,6 +19,9 @@ const DRAWER_WIDTH = 280;
 const Drawer: React.FC<Props> = ({ isOpen, onClose }) => {
 	const queryClient = useQueryClient();
 	const user = queryClient.getQueryData('user');
+	const theme = useTheme();
+	const color = theme.palette.error.main;
+
 	return (
 		<MUIDrawer
 			style={{ width: DRAWER_WIDTH }}
@@ -26,33 +29,25 @@ const Drawer: React.FC<Props> = ({ isOpen, onClose }) => {
 			open={isOpen}
 			onClose={onClose}>
 			<Box width={DRAWER_WIDTH}>
-				<Box></Box>
 				{!user ? (
 					<>
-						<DrawerItem text='Home' to='/' onClose={onClose} />
 						<ListItem component={'a'} button href='/api/auth/google'>
-							<ListItemText primary={'Login'} />
+							<ListItemText primary='Login' />
 						</ListItem>
 					</>
 				) : (
 					<>
-						<DrawerItem text='Dashboard' to='/dashboard' onClose={onClose} />
+						<DrawerItem text='Profile' to='/dashboard' onClose={onClose} />
 						<DrawerItem
 							text='Edit Profile'
 							to='/dashboard/me/update'
 							onClose={onClose}
 						/>
-						<DrawerItem
-							text='Schedule'
-							to='/dashboard/schedule'
-							onClose={onClose}
-						/>
-						<ListItem
-							component='a'
-							style={{ width: '100%', color: 'red' }}
-							color='primary'
-							href='/api/logout'>
-							Logout
+						<ListItem component='a' href='/api/logout' button>
+							<ListItemText
+								disableTypography
+								primary={<Typography style={{ color }}>Logout</Typography>}
+							/>
 						</ListItem>
 					</>
 				)}

@@ -8,12 +8,18 @@ const palette = {
 	secondary: {
 		main: indigo['A700'],
 	},
+	background: {
+		default: '#fff',
+	},
 };
 
 const typography = {
 	fontFamily: "'Montserrat', sans-serif",
 };
 
-const theme = createMuiTheme({ palette, typography });
+const theme = createMuiTheme({
+	palette,
+	typography,
+});
 
 export default theme;
