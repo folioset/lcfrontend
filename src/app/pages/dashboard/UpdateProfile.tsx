@@ -20,7 +20,7 @@ const userProfileInitState = (user: any) => {
 	return {
 		linkedinUrl: user.linkedinUrl || '',
 		about: user.about || '',
-		phoneNumber: user.phone.phoneNumber || '',
+		phoneNumber: user.phone?.phoneNumber || '',
 		code: '91',
 	};
 };
@@ -45,9 +45,7 @@ const userProfileValidationSchema = Yup.object().shape({
 		.matches(phoneRegExp, 'Please enter a valid phone number'),
 });
 
-interface Props {}
-
-const UpdateProfile = (props: Props) => {
+const UpdateProfile: React.FC = () => {
 	const queryClient = useQueryClient();
 	const history = useHistory();
 	const user = queryClient.getQueryData<User>('user');
@@ -55,11 +53,11 @@ const UpdateProfile = (props: Props) => {
 	const { mutate, isLoading } = useMutation(
 		async (data) => {
 			const res = await axios({
-				method: 'POST',
-				url: '/api/user/updateDetails',
+				method: 'PATCH',
+				url: '/api/user',
 				data,
 			});
-			return res.data;
+			return res.data.user;
 		},
 		{
 			onSuccess: (data) => {
@@ -67,9 +65,7 @@ const UpdateProfile = (props: Props) => {
 			},
 			onSettled: (data) => {
 				if (data) {
-					if (data.isUpdated) {
-						history.replace('/dashboard');
-					}
+					history.replace('/dashboard');
 				}
 			},
 		}

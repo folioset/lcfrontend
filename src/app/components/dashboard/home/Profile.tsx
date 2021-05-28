@@ -110,7 +110,7 @@ const Profile: React.FC<Props> = ({ view }) => {
 					<Typography variant='h6'>{user?.about}</Typography>
 				</Box>
 				<Box mt={3}>
-					{user && user.linkedinUrl!.trim().length > 0 ? (
+					{user && user.linkedinUrl && user.linkedinUrl.trim().length > 0 ? (
 						<Link
 							className={classes.linkedinUrl}
 							href={`https://${user?.linkedinUrl && user?.linkedinUrl}`}
@@ -125,8 +125,8 @@ const Profile: React.FC<Props> = ({ view }) => {
 							component={RouterLink}
 							to='/dashboard/me/update'
 							color='secondary'>
-							<LinkedIn />   {'  '}
-						    	Please update Linkedin URL here
+							<LinkedIn /> {'  '}
+							Please update Linkedin URL here
 							{user?.linkedinUrl}
 						</Link>
 					)}
