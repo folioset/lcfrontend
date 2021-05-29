@@ -1,8 +1,10 @@
 import { Box, makeStyles } from '@material-ui/core';
+import clsx from 'clsx';
 import * as React from 'react';
 import { Page } from 'react-pdf';
 
 import { Document } from 'react-pdf/dist/esm/entry.webpack';
+import Loader from '../Loader/Loader';
 
 interface PdfViewProps {
 	filename: any;
@@ -33,8 +35,15 @@ const PdfView: React.FC<PdfViewProps> = ({ filename }) => {
 	}
 
 	return (
-		<Box className={classes.pdfView}>
-			<Document file={filename} onLoadSuccess={onDocumentLoadSuccess}>
+		<Box className={clsx(classes.pdfView, 'hide-scrollbar')}>
+			<Document
+				file={filename}
+				loading={
+					<Box className='hide-scrollbar'>
+						<Loader fullScreen />
+					</Box>
+				}
+				onLoadSuccess={onDocumentLoadSuccess}>
 				{Array.from(new Array(numPages), (el, index) => (
 					<Page key={`page_${index + 1}`} pageNumber={index + 1} />
 				))}

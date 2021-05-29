@@ -5,11 +5,13 @@ import Modal from '@material-ui/core/Modal';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import { Box, IconButton, makeStyles, Theme } from '@material-ui/core';
+import { Box, IconButton, Link, makeStyles, Theme } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { User } from '../../types';
 import { Tooltip } from '@material-ui/core';
 import useDisclosure from '../../hooks/useDisclosure';
+import CreateProject from './CreateProject';
+import { Link as RouterLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
@@ -25,6 +27,9 @@ const useStyles = makeStyles((theme: Theme) => ({
 	},
 	avatar: {
 		backgroundColor: theme.palette.primary.light,
+	},
+	link: {
+		cursor: 'pointer',
 	},
 }));
 
@@ -43,9 +48,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
 				onClose={onClose}
 				aria-labelledby='simple-modal-title'
 				aria-describedby='simple-modal-description'>
-				<Paper>
-					<Typography>Create Form Field</Typography>
-				</Paper>
+				<CreateProject />
 			</Modal>
 			<Box className={classes.root}>
 				<Paper elevation={3} className={classes.paper}>
@@ -54,7 +57,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
 							<Avatar
 								className={classes.avatar}
 								alt={user.name}
-								src='../../public/logo192.png'
+								src='/userphoto.png'
 							/>
 						</Grid>
 						<Grid
@@ -67,12 +70,34 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
 							<Typography gutterBottom variant='subtitle1'>
 								{user.name} (Name)
 							</Typography>
-							<Typography variant='body2' gutterBottom>
-								{user.about} (Headline)
-							</Typography>
-							<Typography variant='body2' color='textSecondary'>
-								Hyderabad, India (Location)
-							</Typography>
+							{user.linkedinUrl ? (
+								<>
+									<Box mb={2}>
+										<Typography variant='body2' gutterBottom>
+											{user.about} (Headline)
+										</Typography>
+
+										<Typography variant='body2' color='textSecondary'>
+											Hyderabad, India (Location)
+										</Typography>
+									</Box>
+
+									{/* <a
+										href={user.linkedinUrl}
+										color='primary'
+										className={classes.link}>
+										<Typography
+											noWrap={user.linkedinUrl.length > 40}
+											variant='caption'>
+											{user.linkedinUrl}
+										</Typography>
+									</a> */}
+								</>
+							) : (
+								<Link component={RouterLink} to='/dashboard/me/update'>
+									Click Here to update your profile
+								</Link>
+							)}
 						</Grid>
 						<Grid item>
 							<Tooltip title='Add Project' aria-label='Add project'>
