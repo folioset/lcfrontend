@@ -1,12 +1,13 @@
 import * as React from 'react';
-// import { useQueryClient } from 'react-query';
 
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Typography } from '@material-ui/core';
 
-import Profile from '../../components/dashboard/home/Profile';
+import Profile from '../../components/dashboard/Profile';
+import { useQueryClient } from 'react-query';
+import { User } from '../../types';
+import Project from '../../components/dashboard/Project';
 
 const useStyles = makeStyles((theme) => {
 	return {
@@ -35,22 +36,30 @@ const useStyles = makeStyles((theme) => {
 	};
 });
 
-const Schedule: React.FC = () => {
+const Dashboard: React.FC = () => {
 	const classes = useStyles();
-	// const queryClient = useQueryClient();
+	const queryClient = useQueryClient();
+	const user = queryClient.getQueryData<User>('user')!;
 
 	return (
 		<>
 			<Box className={classes.root}>
-				<Container maxWidth={'md'}>
+				<Container maxWidth='sm'>
 					<Box my={5}>
-						<Profile view='private' />
+						<Profile user={user} />
 					</Box>
-					<Typography>Yo</Typography>
+					<Box>
+						<Box mb={5} textAlign='center'>
+							<Typography color='primary' variant='h4'>
+								Your Projects
+							</Typography>
+						</Box>
+						<Project />
+					</Box>
 				</Container>
 			</Box>
 		</>
 	);
 };
 
-export default Schedule;
+export default Dashboard;

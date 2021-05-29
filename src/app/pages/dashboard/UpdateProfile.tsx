@@ -6,15 +6,16 @@ import {
 	Button,
 	CircularProgress,
 	Container,
+	Grid,
 	Typography,
 } from '@material-ui/core';
-import Profile from '../../components/dashboard/home/Profile';
 
 import { useQueryClient, useMutation } from 'react-query';
 import axios from 'axios';
 import { Formik, Form } from 'formik';
 import { User } from '../../types';
 import { useHistory } from 'react-router';
+import FormInput from '../../components/shared/FormInput/FormInput';
 
 const userProfileInitState = (user: any) => {
 	return {
@@ -86,7 +87,44 @@ const UpdateProfile: React.FC = () => {
 					return (
 						<Container maxWidth='md'>
 							<Form autoComplete='off' noValidate>
-								<Profile view='edit' />
+								<Grid container spacing={1}>
+									<Grid item xs={12}>
+										<FormInput
+											fullWidth
+											variant='filled'
+											label='LinkedIn URL'
+											name='linkedinUrl'
+											required
+											helperText='If you are on mobile, you can find this url by going to the Linkedin app -> View Profile -> Scrolling down on your profile -> In the Contact section, you will find your profile’s url which you can copy-paste here'
+										/>
+									</Grid>
+
+									<Grid item md={1} xs={2}>
+										<FormInput disabled variant='outlined' name='code' />
+									</Grid>
+
+									<Grid item md={11} xs={10}>
+										<FormInput
+											fullWidth
+											variant='filled'
+											label='Phone Number'
+											name='phoneNumber'
+											required
+											helperText='Please provide us with your phone number as this will help us add you to relevant groups and send you reminders about your calls'
+										/>
+									</Grid>
+
+									<FormInput
+										fullWidth
+										variant='filled'
+										multiline
+										rows={6}
+										required
+										name='about'
+										label='Tell us about yourself'
+										placeholder={`Product Manager at Zerodha. IIM Calcutta grad. Former Engineer who loves finance and fin-tech products`}
+									/>
+								</Grid>
 								<Button
 									startIcon={
 										isLoading ? <CircularProgress size='1rem' /> : null
