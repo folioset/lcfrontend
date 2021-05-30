@@ -59,7 +59,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
 								src='/userphoto.png'
 							/>
 						</Grid>
-						<Grid className={classes.details} item xs={10} sm>
+						<Grid className={classes.details} item xs={9}>
 							<Grid container direction='column' spacing={2}>
 								<Typography gutterBottom variant='subtitle1'>
 									{user.name} (Name)
@@ -92,7 +92,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
 								)}
 							</Grid>
 						</Grid>
-						<Grid item>
+						<Grid item xs={1}>
 							<Tooltip title='Add Project' aria-label='Add project'>
 								<IconButton color='primary' onClick={onOpen}>
 									<AddCircleIcon />

@@ -52,6 +52,14 @@ const useStyles = makeStyles((theme: Theme) => {
 			left: '50%',
 			transform: `translate(-50%, -50%)`,
 			padding: theme.spacing(3),
+
+			[theme.breakpoints.down('sm')]: {
+				width: '55%',
+			},
+
+			[theme.breakpoints.down('xs')]: {
+				width: '90%',
+			},
 		},
 		heading: {
 			marginBottom: theme.spacing(2),

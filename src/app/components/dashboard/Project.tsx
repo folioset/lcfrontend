@@ -46,7 +46,7 @@ const Project: React.FC<ProjectProps> = () => {
 				onClose={onClose}
 				aria-labelledby='simple-modal-title'
 				aria-describedby='simple-modal-description'>
-				<PdfView filename={samplePDF} />
+				<PdfView onClose={onClose} filename={samplePDF} />
 			</Modal>
 
 			<Card elevation={3}>
