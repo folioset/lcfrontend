@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Page } from 'react-pdf';
 
 import { Document } from 'react-pdf/dist/esm/entry.webpack';
-import Loader from '../Loader/Loader';
+import Loader from './Loader';
 
 interface PdfViewProps {
 	filename: any;

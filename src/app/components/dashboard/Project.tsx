@@ -14,9 +14,9 @@ import {
 import { PictureAsPdf } from '@material-ui/icons';
 import * as React from 'react';
 import useDisclosure from '../../hooks/useDisclosure';
-import Rating from '../shared/Rating/Rating';
+import Rating from '../shared/Rating';
 import samplePDF from '../../../assets/test.pdf';
-import PdfView from '../shared/PdfView/PdfView';
+import PdfView from '../shared/PdfView';
 
 interface ProjectProps {}
 
@@ -64,7 +64,7 @@ const Project: React.FC<ProjectProps> = () => {
 				/>
 				<CardContent>
 					<Grid container spacing={4}>
-						<Grid item xl={9}>
+						<Grid item xs={8}>
 							<Typography
 								variant='body2'
 								className={classes.projectDescription}>
@@ -74,7 +74,7 @@ const Project: React.FC<ProjectProps> = () => {
 							</Typography>
 						</Grid>
 
-						<Grid item xl={3}>
+						<Grid item xs={3}>
 							<Box textAlign='center'>
 								<IconButton
 									onClick={onOpen}

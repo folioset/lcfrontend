@@ -15,7 +15,7 @@ import axios from 'axios';
 import { Formik, Form } from 'formik';
 import { User } from '../../types';
 import { useHistory } from 'react-router';
-import FormInput from '../../components/shared/FormInput/FormInput';
+import FormInput from '../../components/shared/FormInput';
 
 const userProfileInitState = (user: any) => {
 	return {

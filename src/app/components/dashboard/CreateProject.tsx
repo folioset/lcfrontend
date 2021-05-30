@@ -1,8 +1,6 @@
 import {
-	Box,
 	Button,
 	Container,
-	IconButton,
 	makeStyles,
 	Paper,
 	Theme,
@@ -11,11 +9,40 @@ import {
 import { Autocomplete } from '@material-ui/lab';
 import { Form, Formik } from 'formik';
 import * as React from 'react';
-import FormInput from '../shared/FormInput/FormInput';
-import BackupIcon from '@material-ui/icons/Backup';
+import * as Yup from 'yup';
+import FormInput from '../shared/FormInput';
 import { PictureAsPdf } from '@material-ui/icons';
+import FileUpload from '../shared/FileUpload';
 
 interface CreateProjectProps {}
+
+interface InitialValues {
+	title: string;
+	description: string;
+	contributors: string;
+	file: null | File;
+}
+
+const initialValues: InitialValues = {
+	title: '',
+	description: '',
+	contributors: '',
+	file: null,
+};
+
+const SUPPORTED_FORMATS = ['application/pdf'];
+
+const validationSchema = Yup.object().shape({
+	title: Yup.string().required('project title is required'),
+	description: Yup.string().required('project description is required'),
+	file: Yup.mixed()
+		.required('your project file is required')
+		.test(
+			'fileFormat',
+			'Unsupported Format. Please upload pdfs only',
+			(value: File) => value && SUPPORTED_FORMATS.includes(value.type)
+		),
+});
 
 const useStyles = makeStyles((theme: Theme) => {
 	return {
@@ -38,7 +65,7 @@ const useStyles = makeStyles((theme: Theme) => {
 	};
 });
 
-const CreateProject: React.FC<CreateProjectProps> = () => {
+const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(() => {
 	const classes = useStyles();
 
 	return (
@@ -49,78 +76,68 @@ const CreateProject: React.FC<CreateProjectProps> = () => {
 						Create Project
 					</Typography>
 					<Formik
-						onSubmit={() => {}}
-						initialValues={{
-							title: '',
-							description: '',
-							contributors: '',
-						}}>
-						{() => (
-							<Form noValidate autoComplete='off'>
-								<FormInput
-									name='title'
-									fullWidth
-									variant='outlined'
-									label='Project Title'
-									size='small'
-								/>
-								<FormInput
-									name='description'
-									fullWidth
-									variant='outlined'
-									size='small'
-									label='Description'
-								/>
-
-								<Box className={classes.fileUpload}>
-									<Button
-										startIcon={<BackupIcon />}
+						onSubmit={() => {
+							console.log('here');
+						}}
+						initialValues={initialValues}
+						validationSchema={validationSchema}>
+						{({ setFieldValue, values, errors }) => {
+							console.log(values);
+							return (
+								<Form noValidate autoComplete='off'>
+									<FormInput
+										name='title'
+										fullWidth
+										variant='outlined'
+										label='Project Title'
+										size='small'
+									/>
+									<FormInput
+										name='description'
+										fullWidth
 										variant='outlined'
 										size='small'
-										htmlFor='file'
-										component='label'>
-										Upload File
-									</Button>
-									<input
-										style={{ display: 'none' }}
-										id='file'
-										name='file'
-										type='file'
+										label='Description'
 									/>
-									<Box>
-										<Typography variant='caption'>filename.pdf</Typography>
-										<IconButton color='primary'>
-											<PictureAsPdf />
-										</IconButton>
-									</Box>
-								</Box>
 
-								<Autocomplete
-									id='contributors-auto-complete'
-									options={['user 1', 'user 2']}
-									getOptionLabel={(option) => option}
-									renderInput={(params) => (
-										<FormInput
-											{...params}
-											name='contributors'
-											fullWidth
-											variant='outlined'
-											size='small'
-											label='Contributors'
-										/>
-									)}
-								/>
+									<FileUpload
+										error={errors.file}
+										filename={values.file?.name}
+										icon={<PictureAsPdf />}
+										setFieldValue={setFieldValue}
+									/>
 
-								<Button size='small' variant='contained' color='primary'>
-									Create Project
-								</Button>
-							</Form>
-						)}
+									<Autocomplete
+										id='contributors-auto-complete'
+										options={['user 1', 'user 2']}
+										getOptionLabel={(option) => option}
+										renderInput={(params) => (
+											<FormInput
+												{...params}
+												name='contributors'
+												fullWidth
+												variant='outlined'
+												size='small'
+												label='Contributors'
+											/>
+										)}
+									/>
+
+									<Button
+										type='submit'
+										size='small'
+										variant='contained'
+										color='primary'>
+										Create Project
+									</Button>
+								</Form>
+							);
+						}}
 					</Formik>
 				</Container>
 			</Paper>
 		</>
 	);
-};
+});
 
 export default CreateProject;

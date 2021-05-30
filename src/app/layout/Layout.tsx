@@ -9,7 +9,7 @@ import AppLayout from './page-layouts/AppLayout';
 import OnBoardingLayout from './page-layouts/OnBoardingLayout';
 
 // components
-import Loader from '../components/shared/Loader/Loader';
+import Loader from '../components/shared/Loader';
 
 const Layout: React.FC = () => {
 	const { layout } = React.useContext(LayoutContext);

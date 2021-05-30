@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core';
 
 // Components
-import FormInput from '../../../components/shared/FormInput/FormInput';
+import FormInput from '../../../components/shared/FormInput';
 
 // styles
 const useStyles = makeStyles((theme) => {

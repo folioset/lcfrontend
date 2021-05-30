@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import Paper from '@material-ui/core/Paper';
 import Modal from '@material-ui/core/Modal';
 import Grid from '@material-ui/core/Grid';
@@ -60,44 +59,38 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
 								src='/userphoto.png'
 							/>
 						</Grid>
-						<Grid
-							className={classes.details}
-							item
-							xs={10}
-							sm
-							direction='column'
-							spacing={2}>
-							<Typography gutterBottom variant='subtitle1'>
-								{user.name} (Name)
-							</Typography>
-							{user.linkedinUrl ? (
-								<>
-									<Box mb={2}>
-										<Typography variant='body2' gutterBottom>
-											{user.about} (Headline)
-										</Typography>
+						<Grid className={classes.details} item xs={10} sm>
+							<Grid container direction='column' spacing={2}>
+								<Typography gutterBottom variant='subtitle1'>
+									{user.name} (Name)
+								</Typography>
+								{user.linkedinUrl ? (
+									<>
+										<Box mb={2}>
+											<Typography variant='body2' gutterBottom>
+												{user.about} (Headline)
+											</Typography>
 
-										<Typography variant='body2' color='textSecondary'>
-											Hyderabad, India (Location)
-										</Typography>
-									</Box>
+											<Typography variant='body2' color='textSecondary'>
+												Hyderabad, India (Location)
+											</Typography>
+										</Box>
 
-									{/* <a
-										href={user.linkedinUrl}
-										color='primary'
-										className={classes.link}>
-										<Typography
-											noWrap={user.linkedinUrl.length > 40}
-											variant='caption'>
-											{user.linkedinUrl}
-										</Typography>
-									</a> */}
-								</>
-							) : (
-								<Link component={RouterLink} to='/dashboard/me/update'>
-									Click Here to update your profile
-								</Link>
-							)}
+										<Link
+											href={`https://${user.linkedinUrl}`}
+											color='primary'
+											className={classes.link}>
+											<Typography variant='caption'>
+												{user.linkedinUrl}
+											</Typography>
+										</Link>
+									</>
+								) : (
+									<Link component={RouterLink} to='/dashboard/me/update'>
+										Click Here to update your profile
+									</Link>
+								)}
+							</Grid>
 						</Grid>
 						<Grid item>
 							<Tooltip title='Add Project' aria-label='Add project'>

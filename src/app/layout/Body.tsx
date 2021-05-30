@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Redirect, Route, Switch } from 'react-router';
-import Loader from '../components/shared/Loader/Loader';
+import Loader from '../components/shared/Loader';
 
 // Pages
 const ErrorPage = React.lazy(() => import('../pages/404'));

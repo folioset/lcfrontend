@@ -19,7 +19,7 @@ import NavItem from './NavItem';
 
 // types
 import { User } from '../../../types';
-import Logo from '../../../components/shared/Logo/Logo';
+import Logo from '../../../components/shared/Logo';
 
 // Styles
 const useStyles = makeStyles((theme) => {

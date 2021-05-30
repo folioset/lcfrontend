@@ -1,8 +1,6 @@
 import * as React from 'react';
 
-const useDisclosure: (
-	t?: boolean
-) => {
+const useDisclosure: (t?: boolean) => {
 	isOpen: boolean;
 	onClose: () => void;
 	onOpen: () => void;

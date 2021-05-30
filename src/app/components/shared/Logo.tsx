@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ReactComponent as LogoIcon } from './../../../../assets/logo.svg';
+import { ReactComponent as LogoIcon } from './../../../assets/logo.svg';
 import { Box, makeStyles, Typography } from '@material-ui/core';
 
 interface LogoProps {
