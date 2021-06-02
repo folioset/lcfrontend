@@ -44,7 +44,7 @@ const Dashboard: React.FC = () => {
 	return (
 		<>
 			<Box className={classes.root}>
-				<Container maxWidth='sm'>
+				<Container maxWidth='md'>
 					<Box my={5}>
 						<Profile user={user} />
 					</Box>

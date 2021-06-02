@@ -16,10 +16,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 	root: {
 		flexGrow: 1,
 	},
-	paper: {
-		margin: 'auto',
-		maxWidth: 700,
-	},
+	paper: {},
 	details: {
 		padding: theme.spacing(3),
 		marginTop: theme.spacing(2),
@@ -78,7 +75,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
 
 										<Link
 											href={`https://${user.linkedinUrl}`}
-											color='primary'
+											color='secondary'
 											className={classes.link}>
 											<Typography variant='caption'>
 												{user.linkedinUrl}

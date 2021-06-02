@@ -13,8 +13,8 @@ const StyledRating = withStyles((theme: Theme) => {
 	};
 })(MuiRating);
 
-const Rating: React.FC<RatingProps> = ({ ...props }) => {
-	return <StyledRating {...props} />;
+const Rating: React.FC<RatingProps> = ({ precision = 0.5, ...props }) => {
+	return <StyledRating precision={precision} {...props} />;
 };
 
 export default Rating;
