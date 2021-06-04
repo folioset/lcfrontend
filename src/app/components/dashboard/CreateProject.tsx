@@ -1,5 +1,6 @@
 import {
 	Button,
+	CircularProgress,
 	Container,
 	makeStyles,
 	Paper,
@@ -13,6 +14,8 @@ import * as Yup from 'yup';
 import FormInput from '../shared/FormInput';
 import { PictureAsPdf } from '@material-ui/icons';
 import FileUpload from '../shared/FileUpload';
+import { useMutation, useQueryClient } from 'react-query';
+import axios from 'axios';
 
 interface CreateProjectProps {}
 
@@ -75,6 +78,20 @@ const useStyles = makeStyles((theme: Theme) => {
 
 const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(() => {
 	const classes = useStyles();
+	const queryClient = useQueryClient();
+	const { mutate } = useMutation(
+		(data) =>
+			axios({
+				method: 'POST',
+				url: `/api/project`,
+				data,
+			}),
+		{
+			onSuccess: () => {
+				queryClient.invalidateQueries('my-projects');
+			},
+		}
+	);
 
 	return (
 		<>
@@ -84,13 +101,20 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(() => {
 						Create Project
 					</Typography>
 					<Formik
-						onSubmit={() => {
-							console.log('here');
+						onSubmit={({ title, description, contributors, file }) => {
+							const data = new FormData();
+							data.append('title', title);
+							data.append('description', description);
+							data.append('contributors', contributors);
+							if (file) {
+								data.append('file', file);
+							}
+							return mutate(data as any);
 						}}
 						initialValues={initialValues}
 						validationSchema={validationSchema}>
-						{({ setFieldValue, values, errors }) => {
-							console.log(values);
+						{({ setFieldValue, values, errors, isSubmitting, touched }) => {
+							// console.log(values);
 							return (
 								<Form noValidate autoComplete='off'>
 									<FormInput
@@ -110,6 +134,7 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(() => {
 
 									<FileUpload
 										error={errors.file}
+										touched={touched.file!}
 										filename={values.file?.name}
 										icon={<PictureAsPdf />}
 										setFieldValue={setFieldValue}
@@ -134,6 +159,14 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(() => {
 									<Button
 										type='submit'
 										size='small'
+										startIcon={
+											isSubmitting ? (
+												<CircularProgress
+													size='small'
+													style={{ color: 'white' }}
+												/>
+											) : null
+										}
 										variant='contained'
 										color='primary'>
 										Create Project

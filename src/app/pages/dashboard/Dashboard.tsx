@@ -5,9 +5,10 @@ import Container from '@material-ui/core/Container';
 import { makeStyles, Typography } from '@material-ui/core';
 
 import Profile from '../../components/dashboard/Profile';
-import { useQueryClient } from 'react-query';
-import { User } from '../../types';
+import { useQuery, useQueryClient } from 'react-query';
+import { Project as ProjectType, User } from '../../types';
 import Project from '../../components/dashboard/Project';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => {
 	return {
@@ -40,6 +41,20 @@ const Dashboard: React.FC = () => {
 	const classes = useStyles();
 	const queryClient = useQueryClient();
 	const user = queryClient.getQueryData<User>('user')!;
+	const { isLoading, data } = useQuery<ProjectType[]>(
+		'my-projects',
+		async () => {
+			try {
+				const res = await axios.get(`/api/user/${user._id}/get-all-projects`);
+				return res.data;
+			} catch (err) {
+				return err;
+			}
+		}
+	);
+
+	console.log(isLoading);
+	console.log(data);
 
 	return (
 		<>
@@ -54,7 +69,12 @@ const Dashboard: React.FC = () => {
 								Your Projects
 							</Typography>
 						</Box>
-						<Project />
+						{isLoading && (
+							<Typography color='primary'>Loading Projects ....</Typography>
+						)}
+						{data?.map((project: ProjectType) => {
+							return <Project {...{ project }} />;
+						})}
 					</Box>
 				</Container>
 			</Box>

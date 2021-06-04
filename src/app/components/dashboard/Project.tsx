@@ -18,12 +18,15 @@ import { PictureAsPdf } from '@material-ui/icons';
 import * as React from 'react';
 import useDisclosure from '../../hooks/useDisclosure';
 import Rating from '../shared/Rating';
-import samplePDF from '../../../assets/test.pdf';
+// import samplePDF from '../../../assets/test.pdf';
 import PdfView from '../shared/PdfView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import clsx from 'clsx';
+import { Project as ProjectType } from '../../types';
 
-interface ProjectProps {}
+interface ProjectProps {
+	project: ProjectType;
+}
 
 const useStyles = makeStyles((theme: Theme) => {
 	return {
@@ -67,18 +70,14 @@ const useStyles = makeStyles((theme: Theme) => {
 	};
 });
 
-const Project: React.FC<ProjectProps> = () => {
+const Project: React.FC<ProjectProps> = ({ project }) => {
 	const {
 		isOpen: isModalOpen,
 		onOpen: onModalOpen,
 		onClose: onModalClose,
 	} = useDisclosure();
+	const { isOpen: expanded, toggleOpen: toggleExpanded } = useDisclosure();
 	const classes = useStyles();
-	const [expanded, setExpanded] = React.useState(false);
-
-	const handleExpandClick = () => {
-		setExpanded(!expanded);
-	};
 
 	return (
 		<>
@@ -87,7 +86,7 @@ const Project: React.FC<ProjectProps> = () => {
 				onClose={onModalClose}
 				aria-labelledby='project-file'
 				aria-describedby='pdf file of the project'>
-				<PdfView onClose={onModalClose} filename={samplePDF} />
+				<PdfView onClose={onModalClose} filename={project.projectFile} />
 			</Modal>
 
 			<Card elevation={3}>
@@ -100,8 +99,10 @@ const Project: React.FC<ProjectProps> = () => {
 							8.0 / 10
 						</Typography>
 					}
-					title='Improving Pharmeasy'
-					subheader='posted on 12th Mar'
+					title={project.title}
+					subheader={`posted on ${new Date(
+						project.createdAt
+					).toLocaleDateString()}`}
 				/>
 				<CardContent>
 					<Grid container spacing={4}>
@@ -109,9 +110,7 @@ const Project: React.FC<ProjectProps> = () => {
 							<Typography
 								variant='body2'
 								className={classes.projectDescription}>
-								I have examined pharmeasy and how to improve it by looking at
-								user personas, user journey mapping and understanding what pain
-								points customers have while using the pharmeasy app
+								{project.description}
 							</Typography>
 						</Grid>
 
@@ -141,7 +140,7 @@ const Project: React.FC<ProjectProps> = () => {
 						</Box>
 						<Button
 							size='small'
-							onClick={handleExpandClick}
+							onClick={toggleExpanded}
 							aria-expanded={expanded}
 							aria-label='show more'
 							color='primary'

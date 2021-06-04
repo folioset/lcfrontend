@@ -18,6 +18,7 @@ interface FileUploadProps {
 	) => void;
 	filename?: string;
 	icon: React.ReactNode;
+	touched: boolean;
 }
 
 const useStyles = makeStyles((theme: Theme) => {
@@ -46,6 +47,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
 	filename,
 	setFieldValue,
 	icon,
+	touched,
 }) => {
 	const classes = useStyles();
 
@@ -67,7 +69,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
 						color: 'red',
 						marginLeft: 15,
 					}}>
-					{error && error}
+					{touched && error && error}
 				</small>
 			</Box>
 			<input

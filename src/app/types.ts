@@ -34,3 +34,16 @@ export type User = {
 	schedule: Schedule[];
 	careerOptions: CareerOptions[];
 };
+
+export type Project = {
+	contributors: string[];
+	createdAt: Date | string | number;
+	createdBy: string;
+	description: string;
+	projectFile: string;
+	reviewsAndRatings?: any;
+	title: string;
+	updatedAt?: Date | string | number;
+	__v?: number;
+	_id: string;
+};

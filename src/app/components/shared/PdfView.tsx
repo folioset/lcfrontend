@@ -6,11 +6,13 @@ import {
 	useMediaQuery,
 } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
+// import axios from 'axios';
 import clsx from 'clsx';
 import * as React from 'react';
 import { Page } from 'react-pdf';
 
 import { Document } from 'react-pdf/dist/esm/entry.webpack';
+// import { useQuery } from 'react-query';
 import Loader from './Loader';
 
 interface PdfViewProps {
@@ -49,6 +51,8 @@ const PdfView: React.FC<PdfViewProps> = ({ filename, onClose }) => {
 	const laptopWidth = useMediaQuery('(min-width: 960px)');
 	const tabletWidth = useMediaQuery('(min-width: 650px)');
 	const mobileWidth = useMediaQuery('(min-width: 300px)');
+
+	console.log({ filename });
 
 	const resizePdf = React.useCallback(() => {
 		if (laptopWidth) {
