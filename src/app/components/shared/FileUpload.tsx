@@ -8,18 +8,16 @@ import {
 } from '@material-ui/core';
 import BackupIcon from '@material-ui/icons/Backup';
 import * as React from 'react';
+import { FieldAttributes, useField } from 'formik';
 
-interface FileUploadProps {
-	error?: string;
-	setFieldValue: (
-		field: string,
-		value: any,
-		shouldValidate?: boolean | undefined
-	) => void;
-	filename?: string;
-	icon: React.ReactNode;
-	touched: boolean;
-}
+type FileUploadProps = FieldAttributes<{}> &
+	React.DetailedHTMLProps<
+		React.InputHTMLAttributes<HTMLInputElement>,
+		HTMLInputElement
+	> & {
+		filename?: string;
+		icon: React.ReactNode;
+	};
 
 const useStyles = makeStyles((theme: Theme) => {
 	return {
@@ -43,13 +41,16 @@ const useStyles = makeStyles((theme: Theme) => {
 });
 
 const FileUpload: React.FC<FileUploadProps> = ({
-	error,
 	filename,
-	setFieldValue,
 	icon,
-	touched,
+	...props
 }) => {
 	const classes = useStyles();
+	const [
+		{ value, name, onChange, ...field },
+		{ touched, error },
+		{ setValue },
+	] = useField(props);
 
 	return (
 		<Box className={classes.fileUpload}>
@@ -58,7 +59,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
 					startIcon={<BackupIcon />}
 					variant='outlined'
 					size='small'
-					htmlFor='file'
+					htmlFor={name}
 					component='label'>
 					Upload File
 				</Button>
@@ -73,13 +74,16 @@ const FileUpload: React.FC<FileUploadProps> = ({
 				</small>
 			</Box>
 			<input
+				id={name}
+				name={name}
 				style={{ display: 'none' }}
-				id='file'
-				name='file'
 				type='file'
-				onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-					setFieldValue('file', event.target!.files![0]);
+				onChange={(e) => {
+					if (e.target.files) {
+						setValue(e.target.files[0]);
+					}
 				}}
+				{...field}
 			/>
 			<Box>
 				<Typography variant='caption'>{filename}</Typography>

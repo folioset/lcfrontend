@@ -53,9 +53,6 @@ const Dashboard: React.FC = () => {
 		}
 	);
 
-	console.log(isLoading);
-	console.log(data);
-
 	return (
 		<>
 			<Box className={classes.root}>
@@ -70,7 +67,9 @@ const Dashboard: React.FC = () => {
 							</Typography>
 						</Box>
 						{isLoading && (
-							<Typography color='primary'>Loading Projects ....</Typography>
+							<Box textAlign='center'>
+								<Typography color='primary'>Loading Projects ....</Typography>
+							</Box>
 						)}
 						{data?.map((project: ProjectType) => {
 							return <Project {...{ project }} />;

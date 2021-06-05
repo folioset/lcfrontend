@@ -19,7 +19,7 @@ import * as React from 'react';
 import useDisclosure from '../../hooks/useDisclosure';
 import Rating from '../shared/Rating';
 // import samplePDF from '../../../assets/test.pdf';
-import PdfView from '../shared/PdfView';
+import PdfView from '../shared/Pdf/PdfView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import clsx from 'clsx';
 import { Project as ProjectType } from '../../types';
@@ -30,6 +30,9 @@ interface ProjectProps {
 
 const useStyles = makeStyles((theme: Theme) => {
 	return {
+		projectCard: {
+			marginBottom: theme.spacing(4),
+		},
 		projectDescription: {
 			textAlign: 'justify',
 		},
@@ -89,7 +92,7 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
 				<PdfView onClose={onModalClose} filename={project.projectFile} />
 			</Modal>
 
-			<Card elevation={3}>
+			<Card elevation={3} className={classes.projectCard}>
 				<CardHeader
 					action={
 						<Typography
@@ -119,7 +122,6 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
 								<IconButton color='primary'>
 									<PictureAsPdf />
 								</IconButton>
-
 								<Typography variant='caption'>Your file.pdf</Typography>
 							</Box>
 						</Grid>

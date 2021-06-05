@@ -17,7 +17,9 @@ import FileUpload from '../shared/FileUpload';
 import { useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
 
-interface CreateProjectProps {}
+interface CreateProjectProps {
+	onClose: () => void;
+}
 
 interface InitialValues {
 	title: string;
@@ -37,7 +39,9 @@ const SUPPORTED_FORMATS = ['application/pdf'];
 
 const validationSchema = Yup.object().shape({
 	title: Yup.string().required('project title is required'),
-	description: Yup.string().required('project description is required'),
+	description: Yup.string()
+		.required('project description is required')
+		.max(200, 'You can only enter a max of 200 characters'),
 	file: Yup.mixed()
 		.required('your project file is required')
 		.test(
@@ -76,109 +80,122 @@ const useStyles = makeStyles((theme: Theme) => {
 	};
 });
 
-const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(() => {
-	const classes = useStyles();
-	const queryClient = useQueryClient();
-	const { mutate } = useMutation(
-		(data) =>
-			axios({
-				method: 'POST',
-				url: `/api/project`,
-				data,
-			}),
-		{
-			onSuccess: () => {
-				queryClient.invalidateQueries('my-projects');
-			},
-		}
-	);
+const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
+	({ onClose }) => {
+		const classes = useStyles();
+		const queryClient = useQueryClient();
+		const { mutate } = useMutation(
+			(data) =>
+				axios({
+					method: 'POST',
+					url: `/api/project`,
+					data,
+				}),
+			{
+				onSuccess: () => {
+					queryClient.invalidateQueries('my-projects');
+				},
+				onSettled: (data) => {
+					if (data) {
+						onClose();
+					}
+				},
+			}
+		);
 
-	return (
-		<>
-			<Paper className={classes.container}>
-				<Container>
-					<Typography color='primary' variant='h5' className={classes.heading}>
-						Create Project
-					</Typography>
-					<Formik
-						onSubmit={({ title, description, contributors, file }) => {
-							const data = new FormData();
-							data.append('title', title);
-							data.append('description', description);
-							data.append('contributors', contributors);
-							if (file) {
-								data.append('file', file);
-							}
-							return mutate(data as any);
-						}}
-						initialValues={initialValues}
-						validationSchema={validationSchema}>
-						{({ setFieldValue, values, errors, isSubmitting, touched }) => {
-							// console.log(values);
-							return (
-								<Form noValidate autoComplete='off'>
-									<FormInput
-										name='title'
-										fullWidth
-										variant='outlined'
-										label='Project Title'
-										size='small'
-									/>
-									<FormInput
-										name='description'
-										fullWidth
-										variant='outlined'
-										size='small'
-										label='Description'
-									/>
+		return (
+			<>
+				<Paper className={classes.container}>
+					<Container>
+						<Typography
+							color='primary'
+							variant='h5'
+							className={classes.heading}>
+							Create Project
+						</Typography>
+						<Formik
+							onSubmit={async (
+								{ title, description, contributors, file },
+								{ resetForm }
+							) => {
+								const data = new FormData();
+								data.append('title', title);
+								data.append('description', description);
+								data.append('contributors', contributors);
+								if (file) {
+									data.append('file', file);
+								}
+								await mutate(data as any);
+								resetForm();
+							}}
+							initialValues={initialValues}
+							validationSchema={validationSchema}>
+							{({ values, isSubmitting }) => {
+								return (
+									<Form noValidate autoComplete='off'>
+										<FormInput
+											name='title'
+											fullWidth
+											variant='outlined'
+											label='Project Title'
+											size='small'
+										/>
+										<FormInput
+											name='description'
+											fullWidth
+											multiline
+											rows={4}
+											variant='outlined'
+											size='small'
+											label='Description'
+										/>
 
-									<FileUpload
-										error={errors.file}
-										touched={touched.file!}
-										filename={values.file?.name}
-										icon={<PictureAsPdf />}
-										setFieldValue={setFieldValue}
-									/>
+										<FileUpload
+											name='file'
+											filename={values.file?.name}
+											icon={<PictureAsPdf />}
+										/>
 
-									<Autocomplete
-										id='contributors-auto-complete'
-										options={['user 1', 'user 2']}
-										getOptionLabel={(option) => option}
-										renderInput={(params) => (
-											<FormInput
-												{...params}
-												name='contributors'
-												fullWidth
-												variant='outlined'
-												size='small'
-												label='Contributors'
-											/>
-										)}
-									/>
-
-									<Button
-										type='submit'
-										size='small'
-										startIcon={
-											isSubmitting ? (
-												<CircularProgress
+										<Autocomplete
+											id='contributors-auto-complete'
+											options={['user 1', 'user 2']}
+											getOptionLabel={(option) => option}
+											renderInput={(params) => (
+												<FormInput
+													{...params}
+													name='contributors'
+													fullWidth
+													variant='outlined'
 													size='small'
-													style={{ color: 'white' }}
+													label='Contributors'
 												/>
-											) : null
-										}
-										variant='contained'
-										color='primary'>
-										Create Project
-									</Button>
-								</Form>
-							);
-						}}
-					</Formik>
-				</Container>
-			</Paper>
-		</>
-	);
-});
+											)}
+										/>
+
+										<Button
+											type='submit'
+											size='small'
+											startIcon={
+												isSubmitting ? (
+													<CircularProgress
+														size='small'
+														style={{ color: 'white' }}
+													/>
+												) : null
+											}
+											variant='contained'
+											color='primary'>
+											Create Project
+										</Button>
+									</Form>
+								);
+							}}
+						</Formik>
+					</Container>
+				</Paper>
+			</>
+		);
+	}
+);
 
 export default CreateProject;

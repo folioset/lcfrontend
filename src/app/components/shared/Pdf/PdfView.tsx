@@ -13,7 +13,8 @@ import { Page } from 'react-pdf';
 
 import { Document } from 'react-pdf/dist/esm/entry.webpack';
 // import { useQuery } from 'react-query';
-import Loader from './Loader';
+import Loader from '../Loader';
+import SamplePdf from './../../../../assets/test.pdf';
 
 interface PdfViewProps {
 	filename: any;
@@ -52,17 +53,13 @@ const PdfView: React.FC<PdfViewProps> = ({ filename, onClose }) => {
 	const tabletWidth = useMediaQuery('(min-width: 650px)');
 	const mobileWidth = useMediaQuery('(min-width: 300px)');
 
-	console.log({ filename });
-
 	const resizePdf = React.useCallback(() => {
 		if (laptopWidth) {
-			setWidth(800);
+			setWidth(1000);
 		} else if (tabletWidth) {
 			setWidth(600);
 		} else if (mobileWidth) {
 			setWidth(window.innerWidth - 200);
-		} else {
-			setWidth(1000);
 		}
 	}, [mobileWidth, tabletWidth, laptopWidth]);
 
@@ -86,7 +83,7 @@ const PdfView: React.FC<PdfViewProps> = ({ filename, onClose }) => {
 
 			<Box className={clsx(classes.pdfView, 'hide-scrollbar')}>
 				<Document
-					file={filename}
+					file={SamplePdf}
 					loading={
 						<Box className='hide-scrollbar'>
 							<Loader fullScreen />

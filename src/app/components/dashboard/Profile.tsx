@@ -44,7 +44,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
 				onClose={onClose}
 				aria-labelledby='simple-modal-title'
 				aria-describedby='simple-modal-description'>
-				<CreateProject />
+				<CreateProject {...{ onClose }} />
 			</Modal>
 			<Box className={classes.root}>
 				<Paper elevation={3} className={classes.paper}>
