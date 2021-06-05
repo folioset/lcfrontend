@@ -20,9 +20,23 @@ const useStyles = makeStyles((theme: Theme) => ({
 	details: {
 		padding: theme.spacing(3),
 		marginTop: theme.spacing(2),
+
+		[theme.breakpoints.down('sm')]: {
+			paddingLeft: theme.spacing(1),
+			paddingRight: theme.spacing(1),
+			paddingTop: theme.spacing(2),
+			paddingBottom: theme.spacing(2),
+		},
 	},
 	avatar: {
 		backgroundColor: theme.palette.primary.light,
+	},
+	addProjectGridBtn: {
+		[theme.breakpoints.down('sm')]: {
+			display: 'flex',
+			flexDirection: 'row',
+			justifyContent: 'center',
+		},
 	},
 	link: {
 		cursor: 'pointer',
@@ -90,11 +104,13 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
 							</Grid>
 						</Grid>
 						<Grid item xs={1}>
-							<Tooltip title='Add Project' aria-label='Add project'>
-								<IconButton color='primary' onClick={onOpen}>
-									<AddCircleIcon />
-								</IconButton>
-							</Tooltip>
+							<Box className={classes.addProjectGridBtn}>
+								<Tooltip title='Add Project' aria-label='Add project'>
+									<IconButton color='primary' onClick={onOpen}>
+										<AddCircleIcon />
+									</IconButton>
+								</Tooltip>
+							</Box>
 						</Grid>
 					</Grid>
 				</Paper>

@@ -70,6 +70,27 @@ const useStyles = makeStyles((theme: Theme) => {
 			display: 'block',
 			marginLeft: 'auto',
 		},
+		seeAllReviewsBtn: {
+			marginRight: theme.spacing(2),
+
+			[theme.breakpoints.down('md')]: {
+				marginRight: 0,
+				marginBottom: theme.spacing(1),
+			},
+		},
+		reviewBtns: {
+			display: 'flex',
+			justifyContent: 'center',
+			alignItems: 'center',
+
+			[theme.breakpoints.down('md')]: {
+				flexDirection: 'column',
+
+				'& > *': {
+					width: '100%',
+				},
+			},
+		},
 	};
 });
 
@@ -134,12 +155,14 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
 						</Typography>
 						<Rating max={10} name='project rating' />
 					</Box>
-					<Box>
-						<Box display='inline-block' mr={2}>
-							<Button size='small' color='primary' variant='outlined'>
-								See all reviews
-							</Button>
-						</Box>
+					<Box className={classes.reviewBtns}>
+						<Button
+							className={classes.seeAllReviewsBtn}
+							size='small'
+							color='primary'
+							variant='outlined'>
+							See all reviews
+						</Button>
 						<Button
 							size='small'
 							onClick={toggleExpanded}
