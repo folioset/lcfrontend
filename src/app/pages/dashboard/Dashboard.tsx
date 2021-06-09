@@ -13,14 +13,13 @@ import axios from 'axios';
 const useStyles = makeStyles((theme) => {
 	return {
 		root: {
-			height: '100vh',
+			minHeight: '100vh',
 			backgroundColor: theme.palette.common.white,
 			padding: theme.spacing(4),
 
 			[theme.breakpoints.down('md')]: {
 				padding: theme.spacing(2),
 				height: 'auto',
-				minHeight: '100vh',
 			},
 
 			[theme.breakpoints.down('sm')]: {
