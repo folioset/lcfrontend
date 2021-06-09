@@ -6,6 +6,7 @@ import Loader from '../components/shared/Loader';
 const ErrorPage = React.lazy(() => import('../pages/404'));
 const Dashboard = React.lazy(() => import('../pages/dashboard'));
 const Home = React.lazy(() => import('../pages/Home'));
+const OnBoarding = React.lazy(() => import('../pages/onboarding'));
 
 // import OnBoarding from '../pages/onboarding/OnBoarding';
 
@@ -17,9 +18,9 @@ const Body: React.FC = () => {
 					<Home />
 				</Route>
 
-				{/* <Route path='/onboarding' exact>
-				<OnBoarding />
-			</Route> */}
+				<Route path='/onboarding' exact>
+					<OnBoarding />
+				</Route>
 
 				<Route path='/dashboard'>
 					<Dashboard />

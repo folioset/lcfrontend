@@ -3,7 +3,7 @@ import { ReactComponent as LogoIcon } from './../../../assets/logo.svg';
 import { Box, makeStyles, Typography } from '@material-ui/core';
 
 interface LogoProps {
-	onClick: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+	onClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 }
 
 const useStyles = makeStyles((theme) => {

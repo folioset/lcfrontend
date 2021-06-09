@@ -18,7 +18,7 @@ import StepperIcon from '../../components/onboarding/StepperIcon';
 import StepConnector from '../../components/onboarding/StepConnector';
 
 // hooks
-import useAuthRoute from './../../hooks/useAuthRoute';
+import useAuthRoute from '../../hooks/useAuthRoute';
 
 // styles
 const useStyles = makeStyles((theme: Theme) =>

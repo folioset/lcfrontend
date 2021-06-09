@@ -33,6 +33,8 @@ export type User = {
 	isUpdated?: boolean;
 	schedule: Schedule[];
 	careerOptions: CareerOptions[];
+	isVerified: boolean;
+	username?: string;
 };
 
 export type Project = {

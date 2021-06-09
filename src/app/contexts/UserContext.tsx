@@ -23,13 +23,18 @@ const UserContextProvider: React.FC<UserContextProps> = ({ children }: any) => {
 		},
 		{
 			onSuccess: (data) => {
+				console.log(data);
 				if (data) {
-					history.replace(
-						location.pathname.startsWith('/dashboard') ||
-							location.pathname.startsWith('/projects')
-							? location.pathname
-							: '/dashboard'
-					);
+					if (!data.isVerified) {
+						history.replace('/onboarding');
+					} else {
+						history.replace(
+							location.pathname.startsWith('/dashboard') ||
+								location.pathname.startsWith('/projects')
+								? location.pathname
+								: '/dashboard'
+						);
+					}
 				} else {
 					history.replace('/');
 				}
