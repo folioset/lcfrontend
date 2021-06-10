@@ -7,6 +7,7 @@ const ErrorPage = React.lazy(() => import('../pages/404'));
 const Dashboard = React.lazy(() => import('../pages/dashboard'));
 const Home = React.lazy(() => import('../pages/Home'));
 const OnBoarding = React.lazy(() => import('../pages/onboarding'));
+const Public = React.lazy(() => import('../pages/public/PublicProfile'));
 
 // import OnBoarding from '../pages/onboarding/OnBoarding';
 
@@ -28,6 +29,10 @@ const Body: React.FC = () => {
 
 				<Route path='/error' exact>
 					<ErrorPage />
+				</Route>
+
+				<Route path='/public'>
+					<Public />
 				</Route>
 
 				<Redirect to='/error' />

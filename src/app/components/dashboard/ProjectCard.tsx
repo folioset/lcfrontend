@@ -22,7 +22,7 @@ import Rating from '../shared/Rating';
 import PdfView from '../shared/Pdf/PdfView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import clsx from 'clsx';
-import { Project as ProjectType } from '../../types';
+import { Project } from '../../types';
 import * as Yup from 'yup';
 import { Form, Formik } from 'formik';
 import FormInput from '../shared/FormInput';
@@ -31,7 +31,8 @@ import axios from 'axios';
 import ProjectReviewDrawer from './ProjectReviewDrawer';
 
 interface ProjectProps {
-	project: ProjectType;
+	project: Project;
+	isPublic?: boolean;
 }
 
 const validationSchema = Yup.object().shape({
@@ -70,10 +71,12 @@ const useStyles = makeStyles((theme: Theme) => {
 		expandOpen: {
 			transform: 'rotate(180deg)',
 		},
-		cardActions: {
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'space-between',
+		cardActions: ({ isPublic }: any) => {
+			return {
+				display: 'flex',
+				alignItems: 'center',
+				justifyContent: isPublic ? 'space-between' : 'flex-end',
+			};
 		},
 		reviewBox: {
 			marginBottom: theme.spacing(4),
@@ -90,6 +93,7 @@ const useStyles = makeStyles((theme: Theme) => {
 				marginBottom: theme.spacing(1),
 			},
 		},
+
 		reviewBtns: {
 			display: 'flex',
 			justifyContent: 'center',
@@ -116,8 +120,8 @@ const tabProps = (index: any) => {
 	};
 };
 
-const Project: React.FC<ProjectProps> = ({ project }) => {
-	const classes = useStyles();
+const ProjectCard: React.FC<ProjectProps> = ({ project, isPublic }) => {
+	const classes = useStyles({ isPublic });
 
 	// Modal Toggle
 	const {
@@ -227,96 +231,105 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
 						</Grid>
 					</Grid>
 				</CardContent>
-				<CardActions className={classes.cardActions}>
-					<Box component='fieldset' borderColor='transparent'>
-						<Typography variant='caption' component='legend'>
-							Your Rating
-						</Typography>
-						<Rating max={10} name={`project-${project._id}-rating`} />
-					</Box>
-					<Box className={classes.reviewBtns}>
-						<Button
-							onClick={onReviewsOpen}
-							className={classes.seeAllReviewsBtn}
-							size='small'
-							color='primary'
-							variant='outlined'>
-							See all reviews
-						</Button>
-						<Button
-							size='small'
-							onClick={toggleExpanded}
-							aria-expanded={expanded}
-							aria-label='show more'
-							color='primary'
-							variant='contained'
-							disableElevation
-							startIcon={
-								<ExpandMoreIcon
-									className={clsx(classes.expand, {
-										[classes.expandOpen]: expanded,
-									})}
-								/>
-							}>
-							Add your review
-						</Button>
-					</Box>
-				</CardActions>
-				<Collapse in={expanded} timeout='auto' unmountOnExit>
-					<CardContent>
-						<Formik
-							initialValues={{
-								review: '',
-							}}
-							validationSchema={validationSchema}
-							onSubmit={async ({ review }, { resetForm }) => {
-								const data = {
-									review,
-									category: tabValue === 0 ? 'suggestion' : 'comment',
-								};
-								await mutate(data as any);
-								resetForm();
-							}}>
-							{() => {
-								return (
-									<Form>
-										<Tabs
-											className={classes.tabs}
-											indicatorColor='primary'
-											value={tabValue}
-											onChange={onTabValueChange}
-											aria-label='select review type'>
-											<Tab label='Add Suggestion' {...tabProps(0)} />
-											<Tab label='Add Comment' {...tabProps(1)} />
-										</Tabs>
-										<FormInput
-											className={classes.reviewBox}
-											label={
-												tabValue === 0 ? 'Your Suggestion' : 'Your Comment'
-											}
-											required
-											multiline
-											name='review'
-											rows={4}
-											fullWidth
-											variant='outlined'
+
+				<>
+					<CardActions className={classes.cardActions}>
+						{isPublic && (
+							<Box component='fieldset' borderColor='transparent'>
+								<Typography variant='caption' component='legend'>
+									Your Rating
+								</Typography>
+								<Rating max={10} name={`project-${project._id}-rating`} />
+							</Box>
+						)}
+						<Box className={classes.reviewBtns}>
+							<Button
+								onClick={onReviewsOpen}
+								className={classes.seeAllReviewsBtn}
+								size='small'
+								color='primary'
+								variant='outlined'>
+								See all reviews
+							</Button>
+							{isPublic && (
+								<Button
+									size='small'
+									onClick={toggleExpanded}
+									aria-expanded={expanded}
+									aria-label='show more'
+									color='primary'
+									variant='contained'
+									disableElevation
+									startIcon={
+										<ExpandMoreIcon
+											className={clsx(classes.expand, {
+												[classes.expandOpen]: expanded,
+											})}
 										/>
-										<Button
-											type='submit'
-											variant='contained'
-											color='primary'
-											className={classes.commentCta}>
-											Save {tabValue === 0 ? 'Suggestion' : 'Comment'}
-										</Button>
-									</Form>
-								);
-							}}
-						</Formik>
-					</CardContent>
-				</Collapse>
+									}>
+									Add your review
+								</Button>
+							)}
+						</Box>
+					</CardActions>
+					{isPublic && (
+						<Collapse in={expanded} timeout='auto' unmountOnExit>
+							<CardContent>
+								<Formik
+									initialValues={{
+										review: '',
+									}}
+									validationSchema={validationSchema}
+									onSubmit={async ({ review }, { resetForm }) => {
+										const data = {
+											review,
+											category: tabValue === 0 ? 'suggestion' : 'comment',
+										};
+										await mutate(data as any);
+										resetForm();
+									}}>
+									{() => {
+										return (
+											<Form>
+												<Tabs
+													className={classes.tabs}
+													indicatorColor='primary'
+													value={tabValue}
+													onChange={onTabValueChange}
+													aria-label='select review type'>
+													<Tab label='Add Suggestion' {...tabProps(0)} />
+													<Tab label='Add Comment' {...tabProps(1)} />
+												</Tabs>
+												<FormInput
+													className={classes.reviewBox}
+													label={
+														tabValue === 0 ? 'Your Suggestion' : 'Your Comment'
+													}
+													required
+													multiline
+													name='review'
+													rows={4}
+													fullWidth
+													variant='outlined'
+												/>
+												<Button
+													type='submit'
+													variant='contained'
+													color='primary'
+													className={classes.commentCta}>
+													Save {tabValue === 0 ? 'Suggestion' : 'Comment'}
+												</Button>
+											</Form>
+										);
+									}}
+								</Formik>
+							</CardContent>
+						</Collapse>
+					)}
+				</>
 			</Card>
 		</>
 	);
 };
 
-export default Project;
+export default ProjectCard;

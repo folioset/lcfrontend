@@ -8,7 +8,7 @@ import {
 	Typography,
 } from '@material-ui/core';
 import { Project, Review as ReviewType } from '../../types';
-import Review from './Review';
+import Review from './ReviewCard';
 import { useQuery } from 'react-query';
 import axios from 'axios';
 

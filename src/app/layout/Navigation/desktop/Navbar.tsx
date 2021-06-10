@@ -105,7 +105,7 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 						<Box className={classes.nav}>
 							<FormControl size='small' variant='outlined'>
 								<OutlinedInput
-									placeholder='Search'
+									placeholder='Search Profile'
 									id='search'
 									startAdornment={
 										<InputAdornment position='start'>
@@ -152,6 +152,13 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 										exact
 										to='/dashboard/me/update'>
 										Edit Profile
+									</NavItem>
+									<NavItem
+										icon={<EditIcon color='primary' />}
+										dropdown
+										exact
+										to='/public'>
+										Public
 									</NavItem>
 									<Divider />
 									<MenuLink

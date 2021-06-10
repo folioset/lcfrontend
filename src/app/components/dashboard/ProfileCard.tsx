@@ -45,21 +45,24 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface ProfileCardProps {
 	user: User;
+	isPublic?: boolean;
 }
 
-const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
+const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 	const classes = useStyles();
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	return (
 		<>
-			<Modal
-				open={isOpen}
-				onClose={onClose}
-				aria-labelledby='simple-modal-title'
-				aria-describedby='simple-modal-description'>
-				<CreateProject {...{ onClose }} />
-			</Modal>
+			{!isPublic && (
+				<Modal
+					open={isOpen}
+					onClose={onClose}
+					aria-labelledby='simple-modal-title'
+					aria-describedby='simple-modal-description'>
+					<CreateProject {...{ onClose }} />
+				</Modal>
+			)}
 			<Box className={classes.root}>
 				<Paper elevation={3} className={classes.paper}>
 					<Grid container>
@@ -97,20 +100,24 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user }) => {
 										</Link>
 									</>
 								) : (
-									<Link component={RouterLink} to='/dashboard/me/update'>
-										Click Here to update your profile
-									</Link>
+									!isPublic && (
+										<Link component={RouterLink} to='/dashboard/me/update'>
+											Click Here to update your profile
+										</Link>
+									)
 								)}
 							</Grid>
 						</Grid>
 						<Grid item xs={1}>
-							<Box className={classes.addProjectGridBtn}>
-								<Tooltip title='Add Project' aria-label='Add project'>
-									<IconButton color='primary' onClick={onOpen}>
-										<AddCircleIcon />
-									</IconButton>
-								</Tooltip>
-							</Box>
+							{!isPublic && (
+								<Box className={classes.addProjectGridBtn}>
+									<Tooltip title='Add Project' aria-label='Add project'>
+										<IconButton color='primary' onClick={onOpen}>
+											<AddCircleIcon />
+										</IconButton>
+									</Tooltip>
+								</Box>
+							)}
 						</Grid>
 					</Grid>
 				</Paper>

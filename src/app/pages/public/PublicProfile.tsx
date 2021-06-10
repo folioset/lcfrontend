@@ -5,7 +5,9 @@ import { Project as ProjectType, User } from '../../types';
 import axios from 'axios';
 import ProfileView from '../../components/dashboard/ProfileView';
 
-const Dashboard: React.FC = () => {
+interface PublicProfileProps {}
+
+const PublicProfile: React.FC<PublicProfileProps> = () => {
 	const queryClient = useQueryClient();
 	const user = queryClient.getQueryData<User>('user')!;
 	const { isLoading, data } = useQuery<ProjectType[]>(
@@ -22,9 +24,9 @@ const Dashboard: React.FC = () => {
 
 	return (
 		<>
-			<ProfileView user={user} isLoading={isLoading} data={data} />
+			<ProfileView isLoading={isLoading} data={data} user={user} isPublic />
 		</>
 	);
 };
 
-export default Dashboard;
+export default PublicProfile;

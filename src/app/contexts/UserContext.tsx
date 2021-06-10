@@ -29,10 +29,9 @@ const UserContextProvider: React.FC<UserContextProps> = ({ children }: any) => {
 						history.replace('/onboarding');
 					} else {
 						history.replace(
-							location.pathname.startsWith('/dashboard') ||
-								location.pathname.startsWith('/projects')
-								? location.pathname
-								: '/dashboard'
+							location.pathname.startsWith('/dashboard')
+								? '/dashboard'
+								: location.pathname
 						);
 					}
 				} else {
