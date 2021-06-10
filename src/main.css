@@ -1,7 +1,7 @@
-.hide-scrollbar {
+body {
 	scrollbar-width: none;
 }
 
-.hide-scrollbar::-webkit-scrollbar {
+body::-webkit-scrollbar {
 	display: none !important;
 }

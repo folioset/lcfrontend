@@ -2,7 +2,13 @@ import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 
 // MUI
-import { Button, makeStyles } from '@material-ui/core';
+import {
+	Button,
+	ListItemIcon,
+	ListItemText,
+	makeStyles,
+	MenuItem,
+} from '@material-ui/core';
 
 // styles
 
@@ -24,6 +30,8 @@ interface Props {
 	exact: boolean;
 	variant?: 'contained' | 'outlined' | 'text';
 	color?: 'default' | 'inherit' | 'primary' | 'secondary';
+	dropdown?: boolean;
+	icon?: any;
 }
 
 const NavItem: React.FC<Props> = ({
@@ -32,8 +40,19 @@ const NavItem: React.FC<Props> = ({
 	exact,
 	variant = 'text',
 	color = 'default',
+	dropdown,
+	icon,
 }) => {
 	const classes = useStyles();
+
+	if (dropdown) {
+		return (
+			<MenuItem component={NavLink} to={to} exact={exact}>
+				{icon && <ListItemIcon>{icon}</ListItemIcon>}
+				<ListItemText primary={children} />
+			</MenuItem>
+		);
+	}
 
 	return (
 		<Button
