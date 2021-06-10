@@ -8,13 +8,16 @@ import {
 	Theme,
 } from '@material-ui/core';
 import * as React from 'react';
+import { Review as ReviewType } from '../../types';
 
-interface ReviewProps {}
+interface ReviewProps {
+	review: ReviewType;
+}
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		root: {
-			maxWidth: 600,
+			width: 600,
 			marginBottom: theme.spacing(3),
 		},
 		avatar: {
@@ -23,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
 	})
 );
 
-const Review: React.FC<ReviewProps> = () => {
+const Review: React.FC<ReviewProps> = ({ review }) => {
 	const classes = useStyles();
 	return (
 		<>
@@ -37,11 +40,7 @@ const Review: React.FC<ReviewProps> = () => {
 					title='Name of User'
 					subheader='September 14, 2016'
 				/>
-				<CardContent>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-					Exercitationem incidunt tenetur necessitatibus. Cupiditate corrupti
-					cum voluptas praesentium molestiae nihil autem.
-				</CardContent>
+				<CardContent>{review.review}</CardContent>
 			</Card>
 		</>
 	);

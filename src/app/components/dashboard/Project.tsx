@@ -162,11 +162,12 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
 		},
 		{
 			onSuccess: () => {
-				// queryClient.invalidateQueries('projectreviews')
+				queryClient.invalidateQueries(['project-reviews', project._id]);
 			},
 			onSettled: (data) => {
 				if (data) {
 					closeExpanded();
+					onReviewsOpen();
 				}
 			},
 		}
@@ -182,12 +183,14 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
 				<PdfView onClose={onModalClose} filename={project.projectFile} />
 			</Modal>
 
-			<ProjectReviewDrawer
-				isOpen={isReviewsOpen}
-				onOpen={onReviewsOpen}
-				onClose={onReviewsClosed}
-				project={project}
-			/>
+			{isReviewsOpen && (
+				<ProjectReviewDrawer
+					isOpen={isReviewsOpen}
+					onOpen={onReviewsOpen}
+					onClose={onReviewsClosed}
+					project={project}
+				/>
+			)}
 
 			<Card elevation={3} className={classes.projectCard}>
 				<CardHeader
@@ -229,7 +232,7 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
 						<Typography variant='caption' component='legend'>
 							Your Rating
 						</Typography>
-						<Rating max={10} name='project rating' />
+						<Rating max={10} name={`project-${project._id}-rating`} />
 					</Box>
 					<Box className={classes.reviewBtns}>
 						<Button

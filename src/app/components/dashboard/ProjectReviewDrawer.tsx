@@ -7,8 +7,10 @@ import {
 	Theme,
 	Typography,
 } from '@material-ui/core';
-import { Project } from '../../types';
+import { Project, Review as ReviewType } from '../../types';
 import Review from './Review';
+import { useQuery } from 'react-query';
+import axios from 'axios';
 
 interface ProjectReviewDrawerProps {
 	isOpen: boolean;
@@ -44,6 +46,21 @@ const ProjectReviewDrawer: React.FC<ProjectReviewDrawerProps> = ({
 	project,
 }) => {
 	const classes = useStyles();
+	const { isLoading, data } = useQuery(
+		['project-reviews', project._id],
+		async () => {
+			try {
+				const res = await axios({
+					method: 'get',
+					url: `/api/project/${project._id}/reviews`,
+				});
+
+				return res.data;
+			} catch (err) {
+				return err;
+			}
+		}
+	);
 
 	return (
 		<>
@@ -61,7 +78,10 @@ const ProjectReviewDrawer: React.FC<ProjectReviewDrawerProps> = ({
 							Reviews on {project.title}
 						</Typography>
 						<Box className={classes.reviews}>
-							<Review />
+							{isLoading && <Typography>Loading Reviews....</Typography>}
+							{data?.map((review: ReviewType) => {
+								return <Review key={review._id} review={review} />;
+							})}
 						</Box>
 					</Container>
 				</Box>

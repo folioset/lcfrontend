@@ -71,7 +71,7 @@ const Dashboard: React.FC = () => {
 							</Box>
 						)}
 						{data?.map((project: ProjectType) => {
-							return <Project {...{ project }} />;
+							return <Project key={project._id} {...{ project }} />;
 						})}
 					</Box>
 				</Container>

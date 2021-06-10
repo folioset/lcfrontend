@@ -49,3 +49,11 @@ export type Project = {
 	__v?: number;
 	_id: string;
 };
+
+export type Review = {
+	category: 'suggestion' | 'comment';
+	created: Date | string | number;
+	createdBy: string;
+	review: string;
+	_id: string;
+};
