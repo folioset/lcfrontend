@@ -28,6 +28,7 @@ import { Form, Formik } from 'formik';
 import FormInput from '../shared/FormInput';
 import { useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
+import ProjectReviewDrawer from './ProjectReviewDrawer';
 
 interface ProjectProps {
 	project: ProjectType;
@@ -116,17 +117,28 @@ const tabProps = (index: any) => {
 };
 
 const Project: React.FC<ProjectProps> = ({ project }) => {
+	const classes = useStyles();
+
+	// Modal Toggle
 	const {
 		isOpen: isModalOpen,
 		onOpen: onModalOpen,
 		onClose: onModalClose,
 	} = useDisclosure();
+
+	// Review Box
 	const {
 		isOpen: expanded,
 		toggleOpen: toggleExpanded,
 		onClose: closeExpanded,
 	} = useDisclosure();
-	const classes = useStyles();
+
+	// All Reviews
+	const {
+		isOpen: isReviewsOpen,
+		onOpen: onReviewsOpen,
+		onClose: onReviewsClosed,
+	} = useDisclosure();
 	const [tabValue, setTabValue] = React.useState(0);
 
 	const onTabValueChange = (_: React.ChangeEvent<{}>, newValue: number) => {
@@ -169,6 +181,13 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
 				aria-describedby='pdf file of the project'>
 				<PdfView onClose={onModalClose} filename={project.projectFile} />
 			</Modal>
+
+			<ProjectReviewDrawer
+				isOpen={isReviewsOpen}
+				onOpen={onReviewsOpen}
+				onClose={onReviewsClosed}
+				project={project}
+			/>
 
 			<Card elevation={3} className={classes.projectCard}>
 				<CardHeader
@@ -214,6 +233,7 @@ const Project: React.FC<ProjectProps> = ({ project }) => {
 					</Box>
 					<Box className={classes.reviewBtns}>
 						<Button
+							onClick={onReviewsOpen}
 							className={classes.seeAllReviewsBtn}
 							size='small'
 							color='primary'
