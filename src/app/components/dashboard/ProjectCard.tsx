@@ -22,7 +22,7 @@ import Rating from '../shared/Rating';
 import PdfView from '../shared/Pdf/PdfView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import clsx from 'clsx';
-import { Project } from '../../types';
+import { Project, User } from '../../types';
 import * as Yup from 'yup';
 import { Form, Formik } from 'formik';
 import FormInput from '../shared/FormInput';
@@ -121,7 +121,22 @@ const tabProps = (index: any) => {
 };
 
 const ProjectCard: React.FC<ProjectProps> = ({ project, isPublic }) => {
+	const queryClient = useQueryClient();
 	const classes = useStyles({ isPublic });
+	const [rating, setRating] = React.useState(0);
+	const user = queryClient.getQueryData<User>('user')!;
+
+	// console.log(project.projectFile);
+
+	React.useEffect(() => {
+		if (project) {
+			project.ratings.forEach((el: any) => {
+				if (el.createdBy === user._id) {
+					setRating(el.value);
+				}
+			});
+		}
+	}, [project, user._id]);
 
 	// Modal Toggle
 	const {
@@ -149,20 +164,14 @@ const ProjectCard: React.FC<ProjectProps> = ({ project, isPublic }) => {
 		setTabValue(newValue);
 	};
 
-	const queryClient = useQueryClient();
-
-	const { mutate } = useMutation(
+	const { mutate: addReview } = useMutation(
 		async (data) => {
-			try {
-				const res = await axios({
-					method: 'POST',
-					url: `/api/project/${project._id}/reviews/`,
-					data,
-				});
-				return res.data;
-			} catch (err) {
-				return err;
-			}
+			const res = await axios({
+				method: 'POST',
+				url: `/api/project/${project._id}/reviews/`,
+				data,
+			});
+			return res.data;
 		},
 		{
 			onSuccess: () => {
@@ -176,6 +185,15 @@ const ProjectCard: React.FC<ProjectProps> = ({ project, isPublic }) => {
 			},
 		}
 	);
+
+	const { mutate: addRating } = useMutation(async (data) => {
+		const res = await axios({
+			method: 'PUT',
+			url: `/api/project/${project._id}/add-rating`,
+			data,
+		});
+		return res.data;
+	});
 
 	return (
 		<>
@@ -236,10 +254,29 @@ const ProjectCard: React.FC<ProjectProps> = ({ project, isPublic }) => {
 					<CardActions className={classes.cardActions}>
 						{isPublic && (
 							<Box component='fieldset' borderColor='transparent'>
-								<Typography variant='caption' component='legend'>
-									Your Rating
-								</Typography>
-								<Rating max={10} name={`project-${project._id}-rating`} />
+								<Box
+									display='flex'
+									alignItems='center'
+									justifyContent='space-between'>
+									<Typography variant='caption' component='legend'>
+										Your Rating
+									</Typography>
+									<Typography color='primary'>
+										{rating.toFixed(1)} / 10
+									</Typography>
+								</Box>
+
+								<Rating
+									onChange={(e: any) => {
+										let newRating = parseFloat(e.target.value);
+										if (rating === newRating) newRating = 0;
+										setRating(newRating);
+										addRating({ value: newRating } as any);
+									}}
+									value={rating}
+									max={10}
+									name={`project-${project._id}-rating`}
+								/>
 							</Box>
 						)}
 						<Box className={classes.reviewBtns}>
@@ -285,7 +322,7 @@ const ProjectCard: React.FC<ProjectProps> = ({ project, isPublic }) => {
 											review,
 											category: tabValue === 0 ? 'suggestion' : 'comment',
 										};
-										await mutate(data as any);
+										await addReview(data as any);
 										resetForm();
 									}}>
 									{() => {

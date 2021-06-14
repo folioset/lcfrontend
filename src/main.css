@@ -5,3 +5,11 @@ body {
 body::-webkit-scrollbar {
 	display: none !important;
 }
+
+* {
+	scrollbar-width: none !important;
+}
+
+*::-webkit-scrollbar {
+	display: none !important;
+}

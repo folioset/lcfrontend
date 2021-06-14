@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => {
 });
 
 const Home: React.FC = () => {
-	useAuthRoute('not-protected');
+	useAuthRoute('not-protected', '/dashboard');
 	const classes = useStyles();
 
 	return (

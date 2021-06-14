@@ -43,7 +43,7 @@ export type Project = {
 	createdBy: string;
 	description: string;
 	projectFile: string;
-	reviewsAndRatings?: any;
+	ratings?: any;
 	title: string;
 	updatedAt?: Date | string | number;
 	__v?: number;
