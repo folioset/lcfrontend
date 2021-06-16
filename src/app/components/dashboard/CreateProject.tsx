@@ -1,9 +1,11 @@
 import {
+	Box,
 	Button,
 	CircularProgress,
 	Container,
 	makeStyles,
 	Paper,
+	TextField,
 	Theme,
 	Typography,
 } from '@material-ui/core';
@@ -14,7 +16,7 @@ import * as Yup from 'yup';
 import FormInput from '../shared/FormInput';
 import { PictureAsPdf } from '@material-ui/icons';
 import FileUpload from '../shared/FileUpload';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import axios from 'axios';
 
 interface CreateProjectProps {
@@ -24,14 +26,14 @@ interface CreateProjectProps {
 interface InitialValues {
 	title: string;
 	description: string;
-	contributors: string;
+	contributors: string[];
 	file: null | File;
 }
 
 const initialValues: InitialValues = {
 	title: '',
 	description: '',
-	contributors: '',
+	contributors: [],
 	file: null,
 };
 
@@ -103,6 +105,15 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 			}
 		);
 
+		const { isLoading, data: users } = useQuery('all-users', async (data) => {
+			const res = await axios({
+				method: 'GET',
+				url: `/api/users`,
+				data,
+			});
+			return res.data;
+		});
+
 		return (
 			<>
 				<Paper className={classes.container}>
@@ -113,6 +124,7 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 							className={classes.heading}>
 							Create Project
 						</Typography>
+
 						<Formik
 							onSubmit={async (
 								{ title, description, contributors, file },
@@ -121,7 +133,7 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 								const data = new FormData();
 								data.append('title', title);
 								data.append('description', description);
-								data.append('contributors', contributors);
+								data.append('contributors', JSON.stringify(contributors));
 								if (file) {
 									data.append('file', file);
 								}
@@ -130,7 +142,7 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 							}}
 							initialValues={initialValues}
 							validationSchema={validationSchema}>
-							{({ values, isSubmitting }) => {
+							{({ values, isSubmitting, setFieldValue }) => {
 								return (
 									<Form noValidate autoComplete='off'>
 										<FormInput
@@ -156,21 +168,38 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 											icon={<PictureAsPdf />}
 										/>
 
-										<Autocomplete
-											id='contributors-auto-complete'
-											options={['user 1', 'user 2']}
-											getOptionLabel={(option) => option}
-											renderInput={(params) => (
-												<FormInput
-													{...params}
-													name='contributors'
+										<Box mb={2}>
+											{!isLoading ? (
+												<Autocomplete
+													multiple
+													id='contributors-auto-complete'
+													options={users}
+													onChange={(e: React.ChangeEvent<{}>, value: any) =>
+														setFieldValue('contributors', value)
+													}
+													getOptionLabel={(option: any) => option?.username}
+													renderInput={(params) => (
+														<TextField
+															{...params}
+															fullWidth
+															variant='outlined'
+															name='contributors'
+															size='small'
+															label='Contributors'
+														/>
+													)}
+												/>
+											) : (
+												<TextField
 													fullWidth
 													variant='outlined'
+													name='contributors'
 													size='small'
 													label='Contributors'
+													value='Loading...'
 												/>
 											)}
-										/>
+										</Box>
 
 										<Button
 											type='submit'
