@@ -2,11 +2,14 @@ import * as React from 'react';
 
 import * as Yup from 'yup';
 import {
+	Avatar,
 	Box,
 	Button,
 	CircularProgress,
 	Container,
 	Grid,
+	makeStyles,
+	Theme,
 	Typography,
 } from '@material-ui/core';
 
@@ -16,6 +19,24 @@ import { Formik, Form } from 'formik';
 import { User } from '../../types';
 import { useHistory } from 'react-router';
 import FormInput from '../../components/shared/FormInput';
+import FileUpload from '../../components/shared/FileUpload';
+import useImageUpload from '../../hooks/useImageUpload';
+
+const useStyles = makeStyles((theme: Theme) => {
+	return {
+		avatarContainer: {
+			display: 'flex',
+			justifyContent: 'center',
+			alignItems: 'center',
+			width: '100%',
+			marginBottom: theme.spacing(4),
+		},
+		avatar: {
+			height: '8rem',
+			width: '8rem',
+		},
+	};
+});
 
 const userProfileInitState = (user: any) => {
 	return {
@@ -23,6 +44,7 @@ const userProfileInitState = (user: any) => {
 		about: user.about || '',
 		phoneNumber: user.phone?.phoneNumber || '',
 		code: '91',
+		photo: null,
 	};
 };
 
@@ -50,6 +72,8 @@ const UpdateProfile: React.FC = () => {
 	const queryClient = useQueryClient();
 	const history = useHistory();
 	const user = queryClient.getQueryData<User>('user');
+	const classes = useStyles();
+	const { imageUrl, handleUploadImageUrl } = useImageUpload();
 
 	const { mutate, isLoading } = useMutation(
 		async (data) => {
@@ -83,11 +107,19 @@ const UpdateProfile: React.FC = () => {
 				onSubmit={(values) => {
 					mutate(values as any);
 				}}>
-				{({ isValid }) => {
+				{({ isValid, values }) => {
+					console.log(values);
 					return (
 						<Container maxWidth='md'>
 							<Form autoComplete='off' noValidate>
 								<Grid container spacing={1}>
+									<Box className={classes.avatarContainer}>
+										<Avatar
+											src={imageUrl ?? ''}
+											style={{ height: '8rem', width: '8rem' }}
+										/>
+									</Box>
+
 									<Grid item xs={12}>
 										<FormInput
 											fullWidth
@@ -121,8 +153,15 @@ const UpdateProfile: React.FC = () => {
 										rows={6}
 										required
 										name='about'
-										label='Tell us about yourself'
+										label='Bio'
 										placeholder={`Product Manager at Zerodha. IIM Calcutta grad. Former Engineer who loves finance and fin-tech products`}
+									/>
+
+									<FileUpload
+										name='photo'
+										onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+											handleUploadImageUrl(e)
+										}
 									/>
 								</Grid>
 								<Button

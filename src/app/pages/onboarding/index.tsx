@@ -11,6 +11,7 @@ import FormInput from '../../components/shared/FormInput';
 import * as Yup from 'yup';
 import { useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => {
 	return {
@@ -34,6 +35,7 @@ const initialValues = {
 
 const OnBoarding: React.FC = () => {
 	const classes = useStyles();
+	const history = useHistory();
 	const queryClient = useQueryClient();
 	const { mutate } = useMutation(
 		async (data) => {
@@ -49,8 +51,9 @@ const OnBoarding: React.FC = () => {
 			}
 		},
 		{
-			onSuccess: () => {
-				queryClient.invalidateQueries('user');
+			onSuccess: async () => {
+				await queryClient.invalidateQueries('user');
+				history.replace('/dashboard');
 			},
 			onSettled: (data) => {
 				if (data) {

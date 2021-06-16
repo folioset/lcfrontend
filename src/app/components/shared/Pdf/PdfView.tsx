@@ -14,7 +14,7 @@ import { Page } from 'react-pdf';
 import { Document } from 'react-pdf/dist/esm/entry.webpack';
 // import { useQuery } from 'react-query';
 import Loader from '../Loader';
-import SamplePdf from './../../../../assets/test.pdf';
+// import SamplePdf from './../../../../assets/test.pdf';
 
 interface PdfViewProps {
 	filename: any;
@@ -83,7 +83,7 @@ const PdfView: React.FC<PdfViewProps> = ({ filename, onClose }) => {
 
 			<Box className={clsx(classes.pdfView, 'hide-scrollbar')}>
 				<Document
-					file={SamplePdf}
+					file={filename}
 					loading={
 						<Box className='hide-scrollbar'>
 							<Loader fullScreen />

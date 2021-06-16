@@ -16,7 +16,7 @@ type FileUploadProps = FieldAttributes<{}> &
 		HTMLInputElement
 	> & {
 		filename?: string;
-		icon: React.ReactNode;
+		icon?: React.ReactNode;
 	};
 
 const useStyles = makeStyles((theme: Theme) => {
@@ -43,6 +43,7 @@ const useStyles = makeStyles((theme: Theme) => {
 const FileUpload: React.FC<FileUploadProps> = ({
 	filename,
 	icon,
+	onChange: onExtraChange,
 	...props
 }) => {
 	const classes = useStyles();
@@ -81,6 +82,10 @@ const FileUpload: React.FC<FileUploadProps> = ({
 				onChange={(e) => {
 					if (e.target.files) {
 						setValue(e.target.files[0]);
+
+						if (onExtraChange) {
+							onExtraChange(e);
+						}
 					}
 				}}
 				{...field}
