@@ -44,13 +44,13 @@ const validationSchema = Yup.object().shape({
 	description: Yup.string()
 		.required('project description is required')
 		.max(200, 'You can only enter a max of 200 characters'),
-	file: Yup.mixed()
-		.required('your project file is required')
-		.test(
-			'fileFormat',
-			'Unsupported Format. Please upload pdfs only',
-			(value: File) => value && SUPPORTED_FORMATS.includes(value.type)
-		),
+	// file: Yup.mixed()
+	// 	.required('your project file is required')
+	// 	.test(
+	// 		'fileFormat',
+	// 		'Unsupported Format. Please upload pdfs only',
+	// 		(value: File) => value && SUPPORTED_FORMATS.includes(value.type)
+	// 	),
 });
 
 const useStyles = makeStyles((theme: Theme) => {
@@ -143,6 +143,7 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 							initialValues={initialValues}
 							validationSchema={validationSchema}>
 							{({ values, isSubmitting, setFieldValue }) => {
+								console.log(values);
 								return (
 									<Form noValidate autoComplete='off'>
 										<FormInput
@@ -174,9 +175,12 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 													multiple
 													id='contributors-auto-complete'
 													options={users}
-													onChange={(e: React.ChangeEvent<{}>, value: any) =>
-														setFieldValue('contributors', value)
-													}
+													onChange={(e: React.ChangeEvent<{}>, value: any) => {
+														const getId = () =>
+															value.map((el: any) => el.id ?? el._id);
+
+														setFieldValue('contributors', getId());
+													}}
 													getOptionLabel={(option: any) => option?.username}
 													renderInput={(params) => (
 														<TextField
