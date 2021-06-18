@@ -55,6 +55,9 @@ const useStyles = makeStyles((theme) => {
 			alignItems: 'center',
 			gap: theme.spacing(2),
 		},
+		formControl: {
+			display: 'flex',
+		},
 	};
 });
 
@@ -103,17 +106,22 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 
 					{user && (
 						<Box className={classes.nav}>
-							<FormControl size='small' variant='outlined'>
-								<OutlinedInput
-									placeholder='Search Profile'
-									id='search'
-									startAdornment={
-										<InputAdornment position='start'>
-											<SearchIcon color='disabled' />
-										</InputAdornment>
-									}
-								/>
-							</FormControl>
+							<Box className={classes.formControl} component='form'>
+								<FormControl size='small' variant='outlined'>
+									<OutlinedInput
+										placeholder='Search Profile'
+										id='search'
+										startAdornment={
+											<InputAdornment position='start'>
+												<SearchIcon color='disabled' />
+											</InputAdornment>
+										}
+									/>
+								</FormControl>
+								<Button disableElevation color='primary' variant='contained'>
+									Search
+								</Button>
+							</Box>
 							<Button
 								startIcon={<Avatar src={user.profilePicture} />}
 								aria-controls='dropdown'

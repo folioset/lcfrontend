@@ -1,16 +1,21 @@
 import * as React from 'react';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import {
+	AppBar,
 	Box,
 	Container,
 	makeStyles,
+	Tab,
+	Tabs,
 	Theme,
 	Typography,
 } from '@material-ui/core';
-import { Project, Review as ReviewType } from '../../types';
-import Review from './ReviewCard';
+import { Project, Review } from '../../types';
+import ReviewCard from './ReviewCard';
 import { useQuery } from 'react-query';
 import axios from 'axios';
+import TabPanel from '../shared/TabPanel';
+import useTabPanel from '../../hooks/useTabPanel';
 
 interface ProjectReviewDrawerProps {
 	isOpen: boolean;
@@ -19,7 +24,7 @@ interface ProjectReviewDrawerProps {
 	project: Project;
 }
 
-const DRAWER_WIDTH = 700;
+const DRAWER_WIDTH = 744;
 
 const useStyles = makeStyles((theme: Theme) => {
 	return {
@@ -46,6 +51,8 @@ const ProjectReviewDrawer: React.FC<ProjectReviewDrawerProps> = ({
 	project,
 }) => {
 	const classes = useStyles();
+	const { value, handleChange, tabPanelProps } = useTabPanel();
+
 	const { isLoading, data } = useQuery(
 		['project-reviews', project._id],
 		async () => {
@@ -79,9 +86,42 @@ const ProjectReviewDrawer: React.FC<ProjectReviewDrawerProps> = ({
 						</Typography>
 						<Box className={classes.reviews}>
 							{isLoading && <Typography>Loading Reviews....</Typography>}
-							{data?.map((review: ReviewType) => {
-								return <Review key={review._id} review={review} />;
-							})}
+							{!data?.length ? (
+								<Typography>{!isLoading && 'No reviews yet'}</Typography>
+							) : (
+								<>
+									<AppBar position='static' elevation={0} color='transparent'>
+										<Tabs
+											indicatorColor='primary'
+											value={value}
+											onChange={handleChange}
+											aria-label='simple tabs example'>
+											{['suggestion', 'comment'].map((type, i) => (
+												<Tab
+													label={type + 's'}
+													key={type}
+													{...tabPanelProps(i)}
+												/>
+											))}
+										</Tabs>
+									</AppBar>
+									{['suggestion', 'comment'].map((type, i) => {
+										return (
+											<TabPanel value={value} index={i}>
+												{data?.map((review: Review) => {
+													if (type === review.category) {
+														return (
+															<ReviewCard key={review._id} review={review} />
+														);
+													}
+
+													return null;
+												})}
+											</TabPanel>
+										);
+									})}
+								</>
+							)}
 						</Box>
 					</Container>
 				</Box>
