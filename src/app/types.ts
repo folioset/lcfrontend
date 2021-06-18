@@ -35,6 +35,7 @@ export type User = {
 	careerOptions: CareerOptions[];
 	isVerified: boolean;
 	username?: string;
+	profilePicture?: string;
 };
 
 export type Project = {

@@ -44,7 +44,7 @@ const userProfileInitState = (user: any) => {
 		about: user.about || '',
 		phoneNumber: user.phone?.phoneNumber || '',
 		code: '91',
-		photo: null,
+		file: null,
 	};
 };
 
@@ -53,6 +53,8 @@ const LinkedInRegExp =
 
 const phoneRegExp =
 	/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
+const SUPPORTED_FORMATS = ['image/jpeg', 'image/jpg', 'image/png'];
 
 const userProfileValidationSchema = Yup.object().shape({
 	about: Yup.string().min(
@@ -66,6 +68,11 @@ const userProfileValidationSchema = Yup.object().shape({
 	phoneNumber: Yup.string()
 		.length(10, 'Please enter a valid phone number')
 		.matches(phoneRegExp, 'Please enter a valid phone number'),
+	file: Yup.mixed().test(
+		'fileFormat',
+		'Unsupported Format. Please upload .png , .jpg or .jpeg files only',
+		(value: File) => value && SUPPORTED_FORMATS.includes(value.type)
+	),
 });
 
 const UpdateProfile: React.FC = () => {
@@ -78,7 +85,7 @@ const UpdateProfile: React.FC = () => {
 	const { mutate, isLoading } = useMutation(
 		async (data) => {
 			const res = await axios({
-				method: 'PATCH',
+				method: 'put',
 				url: '/api/user',
 				data,
 			});
@@ -95,7 +102,6 @@ const UpdateProfile: React.FC = () => {
 			},
 		}
 	);
-
 	return (
 		<>
 			<Box my={6} textAlign='center'>
@@ -105,7 +111,17 @@ const UpdateProfile: React.FC = () => {
 				initialValues={userProfileInitState(user)}
 				validationSchema={userProfileValidationSchema}
 				onSubmit={(values) => {
-					mutate(values as any);
+					const data = new FormData();
+					data.append('linkedinUrl', values.linkedinUrl);
+					data.append('about', values.about);
+					data.append('phoneNumber', values.phoneNumber);
+					data.append('code', values.code);
+
+					if (values.file && values.file !== user!.profilePicture) {
+						data.append('file', values.file as any);
+					}
+
+					mutate(data as any);
 				}}>
 				{({ isValid, values }) => {
 					console.log(values);
@@ -115,7 +131,13 @@ const UpdateProfile: React.FC = () => {
 								<Grid container spacing={1}>
 									<Box className={classes.avatarContainer}>
 										<Avatar
-											src={imageUrl ?? ''}
+											src={
+												Boolean(imageUrl)
+													? imageUrl
+													: user?.profilePicture
+													? user?.profilePicture
+													: ''
+											}
 											style={{ height: '8rem', width: '8rem' }}
 										/>
 									</Box>
@@ -158,7 +180,7 @@ const UpdateProfile: React.FC = () => {
 									/>
 
 									<FileUpload
-										name='photo'
+										name='file'
 										onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 											handleUploadImageUrl(e)
 										}

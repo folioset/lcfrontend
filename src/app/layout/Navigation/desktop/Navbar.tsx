@@ -115,7 +115,7 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 								/>
 							</FormControl>
 							<Button
-								startIcon={<Avatar />}
+								startIcon={<Avatar src={user.profilePicture} />}
 								aria-controls='dropdown'
 								aria-haspopup='true'
 								color='primary'
