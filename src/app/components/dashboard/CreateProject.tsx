@@ -44,13 +44,13 @@ const validationSchema = Yup.object().shape({
 	description: Yup.string()
 		.required('project description is required')
 		.max(200, 'You can only enter a max of 200 characters'),
-	// file: Yup.mixed()
-	// 	.required('your project file is required')
-	// 	.test(
-	// 		'fileFormat',
-	// 		'Unsupported Format. Please upload pdfs only',
-	// 		(value: File) => value && SUPPORTED_FORMATS.includes(value.type)
-	// 	),
+	file: Yup.mixed()
+		.required('your project file is required')
+		.test(
+			'fileFormat',
+			'Unsupported Format. Please upload pdfs only',
+			(value: File) => value && SUPPORTED_FORMATS.includes(value.type)
+		),
 });
 
 const useStyles = makeStyles((theme: Theme) => {
