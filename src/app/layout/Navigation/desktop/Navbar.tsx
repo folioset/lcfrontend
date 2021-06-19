@@ -35,6 +35,7 @@ import NavItem from './NavItem';
 import { User } from '../../../types';
 import Logo from '../../../components/shared/Logo';
 import MenuLink from '../../../components/shared/HrefLink/MenuLink';
+import { SearchContext } from '../../../contexts/SearchContext';
 
 // Styles
 const useStyles = makeStyles((theme) => {
@@ -71,6 +72,7 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 	const queryClient = useQueryClient();
 
 	const user = queryClient.getQueryData<User>('user');
+	const { handleSearch, search, setSearch } = React.useContext(SearchContext);
 
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -106,10 +108,16 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 
 					{user && (
 						<Box className={classes.nav}>
-							<Box className={classes.formControl} component='form'>
+							<Box
+								className={classes.formControl}
+								component='form'
+								onSubmit={(e) => handleSearch!(e)}>
 								<FormControl size='small' variant='outlined'>
 									<OutlinedInput
+										autoComplete='off'
 										placeholder='Search Profile'
+										value={search}
+										onChange={(e) => setSearch!(e.target.value)}
 										id='search'
 										startAdornment={
 											<InputAdornment position='start'>
