@@ -44,6 +44,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
 	filename,
 	icon,
 	onChange: onExtraChange,
+	required,
 	...props
 }) => {
 	const classes = useStyles();
@@ -77,6 +78,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
 			<input
 				id={name}
 				name={name}
+				required={required}
 				style={{ display: 'none' }}
 				type='file'
 				onChange={(e) => {

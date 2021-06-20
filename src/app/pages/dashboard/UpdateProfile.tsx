@@ -68,11 +68,13 @@ const userProfileValidationSchema = Yup.object().shape({
 	phoneNumber: Yup.string()
 		.length(10, 'Please enter a valid phone number')
 		.matches(phoneRegExp, 'Please enter a valid phone number'),
-	file: Yup.mixed().test(
-		'fileFormat',
-		'Unsupported Format. Please upload .png , .jpg or .jpeg files only',
-		(value: File) => value && SUPPORTED_FORMATS.includes(value.type)
-	),
+	file: Yup.mixed()
+		.test(
+			'fileFormat',
+			'Unsupported Format. Please upload .png , .jpg or .jpeg files only',
+			(value: File) => (value ? SUPPORTED_FORMATS.includes(value.type) : true)
+		)
+		.notRequired(),
 });
 
 const UpdateProfile: React.FC = () => {
@@ -123,8 +125,7 @@ const UpdateProfile: React.FC = () => {
 
 					mutate(data as any);
 				}}>
-				{({ isValid, values }) => {
-					console.log(values);
+				{() => {
 					return (
 						<Container maxWidth='md'>
 							<Form autoComplete='off' noValidate>
@@ -148,7 +149,7 @@ const UpdateProfile: React.FC = () => {
 											variant='filled'
 											label='LinkedIn URL'
 											name='linkedinUrl'
-											required
+											required={false}
 											helperText='If you are on mobile, you can find this url by going to the Linkedin app -> View Profile -> Scrolling down on your profile -> In the Contact section, you will find your profile’s url which you can copy-paste here'
 										/>
 									</Grid>
@@ -163,7 +164,7 @@ const UpdateProfile: React.FC = () => {
 											variant='filled'
 											label='Phone Number'
 											name='phoneNumber'
-											required
+											required={false}
 											helperText='Please provide us with your phone number as this will help us add you to relevant groups and send you reminders about your calls'
 										/>
 									</Grid>
@@ -173,13 +174,14 @@ const UpdateProfile: React.FC = () => {
 										variant='filled'
 										multiline
 										rows={6}
-										required
+										required={false}
 										name='about'
 										label='Bio'
 										placeholder={`Product Manager at Zerodha. IIM Calcutta grad. Former Engineer who loves finance and fin-tech products`}
 									/>
 
 									<FileUpload
+										required={false}
 										name='file'
 										onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 											handleUploadImageUrl(e)
@@ -190,7 +192,7 @@ const UpdateProfile: React.FC = () => {
 									startIcon={
 										isLoading ? <CircularProgress size='1rem' /> : null
 									}
-									disabled={!isValid || isLoading}
+									disabled={isLoading}
 									type='submit'
 									variant='contained'
 									color='primary'>
