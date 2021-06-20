@@ -20,6 +20,7 @@ import * as React from 'react';
 import useDisclosure from '../../hooks/useDisclosure';
 import Rating from '../shared/Rating';
 import PdfView from '../shared/Pdf/PdfView';
+import PdfViewer from '../shared/Pdf/PdfViewer';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import clsx from 'clsx';
 import { Project, User } from '../../types';
@@ -200,7 +201,8 @@ const ProjectCard: React.FC<ProjectProps> = ({ project, isPublic }) => {
 				onClose={onModalClose}
 				aria-labelledby='project-file'
 				aria-describedby='pdf file of the project'>
-				<PdfView onClose={onModalClose} filename={project.projectFile} />
+				{/* <PdfView onClose={onModalClose} filename={project.projectFile} /> */}
+				<PdfViewer filename={project.projectFile} />
 			</Modal>
 
 			{isReviewsOpen && (
