@@ -42,7 +42,7 @@ const SUPPORTED_FORMATS = ['application/pdf'];
 const validationSchema = Yup.object().shape({
 	title: Yup.string().required('project title is required'),
 	description: Yup.string()
-		.required('project description is required')
+		.notRequired()
 		.max(200, 'You can only enter a max of 200 characters'),
 	file: Yup.mixed()
 		.required('your project file is required')

@@ -126,8 +126,6 @@ const ProjectCard: React.FC<ProjectProps> = ({ project, isPublic }) => {
 	const [rating, setRating] = React.useState(0);
 	const user = queryClient.getQueryData<User>('user')!;
 
-	// console.log(project.projectFile);
-
 	React.useEffect(() => {
 		if (project) {
 			project.ratings.forEach((el: any) => {
