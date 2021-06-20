@@ -27,6 +27,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import SearchIcon from '@material-ui/icons/Search';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import PeopleIcon from '@material-ui/icons/People';
 
 // Components
 import NavItem from './NavItem';
@@ -175,6 +176,13 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 										exact
 										to='/public'>
 										Public
+									</NavItem>
+									<NavItem
+										icon={<PeopleIcon color='primary' />}
+										dropdown
+										exact
+										to='/search?q=users'>
+										All Users
 									</NavItem>
 									<Divider />
 									<MenuLink
