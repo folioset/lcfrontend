@@ -219,7 +219,7 @@ const ProjectCard: React.FC<ProjectProps> = ({ project, isPublic }) => {
 							className={classes.overallRating}
 							color='primary'
 							variant='subtitle1'>
-							8.0 / 10
+							8.0 / 10.0
 						</Typography>
 					}
 					title={project.title}
@@ -227,26 +227,28 @@ const ProjectCard: React.FC<ProjectProps> = ({ project, isPublic }) => {
 						project.createdAt
 					).toLocaleDateString()}`}
 				/>
-				<CardContent>
-					<Grid container spacing={4}>
-						<Grid item xs={9}>
-							<Typography
-								variant='body2'
-								className={classes.projectDescription}>
-								{project.description}
-							</Typography>
-						</Grid>
+				{project.description && (
+					<CardContent>
+						<Grid container spacing={4}>
+							<Grid item xs={9}>
+								<Typography
+									variant='body2'
+									className={classes.projectDescription}>
+									{project.description}
+								</Typography>
+							</Grid>
 
-						<Grid item xs={3} className={classes.pdfIconGridItem}>
-							<Box onClick={onModalOpen}>
-								<IconButton color='primary'>
-									<PictureAsPdf />
-								</IconButton>
-								<Typography variant='caption'>Your file.pdf</Typography>
-							</Box>
+							<Grid item xs={3} className={classes.pdfIconGridItem}>
+								<Box onClick={onModalOpen}>
+									<IconButton color='primary'>
+										<PictureAsPdf />
+									</IconButton>
+									<Typography variant='caption'>Your file.pdf</Typography>
+								</Box>
+							</Grid>
 						</Grid>
-					</Grid>
-				</CardContent>
+					</CardContent>
+				)}
 
 				<>
 					<CardActions className={classes.cardActions}>
