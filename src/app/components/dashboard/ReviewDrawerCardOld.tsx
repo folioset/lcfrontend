@@ -1,5 +1,3 @@
-import * as React from 'react';
-import { Review } from '../../types';
 import {
 	Avatar,
 	Card,
@@ -9,16 +7,18 @@ import {
 	makeStyles,
 	Theme,
 } from '@material-ui/core';
+import * as React from 'react';
+import { Review as ReviewType } from '../../types';
 
-interface ReviewCardProps {
-	review: Review;
+interface ReviewProps {
+	review: ReviewType;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		root: {
+			width: 600,
 			marginBottom: theme.spacing(3),
-			backgroundColor: theme.palette.grey['200'],
 		},
 		avatar: {
 			backgroundColor: theme.palette.primary.main,
@@ -26,15 +26,15 @@ const useStyles = makeStyles((theme: Theme) =>
 	})
 );
 
-const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
+const ReviewDrawerCard: React.FC<ReviewProps> = ({ review }) => {
 	const classes = useStyles();
 	return (
 		<>
-			<Card elevation={0} className={classes.root}>
+			<Card elevation={3} className={classes.root}>
 				<CardHeader
 					avatar={
 						<Avatar className={classes.avatar} aria-label='recipe'>
-							SR
+							UN
 						</Avatar>
 					}
 					title='Name of User'
@@ -46,4 +46,4 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 	);
 };
 
-export default ReviewCard;
+export default ReviewDrawerCard;

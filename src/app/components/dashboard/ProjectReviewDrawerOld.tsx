@@ -11,7 +11,7 @@ import {
 	Typography,
 } from '@material-ui/core';
 import { Project, Review } from '../../types';
-import ReviewCard from './ReviewCard';
+import ReviewCard from './ReviewDrawerCardOld';
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import TabPanel from '../shared/TabPanel';

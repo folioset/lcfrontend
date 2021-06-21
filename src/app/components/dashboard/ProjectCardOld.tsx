@@ -19,7 +19,7 @@ import { PictureAsPdf } from '@material-ui/icons';
 import * as React from 'react';
 import useDisclosure from '../../hooks/useDisclosure';
 import Rating from '../shared/Rating';
-import PdfView from '../shared/Pdf/PdfView';
+// import PdfView from '../shared/Pdf/PdfView';
 import PdfViewer from '../shared/Pdf/PdfViewer';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import clsx from 'clsx';
@@ -29,7 +29,7 @@ import { Form, Formik } from 'formik';
 import FormInput from '../shared/FormInput';
 import { useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
-import ProjectReviewDrawer from './ProjectReviewDrawer';
+import ProjectReviewDrawer from './ProjectReviewDrawerOld';
 
 interface ProjectProps {
 	project: Project;
