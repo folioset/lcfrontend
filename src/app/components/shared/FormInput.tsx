@@ -11,9 +11,8 @@ const useStyles = makeStyles((theme) => {
 		textField: () => {
 			return {
 				marginBottom: theme.spacing(3),
-
 				'& .MuiFilledInput-root': {
-					backgroundColor: '#f7f7f7',
+					backgroundColor: '#f7f7f7'
 				},
 			};
 		},

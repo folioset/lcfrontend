@@ -13,6 +13,7 @@ import {
 	Button,
 	Collapse,
 	Modal,
+	Tooltip
 } from '@material-ui/core';
 import Rating from '../shared/Rating';
 import * as Yup from 'yup';
@@ -20,6 +21,7 @@ import { Form, Formik } from 'formik';
 import * as React from 'react';
 import { Project, Review, User } from '../../types';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
 import { PictureAsPdf } from '@material-ui/icons';
 import SendIcon from '@material-ui/icons/Send';
 import ReviewCard from './ReviewCard';
@@ -40,14 +42,16 @@ const useStyles = makeStyles((theme: Theme) => {
 	return {
 		comment: {
 			'& .MuiInputBase-input': {
-				borderRadius: '100px',
+				borderRadius: '200px',
 			},
 		},
 		cardActions: {
 			flexDirection: 'column',
+			
 		},
 		cardCommentBox: {
-			marginBottom: theme.spacing(2),
+			marginBottom: theme.spacing(1),
+			marginLeft: theme.spacing(1)
 		},
 		expand: {
 			transform: 'rotate(0deg)',
@@ -59,6 +63,15 @@ const useStyles = makeStyles((theme: Theme) => {
 		expandOpen: {
 			transform: 'rotate(180deg)',
 		},
+		secondColumn: {
+			paddingLeft: theme.spacing(4)
+		},
+		rating: {
+			display: 'flex', 
+			alignItems: 'center', 
+			justifyContent: 'center', 
+			marginBottom: theme.spacing(2),
+		}
 	};
 });
 
@@ -148,49 +161,66 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 			<Card style={{ marginBottom: 30, paddingLeft: 5, paddingRight: 5 }}>
 				<CardHeader
 					title={project.title}
-					subheader={`${new Date(
-						project.createdAt
-					).toLocaleString()}`}
-					style={{marginBottom: -30}}
 				/>
 				<CardContent>
-					<Grid container direction="row">
-						<Grid item xs={9} style={{display: 'flex', alignItems: 'center'}}>
-						{project.description && (
-								<Typography>{project.description}</Typography>
-						)}
+					{!isPublic && <Grid container direction="row" style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+						<Grid item xs={1} style={{display: 'flex', justifyContent: 'space-around'}}>
+							<Typography color='primary' variant='h4'>4.5</Typography>
 						</Grid>
-						<Grid item xs={3}>
-									<IconButton color='primary' onClick={onModalOpen}>
-										<Box mr={2}>
-											<PictureAsPdf />
-										</Box>
-										<Typography variant='caption'>
-											{project.projectFile.split('.com/')[1]}
-										</Typography>
-									</IconButton>
+						<Grid item xs={9} className={classes.secondColumn}>
+							<Grid container direction='column' style={{display: 'flex'}}>
+								<Grid item style={{display: 'flex', alignItems: 'center', marginBottom: 5}}>
+								{project.description && (
+										<Typography>{project.description}</Typography>
+								)}
+								</Grid>
+							</Grid>
+						</Grid>
+						<Grid item xs={2}>
+						<Button variant='contained' size='small' color='primary' onClick={onModalOpen}>
+										View
+									</Button>
+						</Grid>
+					</Grid>}
+					{isPublic && <Grid container direction="row" style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+						<Grid item xs={3} style={{display: 'flex', justifyContent: 'space-around'}}>
+							<Typography color='primary' variant='h4'>4.5</Typography>
+						</Grid>
+						<Grid item xs={8} className={classes.secondColumn}>
+							<Grid container direction='column' style={{display: 'flex'}}>
+								<Grid item style={{display: 'flex', alignItems: 'center', marginBottom: 5}}>
+								{project.description && (
+										<Typography>{project.description}</Typography>
+								)}
+								</Grid>
+							</Grid>
+						</Grid>
+						<Grid item xs={1}>
+						<Button variant='contained' size='small' color='primary' onClick={onModalOpen}>
+										View
+									</Button>
 						</Grid>
 					</Grid>
+						
+					}
+				</CardContent>
+				<CardActions className={classes.cardActions}>
 					{isPublic && (
-						<Grid container>
-							<Grid item xs={2} style={{display: 'flex', alignItems: 'center'}}>
-							    <Typography color='primary' variant='h4'>4.5</Typography>
-							</Grid>
-							<Grid item xs={10} style={{display: 'flex', alignItems: 'center'}}>
-								<Box>
-									<Box
+						<Grid container className={classes.cardCommentBox}>
+							<Grid item xs={3}>
+							<Box
 										style={{ width: 240 }}
 										display='flex'
 										alignItems='center'
 										justifyContent='space-between'>
 										<Typography variant='caption' component='legend'>
-											Your Rating
+											Add Rating
 										</Typography>
-										<Typography color='primary'>
-											{rating.toFixed(1)} / 10
-										</Typography>
+										{/* <Typography variant='body2'>
+											{rating.toFixed(1)}
+										</Typography> */}
 									</Box>
-									<Rating
+							<Rating
 										value={rating}
 										onChange={(e: any) => {
 											let newRating = parseFloat(e.target.value);
@@ -201,19 +231,9 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 										max={10}
 										name={`project-${project._id}-rating`}
 									/>
-								</Box>
+
 							</Grid>
-							
-						</Grid>
-					)}
-				</CardContent>
-				<CardActions className={classes.cardActions}>
-					{isPublic && (
-						<Grid container className={classes.cardCommentBox}>
-							<Grid container item xs={1} justify='center'>
-								<Avatar aria-label={user.name} src={user.profilePicture} />
-							</Grid>
-							<Grid item xs={11}>
+							<Grid item xs={9} className={classes.secondColumn}>
 								<Formik
 									initialValues={{
 										review: '',
@@ -228,7 +248,7 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 										resetForm();
 									}}>
 									<>
-										<Form style={{ display: 'flex' }}>
+										<Form style={{ display: 'flex', alignItems: 'center'}}>
 											<FormInput
 												name='review'
 												className={classes.comment}
@@ -237,18 +257,17 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 												variant='outlined'
 												size='small'
 											/>
+											<Tooltip title='This as a Suggestion for further Improvement' aria-label='Add project'>
+												<IconButton onClick={() => {
+													setType(type === 'comment' ? 'suggestion' : 'comment');
+												}}>
+													{type === 'comment' ? <EmojiObjectsIcon /> : <EmojiObjectsIcon color='primary'/>}
+												</IconButton>
+											</Tooltip>
 											<IconButton type='submit' color='primary'>
 												<SendIcon />
 											</IconButton>
 										</Form>
-										<Button
-											onClick={() => {
-												setType(type === 'comment' ? 'suggestion' : 'comment');
-											}}
-											color='primary'
-											size='small'>
-											This is a {type}
-										</Button>
 									</>
 								</Formik>
 							</Grid>

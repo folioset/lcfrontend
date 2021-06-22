@@ -4,7 +4,7 @@ import Modal from '@material-ui/core/Modal';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import { Box, IconButton, Link, makeStyles, Theme } from '@material-ui/core';
+import { Box, Button, Link, makeStyles, Theme } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { User } from '../../types';
 import { Tooltip } from '@material-ui/core';
@@ -43,6 +43,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 			flexDirection: 'row',
 			justifyContent: 'center',
 		},
+		marginTop: theme.spacing(2)
 	},
 	link: {
 		cursor: 'pointer',
@@ -96,18 +97,25 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 										Click Here to update your profile
 									</Link>
 								)} */}
+								{!isPublic && (
+								<Box className={classes.addProjectGridBtn}>
+										<Button color='primary' variant="contained" onClick={onOpen} >
+											Add Project
+										</Button>
+								</Box>
+							)}
 							</Grid>
-						<Grid item xs={1}>
+						{/* <Grid item xs={1}>
 							{!isPublic && (
 								<Box className={classes.addProjectGridBtn}>
 									<Tooltip title='Add Project' aria-label='Add project'>
-										<IconButton color='primary' onClick={onOpen}>
-											<AddCircleIcon />
-										</IconButton>
+										<Button color='primary' variant="contained" onClick={onOpen} >
+											Add Project
+										</Button>
 									</Tooltip>
 								</Box>
 							)}
-						</Grid>
+						</Grid> */}
 				</Paper>
 			</Box>
 		</>

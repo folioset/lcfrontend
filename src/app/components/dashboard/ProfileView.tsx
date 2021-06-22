@@ -55,11 +55,6 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 						</Box>
 					)}
 					<Box>
-						<Box mb={5} textAlign='center'>
-							<Typography color='primary' variant='h4'>
-								Your Projects
-							</Typography>
-						</Box>
 						{isLoading && (
 							<Box textAlign='center'>
 								<Typography color='primary'>Loading Projects ....</Typography>
