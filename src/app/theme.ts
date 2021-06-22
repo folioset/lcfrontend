@@ -14,7 +14,11 @@ const palette = {
 };
 
 const typography = {
-	fontFamily: "'Montserrat', sans-serif",
+    fontFamily: "'Montserrat', sans-serif",
+    h3: {
+        fontSize: 20,
+        fontWeight: 500
+    }
 };
 
 const theme = createMuiTheme({

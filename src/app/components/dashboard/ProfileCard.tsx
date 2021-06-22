@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 	paper: {},
 	details: {
 		padding: theme.spacing(3),
-		marginTop: theme.spacing(2),
+		margin: theme.spacing(1),
 
 		[theme.breakpoints.down('sm')]: {
 			paddingLeft: theme.spacing(1),
@@ -28,8 +28,14 @@ const useStyles = makeStyles((theme: Theme) => ({
 			paddingBottom: theme.spacing(2),
 		},
 	},
+	about: {
+		marginBottom: theme.spacing(1)
+	},
 	avatar: {
 		backgroundColor: theme.palette.primary.light,
+		marginBottom: theme.spacing(3),
+		height: 100, 
+		width: 100
 	},
 	addProjectGridBtn: {
 		[theme.breakpoints.down('sm')]: {
@@ -54,7 +60,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 
 	return (
 		<>
-			{!isPublic && (
+			{/* {!isPublic && (
 				<Modal
 					open={isOpen}
 					onClose={onClose}
@@ -62,42 +68,36 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 					aria-describedby='simple-modal-description'>
 					<CreateProject {...{ onClose }} />
 				</Modal>
-			)}
+			)} */}
 			<Box className={classes.root}>
 				<Paper elevation={3} className={classes.paper}>
-					<Grid container>
-						<Grid item xs={2} className={classes.details}>
+					<Grid container direction='column' className={classes.details}>
 							<Avatar
 								className={classes.avatar}
 								alt={user.name}
 								src={user.profilePicture}
 							/>
-						</Grid>
-						<Grid className={classes.details} item xs={9}>
-							<Grid container direction='column' spacing={2}>
-								<Typography gutterBottom variant='subtitle1'>
-									{user.name} (Name)
+
+								<Typography gutterBottom variant='h3'>
+									{user.name}
 								</Typography>
-								<Box mb={2}>
 									{user.about && (
-										<Typography variant='body2' gutterBottom>
-											{user.about} (Headline)
+										<Typography variant='body2' gutterBottom className={classes.about}>
+											{user.about}
 										</Typography>
 									)}
-
+									{/* {user.location && ( */}
 									<Typography variant='body2' color='textSecondary'>
 										Hyderabad, India (Location)
 									</Typography>
-								</Box>
-
-								{!isPublic && (
+									{/* // )} */}
+								{/* {!isPublic && (
 									<Link component={RouterLink} to='/dashboard/me/update'>
 										Click Here to update your profile
 									</Link>
-								)}
+								)} */}
 							</Grid>
-						</Grid>
-						<Grid item xs={1}>
+						{/* <Grid item xs={1}>
 							{!isPublic && (
 								<Box className={classes.addProjectGridBtn}>
 									<Tooltip title='Add Project' aria-label='Add project'>
@@ -107,8 +107,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 									</Tooltip>
 								</Box>
 							)}
-						</Grid>
-					</Grid>
+						</Grid> */}
 				</Paper>
 			</Box>
 		</>
