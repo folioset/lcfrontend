@@ -23,6 +23,7 @@ export type CareerOptions = {
 };
 
 export type User = {
+	id?: string;
 	_id: string;
 	objectives?: string[];
 	name: string;

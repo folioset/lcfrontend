@@ -162,13 +162,11 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 											size='small'
 											label='Description'
 										/>
-
 										<FileUpload
 											name='file'
 											filename={values.file?.name}
 											icon={<PictureAsPdf />}
 										/>
-
 										<Box mb={2}>
 											{!isLoading ? (
 												<Autocomplete

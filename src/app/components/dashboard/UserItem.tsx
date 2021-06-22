@@ -21,7 +21,9 @@ const UserItem: React.FC<UserItemProps> = ({ user }) => {
 
 	return (
 		<>
-			<Card elevation={3} onClick={() => history.push('/public')}>
+			<Card
+				elevation={3}
+				onClick={() => history.push(`/public/users/${user._id ?? user.id}`)}>
 				<CardActionArea>
 					<CardContent>
 						<Grid container>
