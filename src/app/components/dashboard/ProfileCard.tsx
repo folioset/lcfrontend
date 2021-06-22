@@ -70,7 +70,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 				</Modal>
 			)} */}
 			<Box className={classes.root}>
-				<Paper elevation={3} className={classes.paper}>
+				<Paper className={classes.paper}>
 					<Grid container direction='column' className={classes.details}>
 							<Avatar
 								className={classes.avatar}
@@ -97,7 +97,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 									</Link>
 								)} */}
 							</Grid>
-						{/* <Grid item xs={1}>
+						<Grid item xs={1}>
 							{!isPublic && (
 								<Box className={classes.addProjectGridBtn}>
 									<Tooltip title='Add Project' aria-label='Add project'>
@@ -107,7 +107,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 									</Tooltip>
 								</Box>
 							)}
-						</Grid> */}
+						</Grid>
 				</Paper>
 			</Box>
 		</>

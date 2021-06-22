@@ -145,26 +145,39 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 				aria-describedby='pdf file of the project'>
 				<PdfViewer filename={project.projectFile} />
 			</Modal>
-			<Card style={{ marginBottom: 40 }}>
+			<Card style={{ marginBottom: 30, paddingLeft: 5, paddingRight: 5 }}>
 				<CardHeader
-					avatar={<Avatar aria-label={user.name} src={user.profilePicture} />}
-					action={<Typography color='primary'>4.5 / 10.0</Typography>}
 					title={project.title}
-					subheader={`posted on ${new Date(
+					subheader={`${new Date(
 						project.createdAt
 					).toLocaleString()}`}
+					style={{marginBottom: -30}}
 				/>
 				<CardContent>
-					{project.description && (
-						<Box mb={4}>
-							<Typography>{project.description}</Typography>
-						</Box>
-					)}
-
+					<Grid container direction="row">
+						<Grid item xs={9} style={{display: 'flex', alignItems: 'center'}}>
+						{project.description && (
+								<Typography>{project.description}</Typography>
+						)}
+						</Grid>
+						<Grid item xs={3}>
+									<IconButton color='primary' onClick={onModalOpen}>
+										<Box mr={2}>
+											<PictureAsPdf />
+										</Box>
+										<Typography variant='caption'>
+											{project.projectFile.split('.com/')[1]}
+										</Typography>
+									</IconButton>
+						</Grid>
+					</Grid>
 					{isPublic && (
 						<Grid container>
-							<Grid item xs={10}>
-								<Box mt={1}>
+							<Grid item xs={2} style={{display: 'flex', alignItems: 'center'}}>
+							    <Typography color='primary' variant='h4'>4.5</Typography>
+							</Grid>
+							<Grid item xs={10} style={{display: 'flex', alignItems: 'center'}}>
+								<Box>
 									<Box
 										style={{ width: 240 }}
 										display='flex'
@@ -190,22 +203,13 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 									/>
 								</Box>
 							</Grid>
-							<Grid item xs={2}>
-								<IconButton color='primary' onClick={onModalOpen}>
-									<Box mr={2}>
-										<PictureAsPdf />
-									</Box>
-									<Typography variant='caption'>
-										{project.projectFile.split('.com/')[1]}
-									</Typography>
-								</IconButton>
-							</Grid>
+							
 						</Grid>
 					)}
 				</CardContent>
 				<CardActions className={classes.cardActions}>
 					{isPublic && (
-						<Grid container spacing={2} className={classes.cardCommentBox}>
+						<Grid container className={classes.cardCommentBox}>
 							<Grid container item xs={1} justify='center'>
 								<Avatar aria-label={user.name} src={user.profilePicture} />
 							</Grid>

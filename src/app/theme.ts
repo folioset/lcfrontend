@@ -9,8 +9,11 @@ const palette = {
 		main: indigo['A700'],
 	},
 	background: {
-		default: '#fff',
+		default: '#ffffff',
 	},
+	profile: {
+		background: '#f3f2ee'
+	}
 };
 
 const typography = {
