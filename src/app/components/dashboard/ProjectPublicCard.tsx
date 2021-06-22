@@ -5,7 +5,6 @@ import {
 	CardContent,
 	CardHeader,
 	Typography,
-	TextField,
 	IconButton,
 	Box,
 	Grid,
@@ -16,17 +15,26 @@ import {
 	Modal,
 } from '@material-ui/core';
 import Rating from '../shared/Rating';
+import * as Yup from 'yup';
+import { Form, Formik } from 'formik';
 import * as React from 'react';
 import { Project, Review, User } from '../../types';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { PictureAsPdf } from '@material-ui/icons';
+import SendIcon from '@material-ui/icons/Send';
 import ReviewCard from './ReviewCard';
-// import PdfViewer from '../shared/Pdf/PdfViewer';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import useDisclosure from '../../hooks/useDisclosure';
 import clsx from 'clsx';
 import axios from 'axios';
 import PdfViewer from '../shared/Pdf/PdfViewer';
+import FormInput from '../shared/FormInput';
+
+const validationSchema = Yup.object().shape({
+	review: Yup.string()
+		.min(10, 'Too Short! You should atleast have 10 characters')
+		.max(100, 'Too Long! Review can only have a maximum of 100 characters'),
+});
 
 const useStyles = makeStyles((theme: Theme) => {
 	return {
@@ -68,6 +76,7 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 	const [rating, setRating] = React.useState(0);
 	const classes = useStyles();
 	const { isOpen, toggleOpen } = useDisclosure();
+	const [type, setType] = React.useState<'comment' | 'suggestion'>('comment');
 
 	// Modal Toggle
 	const {
@@ -75,6 +84,22 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 		onOpen: onModalOpen,
 		onClose: onModalClose,
 	} = useDisclosure();
+
+	const { mutate: addReview } = useMutation(
+		async (data) => {
+			const res = await axios({
+				method: 'POST',
+				url: `/api/project/${project._id}/reviews/`,
+				data,
+			});
+			return res.data;
+		},
+		{
+			onSuccess: () => {
+				queryClient.invalidateQueries(['project-reviews', project._id]);
+			},
+		}
+	);
 
 	React.useEffect(() => {
 		if (project) {
@@ -118,7 +143,6 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 				onClose={onModalClose}
 				aria-labelledby='project-file'
 				aria-describedby='pdf file of the project'>
-				{/* <PdfView onClose={onModalClose} filename={project.projectFile} /> */}
 				<PdfViewer filename={project.projectFile} />
 			</Modal>
 			<Card style={{ marginBottom: 40 }}>
@@ -136,43 +160,47 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 							<Typography>{project.description}</Typography>
 						</Box>
 					)}
-					<Box>
-						<IconButton color='primary' onClick={onModalOpen}>
-							<Box mr={2}>
-								<PictureAsPdf />
-							</Box>
-							<Typography variant='caption'>
-								{project.projectFile.split('.com/')[1]}
-							</Typography>
-						</IconButton>
-					</Box>
 
 					{isPublic && (
-						<Box mt={1}>
-							<Box
-								style={{ width: 240 }}
-								display='flex'
-								alignItems='center'
-								justifyContent='space-between'>
-								<Typography variant='caption' component='legend'>
-									Your Rating
-								</Typography>
-								<Typography color='primary'>
-									{rating.toFixed(1)} / 10
-								</Typography>
-							</Box>
-							<Rating
-								value={rating}
-								onChange={(e: any) => {
-									let newRating = parseFloat(e.target.value);
-									if (rating === newRating) newRating = 0;
-									setRating(newRating);
-									addRating({ value: newRating } as any);
-								}}
-								max={10}
-								name={`project-${project._id}-rating`}
-							/>
-						</Box>
+						<Grid container>
+							<Grid item xs={10}>
+								<Box mt={1}>
+									<Box
+										style={{ width: 240 }}
+										display='flex'
+										alignItems='center'
+										justifyContent='space-between'>
+										<Typography variant='caption' component='legend'>
+											Your Rating
+										</Typography>
+										<Typography color='primary'>
+											{rating.toFixed(1)} / 10
+										</Typography>
+									</Box>
+									<Rating
+										value={rating}
+										onChange={(e: any) => {
+											let newRating = parseFloat(e.target.value);
+											if (rating === newRating) newRating = 0;
+											setRating(newRating);
+											addRating({ value: newRating } as any);
+										}}
+										max={10}
+										name={`project-${project._id}-rating`}
+									/>
+								</Box>
+							</Grid>
+							<Grid item xs={2}>
+								<IconButton color='primary' onClick={onModalOpen}>
+									<Box mr={2}>
+										<PictureAsPdf />
+									</Box>
+									<Typography variant='caption'>
+										{project.projectFile.split('.com/')[1]}
+									</Typography>
+								</IconButton>
+							</Grid>
+						</Grid>
 					)}
 				</CardContent>
 				<CardActions className={classes.cardActions}>
@@ -182,13 +210,45 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 								<Avatar aria-label={user.name} src={user.profilePicture} />
 							</Grid>
 							<Grid item xs={11}>
-								<TextField
-									className={classes.comment}
-									fullWidth
-									placeholder='Add a comment...'
-									variant='outlined'
-									size='small'
-								/>
+								<Formik
+									initialValues={{
+										review: '',
+										category: type,
+									}}
+									validationSchema={validationSchema}
+									onSubmit={async ({ review, category }, { resetForm }) => {
+										const data = {
+											review,
+											category,
+										};
+										console.log({ data });
+										await addReview(data as any);
+										resetForm();
+									}}>
+									<>
+										<Form style={{ display: 'flex' }}>
+											<FormInput
+												name='review'
+												className={classes.comment}
+												fullWidth
+												placeholder={`Add a ${type}...`}
+												variant='outlined'
+												size='small'
+											/>
+											<IconButton type='submit' color='primary'>
+												<SendIcon />
+											</IconButton>
+										</Form>
+										<Button
+											onClick={() => {
+												setType(type === 'comment' ? 'suggestion' : 'comment');
+											}}
+											color='primary'
+											size='small'>
+											This is a {type}
+										</Button>
+									</>
+								</Formik>
 							</Grid>
 						</Grid>
 					)}
