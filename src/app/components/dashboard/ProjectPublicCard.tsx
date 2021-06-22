@@ -213,13 +213,12 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 								<Formik
 									initialValues={{
 										review: '',
-										category: type,
 									}}
 									validationSchema={validationSchema}
-									onSubmit={async ({ review, category }, { resetForm }) => {
+									onSubmit={async ({ review }, { resetForm }) => {
 										const data = {
 											review,
-											category,
+											category: type,
 										};
 										console.log({ data });
 										await addReview(data as any);
