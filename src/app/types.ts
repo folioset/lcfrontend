@@ -37,6 +37,7 @@ export type User = {
 	isVerified: boolean;
 	username?: string;
 	profilePicture?: string;
+	location?: string;
 };
 
 export type Project = {
