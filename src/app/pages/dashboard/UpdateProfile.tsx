@@ -45,6 +45,7 @@ const userProfileInitState = (user: any) => {
 		phoneNumber: user.phone?.phoneNumber || '',
 		code: '91',
 		file: null,
+		location: user.location || '',
 	};
 };
 
@@ -75,6 +76,7 @@ const userProfileValidationSchema = Yup.object().shape({
 			(value: File) => (value ? SUPPORTED_FORMATS.includes(value.type) : true)
 		)
 		.notRequired(),
+	location: Yup.string().notRequired(),
 });
 
 const UpdateProfile: React.FC = () => {
@@ -114,10 +116,12 @@ const UpdateProfile: React.FC = () => {
 				validationSchema={userProfileValidationSchema}
 				onSubmit={(values) => {
 					const data = new FormData();
+
 					data.append('linkedinUrl', values.linkedinUrl);
 					data.append('about', values.about);
 					data.append('phoneNumber', values.phoneNumber);
 					data.append('code', values.code);
+					data.append('location', values.location);
 
 					if (values.file && values.file !== user!.profilePicture) {
 						data.append('file', values.file as any);
@@ -127,7 +131,7 @@ const UpdateProfile: React.FC = () => {
 				}}>
 				{() => {
 					return (
-						<Container maxWidth='md'>
+						<Container maxWidth='md' style={{ paddingBottom: '3rem' }}>
 							<Form autoComplete='off' noValidate>
 								<Grid container spacing={1}>
 									<Box className={classes.avatarContainer}>
@@ -166,6 +170,16 @@ const UpdateProfile: React.FC = () => {
 											name='phoneNumber'
 											required={false}
 											helperText='Please provide us with your phone number as this will help us add you to relevant groups and send you reminders about your calls'
+										/>
+									</Grid>
+
+									<Grid item md={11} xs={10}>
+										<FormInput
+											fullWidth
+											variant='filled'
+											label='Location'
+											name='location'
+											required={false}
 										/>
 									</Grid>
 

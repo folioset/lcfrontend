@@ -4,27 +4,38 @@ import { useQuery, useQueryClient } from 'react-query';
 import { Project as ProjectType, User } from '../../types';
 import axios from 'axios';
 import ProfileView from '../../components/dashboard/ProfileView';
+import { useParams } from 'react-router-dom';
+import { Box } from '@material-ui/core';
 
 interface PublicProfileProps {}
 
 const PublicProfile: React.FC<PublicProfileProps> = () => {
+	const params = useParams<{ userId: string }>();
 	const queryClient = useQueryClient();
-	const user = queryClient.getQueryData<User>('user')!;
+	const [user, setUser] = React.useState<User>();
+	const users = queryClient.getQueryData<User[]>('all-users')!;
+
 	const { isLoading, data } = useQuery<ProjectType[]>(
-		'my-projects',
+		['projects', params.userId],
 		async () => {
-			try {
-				const res = await axios.get(`/api/user/${user._id}/get-all-projects`);
-				return res.data;
-			} catch (err) {
-				return err;
-			}
+			const res = await axios.get(
+				`/api/user/${params.userId}/get-all-projects`
+			);
+			return res.data;
+		},
+		{
+			onSuccess: () => {
+				setUser(users.find((u) => u._id === params.userId));
+			},
 		}
 	);
 
 	return (
 		<>
-			<ProfileView isLoading={isLoading} data={data} user={user} isPublic />
+			{isLoading && <Box>Loading....</Box>}
+			{data && (
+				<ProfileView isLoading={isLoading} data={data} user={user} isPublic />
+			)}
 		</>
 	);
 };

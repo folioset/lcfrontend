@@ -8,13 +8,13 @@ import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
+// import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Toolbar from '@material-ui/core/Toolbar';
 import {
 	Avatar,
 	Divider,
-	FormControl,
-	InputAdornment,
+	// FormControl,
+	// InputAdornment,
 	makeStyles,
 } from '@material-ui/core';
 
@@ -25,7 +25,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import EditIcon from '@material-ui/icons/Edit';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import SearchIcon from '@material-ui/icons/Search';
+// import SearchIcon from '@material-ui/icons/Search';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import PeopleIcon from '@material-ui/icons/People';
 
@@ -36,7 +36,7 @@ import NavItem from './NavItem';
 import { User } from '../../../types';
 import Logo from '../../../components/shared/Logo';
 import MenuLink from '../../../components/shared/HrefLink/MenuLink';
-import { SearchContext } from '../../../contexts/SearchContext';
+// import { SearchContext } from '../../../contexts/SearchContext';
 
 // Styles
 const useStyles = makeStyles((theme) => {
@@ -73,7 +73,7 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 	const queryClient = useQueryClient();
 
 	const user = queryClient.getQueryData<User>('user');
-	const { handleSearch, search, setSearch } = React.useContext(SearchContext);
+	// const { handleSearch, search, setSearch } = React.useContext(SearchContext);
 
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -109,7 +109,7 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 
 					{user && (
 						<Box className={classes.nav}>
-							<Box
+							{/* <Box
 								className={classes.formControl}
 								component='form'
 								onSubmit={(e) => handleSearch!(e)}>
@@ -130,7 +130,13 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 								<Button disableElevation color='primary' variant='contained'>
 									Search
 								</Button>
-							</Box>
+							</Box> */}
+							<NavItem
+								exact
+								to='/public/users'
+								icon={<AccountCircleIcon color={'inherit'} />}>
+								<Box>Find Users</Box>
+							</NavItem>
 							<Button
 								startIcon={<Avatar src={user.profilePicture} />}
 								aria-controls='dropdown'

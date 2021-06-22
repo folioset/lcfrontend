@@ -56,6 +56,7 @@ const NavItem: React.FC<Props> = ({
 
 	return (
 		<Button
+			startIcon={icon}
 			className={classes.navLink}
 			activeClassName={classes.active}
 			{...{ to, exact, variant, color }}

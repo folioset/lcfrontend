@@ -3,9 +3,7 @@ import {
 	Box,
 	Card,
 	CardContent,
-	createStyles,
-	makeStyles,
-	Theme,
+	Grid,
 	Typography,
 } from '@material-ui/core';
 import * as React from 'react';
@@ -18,32 +16,77 @@ interface UserItemProps {
 	user: User;
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-	createStyles({
-		avatarContainer: {
-			display: 'flex',
-			justifyContent: 'center',
-			marginBottom: theme.spacing(3),
-		},
-	})
-);
-
 const UserItem: React.FC<UserItemProps> = ({ user }) => {
-	const classes = useStyles();
 	const history = useHistory();
 
 	return (
 		<>
-			<Card elevation={3} onClick={() => history.push('/public')}>
+			<Card
+				elevation={3}
+				onClick={() => history.push(`/public/users/${user._id ?? user.id}`)}>
 				<CardActionArea>
 					<CardContent>
-						<Box className={classes.avatarContainer}>
-							<Avatar />
-						</Box>
-						<Box>
-							<Typography>{user.name}</Typography>
-							<Typography color='primary'>@{user.username}</Typography>
-						</Box>
+						<Grid container>
+							<Grid item xs={2}>
+								<Avatar
+									style={{ height: '5rem', width: '5rem' }}
+									alt={user.name}
+									src={user.profilePicture}
+								/>
+							</Grid>
+							<Grid item xs={3}>
+								<Grid
+									container
+									direction='column'
+									style={{
+										alignItems: 'flex-start',
+										justifyContent: 'center',
+									}}>
+									<Grid item>
+										<Typography gutterBottom variant='h6'>
+											{user.name || user.username} (Name)
+										</Typography>
+										<Typography gutterBottom color='primary'>
+											{'@' + user.username} (username)
+										</Typography>
+									</Grid>
+									<Grid item>
+										<Box mt={4}>
+											{user.about && (
+												<Typography variant='body2' gutterBottom>
+													{user.about} (Headline)
+												</Typography>
+											)}
+
+											<Typography variant='body2' color='textSecondary'>
+												Hyderabad, India (Location)
+											</Typography>
+										</Box>
+									</Grid>
+								</Grid>
+							</Grid>
+							<Grid item xs={3}>
+								<Grid container direction='column'>
+									<Grid
+										item
+										style={{
+											justifyContent: 'center',
+											alignItems: 'center',
+											display: 'flex',
+										}}>
+										<Box>
+											<Typography variant='h6'># projects</Typography>
+										</Box>
+									</Grid>
+
+									<Box mt={6.5}>
+										<Typography color='primary' variant='h4'>
+											18
+										</Typography>
+									</Box>
+								</Grid>
+							</Grid>
+						</Grid>
 					</CardContent>
 				</CardActionArea>
 			</Card>

@@ -12,7 +12,7 @@ import { useQuery } from 'react-query';
 import UserItem from '../../components/dashboard/UserItem';
 import { User } from '../../types';
 
-interface SearchProps {}
+interface UsersProps {}
 
 const useStyles = makeStyles((theme: Theme) => {
 	return {
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) => {
 	};
 });
 
-const Search: React.FC<SearchProps> = () => {
+const Users: React.FC<UsersProps> = () => {
 	const classes = useStyles();
 	const { isLoading, data } = useQuery('all-users', async (data) => {
 		const res = await axios({
@@ -44,8 +44,8 @@ const Search: React.FC<SearchProps> = () => {
 					<Grid container spacing={3}>
 						{data?.map((user: User) => {
 							return (
-								<Grid item xs={12} md={6} lg={4}>
-									<UserItem user={user} />
+								<Grid item xs={12}>
+									<UserItem key={user._id} user={user} />
 								</Grid>
 							);
 						})}
@@ -56,4 +56,4 @@ const Search: React.FC<SearchProps> = () => {
 	);
 };
 
-export default Search;
+export default Users;

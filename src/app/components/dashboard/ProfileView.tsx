@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => {
 });
 
 interface ProfileViewProps {
-	user: User;
+	user?: User;
 	isLoading: boolean;
 	data: any;
 	isPublic?: boolean;
@@ -44,13 +44,16 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 	isPublic,
 }) => {
 	const classes = useStyles();
+
 	return (
 		<>
 			<Box className={classes.root}>
 				<Container maxWidth='md'>
-					<Box my={5}>
-						<ProfileCard user={user} isPublic={isPublic} />
-					</Box>
+					{user && (
+						<Box my={5}>
+							<ProfileCard user={user} isPublic={isPublic} />
+						</Box>
+					)}
 					<Box>
 						<Box mb={5} textAlign='center'>
 							<Typography color='primary' variant='h4'>
@@ -63,7 +66,6 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 							</Box>
 						)}
 						{data?.map((project: Project) => {
-							// if (isPublic) {
 							return (
 								<ProjectPublicCard
 									isPublic={isPublic}
@@ -71,15 +73,6 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 									{...{ project }}
 								/>
 							);
-							// }
-
-							// return (
-							// 	<ProjectCard
-							// 		isPublic={isPublic}
-							// 		key={project._id}
-							// 		{...{ project }}
-							// 	/>
-							// );
 						})}
 					</Box>
 				</Container>
