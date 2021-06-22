@@ -44,7 +44,7 @@ const Search: React.FC<SearchProps> = () => {
 					<Grid container spacing={3}>
 						{data?.map((user: User) => {
 							return (
-								<Grid item xs={12} md={6} lg={4}>
+								<Grid item xs={12}>
 									<UserItem user={user} />
 								</Grid>
 							);

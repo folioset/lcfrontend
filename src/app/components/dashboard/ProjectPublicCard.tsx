@@ -220,7 +220,6 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 											review,
 											category: type,
 										};
-										console.log({ data });
 										await addReview(data as any);
 										resetForm();
 									}}>
@@ -280,6 +279,7 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 						{data?.map((review: Review) => {
 							return <ReviewCard key={review._id} {...{ review }} />;
 						})}
+
 						{!isLoading && !data?.length && (
 							<Typography color='primary'>No reviews yet</Typography>
 						)}
