@@ -92,11 +92,6 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 								{user.location} (Location)
 							</Typography>
 						)}
-						{/* {!isPublic && (
-									<Link component={RouterLink} to='/dashboard/me/update'>
-										Click Here to update your profile
-									</Link>
-								)} */}
 						{!isPublic && (
 							<Box className={classes.addProjectGridBtn}>
 								<Button color='primary' variant='contained' onClick={onOpen}>
@@ -105,17 +100,6 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 							</Box>
 						)}
 					</Grid>
-					{/* <Grid item xs={1}>
-							{!isPublic && (
-								<Box className={classes.addProjectGridBtn}>
-									<Tooltip title='Add Project' aria-label='Add project'>
-										<Button color='primary' variant="contained" onClick={onOpen} >
-											Add Project
-										</Button>
-									</Tooltip>
-								</Box>
-							)}
-						</Grid> */}
 				</Paper>
 			</Box>
 		</>

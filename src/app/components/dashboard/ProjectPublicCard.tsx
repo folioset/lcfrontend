@@ -85,7 +85,7 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 	const user = queryClient.getQueryData<User>('user')!;
 	const [rating, setRating] = React.useState(0);
 	const classes = useStyles();
-	const { isOpen, toggleOpen } = useDisclosure();
+	const { isOpen, toggleOpen, onOpen } = useDisclosure();
 	const [type, setType] = React.useState<'comment' | 'suggestion'>('comment');
 
 	// Modal Toggle
@@ -107,6 +107,7 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 		{
 			onSuccess: () => {
 				queryClient.invalidateQueries(['project-reviews', project._id]);
+				onOpen();
 			},
 		}
 	);
@@ -137,14 +138,21 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 		}
 	);
 
-	const { mutate: addRating } = useMutation(async (data) => {
-		const res = await axios({
-			method: 'PUT',
-			url: `/api/project/${project._id}/add-rating`,
-			data,
-		});
-		return res.data;
-	});
+	const { mutate: addRating } = useMutation(
+		async (data) => {
+			const res = await axios({
+				method: 'PUT',
+				url: `/api/project/${project._id}/add-rating`,
+				data,
+			});
+			return res.data;
+		},
+		{
+			onSuccess: () => {
+				queryClient.invalidateQueries(['projects', user._id]);
+			},
+		}
+	);
 
 	return (
 		<>
@@ -172,7 +180,7 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 								xs={1}
 								style={{ display: 'flex', justifyContent: 'space-around' }}>
 								<Typography color='primary' variant='h4'>
-									4.5
+									{project.avgRating?.toFixed(2)}
 								</Typography>
 							</Grid>
 							<Grid item xs={9} className={classes.secondColumn}>
@@ -215,7 +223,7 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 								xs={3}
 								style={{ display: 'flex', justifyContent: 'space-around' }}>
 								<Typography color='primary' variant='h4'>
-									4.5
+									{project.avgRating?.toFixed(2)}
 								</Typography>
 							</Grid>
 							<Grid item xs={8} className={classes.secondColumn}>
@@ -255,11 +263,9 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 									alignItems='center'
 									justifyContent='space-between'>
 									<Typography variant='caption' component='legend'>
-										Add Rating
+										Your Rating
 									</Typography>
-									{/* <Typography variant='body2'>
-											{rating.toFixed(1)}
-										</Typography> */}
+									<Typography variant='body2'>{rating.toFixed(1)}</Typography>
 								</Box>
 								<Rating
 									value={rating}

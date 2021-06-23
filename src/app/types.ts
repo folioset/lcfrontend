@@ -28,6 +28,7 @@ export type Project = {
 	title: string;
 	updatedAt?: Date | string | number;
 	__v?: number;
+	avgRating?: number;
 	_id: string;
 };
 
