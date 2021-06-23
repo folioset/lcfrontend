@@ -8,6 +8,7 @@ import ProfileView from '../../components/dashboard/ProfileView';
 const Dashboard: React.FC = () => {
 	const queryClient = useQueryClient();
 	const user = queryClient.getQueryData<User>('user')!;
+
 	const { isLoading, data } = useQuery<ProjectType[]>(
 		'my-projects',
 		async () => {

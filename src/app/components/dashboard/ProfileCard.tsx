@@ -4,13 +4,10 @@ import Modal from '@material-ui/core/Modal';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import { Box, Button, Link, makeStyles, Theme } from '@material-ui/core';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
+import { Box, Button, makeStyles, Theme } from '@material-ui/core';
 import { User } from '../../types';
-import { Tooltip } from '@material-ui/core';
 import useDisclosure from '../../hooks/useDisclosure';
 import CreateProject from './CreateProject';
-import { Link as RouterLink } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
@@ -29,13 +26,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 		},
 	},
 	about: {
-		marginBottom: theme.spacing(1)
+		marginBottom: theme.spacing(1),
 	},
 	avatar: {
 		backgroundColor: theme.palette.primary.light,
 		marginBottom: theme.spacing(3),
-		height: 100, 
-		width: 100
+		height: 100,
+		width: 100,
 	},
 	addProjectGridBtn: {
 		[theme.breakpoints.down('sm')]: {
@@ -43,7 +40,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 			flexDirection: 'row',
 			justifyContent: 'center',
 		},
-		marginTop: theme.spacing(2)
+		marginTop: theme.spacing(2),
 	},
 	link: {
 		cursor: 'pointer',
@@ -61,7 +58,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 
 	return (
 		<>
-			{/* {!isPublic && (
+			{!isPublic && (
 				<Modal
 					open={isOpen}
 					onClose={onClose}
@@ -69,43 +66,46 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 					aria-describedby='simple-modal-description'>
 					<CreateProject {...{ onClose }} />
 				</Modal>
-			)} */}
+			)}
 			<Box className={classes.root}>
 				<Paper className={classes.paper}>
 					<Grid container direction='column' className={classes.details}>
-							<Avatar
-								className={classes.avatar}
-								alt={user.name}
-								src={user.profilePicture}
-							/>
+						<Avatar
+							className={classes.avatar}
+							alt={user.name}
+							src={user.profilePicture}
+						/>
 
-								<Typography gutterBottom variant='h3'>
-									{user.name}
-								</Typography>
-									{user.about && (
-										<Typography variant='body2' gutterBottom className={classes.about}>
-											{user.about}
-										</Typography>
-									)}
-									{/* {user.location && ( */}
-									<Typography variant='body2' color='textSecondary'>
-										Hyderabad, India (Location)
-									</Typography>
-									{/* // )} */}
-								{/* {!isPublic && (
+						<Typography gutterBottom variant='h3'>
+							{user.name}
+						</Typography>
+						{user.about && (
+							<Typography
+								variant='body2'
+								gutterBottom
+								className={classes.about}>
+								{user.about}
+							</Typography>
+						)}
+						{/* {user.location && ( */}
+						<Typography variant='body2' color='textSecondary'>
+							Hyderabad, India (Location)
+						</Typography>
+						{/* // )} */}
+						{/* {!isPublic && (
 									<Link component={RouterLink} to='/dashboard/me/update'>
 										Click Here to update your profile
 									</Link>
 								)} */}
-								{!isPublic && (
-								<Box className={classes.addProjectGridBtn}>
-										<Button color='primary' variant="contained" onClick={onOpen} >
-											Add Project
-										</Button>
-								</Box>
-							)}
-							</Grid>
-						{/* <Grid item xs={1}>
+						{!isPublic && (
+							<Box className={classes.addProjectGridBtn}>
+								<Button color='primary' variant='contained' onClick={onOpen}>
+									Add Project
+								</Button>
+							</Box>
+						)}
+					</Grid>
+					{/* <Grid item xs={1}>
 							{!isPublic && (
 								<Box className={classes.addProjectGridBtn}>
 									<Tooltip title='Add Project' aria-label='Add project'>
