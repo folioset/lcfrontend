@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import PublicProfile from './PublicProfile';
-import Users from './Users';
+
+const PublicProfile = React.lazy(() => import('./PublicProfile'));
+const Users = React.lazy(() => import('./Users'));
 
 interface PublicProps {}
 

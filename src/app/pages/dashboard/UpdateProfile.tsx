@@ -21,6 +21,7 @@ import { useHistory } from 'react-router';
 import FormInput from '../../components/shared/FormInput';
 import FileUpload from '../../components/shared/FileUpload';
 import useImageUpload from '../../hooks/useImageUpload';
+import useAuthRoute from '../../hooks/useAuthRoute';
 
 const useStyles = makeStyles((theme: Theme) => {
 	return {
@@ -80,6 +81,7 @@ const userProfileValidationSchema = Yup.object().shape({
 });
 
 const UpdateProfile: React.FC = () => {
+	useAuthRoute('protected', '/');
 	const queryClient = useQueryClient();
 	const history = useHistory();
 	const user = queryClient.getQueryData<User>('user');

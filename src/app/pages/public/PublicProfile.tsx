@@ -6,10 +6,12 @@ import axios from 'axios';
 import ProfileView from '../../components/dashboard/ProfileView';
 import { useParams } from 'react-router-dom';
 import { Box } from '@material-ui/core';
+import useAuthRoute from '../../hooks/useAuthRoute';
 
 interface PublicProfileProps {}
 
 const PublicProfile: React.FC<PublicProfileProps> = () => {
+	useAuthRoute('protected', '/');
 	const params = useParams<{ userId: string }>();
 
 	const { isLoading: isUserLoading, data: user } = useQuery(

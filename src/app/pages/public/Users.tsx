@@ -10,6 +10,7 @@ import axios from 'axios';
 import * as React from 'react';
 import { useQuery } from 'react-query';
 import UserItem from '../../components/dashboard/UserItem';
+import useAuthRoute from '../../hooks/useAuthRoute';
 import { User } from '../../types';
 
 interface UsersProps {}
@@ -27,6 +28,7 @@ const useStyles = makeStyles((theme: Theme) => {
 });
 
 const Users: React.FC<UsersProps> = () => {
+	useAuthRoute('protected', '/');
 	const classes = useStyles();
 	const { isLoading, data } = useQuery('all-users', async (data) => {
 		const res = await axios({
