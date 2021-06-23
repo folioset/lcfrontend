@@ -35,6 +35,8 @@ export type Project = {
 export type ReviewDetail = {
 	category: 'suggestion' | 'comment';
 	createdAt: Date | string | number;
+	updatedAt: Date | string | number;
+
 	createdBy: string;
 	review: string;
 	_id: string;

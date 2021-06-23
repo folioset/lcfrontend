@@ -13,6 +13,7 @@ import {
 	Collapse,
 	Modal,
 	Tooltip,
+	Paper,
 } from '@material-ui/core';
 import Rating from '../shared/Rating';
 import * as Yup from 'yup';
@@ -25,8 +26,10 @@ import SendIcon from '@material-ui/icons/Send';
 import ReviewCard from './ReviewCard';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import useDisclosure from '../../hooks/useDisclosure';
+import DeleteIcon from '@material-ui/icons/Delete';
 import clsx from 'clsx';
 import axios from 'axios';
+import EditIcon from '@material-ui/icons/Edit';
 import PdfViewer from '../shared/Pdf/PdfViewer';
 import FormInput from '../shared/FormInput';
 
@@ -69,6 +72,32 @@ const useStyles = makeStyles((theme: Theme) => {
 			justifyContent: 'center',
 			marginBottom: theme.spacing(2),
 		},
+		deleteConfirm: {
+			position: 'absolute',
+			top: '50%',
+			left: '50%',
+			transform: `translate(-50%, -50%)`,
+			padding: theme.spacing(3),
+
+			[theme.breakpoints.down('sm')]: {
+				width: '55%',
+			},
+
+			[theme.breakpoints.down('xs')]: {
+				width: '90%',
+			},
+		},
+		deleteConfirmBtns: {
+			display: 'flex',
+			justifyContent: 'center',
+			alignItems: 'center',
+			marginTop: theme.spacing(2),
+
+			'& button': {
+				marginLeft: theme.spacing(1),
+				marginRight: theme.spacing(1),
+			},
+		},
 	};
 });
 
@@ -95,6 +124,12 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 		onClose: onModalClose,
 	} = useDisclosure();
 
+	const {
+		isOpen: isDeleteOpen,
+		onOpen: onDeleteOpen,
+		onClose: onDeleteClose,
+	} = useDisclosure();
+
 	const { mutate: addReview } = useMutation(
 		async (data) => {
 			const res = await axios({
@@ -108,6 +143,21 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 			onSuccess: () => {
 				queryClient.invalidateQueries(['project-reviews', project._id]);
 				onOpen();
+			},
+		}
+	);
+
+	const { mutate: deleteProject } = useMutation(
+		async () => {
+			const res = await axios({
+				method: 'delete',
+				url: `/api/project/${project._id}`,
+			});
+			return res.data;
+		},
+		{
+			onSuccess: () => {
+				queryClient.invalidateQueries('my-projects');
 			},
 		}
 	);
@@ -157,6 +207,30 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 	return (
 		<>
 			<Modal
+				open={isDeleteOpen}
+				onClose={onDeleteClose}
+				aria-labelledby='project-file'
+				aria-describedby='pdf file of the project'>
+				<Paper className={classes.deleteConfirm}>
+					<Typography>
+						Are you sure you want to delete this project ?
+					</Typography>
+					<Box className={classes.deleteConfirmBtns}>
+						<Button
+							disableElevation
+							// onClick={() => deleteProject()}
+							variant='contained'
+							color='primary'
+							startIcon={<DeleteIcon />}>
+							Yes
+						</Button>
+						<Button variant='outlined' onClick={onDeleteClose}>
+							Cancel
+						</Button>
+					</Box>
+				</Paper>
+			</Modal>
+			<Modal
 				open={isModalOpen}
 				onClose={onModalClose}
 				aria-labelledby='project-file'
@@ -164,7 +238,21 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 				<PdfViewer filename={project.projectFile} />
 			</Modal>
 			<Card style={{ marginBottom: 30, paddingLeft: 5, paddingRight: 5 }}>
-				<CardHeader title={project.title} />
+				<CardHeader
+					title={project.title}
+					action={
+						!isPublic ? (
+							<>
+								<IconButton>
+									<EditIcon color='primary' />
+								</IconButton>
+								<IconButton onClick={onDeleteOpen}>
+									<DeleteIcon style={{ color: 'red' }} />
+								</IconButton>
+							</>
+						) : null
+					}
+				/>
 				<CardContent>
 					{!isPublic && (
 						<Grid

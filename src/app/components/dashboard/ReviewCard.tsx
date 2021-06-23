@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { format } from 'date-fns';
 import { Review } from '../../types';
 import {
 	Avatar,
@@ -38,10 +39,16 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 			<Card elevation={0} className={classes.root}>
 				<CardHeader
 					action={
-						'Posted on ' +
-						new Date(review.reviewDetails.createdAt).toLocaleDateString() +
-						' at ' +
-						new Date(review.reviewDetails.createdAt).toLocaleTimeString()
+						<Typography
+							style={{ paddingRight: 3 }}
+							color='textSecondary'
+							variant='caption'>
+							{'Updated on ' +
+								format(
+									new Date(review.reviewDetails.updatedAt),
+									'MMMM dd yyyy'
+								)}
+						</Typography>
 					}
 					style={{ marginBottom: -20 }}
 					avatar={
