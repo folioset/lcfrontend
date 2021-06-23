@@ -87,11 +87,11 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 								{user.about}
 							</Typography>
 						)}
-						{/* {user.location && ( */}
-						<Typography variant='body2' color='textSecondary'>
-							Hyderabad, India (Location)
-						</Typography>
-						{/* // )} */}
+						{user.location && (
+							<Typography variant='body2' color='textSecondary'>
+								{user.location} (Location)
+							</Typography>
+						)}
 						{/* {!isPublic && (
 									<Link component={RouterLink} to='/dashboard/me/update'>
 										Click Here to update your profile

@@ -349,7 +349,9 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 							</Typography>
 						)}
 						{data?.map((review: Review) => {
-							return <ReviewCard key={review._id} {...{ review }} />;
+							return (
+								<ReviewCard key={review.reviewDetails._id} {...{ review }} />
+							);
 						})}
 
 						{!isLoading && !data?.length && (

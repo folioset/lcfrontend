@@ -16,6 +16,10 @@ interface UsersProps {}
 
 const useStyles = makeStyles((theme: Theme) => {
 	return {
+		root: {
+			paddingTop: theme.spacing(2),
+			paddingBottom: theme.spacing(3),
+		},
 		heading: {
 			marginBottom: theme.spacing(3),
 		},
@@ -35,7 +39,7 @@ const Users: React.FC<UsersProps> = () => {
 
 	return (
 		<>
-			<Container maxWidth='md'>
+			<Container maxWidth='md' className={classes.root}>
 				<Box textAlign='center'>
 					<Typography className={classes.heading} variant='h4'>
 						Users

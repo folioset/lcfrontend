@@ -34,7 +34,7 @@ const UserItem: React.FC<UserItemProps> = ({ user }) => {
 									src={user.profilePicture}
 								/>
 							</Grid>
-							<Grid item xs={3}>
+							<Grid item xs={8}>
 								<Grid
 									container
 									direction='column'
@@ -59,13 +59,13 @@ const UserItem: React.FC<UserItemProps> = ({ user }) => {
 											)}
 
 											<Typography variant='body2' color='textSecondary'>
-												Hyderabad, India (Location)
+												{user.location}
 											</Typography>
 										</Box>
 									</Grid>
 								</Grid>
 							</Grid>
-							<Grid item xs={3}>
+							<Grid item xs={2}>
 								<Grid container direction='column'>
 									<Grid
 										item
@@ -79,9 +79,9 @@ const UserItem: React.FC<UserItemProps> = ({ user }) => {
 										</Box>
 									</Grid>
 
-									<Box mt={6.5}>
+									<Box mt={4}>
 										<Typography color='primary' variant='h4'>
-											18
+											{user.numberOfProjects}
 										</Typography>
 									</Box>
 								</Grid>

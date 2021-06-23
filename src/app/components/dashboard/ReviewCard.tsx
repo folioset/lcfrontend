@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme: Theme) =>
 		avatar: {
 			backgroundColor: theme.palette.primary.main,
 		},
+		content: {
+			marginTop: theme.spacing(3),
+		},
 	})
 );
 
@@ -32,17 +35,27 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 		<>
 			<Card elevation={0} className={classes.root}>
 				<CardHeader
-				    action='Posted date'
-					style={{marginBottom: -20}}
+					action={
+						'Posted on ' +
+						new Date(review.reviewDetails.createdAt).toLocaleDateString() +
+						' at ' +
+						new Date(review.reviewDetails.createdAt).toLocaleTimeString()
+					}
+					style={{ marginBottom: -20 }}
 					avatar={
-						<Avatar className={classes.avatar} aria-label='recipe'>
-							SR
+						<Avatar className={classes.avatar} src={review.profilePicture}>
+							{review.name}
 						</Avatar>
 					}
-					title='Name of User'
-					subheader='Headline of user'
+					title={review.name}
+					subheader={'@' + review.username}
+					subheaderTypographyProps={{
+						color: 'primary',
+					}}
 				/>
-				<CardContent>{review.review}</CardContent>
+				<CardContent className={classes.content}>
+					{review.reviewDetails.review}
+				</CardContent>
 			</Card>
 		</>
 	);
