@@ -24,7 +24,9 @@ const UserContextProvider: React.FC<UserContextProps> = ({ children }: any) => {
 		{
 			onSuccess: (data) => {
 				if (data) {
-					if (!data.isVerified) {
+					if (!data._id) {
+						return history.replace('/');
+					} else if (!data.isVerified) {
 						return history.replace('/onboarding');
 					}
 				}

@@ -11,8 +11,8 @@ import { makeStyles } from '@material-ui/core';
 // Assets
 import { ReactComponent as SvgBackground } from '../../assets/home.svg';
 import { useQueryClient } from 'react-query';
-import { UserContext } from '../contexts/UserContext';
 import { useHistory } from 'react-router-dom';
+import { User } from '../types';
 
 // Styles
 const useStyles = makeStyles((theme) => {
@@ -58,17 +58,16 @@ const useStyles = makeStyles((theme) => {
 });
 
 const Home: React.FC = () => {
-	const history = useHistory();
 	const classes = useStyles();
 	const queryClient = useQueryClient();
-	const user = queryClient.getQueryData('user')!;
-	const { isLoading } = React.useContext(UserContext);
+	const user = queryClient.getQueryData<User>('user');
+	const history = useHistory();
 
 	React.useEffect(() => {
-		if (user || !isLoading) {
-			return history.goBack();
+		if (user?._id) {
+			return history.replace('/dashboard');
 		}
-	}, [user, isLoading, history]);
+	}, [user, history]);
 
 	return (
 		<Container maxWidth='xl'>
