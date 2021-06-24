@@ -8,11 +8,11 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core';
 
-// Hooks
-import useAuthRoute from '../hooks/useAuthRoute';
-
 // Assets
 import { ReactComponent as SvgBackground } from '../../assets/home.svg';
+import { useQueryClient } from 'react-query';
+import { UserContext } from '../contexts/UserContext';
+import { useHistory } from 'react-router-dom';
 
 // Styles
 const useStyles = makeStyles((theme) => {
@@ -58,8 +58,17 @@ const useStyles = makeStyles((theme) => {
 });
 
 const Home: React.FC = () => {
-	useAuthRoute('not-protected', '/dashboard');
+	const history = useHistory();
 	const classes = useStyles();
+	const queryClient = useQueryClient();
+	const user = queryClient.getQueryData('user')!;
+	const { isLoading } = React.useContext(UserContext);
+
+	React.useEffect(() => {
+		if (user || !isLoading) {
+			return history.goBack();
+		}
+	}, [user, isLoading, history]);
 
 	return (
 		<Container maxWidth='xl'>

@@ -14,6 +14,7 @@ import {
 	Modal,
 	Tooltip,
 	Paper,
+	CircularProgress,
 } from '@material-ui/core';
 import Rating from '../shared/Rating';
 import * as Yup from 'yup';
@@ -147,7 +148,7 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 		}
 	);
 
-	const { mutate: deleteProject } = useMutation(
+	const { mutate: deleteProject, isLoading: isDeleting } = useMutation(
 		async () => {
 			const res = await axios({
 				method: 'delete',
@@ -218,10 +219,17 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 					<Box className={classes.deleteConfirmBtns}>
 						<Button
 							disableElevation
-							// onClick={() => deleteProject()}
+							onClick={() => deleteProject()}
 							variant='contained'
 							color='primary'
-							startIcon={<DeleteIcon />}>
+							disabled={isDeleting}
+							startIcon={
+								isDeleting ? (
+									<CircularProgress size='small' style={{ color: 'white' }} />
+								) : (
+									<DeleteIcon />
+								)
+							}>
 							Yes
 						</Button>
 						<Button variant='outlined' onClick={onDeleteClose}>
@@ -254,92 +262,47 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 					}
 				/>
 				<CardContent>
-					{!isPublic && (
+					<Grid
+						container
+						direction='row'
+						style={{
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+						}}>
 						<Grid
-							container
-							direction='row'
-							style={{
-								display: 'flex',
-								alignItems: 'center',
-								justifyContent: 'center',
-							}}>
-							<Grid
-								item
-								xs={1}
-								style={{ display: 'flex', justifyContent: 'space-around' }}>
-								<Typography color='primary' variant='h4'>
-									{project.avgRating?.toFixed(2)}
-								</Typography>
-							</Grid>
-							<Grid item xs={9} className={classes.secondColumn}>
-								<Grid container direction='column' style={{ display: 'flex' }}>
-									<Grid
-										item
-										style={{
-											display: 'flex',
-											alignItems: 'center',
-											marginBottom: 5,
-										}}>
-										{project.description && (
-											<Typography>{project.description}</Typography>
-										)}
-									</Grid>
+							item
+							xs={3}
+							style={{ display: 'flex', justifyContent: 'space-around' }}>
+							<Typography color='primary' variant='h4'>
+								{project.avgRating?.toFixed(2)}
+							</Typography>
+						</Grid>
+						<Grid item xs={8} className={classes.secondColumn}>
+							<Grid container direction='column' style={{ display: 'flex' }}>
+								<Grid
+									item
+									style={{
+										display: 'flex',
+										alignItems: 'center',
+										marginBottom: 5,
+									}}>
+									{project.description && (
+										<Typography>{project.description}</Typography>
+									)}
 								</Grid>
 							</Grid>
-							<Grid item xs={2}>
-								<Button
-									variant='contained'
-									size='small'
-									color='primary'
-									onClick={onModalOpen}>
-									View
-								</Button>
-							</Grid>
 						</Grid>
-					)}
-					{isPublic && (
-						<Grid
-							container
-							direction='row'
-							style={{
-								display: 'flex',
-								alignItems: 'center',
-								justifyContent: 'center',
-							}}>
-							<Grid
-								item
-								xs={3}
-								style={{ display: 'flex', justifyContent: 'space-around' }}>
-								<Typography color='primary' variant='h4'>
-									{project.avgRating?.toFixed(2)}
-								</Typography>
-							</Grid>
-							<Grid item xs={8} className={classes.secondColumn}>
-								<Grid container direction='column' style={{ display: 'flex' }}>
-									<Grid
-										item
-										style={{
-											display: 'flex',
-											alignItems: 'center',
-											marginBottom: 5,
-										}}>
-										{project.description && (
-											<Typography>{project.description}</Typography>
-										)}
-									</Grid>
-								</Grid>
-							</Grid>
-							<Grid item xs={1}>
-								<Button
-									variant='contained'
-									size='small'
-									color='primary'
-									onClick={onModalOpen}>
-									View
-								</Button>
-							</Grid>
+						<Grid item xs={1}>
+							<Button
+								variant='contained'
+								size='small'
+								color='primary'
+								onClick={onModalOpen}>
+								View
+							</Button>
 						</Grid>
-					)}
+					</Grid>
 				</CardContent>
 				<CardActions className={classes.cardActions}>
 					{isPublic && (

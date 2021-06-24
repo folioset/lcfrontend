@@ -14,6 +14,7 @@ export const UserContext = React.createContext<Partial<UserContextProps>>({});
 
 const UserContextProvider: React.FC<UserContextProps> = ({ children }: any) => {
 	const history = useHistory();
+
 	const { isLoading } = useQuery<User, Error>(
 		'user',
 		async () => {

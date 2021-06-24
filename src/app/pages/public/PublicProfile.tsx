@@ -4,14 +4,15 @@ import { useQuery } from 'react-query';
 import { Project as ProjectType } from '../../types';
 import axios from 'axios';
 import ProfileView from '../../components/dashboard/ProfileView';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { Box } from '@material-ui/core';
 import useAuthRoute from '../../hooks/useAuthRoute';
 
 interface PublicProfileProps {}
 
 const PublicProfile: React.FC<PublicProfileProps> = () => {
-	useAuthRoute('protected', '/');
+	const location = useLocation();
+	useAuthRoute(location.pathname);
 	const params = useParams<{ userId: string }>();
 
 	const { isLoading: isUserLoading, data: user } = useQuery(

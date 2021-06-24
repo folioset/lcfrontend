@@ -1,24 +1,25 @@
 import * as React from 'react';
 import { useQueryClient } from 'react-query';
 import { useHistory, useLocation } from 'react-router';
+import { UserContext } from '../contexts/UserContext';
 
 // types
 import { User } from '../types';
 
-const useAuthRoute: (t?: 'protected' | 'not-protected', path?: string) => void =
-	(type = 'protected', path) => {
-		const history = useHistory();
-		const queryClient = useQueryClient();
-		const location = useLocation();
-		const user = queryClient.getQueryData<User>('user');
+const useAuthRoute: (path: string) => void = (path) => {
+	const { isLoading } = React.useContext(UserContext);
+	const history = useHistory();
+	const queryClient = useQueryClient();
+	const location = useLocation();
+	const user = queryClient.getQueryData<User>('user');
 
-		React.useEffect(() => {
-			if (type === 'protected' && !user) {
+	React.useEffect(() => {
+		if (!isLoading) {
+			if (!user) {
 				return history.replace('/');
-			} else if (type === 'not-protected' && user) {
-				return path ? history.replace(path) : history.goBack();
 			}
-		}, [type, history, user, location, path]);
-	};
+		}
+	}, [history, user, location, path, isLoading]);
+};
 
 export default useAuthRoute;

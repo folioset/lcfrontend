@@ -9,6 +9,7 @@ import Box from '@material-ui/core/Box';
 import axios from 'axios';
 import * as React from 'react';
 import { useQuery } from 'react-query';
+import { useLocation } from 'react-router-dom';
 import UserItem from '../../components/dashboard/UserItem';
 import useAuthRoute from '../../hooks/useAuthRoute';
 import { User } from '../../types';
@@ -28,7 +29,8 @@ const useStyles = makeStyles((theme: Theme) => {
 });
 
 const Users: React.FC<UsersProps> = () => {
-	useAuthRoute('protected', '/');
+	const location = useLocation();
+	useAuthRoute(location.pathname);
 	const classes = useStyles();
 	const { isLoading, data } = useQuery('all-users', async (data) => {
 		const res = await axios({

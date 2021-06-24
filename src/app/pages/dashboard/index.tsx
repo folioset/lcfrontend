@@ -1,15 +1,11 @@
 import * as React from 'react';
 import { Redirect, Route, Switch, useRouteMatch } from 'react-router';
 
-// hooks
-import useAuthRoute from '../../hooks/useAuthRoute';
-
 // Pages
 const Dashboard = React.lazy(() => import('./Dashboard'));
 const UpdateProfile = React.lazy(() => import('./UpdateProfile'));
 
 const DashboardRoutes: React.FC = () => {
-	useAuthRoute();
 	const { path } = useRouteMatch();
 
 	return (

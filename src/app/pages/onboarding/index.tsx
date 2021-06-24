@@ -11,7 +11,8 @@ import FormInput from '../../components/shared/FormInput';
 import * as Yup from 'yup';
 import { useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
+import useAuthRoute from '../../hooks/useAuthRoute';
 
 const useStyles = makeStyles((theme) => {
 	return {
@@ -34,6 +35,8 @@ const initialValues = {
 };
 
 const OnBoarding: React.FC = () => {
+	const location = useLocation();
+	useAuthRoute(location.pathname);
 	const classes = useStyles();
 	const history = useHistory();
 	const queryClient = useQueryClient();
