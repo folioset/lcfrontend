@@ -12,30 +12,32 @@ const palette = {
 		default: '#111111',
 	},
 	profile: {
-		background: '#f3f2ee'
-	}
+		background: '#f3f2ee',
+	},
 };
 
 const typography = {
-    fontFamily: "'Montserrat', sans-serif",
-    h3: {
-        fontSize: 30,
-        fontWeight: 500,
-		color: 'white'
-    },
+	fontFamily: "'Montserrat', sans-serif",
+	h3: {
+		fontSize: 30,
+		fontWeight: 500,
+		color: 'white',
+	},
 	h4: {
-        fontSize: 20,
-        fontWeight: 500,
-		color: 'black'
-    },
+		fontSize: 20,
+		fontWeight: 500,
+		color: 'black',
+	},
 	subtitle1: {
-		color: 'white'
-	}
-
+		color: 'white',
+	},
 };
 
 const theme = createMuiTheme({
-	palette,
+	palette: {
+		type: 'dark',
+		...palette,
+	},
 	typography,
 });
 

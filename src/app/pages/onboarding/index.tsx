@@ -108,9 +108,16 @@ const OnBoarding: React.FC = () => {
 									fullWidth
 								/>
 								<FormSelect name='interests' label='Interests'>
-									<MenuItem value={'product-management'}>
-										Product Management
-									</MenuItem>
+									{[
+										'Consumer tech',
+										'Ed-tech',
+										'Fin-tech',
+										'Health-tech',
+										'Enterprise tech (B2B)',
+										'E-commerce',
+									].map((field) => {
+										return <MenuItem value={field}>{field}</MenuItem>;
+									})}
 								</FormSelect>
 								<Button
 									type='submit'
