@@ -21,6 +21,7 @@ export type User = {
 export type Project = {
 	contributors: string[];
 	createdAt: Date | string | number;
+	updateAt?: Date | string | number;
 	createdBy: string;
 	description: string;
 	projectFile: string;

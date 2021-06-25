@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { Box, Button, makeStyles, Theme } from '@material-ui/core';
 import { User } from '../../types';
 import useDisclosure from '../../hooks/useDisclosure';
-import CreateProject from './CreateProject';
+import CreateProject from './Project/CreateProject';
 
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {

@@ -15,13 +15,13 @@ import { Autocomplete } from '@material-ui/lab';
 import { Form, Formik } from 'formik';
 import * as React from 'react';
 import * as Yup from 'yup';
-import FormInput from '../shared/FormInput';
+import FormInput from '../../shared/FormInput';
 import { PictureAsPdf } from '@material-ui/icons';
-import FileUpload from '../shared/FileUpload';
+import FileUpload from '../../shared/FileUpload';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import axios from 'axios';
-import PdfViewer from '../shared/Pdf/PdfViewer';
-import useFileUpload from '../../hooks/useFileUpload';
+import PdfViewer from '../../shared/Pdf/PdfViewer';
+import useFileUpload from '../../../hooks/useFileUpload';
 
 interface CreateProjectProps {
 	onClose: () => void;
@@ -198,7 +198,7 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 
 															setFieldValue('contributors', getId());
 														}}
-														getOptionLabel={(option: any) => option?.username}
+														getOptionLabel={(option: any) => option?.name}
 														renderInput={(params) => (
 															<TextField
 																{...params}

@@ -13,26 +13,27 @@ import {
 	Collapse,
 	Modal,
 	Tooltip,
-	Paper,
-	CircularProgress,
 } from '@material-ui/core';
-import Rating from '../shared/Rating';
+import Rating from '../../shared/Rating';
 import * as Yup from 'yup';
 import { Form, Formik } from 'formik';
 import * as React from 'react';
-import { Project, Review, User } from '../../types';
+import { Project, Review, User } from '../../../types';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
 import SendIcon from '@material-ui/icons/Send';
-import ReviewCard from './ReviewCard';
+import ReviewCard from '../ReviewCard';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import useDisclosure from '../../hooks/useDisclosure';
+import useDisclosure from '../../../hooks/useDisclosure';
 import DeleteIcon from '@material-ui/icons/Delete';
 import clsx from 'clsx';
 import axios from 'axios';
 import EditIcon from '@material-ui/icons/Edit';
-import PdfViewer from '../shared/Pdf/PdfViewer';
-import FormInput from '../shared/FormInput';
+import PdfViewer from '../../shared/Pdf/PdfViewer';
+import FormInput from '../../shared/FormInput';
+import UpdateProject from './UpdateProject';
+import { format } from 'date-fns';
+import DeleteProject from './DeleteProject';
 
 const validationSchema = Yup.object().shape({
 	review: Yup.string()
@@ -73,32 +74,7 @@ const useStyles = makeStyles((theme: Theme) => {
 			justifyContent: 'center',
 			marginBottom: theme.spacing(2),
 		},
-		deleteConfirm: {
-			position: 'absolute',
-			top: '50%',
-			left: '50%',
-			transform: `translate(-50%, -50%)`,
-			padding: theme.spacing(3),
 
-			[theme.breakpoints.down('sm')]: {
-				width: '55%',
-			},
-
-			[theme.breakpoints.down('xs')]: {
-				width: '90%',
-			},
-		},
-		deleteConfirmBtns: {
-			display: 'flex',
-			justifyContent: 'center',
-			alignItems: 'center',
-			marginTop: theme.spacing(2),
-
-			'& button': {
-				marginLeft: theme.spacing(1),
-				marginRight: theme.spacing(1),
-			},
-		},
 		pdf: {
 			height: '100vh',
 			width: '70vw',
@@ -109,15 +85,12 @@ const useStyles = makeStyles((theme: Theme) => {
 	};
 });
 
-interface ProjectPublicCardProps {
+interface ProjectCardProps {
 	project: Project;
 	isPublic?: boolean;
 }
 
-const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
-	project,
-	isPublic,
-}) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 	const queryClient = useQueryClient();
 	const user = queryClient.getQueryData<User>('user')!;
 	const [rating, setRating] = React.useState(0);
@@ -138,6 +111,12 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 		onClose: onDeleteClose,
 	} = useDisclosure();
 
+	const {
+		isOpen: isUpdateOpen,
+		onOpen: onUpdateOpen,
+		onClose: onUpdateClose,
+	} = useDisclosure();
+
 	const { mutate: addReview } = useMutation(
 		async (data) => {
 			const res = await axios({
@@ -151,21 +130,6 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 			onSuccess: () => {
 				queryClient.invalidateQueries(['project-reviews', project._id]);
 				onOpen();
-			},
-		}
-	);
-
-	const { mutate: deleteProject, isLoading: isDeleting } = useMutation(
-		async () => {
-			const res = await axios({
-				method: 'delete',
-				url: `/api/project/${project._id}`,
-			});
-			return res.data;
-		},
-		{
-			onSuccess: () => {
-				queryClient.invalidateQueries('my-projects');
 			},
 		}
 	);
@@ -214,37 +178,23 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 
 	return (
 		<>
+			{/* Delete Project */}
 			<Modal
 				open={isDeleteOpen}
 				onClose={onDeleteClose}
 				aria-labelledby='project-file'
 				aria-describedby='pdf file of the project'>
-				<Paper className={classes.deleteConfirm}>
-					<Typography>
-						Are you sure you want to delete this project ?
-					</Typography>
-					<Box className={classes.deleteConfirmBtns}>
-						<Button
-							disableElevation
-							onClick={() => deleteProject()}
-							variant='contained'
-							color='primary'
-							disabled={isDeleting}
-							startIcon={
-								isDeleting ? (
-									<CircularProgress size='small' style={{ color: 'white' }} />
-								) : (
-									<DeleteIcon />
-								)
-							}>
-							Yes
-						</Button>
-						<Button variant='outlined' onClick={onDeleteClose}>
-							Cancel
-						</Button>
-					</Box>
-				</Paper>
+				<DeleteProject onClose={onDeleteClose} project={project} />
 			</Modal>
+			{/* Update Project */}
+			<Modal
+				open={isUpdateOpen}
+				onClose={onUpdateClose}
+				aria-labelledby='project-file'
+				aria-describedby='pdf file of the project'>
+				<UpdateProject onClose={onUpdateClose} project={project} />
+			</Modal>
+			{/* Show Project File */}
 			<Modal
 				open={isModalOpen}
 				onClose={onModalClose}
@@ -255,10 +205,16 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 			<Card style={{ marginBottom: 30, paddingLeft: 5, paddingRight: 5 }}>
 				<CardHeader
 					title={project.title}
+					subheader={
+						<Typography color='textSecondary' variant='caption'>
+							{'Updated on ' +
+								format(new Date(project.updatedAt!), 'MMMM dd yyyy')}
+						</Typography>
+					}
 					action={
 						!isPublic ? (
 							<>
-								<IconButton>
+								<IconButton onClick={onUpdateOpen}>
 									<EditIcon color='primary' />
 								</IconButton>
 								<IconButton onClick={onDeleteOpen}>
@@ -428,4 +384,4 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 	);
 };
 
-export default ProjectPublicCard;
+export default ProjectCard;

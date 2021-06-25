@@ -2,7 +2,7 @@ import { makeStyles, Box, Container, Typography } from '@material-ui/core';
 import * as React from 'react';
 import { Project, User } from '../../types';
 import ProfileCard from './ProfileCard';
-import ProjectPublicCard from './ProjectPublicCard';
+import ProjectCard from './Project/ProjectCard';
 
 const useStyles = makeStyles((theme) => {
 	return {
@@ -62,7 +62,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 						)}
 						{data?.map((project: Project) => {
 							return (
-								<ProjectPublicCard
+								<ProjectCard
 									isPublic={isPublic}
 									key={project._id}
 									{...{ project }}

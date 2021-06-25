@@ -32,10 +32,6 @@ const Body: React.FC = () => {
 				<Route path='/public'>
 					<Public />
 				</Route>
-				{/* 
-				<Route path='/users'>
-					<Users />
-				</Route> */}
 
 				<Redirect to='/error' />
 			</Switch>

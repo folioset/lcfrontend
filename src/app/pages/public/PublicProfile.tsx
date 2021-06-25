@@ -5,8 +5,8 @@ import { Project as ProjectType } from '../../types';
 import axios from 'axios';
 import ProfileView from '../../components/dashboard/ProfileView';
 import { useLocation, useParams } from 'react-router-dom';
-import { Box } from '@material-ui/core';
 import useAuthRoute from '../../hooks/useAuthRoute';
+import Loader from '../../components/shared/Loader';
 
 interface PublicProfileProps {}
 
@@ -35,7 +35,7 @@ const PublicProfile: React.FC<PublicProfileProps> = () => {
 
 	return (
 		<>
-			{(isLoading || isUserLoading) && <Box>Loading....</Box>}
+			{(isLoading || isUserLoading) && <Loader fullScreen />}
 			{data && (
 				<ProfileView isLoading={isLoading} data={data} user={user} isPublic />
 			)}
