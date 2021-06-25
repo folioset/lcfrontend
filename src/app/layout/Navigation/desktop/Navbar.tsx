@@ -6,9 +6,7 @@ import { useQueryClient } from 'react-query';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
-import {
-	Typography,
-} from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -89,18 +87,6 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 				/>
 
 				<Hidden only={['sm', 'xs']}>
-					{!user && (
-						<Box ml='auto'>
-							<Button
-								style={{ color: '#fff' }}
-								color='primary'
-								variant='contained'
-								href='/api/auth/google'>
-								Login
-							</Button>
-						</Box>
-					)}
-
 					{user && (
 						<Box className={classes.nav}>
 							<NavItem
@@ -160,13 +146,15 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 						</Box>
 					)}
 				</Hidden>
-				<Hidden only={['xl', 'lg', 'md']}>
-					<Box ml='auto'>
-						<IconButton onClick={onOpen}>
-							<MenuIcon />
-						</IconButton>
-					</Box>
-				</Hidden>
+				{user && (
+					<Hidden only={['xl', 'lg', 'md']}>
+						<Box ml='auto'>
+							<IconButton onClick={onOpen}>
+								<MenuIcon />
+							</IconButton>
+						</Box>
+					</Hidden>
+				)}
 			</Toolbar>
 		</AppBar>
 	);

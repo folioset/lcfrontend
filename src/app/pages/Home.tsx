@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => {
 		subHeading: {
 			[theme.breakpoints.down('xs')]: {
 				fontSize: 15,
-				fontColor: theme.palette.common.white
+				fontColor: theme.palette.common.white,
 			},
 		},
 	};
@@ -84,13 +84,14 @@ const Home: React.FC = () => {
 							variant='h3'
 							component='h1'
 							style={{ fontWeight: 'bold' }}>
-								Build your Product Portfolio
+							Build your Product Portfolio
 						</Typography>
 					</Box>
 
 					<Box mt={2}>
 						<Typography className={classes.subHeading} variant='subtitle1'>
-							Join an exclusive community of product professionals. Share your work. Help each other improve.
+							Join an exclusive community of product professionals. Share your
+							work. Help each other improve.
 						</Typography>
 					</Box>
 
@@ -104,7 +105,7 @@ const Home: React.FC = () => {
 						</Button>
 					</Box>
 				</Grid>
-				<Grid item lg={4} xs={12}>
+				<Grid item lg={4} md={6} sm={8} xs={12}>
 					<SvgBackground style={{ maxWidth: '100%', height: '100%' }} />
 				</Grid>
 			</Grid>

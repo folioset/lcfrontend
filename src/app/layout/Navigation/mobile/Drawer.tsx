@@ -24,7 +24,6 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import EditIcon from '@material-ui/icons/Edit';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import PeopleIcon from '@material-ui/icons/People';
-import LockOpenIcon from '@material-ui/icons/LockOpen';
 import Logo from '../../../components/shared/Logo';
 import { User } from '../../../types';
 
@@ -74,58 +73,47 @@ const Drawer: React.FC<Props> = ({ isOpen, onClose }) => {
 					<Box className={classes.logo}>
 						<Logo />
 					</Box>
-					{user && (
-						<Box className={classes.user}>
-							<Avatar alt={user.name} src={user.profilePicture} />
-							<Typography variant='h6' className={classes.userName}>
-								{user.name}
-							</Typography>
-						</Box>
-					)}
+
+					<Box className={classes.user}>
+						<Avatar alt={user?.name} src={user?.profilePicture} />
+						<Typography variant='h6' className={classes.userName}>
+							{user?.name}
+						</Typography>
+					</Box>
 				</Box>
 				<Divider />
-				{!user ? (
-					<>
-						<ListItem component={'a'} button href='/api/auth/google'>
-							<ListItemIcon>
-								<LockOpenIcon />
-							</ListItemIcon>
-							<ListItemText primary='Login' />
-						</ListItem>
-					</>
-				) : (
-					<>
-						<DrawerItem
-							icon={<PeopleIcon color={'inherit'} />}
-							text='All Users'
-							to='/public/users'
-							onClose={onClose}
+
+				<>
+					<DrawerItem
+						icon={<PeopleIcon color={'inherit'} />}
+						text='All Users'
+						to='/public/users'
+						onClose={onClose}
+					/>
+					<Divider />
+					<DrawerItem
+						icon={<AccountCircleIcon color={'inherit'} />}
+						text='Profile'
+						to='/dashboard'
+						onClose={onClose}
+					/>
+					<DrawerItem
+						icon={<EditIcon color={'inherit'} />}
+						text='Edit Profile'
+						to='/dashboard/me/update'
+						onClose={onClose}
+					/>
+					<Divider />
+					<ListItem component='a' href='/api/logout' button>
+						<ListItemIcon>
+							<ExitToAppIcon style={{ color }} />
+						</ListItemIcon>
+						<ListItemText
+							disableTypography
+							primary={<Typography style={{ color }}>Logout</Typography>}
 						/>
-						<Divider />
-						<DrawerItem
-							icon={<AccountCircleIcon color={'inherit'} />}
-							text='Profile'
-							to='/dashboard'
-							onClose={onClose}
-						/>
-						<DrawerItem
-							icon={<EditIcon color={'inherit'} />}
-							text='Edit Profile'
-							to='/dashboard/me/update'
-							onClose={onClose}
-						/>
-						<Divider />
-						<ListItem component='a' href='/api/logout' button>
-							<ListItemIcon>
-								<ExitToAppIcon style={{ color }} />
-							</ListItemIcon>
-							<ListItemText
-								disableTypography
-								primary={<Typography style={{ color }}>Logout</Typography>}
-							/>
-						</ListItem>
-					</>
-				)}
+					</ListItem>
+				</>
 			</Box>
 		</MUIDrawer>
 	);

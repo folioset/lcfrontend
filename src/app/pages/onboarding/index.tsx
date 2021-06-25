@@ -3,6 +3,7 @@ import {
 	CircularProgress,
 	Container,
 	makeStyles,
+	MenuItem,
 	Typography,
 } from '@material-ui/core';
 import { Form, Formik } from 'formik';
@@ -13,6 +14,8 @@ import { useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
 import { useHistory, useLocation } from 'react-router-dom';
 import useAuthRoute from '../../hooks/useAuthRoute';
+import FormSelect from '../../components/shared/FormSelect';
+import { User } from '../../types';
 
 const useStyles = makeStyles((theme) => {
 	return {
@@ -24,15 +27,11 @@ const useStyles = makeStyles((theme) => {
 });
 
 const validationSchema = Yup.object().shape({
-	username: Yup.string().min(
-		3,
-		'Too Short! You should atleast have 20 characters'
-	),
+	username: Yup.string().required('This field is required'),
+	about: Yup.string().required('This field is required'),
+	hours: Yup.number().required('This field is required').positive(),
+	interests: Yup.string().required('This field is required'),
 });
-
-const initialValues = {
-	username: '',
-};
 
 const OnBoarding: React.FC = () => {
 	const location = useLocation();
@@ -40,18 +39,15 @@ const OnBoarding: React.FC = () => {
 	const classes = useStyles();
 	const history = useHistory();
 	const queryClient = useQueryClient();
+	const user = queryClient.getQueryData<User>('user');
 	const { mutate } = useMutation(
 		async (data) => {
-			try {
-				const res = await axios({
-					method: 'put',
-					url: '/api/user/update-username',
-					data,
-				});
-				return res.data;
-			} catch (err) {
-				return err;
-			}
+			const res = await axios({
+				method: 'put',
+				url: '/api/user//update-essential-details',
+				data,
+			});
+			return res.data;
 		},
 		{
 			onSuccess: async () => {
@@ -66,13 +62,21 @@ const OnBoarding: React.FC = () => {
 		}
 	);
 
+	// interests, hours
+	const initialValues = {
+		username: user?.name || '',
+		about: '',
+		hours: 4,
+		interests: '',
+	};
+
 	return (
 		<>
 			<Container maxWidth='sm'>
 				<Formik
 					{...{ validationSchema, initialValues }}
-					onSubmit={async ({ username }, { resetForm }) => {
-						await mutate({ username } as any);
+					onSubmit={async (values, { resetForm }) => {
+						await mutate(values as any);
 						resetForm();
 					}}>
 					{({ isSubmitting }) => {
@@ -88,6 +92,26 @@ const OnBoarding: React.FC = () => {
 									required
 									fullWidth
 								/>
+								<FormInput
+									name='about'
+									variant='outlined'
+									label='What do you do currently?'
+									required
+									fullWidth
+								/>
+								<FormInput
+									type='number'
+									name='hours'
+									variant='outlined'
+									label='How many hours per week can you dedicate to solve the case studies?'
+									required
+									fullWidth
+								/>
+								<FormSelect name='interests' label='Interests'>
+									<MenuItem value={'product-management'}>
+										Product Management
+									</MenuItem>
+								</FormSelect>
 								<Button
 									type='submit'
 									size='small'
@@ -101,7 +125,7 @@ const OnBoarding: React.FC = () => {
 									}
 									variant='contained'
 									color='primary'>
-									update Username
+									Save Details
 								</Button>
 							</Form>
 						);
