@@ -46,12 +46,13 @@ const useStyles = makeStyles((theme) => {
 			},
 		},
 		googleBtn: {
-			color: theme.palette.common.white,
+			color: theme.palette.common.black,
 			textTransform: 'capitalize',
 		},
 		subHeading: {
 			[theme.breakpoints.down('xs')]: {
 				fontSize: 15,
+				fontColor: theme.palette.common.white
 			},
 		},
 	};
@@ -77,39 +78,29 @@ const Home: React.FC = () => {
 				container
 				className={classes.grid}>
 				<Grid item lg={6} xs={12}>
-					<Box ml={'-5px'}>
+					<Box>
 						<Typography
 							className={classes.mainHeading}
-							variant='h4'
+							variant='h3'
 							component='h1'
 							style={{ fontWeight: 'bold' }}>
-							Join the Exclusive Community of Product Managers Learning
-							Together!
+								Build your Product Portfolio
 						</Typography>
 					</Box>
 
 					<Box mt={2}>
 						<Typography className={classes.subHeading} variant='subtitle1'>
-							Get matched with 2 PMs from our community every week <br />
-							and read articles, solve cases, discuss trends together.
-						</Typography>
-					</Box>
-					<Box mt={3}>
-						<Typography
-							style={{ fontWeight: 'bold' }}
-							variant='subtitle1'
-							color='primary'>
-							Network. Learn. Grow.
+							Join an exclusive community of product professionals. Share your work. Help each other improve.
 						</Typography>
 					</Box>
 
-					<Box mt={2}>
+					<Box mt={4}>
 						<Button
 							className={classes.googleBtn}
 							href='/api/auth/google'
 							color='primary'
 							variant='contained'>
-							Sign Up with Google
+							Sign In with Google
 						</Button>
 					</Box>
 				</Grid>

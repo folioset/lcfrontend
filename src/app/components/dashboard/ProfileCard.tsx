@@ -76,7 +76,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 							src={user.profilePicture}
 						/>
 
-						<Typography gutterBottom variant='h3'>
+						<Typography gutterBottom variant='h4'>
 							{user.name}
 						</Typography>
 						{user.about && (

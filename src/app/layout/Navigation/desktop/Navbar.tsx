@@ -6,6 +6,9 @@ import { useQueryClient } from 'react-query';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
+import {
+	Typography,
+} from '@material-ui/core';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -34,7 +37,7 @@ const useStyles = makeStyles((theme) => {
 		appBar: {
 			position: 'sticky',
 			top: 0,
-			backgroundColor: theme.palette.common.white,
+			backgroundColor: '#111111',
 			padding: theme.spacing(1),
 		},
 		toolbar: {
@@ -103,8 +106,8 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 							<NavItem
 								exact
 								to='/public/users'
-								icon={<AccountCircleIcon color={'inherit'} />}>
-								<Box>Find Users</Box>
+								icon={<AccountCircleIcon color='primary' />}>
+								<Typography color='primary'>All Users</Typography>
 							</NavItem>
 							<Button
 								startIcon={<Avatar src={user.profilePicture} />}

@@ -9,7 +9,7 @@ const palette = {
 		main: indigo['A700'],
 	},
 	background: {
-		default: '#ffffff',
+		default: '#111111',
 	},
 	profile: {
 		background: '#f3f2ee'
@@ -19,9 +19,19 @@ const palette = {
 const typography = {
     fontFamily: "'Montserrat', sans-serif",
     h3: {
+        fontSize: 30,
+        fontWeight: 500,
+		color: 'white'
+    },
+	h4: {
         fontSize: 20,
-        fontWeight: 500
-    }
+        fontWeight: 500,
+		color: 'black'
+    },
+	subtitle1: {
+		color: 'white'
+	}
+
 };
 
 const theme = createMuiTheme({
