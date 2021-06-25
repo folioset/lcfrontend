@@ -8,15 +8,8 @@ import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-// import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Toolbar from '@material-ui/core/Toolbar';
-import {
-	Avatar,
-	Divider,
-	// FormControl,
-	// InputAdornment,
-	makeStyles,
-} from '@material-ui/core';
+import { Avatar, Divider, makeStyles } from '@material-ui/core';
 
 import Menu from '@material-ui/core/Menu';
 
@@ -25,9 +18,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import EditIcon from '@material-ui/icons/Edit';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-// import SearchIcon from '@material-ui/icons/Search';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import PeopleIcon from '@material-ui/icons/People';
 
 // Components
 import NavItem from './NavItem';
@@ -36,12 +27,13 @@ import NavItem from './NavItem';
 import { User } from '../../../types';
 import Logo from '../../../components/shared/Logo';
 import MenuLink from '../../../components/shared/HrefLink/MenuLink';
-// import { SearchContext } from '../../../contexts/SearchContext';
 
 // Styles
 const useStyles = makeStyles((theme) => {
 	return {
 		appBar: {
+			position: 'sticky',
+			top: 0,
 			backgroundColor: theme.palette.common.white,
 			padding: theme.spacing(1),
 		},
@@ -73,7 +65,6 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 	const queryClient = useQueryClient();
 
 	const user = queryClient.getQueryData<User>('user');
-	// const { handleSearch, search, setSearch } = React.useContext(SearchContext);
 
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -109,28 +100,6 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 
 					{user && (
 						<Box className={classes.nav}>
-							{/* <Box
-								className={classes.formControl}
-								component='form'
-								onSubmit={(e) => handleSearch!(e)}>
-								<FormControl size='small' variant='outlined'>
-									<OutlinedInput
-										autoComplete='off'
-										placeholder='Search Profile'
-										value={search}
-										onChange={(e) => setSearch!(e.target.value)}
-										id='search'
-										startAdornment={
-											<InputAdornment position='start'>
-												<SearchIcon color='disabled' />
-											</InputAdornment>
-										}
-									/>
-								</FormControl>
-								<Button disableElevation color='primary' variant='contained'>
-									Search
-								</Button>
-							</Box> */}
 							<NavItem
 								exact
 								to='/public/users'
@@ -175,20 +144,6 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 										exact
 										to='/dashboard/me/update'>
 										Edit Profile
-									</NavItem>
-									<NavItem
-										icon={<EditIcon color='primary' />}
-										dropdown
-										exact
-										to='/public'>
-										Public
-									</NavItem>
-									<NavItem
-										icon={<PeopleIcon color='primary' />}
-										dropdown
-										exact
-										to='/search?q=users'>
-										All Users
 									</NavItem>
 									<Divider />
 									<MenuLink

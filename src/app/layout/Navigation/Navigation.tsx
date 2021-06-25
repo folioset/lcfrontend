@@ -1,3 +1,4 @@
+import Hidden from '@material-ui/core/Hidden';
 import * as React from 'react';
 
 // hooks
@@ -13,7 +14,9 @@ const Navigation: React.FC = () => {
 	return (
 		<>
 			<Navbar {...{ onOpen }} />
-			<Drawer {...{ isOpen, onClose }} />
+			<Hidden only={['xl', 'lg', 'md']}>
+				<Drawer {...{ isOpen, onClose }} />
+			</Hidden>
 		</>
 	);
 };

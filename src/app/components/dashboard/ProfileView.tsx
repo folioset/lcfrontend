@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => {
 			},
 
 			[theme.breakpoints.down('sm')]: {
-				padding: 0,
+				padding: theme.spacing(1),
 			},
 		},
 		heading: {
