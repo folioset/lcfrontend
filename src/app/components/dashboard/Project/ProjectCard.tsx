@@ -37,8 +37,9 @@ import DeleteProject from './DeleteProject';
 
 const validationSchema = Yup.object().shape({
 	review: Yup.string()
-		.min(10, 'Too Short! You should atleast have 10 characters')
-		.max(100, 'Too Long! Review can only have a maximum of 100 characters'),
+		.required()
+		.min(1, 'Too Short! You should atleast have 1 characters')
+		.max(200, 'Too Long! Review can only have a maximum of 100 characters'),
 });
 
 const useStyles = makeStyles((theme: Theme) => {
