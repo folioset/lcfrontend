@@ -33,6 +33,7 @@ import axios from 'axios';
 import EditIcon from '@material-ui/icons/Edit';
 import PdfViewer from '../shared/Pdf/PdfViewer';
 import FormInput from '../shared/FormInput';
+import UpdateProject from './UpdateProject';
 
 const validationSchema = Yup.object().shape({
 	review: Yup.string()
@@ -136,6 +137,12 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 		isOpen: isDeleteOpen,
 		onOpen: onDeleteOpen,
 		onClose: onDeleteClose,
+	} = useDisclosure();
+
+	const {
+		isOpen: isUpdateOpen,
+		onOpen: onUpdateOpen,
+		onClose: onUpdateClose,
 	} = useDisclosure();
 
 	const { mutate: addReview } = useMutation(
@@ -252,13 +259,20 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 				aria-describedby='pdf file of the project'>
 				<PdfViewer className={classes.pdf} filename={project.projectFile} />
 			</Modal>
+			<Modal
+				open={isUpdateOpen}
+				onClose={onUpdateClose}
+				aria-labelledby='project-file'
+				aria-describedby='pdf file of the project'>
+				<UpdateProject onClose={onUpdateClose} project={project} />
+			</Modal>
 			<Card style={{ marginBottom: 30, paddingLeft: 5, paddingRight: 5 }}>
 				<CardHeader
 					title={project.title}
 					action={
 						!isPublic ? (
 							<>
-								<IconButton>
+								<IconButton onClick={onUpdateOpen}>
 									<EditIcon color='primary' />
 								</IconButton>
 								<IconButton onClick={onDeleteOpen}>
