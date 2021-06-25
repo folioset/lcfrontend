@@ -89,7 +89,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 						)}
 						{user.location && (
 							<Typography variant='body2' color='textSecondary'>
-								{user.location} (Location)
+								{user.location}
 							</Typography>
 						)}
 						{!isPublic && (

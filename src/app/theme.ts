@@ -35,7 +35,10 @@ const typography = {
 };
 
 const theme = createMuiTheme({
-	palette,
+	palette: {
+		type: 'dark',
+		...palette
+	},
 	typography,
 });
 

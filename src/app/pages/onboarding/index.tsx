@@ -82,7 +82,7 @@ const OnBoarding: React.FC = () => {
 					{({ isSubmitting }) => {
 						return (
 							<Form autoComplete='off'>
-								<Typography variant='h4' className={classes.heading}>
+								<Typography variant='h3' className={classes.heading}>
 									Create a Username to continue
 								</Typography>
 								<FormInput

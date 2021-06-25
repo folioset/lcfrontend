@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => {
 			return {
 				marginBottom: theme.spacing(3),
 				'& .MuiFilledInput-root': {
-					backgroundColor: '#f7f7f7'
+					backgroundColor: 'white'
 				},
 			};
 		},
