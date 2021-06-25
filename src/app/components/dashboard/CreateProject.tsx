@@ -21,7 +21,7 @@ import FileUpload from '../shared/FileUpload';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import axios from 'axios';
 import PdfViewer from '../shared/Pdf/PdfViewer';
-import useImageUpload from '../../hooks/useImageUpload';
+import useFileUpload from '../../hooks/useFileUpload';
 
 interface CreateProjectProps {
 	onClose: () => void;
@@ -98,8 +98,8 @@ const useStyles = makeStyles((theme: Theme) => {
 
 const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 	({ onClose }) => {
-		const { imageUrl, handleUploadImageUrl } = useImageUpload();
-		const classes = useStyles({ imageUrl });
+		const { fileUrl, handleUploadFileUrl } = useFileUpload();
+		const classes = useStyles({ fileUrl });
 		const queryClient = useQueryClient();
 		const { mutate } = useMutation(
 			(data) =>
@@ -132,7 +132,7 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 		return (
 			<>
 				<Grid container className={classes.container}>
-					<Grid item lg={imageUrl ? 5 : 12} md={imageUrl ? 6 : 12} xs={12}>
+					<Grid item lg={fileUrl ? 5 : 12} md={fileUrl ? 6 : 12} xs={12}>
 						<Container>
 							<Typography
 								color='primary'
@@ -179,7 +179,7 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 											/>
 											<FileUpload
 												name='file'
-												onChange={handleUploadImageUrl}
+												onChange={handleUploadFileUrl}
 												filename={values.file?.name}
 												icon={<PictureAsPdf />}
 											/>
@@ -243,13 +243,13 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 							</Formik>
 						</Container>
 					</Grid>
-					{imageUrl && (
+					{fileUrl && (
 						<Grid item lg={7} md={6} xs={12}>
 							<Hidden only={['sm', 'xs']}>
 								<Paper
 									className={classes.pdfviewer}
 									style={{ height: 400, width: '100%' }}>
-									{imageUrl && <PdfViewer filename={imageUrl} />}
+									{fileUrl && <PdfViewer filename={fileUrl} />}
 								</Paper>
 							</Hidden>
 						</Grid>

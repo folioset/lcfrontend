@@ -99,6 +99,13 @@ const useStyles = makeStyles((theme: Theme) => {
 				marginRight: theme.spacing(1),
 			},
 		},
+		pdf: {
+			height: '100vh',
+			width: '70vw',
+			position: 'absolute',
+			left: '50%',
+			transform: 'translateX(-50%)',
+		},
 	};
 });
 
@@ -243,7 +250,7 @@ const ProjectPublicCard: React.FC<ProjectPublicCardProps> = ({
 				onClose={onModalClose}
 				aria-labelledby='project-file'
 				aria-describedby='pdf file of the project'>
-				<PdfViewer filename={project.projectFile} />
+				<PdfViewer className={classes.pdf} filename={project.projectFile} />
 			</Modal>
 			<Card style={{ marginBottom: 30, paddingLeft: 5, paddingRight: 5 }}>
 				<CardHeader

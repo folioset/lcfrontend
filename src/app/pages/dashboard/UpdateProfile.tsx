@@ -20,7 +20,7 @@ import { User } from '../../types';
 import { useHistory } from 'react-router';
 import FormInput from '../../components/shared/FormInput';
 import FileUpload from '../../components/shared/FileUpload';
-import useImageUpload from '../../hooks/useImageUpload';
+import useFileUpload from '../../hooks/useFileUpload';
 import useAuthRoute from '../../hooks/useAuthRoute';
 import { useLocation } from 'react-router-dom';
 
@@ -88,7 +88,7 @@ const UpdateProfile: React.FC = () => {
 	const history = useHistory();
 	const user = queryClient.getQueryData<User>('user');
 	const classes = useStyles();
-	const { imageUrl, handleUploadImageUrl } = useImageUpload();
+	const { fileUrl, handleUploadFileUrl } = useFileUpload();
 
 	const { mutate, isLoading } = useMutation(
 		async (data) => {
@@ -141,8 +141,8 @@ const UpdateProfile: React.FC = () => {
 									<Box className={classes.avatarContainer}>
 										<Avatar
 											src={
-												Boolean(imageUrl)
-													? imageUrl
+												Boolean(fileUrl)
+													? fileUrl
 													: user?.profilePicture
 													? user?.profilePicture
 													: ''
@@ -202,7 +202,7 @@ const UpdateProfile: React.FC = () => {
 										required={false}
 										name='file'
 										onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-											handleUploadImageUrl(e)
+											handleUploadFileUrl(e)
 										}
 									/>
 								</Grid>

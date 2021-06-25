@@ -12,22 +12,18 @@ import clsx from 'clsx';
 
 interface PdfViewerProps {
 	filename: string;
+	className?: string;
 }
 
 const useStyles = makeStyles((theme: Theme) => {
 	return {
 		pdfView: {
 			overflowY: 'scroll',
-			// height: '100vh',
-			// width: '70vw',
-			// position: 'absolute',
-			// left: '50%',
-			// transform: 'translateX(-50%)',
 		},
 	};
 });
 
-const PdfViewer: React.FC<PdfViewerProps> = ({ filename }) => {
+const PdfViewer: React.FC<PdfViewerProps> = ({ filename, className }) => {
 	const classes = useStyles();
 
 	const defaultLayoutPluginInstance = defaultLayoutPlugin();
@@ -36,7 +32,7 @@ const PdfViewer: React.FC<PdfViewerProps> = ({ filename }) => {
 	return (
 		<>
 			<Worker workerUrl='https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js'>
-				<Box className={clsx(classes.pdfView, 'hide-scrollbar')}>
+				<Box className={clsx(classes.pdfView, 'hide-scrollbar', className)}>
 					<Viewer
 						plugins={[defaultLayoutPluginInstance, thumbnailPluginInstance]}
 						fileUrl={filename}
