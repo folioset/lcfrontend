@@ -3,6 +3,8 @@ import {
 	Button,
 	CircularProgress,
 	Container,
+	Grid,
+	Hidden,
 	makeStyles,
 	Paper,
 	TextField,
@@ -18,6 +20,8 @@ import { PictureAsPdf } from '@material-ui/icons';
 import FileUpload from '../shared/FileUpload';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import axios from 'axios';
+import PdfViewer from '../shared/Pdf/PdfViewer';
+import useImageUpload from '../../hooks/useImageUpload';
 
 interface CreateProjectProps {
 	onClose: () => void;
@@ -55,20 +59,24 @@ const validationSchema = Yup.object().shape({
 
 const useStyles = makeStyles((theme: Theme) => {
 	return {
-		container: {
-			position: 'absolute',
-			top: '50%',
-			left: '50%',
-			transform: `translate(-50%, -50%)`,
-			padding: theme.spacing(3),
+		container: ({ imageUrl }: any) => {
+			return {
+				position: 'absolute',
+				top: '50%',
+				left: '50%',
+				transform: `translate(-50%, -50%)`,
+				padding: theme.spacing(3),
+				backgroundColor: theme.palette.common.white,
+				width: imageUrl ? '75%' : 'max-content',
 
-			[theme.breakpoints.down('sm')]: {
-				width: '55%',
-			},
+				[theme.breakpoints.down('md')]: {
+					width: imageUrl ? '95%' : 'max-content',
+				},
 
-			[theme.breakpoints.down('xs')]: {
-				width: '90%',
-			},
+				[theme.breakpoints.down('xs')]: {
+					width: '90%',
+				},
+			};
 		},
 		heading: {
 			marginBottom: theme.spacing(2),
@@ -79,12 +87,19 @@ const useStyles = makeStyles((theme: Theme) => {
 			justifyContent: 'space-between',
 			alignItems: 'center',
 		},
+		pdfviewer: {
+			'& > *': {
+				height: '100%',
+				width: '100%',
+			},
+		},
 	};
 });
 
 const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 	({ onClose }) => {
-		const classes = useStyles();
+		const { imageUrl, handleUploadImageUrl } = useImageUpload();
+		const classes = useStyles({ imageUrl });
 		const queryClient = useQueryClient();
 		const { mutate } = useMutation(
 			(data) =>
@@ -116,114 +131,130 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 
 		return (
 			<>
-				<Paper className={classes.container}>
-					<Container>
-						<Typography
-							color='primary'
-							variant='h5'
-							className={classes.heading}>
-							Create Project
-						</Typography>
+				<Grid container className={classes.container}>
+					<Grid item lg={imageUrl ? 5 : 12} md={imageUrl ? 6 : 12} xs={12}>
+						<Container>
+							<Typography
+								color='primary'
+								variant='h5'
+								className={classes.heading}>
+								Create Project
+							</Typography>
+							<Formik
+								onSubmit={async (
+									{ title, description, contributors, file },
+									{ resetForm }
+								) => {
+									const data = new FormData();
+									data.append('title', title);
+									data.append('description', description);
+									data.append('contributors', JSON.stringify(contributors));
+									if (file) {
+										data.append('file', file);
+									}
+									await mutate(data as any);
+									resetForm();
+								}}
+								initialValues={initialValues}
+								validationSchema={validationSchema}>
+								{({ values, isSubmitting, setFieldValue }) => {
+									console.log(values);
+									return (
+										<Form noValidate autoComplete='off'>
+											<FormInput
+												name='title'
+												fullWidth
+												variant='outlined'
+												label='Project Title'
+												size='small'
+											/>
+											<FormInput
+												name='description'
+												fullWidth
+												multiline
+												rows={4}
+												variant='outlined'
+												size='small'
+												label='Description'
+											/>
+											<FileUpload
+												name='file'
+												onChange={handleUploadImageUrl}
+												filename={values.file?.name}
+												icon={<PictureAsPdf />}
+											/>
+											<Box mb={2}>
+												{!isLoading ? (
+													<Autocomplete
+														multiple
+														id='contributors-auto-complete'
+														options={users}
+														onChange={(
+															e: React.ChangeEvent<{}>,
+															value: any
+														) => {
+															const getId = () =>
+																value.map((el: any) => el.id ?? el._id);
 
-						<Formik
-							onSubmit={async (
-								{ title, description, contributors, file },
-								{ resetForm }
-							) => {
-								const data = new FormData();
-								data.append('title', title);
-								data.append('description', description);
-								data.append('contributors', JSON.stringify(contributors));
-								if (file) {
-									data.append('file', file);
-								}
-								await mutate(data as any);
-								resetForm();
-							}}
-							initialValues={initialValues}
-							validationSchema={validationSchema}>
-							{({ values, isSubmitting, setFieldValue }) => {
-								console.log(values);
-								return (
-									<Form noValidate autoComplete='off'>
-										<FormInput
-											name='title'
-											fullWidth
-											variant='outlined'
-											label='Project Title'
-											size='small'
-										/>
-										<FormInput
-											name='description'
-											fullWidth
-											multiline
-											rows={4}
-											variant='outlined'
-											size='small'
-											label='Description'
-										/>
-										<FileUpload
-											name='file'
-											filename={values.file?.name}
-											icon={<PictureAsPdf />}
-										/>
-										<Box mb={2}>
-											{!isLoading ? (
-												<Autocomplete
-													multiple
-													id='contributors-auto-complete'
-													options={users}
-													onChange={(e: React.ChangeEvent<{}>, value: any) => {
-														const getId = () =>
-															value.map((el: any) => el.id ?? el._id);
-
-														setFieldValue('contributors', getId());
-													}}
-													getOptionLabel={(option: any) => option?.username}
-													renderInput={(params) => (
-														<TextField
-															{...params}
-															fullWidth
-															variant='outlined'
-															name='contributors'
-															size='small'
-															label='Contributors'
-														/>
-													)}
-												/>
-											) : (
-												<TextField
-													fullWidth
-													variant='outlined'
-													name='contributors'
-													size='small'
-													label='Contributors'
-													value='Loading...'
-												/>
-											)}
-										</Box>
-
-										<Button
-											type='submit'
-											size='small'
-											startIcon={
-												isSubmitting ? (
-													<CircularProgress
-														size='small'
-														style={{ color: 'white' }}
+															setFieldValue('contributors', getId());
+														}}
+														getOptionLabel={(option: any) => option?.username}
+														renderInput={(params) => (
+															<TextField
+																{...params}
+																fullWidth
+																variant='outlined'
+																name='contributors'
+																size='small'
+																label='Contributors'
+															/>
+														)}
 													/>
-												) : null
-											}
-											variant='contained'
-											color='primary'>
-											Create Project
-										</Button>
-									</Form>
-								);
-							}}
-						</Formik>
-					</Container>
-				</Paper>
+												) : (
+													<TextField
+														fullWidth
+														variant='outlined'
+														name='contributors'
+														size='small'
+														label='Contributors'
+														value='Loading...'
+													/>
+												)}
+											</Box>
+
+											<Button
+												type='submit'
+												size='small'
+												startIcon={
+													isSubmitting ? (
+														<CircularProgress
+															size='small'
+															style={{ color: 'white' }}
+														/>
+													) : null
+												}
+												variant='contained'
+												color='primary'>
+												Create Project
+											</Button>
+										</Form>
+									);
+								}}
+							</Formik>
+						</Container>
+					</Grid>
+					{imageUrl && (
+						<Grid item lg={7} md={6} xs={12}>
+							<Hidden only={['sm', 'xs']}>
+								<Paper
+									className={classes.pdfviewer}
+									style={{ height: 400, width: '100%' }}>
+									{imageUrl && <PdfViewer filename={imageUrl} />}
+								</Paper>
+							</Hidden>
+						</Grid>
+					)}
+				</Grid>
 			</>
 		);
 	}

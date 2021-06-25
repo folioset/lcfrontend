@@ -18,11 +18,11 @@ const useStyles = makeStyles((theme: Theme) => {
 	return {
 		pdfView: {
 			overflowY: 'scroll',
-			height: '100vh',
-			width: '70vw',
-			position: 'absolute',
-			left: '50%',
-			transform: 'translateX(-50%)',
+			// height: '100vh',
+			// width: '70vw',
+			// position: 'absolute',
+			// left: '50%',
+			// transform: 'translateX(-50%)',
 		},
 	};
 });
