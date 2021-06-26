@@ -183,7 +183,7 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 												filename={values.file?.name}
 												icon={<PictureAsPdf />}
 											/>
-											<Box mb={2}>
+											<Box mb={2} mt={2}>
 												{!isLoading ? (
 													<Autocomplete
 														multiple

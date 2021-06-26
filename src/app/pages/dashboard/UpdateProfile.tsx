@@ -28,9 +28,7 @@ const useStyles = makeStyles((theme: Theme) => {
 	return {
 		avatarContainer: {
 			display: 'flex',
-			justifyContent: 'center',
-			alignItems: 'center',
-			width: '100%',
+			justifyContent: 'space-around',
 			marginBottom: theme.spacing(2)
 		},
 		avatar: {
@@ -137,8 +135,8 @@ const UpdateProfile: React.FC = () => {
 					return (
 							<Form autoComplete='off' noValidate>
 								<Grid container spacing={1}>
-									<Grid item xs={12}>
-										<Box className={classes.avatarContainer}>
+									<Grid item xs={12} container direction='row'>
+										<Grid item xs={6} style={{display: 'flex', justifyContent: 'flex-end'}}>
 											<Avatar
 												src={
 													Boolean(fileUrl)
@@ -149,6 +147,8 @@ const UpdateProfile: React.FC = () => {
 												}
 												style={{ height: '6rem', width: '6rem' }}
 											/>
+										</Grid>
+										<Grid item xs={6} style={{display: 'flex'}}>
 										<FileUpload
 											required={false}
 											name='file'
@@ -156,7 +156,7 @@ const UpdateProfile: React.FC = () => {
 												handleUploadFileUrl(e)
 											}
 										/>
-										</Box>
+										</Grid>
 									</Grid>
 									
 									

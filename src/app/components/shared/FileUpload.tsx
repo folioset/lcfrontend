@@ -23,7 +23,6 @@ const useStyles = makeStyles((theme: Theme) => {
 	return {
 		fileUpload: {
 			display: 'flex',
-			justifyContent: 'center',
 			alignItems: 'center',
 			width: '100%',
 		},
@@ -52,7 +51,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
 					size='small'
 					htmlFor={name}
 					component='label'>
-				    Change Profile Picture
+				    Upload
 				</Button>
 				<small
 					style={{
