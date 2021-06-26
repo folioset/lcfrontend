@@ -1,21 +1,24 @@
-import {
-	Box,
-	Button,
-	CircularProgress,
-	Container,
-	Grid,
-	makeStyles,
-	TextField,
-	Theme,
-	Typography,
-} from '@material-ui/core';
-import { Autocomplete } from '@material-ui/lab';
-import { Form, Formik } from 'formik';
 import * as React from 'react';
 import * as Yup from 'yup';
-import FormInput from '../../shared/FormInput';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
 import axios from 'axios';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { Form, Formik } from 'formik';
+
+// material UI
+import { makeStyles, Theme } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
+import TextField from '@material-ui/core/TextField';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+
+// components
+import FormInput from '../../shared/FormInput';
+
+// types
 import { Project } from '../../../types';
 
 interface UpdateProjectProps {
@@ -129,7 +132,6 @@ const UpdateProject: React.FC<UpdateProjectProps> = React.forwardRef(
 								}}
 								validationSchema={validationSchema}>
 								{({ values, isSubmitting, setFieldValue }) => {
-									console.log(values);
 									return (
 										<Form noValidate autoComplete='off'>
 											<FormInput

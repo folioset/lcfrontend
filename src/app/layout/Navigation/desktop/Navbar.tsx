@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => {
 		appBar: {
 			position: 'sticky',
 			top: 0,
-			backgroundColor: '#111111',
+			backgroundColor: theme.palette.background.default,
 			padding: theme.spacing(1),
 		},
 		toolbar: {
@@ -148,8 +148,8 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 				</Hidden>
 				{user && (
 					<Hidden only={['xl', 'lg', 'md']}>
-						<Box ml='auto'>
-							<IconButton onClick={onOpen}>
+						<Box ml='auto' color='white'>
+							<IconButton color='inherit' onClick={onOpen}>
 								<MenuIcon />
 							</IconButton>
 						</Box>

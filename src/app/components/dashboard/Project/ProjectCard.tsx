@@ -1,39 +1,47 @@
-import {
-	Card,
-	CardActions,
-	CardContent,
-	CardHeader,
-	Typography,
-	IconButton,
-	Box,
-	Grid,
-	makeStyles,
-	Theme,
-	Button,
-	Collapse,
-	Modal,
-	Tooltip,
-} from '@material-ui/core';
-import Rating from '../../shared/Rating';
-import * as Yup from 'yup';
-import { Form, Formik } from 'formik';
 import * as React from 'react';
-import { Project, Review, User } from '../../../types';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
-import SendIcon from '@material-ui/icons/Send';
-import ReviewCard from '../ReviewCard';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import useDisclosure from '../../../hooks/useDisclosure';
-import DeleteIcon from '@material-ui/icons/Delete';
+import * as Yup from 'yup';
 import clsx from 'clsx';
 import axios from 'axios';
+import { format } from 'date-fns';
+import { Form, Formik } from 'formik';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
+
+// Material UI
+import { makeStyles, Theme } from '@material-ui/core';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardHeader from '@material-ui/core/CardHeader';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
+import Collapse from '@material-ui/core/Collapse';
+import Modal from '@material-ui/core/Modal';
+import Tooltip from '@material-ui/core/Tooltip';
+import Hidden from '@material-ui/core/Hidden';
+
+import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
+import DeleteIcon from '@material-ui/icons/Delete';
+import SendIcon from '@material-ui/icons/Send';
+
+// components
+import Rating from '../../shared/Rating';
+import ReviewCard from '../ReviewCard';
 import PdfViewer from '../../shared/Pdf/PdfViewer';
 import FormInput from '../../shared/FormInput';
 import UpdateProject from './UpdateProject';
-import { format } from 'date-fns';
 import DeleteProject from './DeleteProject';
+
+// types
+import { Project, Review, User } from '../../../types';
+
+// hooks
+import useDisclosure from '../../../hooks/useDisclosure';
 
 const validationSchema = Yup.object().shape({
 	review: Yup.string()
@@ -44,17 +52,8 @@ const validationSchema = Yup.object().shape({
 
 const useStyles = makeStyles((theme: Theme) => {
 	return {
-		comment: {
-			'& fieldset': {
-				borderRadius: 500,
-			},
-		},
 		cardActions: {
 			flexDirection: 'column',
-		},
-		cardCommentBox: {
-			marginBottom: theme.spacing(1),
-			marginLeft: theme.spacing(1),
 		},
 		expand: {
 			transform: 'rotate(0deg)',
@@ -66,8 +65,24 @@ const useStyles = makeStyles((theme: Theme) => {
 		expandOpen: {
 			transform: 'rotate(180deg)',
 		},
-		secondColumn: {
+		description: {
 			paddingLeft: theme.spacing(4),
+		},
+		commentForm: {
+			paddingLeft: theme.spacing(4),
+
+			[theme.breakpoints.down('sm')]: {
+				paddingLeft: 0,
+			},
+		},
+		comment: {
+			'& fieldset': {
+				borderRadius: 500,
+			},
+		},
+		cardCommentBox: {
+			marginBottom: theme.spacing(1),
+			marginLeft: theme.spacing(1),
 		},
 		rating: {
 			display: 'flex',
@@ -75,13 +90,43 @@ const useStyles = makeStyles((theme: Theme) => {
 			justifyContent: 'center',
 			marginBottom: theme.spacing(2),
 		},
-
 		pdf: {
 			height: '100vh',
 			width: '70vw',
 			position: 'absolute',
 			left: '50%',
 			transform: 'translateX(-50%)',
+
+			[theme.breakpoints.down('sm')]: {
+				width: '80vw',
+			},
+
+			[theme.breakpoints.down('xs')]: {
+				left: 0,
+				transform: 'translateX(0)',
+				width: '100vw',
+			},
+		},
+		pdfCloseBtn: {
+			display: 'flex',
+			justifyContent: 'flex-end',
+			alignItems: 'center',
+			position: 'absolute',
+			top: -3,
+			right: 30,
+			zIndex: 2000,
+		},
+		xsDescription: {
+			marginTop: theme.spacing(4),
+			textAlign: 'justify',
+		},
+		avgRating: {
+			display: 'flex',
+			justifyContent: 'space-around',
+
+			[theme.breakpoints.down('xs')]: {
+				justifyContent: 'flex-start',
+			},
 		},
 	};
 });
@@ -99,25 +144,28 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 	const { isOpen, toggleOpen, onOpen } = useDisclosure();
 	const [type, setType] = React.useState<'comment' | 'suggestion'>('comment');
 
-	// Modal Toggle
+	// Project Modal Toggler
 	const {
 		isOpen: isModalOpen,
 		onOpen: onModalOpen,
 		onClose: onModalClose,
 	} = useDisclosure();
 
+	// Delete Confirm Toggler
 	const {
 		isOpen: isDeleteOpen,
 		onOpen: onDeleteOpen,
 		onClose: onDeleteClose,
 	} = useDisclosure();
 
+	// Update Project Toggler
 	const {
 		isOpen: isUpdateOpen,
 		onOpen: onUpdateOpen,
 		onClose: onUpdateClose,
 	} = useDisclosure();
 
+	//  Add Review
 	const { mutate: addReview } = useMutation(
 		async (data) => {
 			const res = await axios({
@@ -135,6 +183,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 		}
 	);
 
+	// Set Default Project Rating
 	React.useEffect(() => {
 		if (project) {
 			project.ratings.forEach((el: any) => {
@@ -145,22 +194,20 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 		}
 	}, [project, user._id]);
 
+	// Get all Project Reviews
 	const { isLoading, data } = useQuery(
 		['project-reviews', project._id],
 		async () => {
-			try {
-				const res = await axios({
-					method: 'get',
-					url: `/api/project/${project._id}/reviews`,
-				});
+			const res = await axios({
+				method: 'get',
+				url: `/api/project/${project._id}/reviews`,
+			});
 
-				return res.data;
-			} catch (err) {
-				return err;
-			}
+			return res.data;
 		}
 	);
 
+	// Update Rating
 	const { mutate: addRating } = useMutation(
 		async (data) => {
 			const res = await axios({
@@ -201,7 +248,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 				onClose={onModalClose}
 				aria-labelledby='project-file'
 				aria-describedby='pdf file of the project'>
-				<PdfViewer className={classes.pdf} filename={project.projectFile} />
+				<>
+					<Hidden only={['xl', 'lg', 'md', 'sm']}>
+						<Box className={classes.pdfCloseBtn}>
+							<IconButton onClick={onModalClose} color='inherit'>
+								<CancelIcon />
+							</IconButton>
+						</Box>
+					</Hidden>
+
+					<PdfViewer className={classes.pdf} filename={project.projectFile} />
+				</>
 			</Modal>
 			<Card style={{ marginBottom: 30, paddingLeft: 5, paddingRight: 5 }}>
 				<CardHeader
@@ -234,30 +291,23 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 							alignItems: 'center',
 							justifyContent: 'center',
 						}}>
-						<Grid
-							item
-							xs={3}
-							style={{ display: 'flex', justifyContent: 'space-around' }}>
+						<Grid item xs={6} sm={2} className={classes.avgRating}>
 							<Typography color='primary' variant='h4'>
 								{project.avgRating?.toFixed(2)}
 							</Typography>
 						</Grid>
-						<Grid item xs={8} className={classes.secondColumn}>
-							<Grid container direction='column' style={{ display: 'flex' }}>
-								<Grid
-									item
-									style={{
-										display: 'flex',
-										alignItems: 'center',
-										marginBottom: 5,
-									}}>
-									{project.description && (
-										<Typography>{project.description}</Typography>
-									)}
+						<Hidden only={['xs']}>
+							<Grid item sm={8} className={classes.description}>
+								<Grid container direction='column' style={{ display: 'flex' }}>
+									<Grid item>
+										{project.description && (
+											<Typography>{project.description}</Typography>
+										)}
+									</Grid>
 								</Grid>
 							</Grid>
-						</Grid>
-						<Grid item xs={1}>
+						</Hidden>
+						<Grid container item xs={6} sm={2} justify='flex-end'>
 							<Button
 								variant='contained'
 								size='small'
@@ -267,13 +317,24 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 							</Button>
 						</Grid>
 					</Grid>
+					<Hidden only={['xl', 'lg', 'sm', 'md']}>
+						<Grid item xs={12} className={classes.xsDescription}>
+							<Grid container direction='column' style={{ display: 'flex' }}>
+								<Grid item>
+									{project.description && (
+										<Typography>{project.description}</Typography>
+									)}
+								</Grid>
+							</Grid>
+						</Grid>
+					</Hidden>
 				</CardContent>
 				<CardActions className={classes.cardActions}>
 					{isPublic && (
 						<Grid container className={classes.cardCommentBox}>
 							<Grid item xs={3}>
 								<Box
-									style={{ width: 240 }}
+									style={{ width: 235 }}
 									display='flex'
 									alignItems='center'
 									justifyContent='space-between'>
@@ -294,7 +355,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 									name={`project-${project._id}-rating`}
 								/>
 							</Grid>
-							<Grid item xs={9} className={classes.secondColumn}>
+							<Grid item md={9} xs={12} className={classes.commentForm}>
 								<Formik
 									initialValues={{
 										review: '',

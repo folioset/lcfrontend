@@ -54,11 +54,6 @@ const OnBoarding: React.FC = () => {
 				await queryClient.invalidateQueries('user');
 				history.replace('/dashboard');
 			},
-			onSettled: (data) => {
-				if (data) {
-					console.log(data);
-				}
-			},
 		}
 	);
 
@@ -71,7 +66,9 @@ const OnBoarding: React.FC = () => {
 
 	return (
 		<>
-			<Container maxWidth='sm' style={{backgroundColor: 'white', padding: 40, borderRadius: 10}}>
+			<Container
+				maxWidth='sm'
+				style={{ backgroundColor: 'white', padding: 40, borderRadius: 10 }}>
 				<Formik
 					{...{ validationSchema, initialValues }}
 					onSubmit={async (values, { resetForm }) => {

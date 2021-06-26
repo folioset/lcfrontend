@@ -23,10 +23,16 @@ const useStyles = makeStyles((theme: Theme) => ({
 		padding: theme.spacing(3),
 
 		[theme.breakpoints.down('sm')]: {
-			paddingLeft: theme.spacing(1),
-			paddingRight: theme.spacing(1),
 			paddingTop: theme.spacing(2),
 			paddingBottom: theme.spacing(2),
+		},
+
+		[theme.breakpoints.down('xs')]: {
+			display: 'flex',
+			justifyContent: 'center',
+			flexDirection: 'column',
+			alignItems: 'center',
+			textAlign: 'center',
 		},
 	},
 	about: {
@@ -43,6 +49,16 @@ const useStyles = makeStyles((theme: Theme) => ({
 	},
 	link: {
 		cursor: 'pointer',
+	},
+	editIcon: {
+		display: 'flex',
+		alignItems: 'flex-start',
+		justifyContent: 'flex-end',
+
+		[theme.breakpoints.down('xs')]: {
+			order: -1,
+			alignItems: 'center',
+		},
 	},
 }));
 
@@ -70,7 +86,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 			<Box className={classes.root}>
 				<Paper className={classes.paper}>
 					<Grid container direction='row'>
-						<Grid item xs={11} className={classes.details}>
+						<Grid item xs={12} sm={11} className={classes.details}>
 							<Avatar
 								className={classes.avatar}
 								alt={user.name}
@@ -101,7 +117,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 								</Box>
 							)}
 						</Grid>
-						<Grid item xs={1} style={{ padding: 10 }}>
+						<Grid item xs={12} sm={1} className={classes.editIcon}>
 							{!isPublic && (
 								<IconButton
 									onClick={() => history.push('/dashboard/me/update')}>

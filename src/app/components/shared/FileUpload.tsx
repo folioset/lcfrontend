@@ -6,7 +6,6 @@ import {
 	makeStyles,
 	Theme,
 } from '@material-ui/core';
-import BackupIcon from '@material-ui/icons/Backup';
 import * as React from 'react';
 import { FieldAttributes, useField } from 'formik';
 
@@ -16,6 +15,7 @@ type FileUploadProps = FieldAttributes<{}> &
 		HTMLInputElement
 	> & {
 		filename?: string;
+		btnText?: string;
 		icon?: React.ReactNode;
 	};
 
@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme: Theme) => {
 
 const FileUpload: React.FC<FileUploadProps> = ({
 	filename,
+	btnText = 'upload file',
 	icon,
 	onChange: onExtraChange,
 	required,
@@ -51,15 +52,16 @@ const FileUpload: React.FC<FileUploadProps> = ({
 					size='small'
 					htmlFor={name}
 					component='label'>
-				    Upload
+					{btnText}
 				</Button>
-				<small
+				<Box
+					component='small'
 					style={{
 						display: 'block',
 						color: 'red',
 					}}>
 					{touched && error && error}
-				</small>
+				</Box>
 			</Box>
 			<input
 				id={name}

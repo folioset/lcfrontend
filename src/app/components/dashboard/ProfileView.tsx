@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => {
 	return {
 		root: {
 			minHeight: '100vh',
-			backgroundColor: '#111111',
+			backgroundColor: theme.palette.background.default,
 			padding: theme.spacing(4),
 
 			[theme.breakpoints.down('md')]: {

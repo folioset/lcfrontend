@@ -1,23 +1,48 @@
-import {
-	Avatar,
-	Box,
-	Card,
-	CardContent,
-	Grid,
-	Typography,
-} from '@material-ui/core';
 import * as React from 'react';
-import { User } from '../../types';
-
-import CardActionArea from '@material-ui/core/CardActionArea';
 import { useHistory } from 'react-router-dom';
+
+// Material ui
+import Avatar from '@material-ui/core/Avatar';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Grid from '@material-ui/core/Grid';
+import Hidden from '@material-ui/core/Hidden';
+import Typography from '@material-ui/core/Typography';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import { makeStyles, Theme } from '@material-ui/core';
+
+// types
+import { User } from '../../types';
 
 interface UserItemProps {
 	user: User;
 }
 
+const useStyles = makeStyles((theme: Theme) => {
+	return {
+		avatar: {
+			height: '4rem',
+			width: '4rem',
+		},
+		detailsGrid: {
+			paddingLeft: theme.spacing(3),
+			alignItems: 'flex-start',
+
+			[theme.breakpoints.down('xs')]: {
+				alignItems: 'center',
+			},
+		},
+		projectsNum: {
+			[theme.breakpoints.down('xs')]: {
+				marginTop: theme.spacing(2),
+			},
+		},
+	};
+});
+
 const UserItem: React.FC<UserItemProps> = ({ user }) => {
 	const history = useHistory();
+	const classes = useStyles();
 
 	return (
 		<>
@@ -26,38 +51,52 @@ const UserItem: React.FC<UserItemProps> = ({ user }) => {
 				<CardActionArea>
 					<CardContent>
 						<Grid container>
-							<Grid item xs={1}>
+							<Grid item sm={1} xs={2}>
 								<Avatar
-									style={{ height: '4rem', width: '4rem' }}
+									className={classes.avatar}
 									alt={user.name}
 									src={user.profilePicture}
 								/>
 							</Grid>
-							<Grid item container direction='column' xs={9} style={{paddingLeft: 5, alignItems: 'flex-start'}}>
-									<Grid item>
-										<Typography gutterBottom variant='h6'>
-											{user.name || user.username}
+							<Grid
+								item
+								container
+								direction='column'
+								sm={9}
+								xs={10}
+								className={classes.detailsGrid}>
+								<Grid item>
+									<Typography gutterBottom variant='h6'>
+										{user.name || user.username}
+									</Typography>
+								</Grid>
+								<Grid item>
+									{user.about && (
+										<Typography variant='body2' gutterBottom>
+											{user.about}
 										</Typography>
-									</Grid>
-									<Grid item>
-											{user.about && (
-												<Typography variant='body2' gutterBottom>
-													{user.about}
-												</Typography>
-											)}
-									</Grid>
-									<Grid item>
-											<Typography variant='body2' color='textSecondary'>
-												{user.location}
-											</Typography>
-									</Grid>
+									)}
+								</Grid>
+								<Grid item>
+									<Typography variant='body2' color='textSecondary'>
+										{user.location}
+									</Typography>
+								</Grid>
 							</Grid>
-							<Grid item xs={2}>
-										<Typography variant='h5'>
-											{user.numberOfProjects} projects
-										</Typography>
+							<Hidden only={['sm', 'md', 'xl', 'lg']}>
+								<Grid item xs={2}></Grid>
+							</Hidden>
+							<Grid
+								item
+								sm={2}
+								xs={10}
+								justify='center'
+								className={classes.projectsNum}>
+								<Typography variant='h5' color='primary'>
+									{user.numberOfProjects} projects
+								</Typography>
 							</Grid>
-							</Grid>
+						</Grid>
 					</CardContent>
 				</CardActionArea>
 			</Card>

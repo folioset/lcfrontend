@@ -1,17 +1,18 @@
 import * as React from 'react';
 import { format } from 'date-fns';
+
+// Material ui
+
+import Avatar from '@material-ui/core/Avatar';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardHeader from '@material-ui/core/CardHeader';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import { createStyles, makeStyles, Theme } from '@material-ui/core';
+
+// types
 import { Review } from '../../types';
-import {
-	Avatar,
-	Card,
-	CardContent,
-	CardHeader,
-	createStyles,
-	makeStyles,
-	Theme,
-	Typography,
-	Box,
-} from '@material-ui/core';
 
 interface ReviewCardProps {
 	review: Review;

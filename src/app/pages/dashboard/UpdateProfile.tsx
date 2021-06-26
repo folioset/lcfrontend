@@ -8,8 +8,6 @@ import {
 	CircularProgress,
 	Container,
 	Grid,
-	makeStyles,
-	Theme,
 	Typography,
 } from '@material-ui/core';
 
@@ -23,20 +21,6 @@ import FileUpload from '../../components/shared/FileUpload';
 import useFileUpload from '../../hooks/useFileUpload';
 import useAuthRoute from '../../hooks/useAuthRoute';
 import { useLocation } from 'react-router-dom';
-
-const useStyles = makeStyles((theme: Theme) => {
-	return {
-		avatarContainer: {
-			display: 'flex',
-			justifyContent: 'space-around',
-			marginBottom: theme.spacing(2)
-		},
-		avatar: {
-			height: '8rem',
-			width: '8rem'
-		},
-	};
-});
 
 const userProfileInitState = (user: any) => {
 	return {
@@ -58,10 +42,7 @@ const phoneRegExp =
 const SUPPORTED_FORMATS = ['image/jpeg', 'image/jpg', 'image/png'];
 
 const userProfileValidationSchema = Yup.object().shape({
-	about: Yup.string().min(
-		5,
-		'Too Short! You should atleast have 5 characters'
-	),
+	about: Yup.string().min(5, 'Too Short! You should atleast have 5 characters'),
 	linkedinUrl: Yup.string().matches(
 		LinkedInRegExp,
 		'Please enter a valid linkedin url'
@@ -85,7 +66,6 @@ const UpdateProfile: React.FC = () => {
 	const queryClient = useQueryClient();
 	const history = useHistory();
 	const user = queryClient.getQueryData<User>('user');
-	const classes = useStyles();
 	const { fileUrl, handleUploadFileUrl } = useFileUpload();
 
 	const { mutate, isLoading } = useMutation(
@@ -109,7 +89,9 @@ const UpdateProfile: React.FC = () => {
 		}
 	);
 	return (
-		<Container maxWidth='sm' style={{backgroundColor: 'white', padding: 30, borderRadius: 10}}>
+		<Container
+			maxWidth='sm'
+			style={{ backgroundColor: 'white', padding: 30, borderRadius: 10 }}>
 			<Box mb={4} textAlign='center'>
 				<Typography variant='h4'>Edit Profile</Typography>
 			</Box>
@@ -133,89 +115,90 @@ const UpdateProfile: React.FC = () => {
 				}}>
 				{() => {
 					return (
-							<Form autoComplete='off' noValidate>
-								<Grid container spacing={1}>
-									<Grid item xs={12} container direction='row'>
-										<Grid item xs={6} style={{display: 'flex', justifyContent: 'flex-end'}}>
-											<Avatar
-												src={
-													Boolean(fileUrl)
-														? fileUrl
-														: user?.profilePicture
-														? user?.profilePicture
-														: ''
-												}
-												style={{ height: '6rem', width: '6rem' }}
-											/>
-										</Grid>
-										<Grid item xs={6} style={{display: 'flex'}}>
+						<Form autoComplete='off' noValidate>
+							<Grid container spacing={1}>
+								<Grid item xs={12} container direction='row'>
+									<Grid
+										item
+										xs={6}
+										style={{ display: 'flex', justifyContent: 'flex-end' }}>
+										<Avatar
+											src={
+												Boolean(fileUrl)
+													? fileUrl
+													: user?.profilePicture
+													? user?.profilePicture
+													: ''
+											}
+											style={{ height: '6rem', width: '6rem' }}
+										/>
+									</Grid>
+									<Grid item xs={6} style={{ display: 'flex' }}>
 										<FileUpload
+											btnText='upload profile picture'
 											required={false}
 											name='file'
 											onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 												handleUploadFileUrl(e)
 											}
 										/>
-										</Grid>
-									</Grid>
-									
-									
-                                    <Grid item xs={12}>
-										<FormInput
-											fullWidth
-											variant='outlined'
-											rows={6}
-											required={false}
-											name='about'
-											label='About'
-											placeholder={`Product Manager at Zerodha. IIM Calcutta grad`}
-										/>
-									</Grid>
-									<Grid item xs={12}>
-										<FormInput
-											fullWidth
-											variant='outlined'
-											label='LinkedIn URL'
-											name='linkedinUrl'
-											required={false}
-										/>
-									</Grid>
-
-									<Grid item md={2} xs={2}>
-										<FormInput disabled variant='outlined' name='code' />
-									</Grid>
-
-									<Grid item md={10} xs={10}>
-										<FormInput
-											fullWidth
-											variant='outlined'
-											label='Phone Number'
-											name='phoneNumber'
-											required={false}
-										/>
-									</Grid>
-
-									<Grid item md={12} xs={12}>
-										<FormInput
-											fullWidth
-											variant='outlined'
-											label='Location'
-											name='location'
-											required={false}
-										/>
 									</Grid>
 								</Grid>
-								<Button
-									startIcon={
-										isLoading ? <CircularProgress size='1rem' /> : null
-									}
-									disabled={isLoading}
-									type='submit'
-									variant='contained'
-									color='primary'>
-									Submit
-								</Button>
-							</Form>
+
+								<Grid item xs={12}>
+									<FormInput
+										fullWidth
+										variant='outlined'
+										rows={6}
+										required={false}
+										name='about'
+										label='About'
+										placeholder={`Product Manager at Zerodha. IIM Calcutta grad`}
+									/>
+								</Grid>
+								<Grid item xs={12}>
+									<FormInput
+										fullWidth
+										variant='outlined'
+										label='LinkedIn URL'
+										name='linkedinUrl'
+										required={false}
+									/>
+								</Grid>
+
+								<Grid item md={2} xs={2}>
+									<FormInput disabled variant='outlined' name='code' />
+								</Grid>
+
+								<Grid item md={10} xs={10}>
+									<FormInput
+										fullWidth
+										variant='outlined'
+										label='Phone Number'
+										name='phoneNumber'
+										required={false}
+									/>
+								</Grid>
+
+								<Grid item md={12} xs={12}>
+									<FormInput
+										fullWidth
+										variant='outlined'
+										label='Location'
+										name='location'
+										required={false}
+									/>
+								</Grid>
+							</Grid>
+							<Button
+								startIcon={isLoading ? <CircularProgress size='1rem' /> : null}
+								disabled={isLoading}
+								type='submit'
+								variant='contained'
+								color='primary'>
+								Submit
+							</Button>
+						</Form>
 					);
 				}}
 			</Formik>

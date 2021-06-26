@@ -1,12 +1,8 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import indigo from '@material-ui/core/colors/indigo';
 
 const palette = {
 	primary: {
 		main: '#00BFA6',
-	},
-	secondary: {
-		main: indigo['A700'],
 	},
 	background: {
 		default: '#111111',
@@ -32,18 +28,14 @@ const typography = {
 		color: 'white',
 	},
 	h5: {
-		fontSize: 18
+		fontSize: 18,
 	},
 	h6: {
-		fontSize: 18
+		fontSize: 18,
 	},
 };
 
 const theme = createMuiTheme({
-	// palette: {
-	// 	type: 'dark',
-	// 	...palette,
-	// },
 	palette,
 	typography,
 });

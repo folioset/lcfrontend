@@ -158,7 +158,6 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 								initialValues={initialValues}
 								validationSchema={validationSchema}>
 								{({ values, isSubmitting, setFieldValue }) => {
-									console.log(values);
 									return (
 										<Form noValidate autoComplete='off'>
 											<FormInput
