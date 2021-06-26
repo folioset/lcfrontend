@@ -20,7 +20,7 @@ import { User } from '../../types';
 const useStyles = makeStyles((theme) => {
 	return {
 		heading: {
-			marginBottom: theme.spacing(4),
+			marginBottom: theme.spacing(5),
 			textAlign: 'center',
 		},
 	};
@@ -66,13 +66,12 @@ const OnBoarding: React.FC = () => {
 	const initialValues = {
 		username: user?.name || '',
 		about: '',
-		hours: 4,
 		interests: '',
 	};
 
 	return (
 		<>
-			<Container maxWidth='sm'>
+			<Container maxWidth='sm' style={{backgroundColor: 'white', padding: 40, borderRadius: 10}}>
 				<Formik
 					{...{ validationSchema, initialValues }}
 					onSubmit={async (values, { resetForm }) => {
@@ -82,20 +81,13 @@ const OnBoarding: React.FC = () => {
 					{({ isSubmitting }) => {
 						return (
 							<Form autoComplete='off'>
-								<Typography variant='h3' className={classes.heading}>
-									Create a Username to continue
+								<Typography variant='h4' className={classes.heading}>
+									Tell us about yourself
 								</Typography>
-								<FormInput
-									name='username'
-									variant='outlined'
-									label='User Name'
-									required
-									fullWidth
-								/>
 								<FormInput
 									name='about'
 									variant='outlined'
-									label='What do you do currently?'
+									label='What do you do currently? (e.g. CS Student at IIT Bombay'
 									required
 									fullWidth
 								/>
@@ -119,6 +111,13 @@ const OnBoarding: React.FC = () => {
 										return <MenuItem value={field}>{field}</MenuItem>;
 									})}
 								</FormSelect>
+								<FormInput
+									name='username'
+									variant='outlined'
+									label='Set your Username'
+									required
+									fullWidth
+								/>
 								<Button
 									type='submit'
 									size='small'
@@ -132,7 +131,7 @@ const OnBoarding: React.FC = () => {
 									}
 									variant='contained'
 									color='primary'>
-									Save Details
+									Submit
 								</Button>
 							</Form>
 						);

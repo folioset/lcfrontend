@@ -31,11 +31,11 @@ const useStyles = makeStyles((theme: Theme) => {
 			justifyContent: 'center',
 			alignItems: 'center',
 			width: '100%',
-			marginBottom: theme.spacing(4),
+			marginBottom: theme.spacing(2)
 		},
 		avatar: {
 			height: '8rem',
-			width: '8rem',
+			width: '8rem'
 		},
 	};
 });
@@ -61,8 +61,8 @@ const SUPPORTED_FORMATS = ['image/jpeg', 'image/jpg', 'image/png'];
 
 const userProfileValidationSchema = Yup.object().shape({
 	about: Yup.string().min(
-		20,
-		'Too Short! You should atleast have 20 characters'
+		5,
+		'Too Short! You should atleast have 5 characters'
 	),
 	linkedinUrl: Yup.string().matches(
 		LinkedInRegExp,
@@ -111,8 +111,8 @@ const UpdateProfile: React.FC = () => {
 		}
 	);
 	return (
-		<>
-			<Box my={6} textAlign='center'>
+		<Container maxWidth='sm' style={{backgroundColor: 'white', padding: 30, borderRadius: 10}}>
+			<Box mb={4} textAlign='center'>
 				<Typography variant='h4'>Edit Profile</Typography>
 			</Box>
 			<Formik
@@ -135,76 +135,75 @@ const UpdateProfile: React.FC = () => {
 				}}>
 				{() => {
 					return (
-						<Container maxWidth='md' style={{ paddingBottom: '3rem' }}>
 							<Form autoComplete='off' noValidate>
 								<Grid container spacing={1}>
-									<Box className={classes.avatarContainer}>
-										<Avatar
-											src={
-												Boolean(fileUrl)
-													? fileUrl
-													: user?.profilePicture
-													? user?.profilePicture
-													: ''
+									<Grid item xs={12}>
+										<Box className={classes.avatarContainer}>
+											<Avatar
+												src={
+													Boolean(fileUrl)
+														? fileUrl
+														: user?.profilePicture
+														? user?.profilePicture
+														: ''
+												}
+												style={{ height: '6rem', width: '6rem' }}
+											/>
+										<FileUpload
+											required={false}
+											name='file'
+											onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+												handleUploadFileUrl(e)
 											}
-											style={{ height: '8rem', width: '8rem' }}
 										/>
-									</Box>
-
+										</Box>
+									</Grid>
+									
+									
+                                    <Grid item xs={12}>
+										<FormInput
+											fullWidth
+											variant='outlined'
+											rows={6}
+											required={false}
+											name='about'
+											label='About'
+											placeholder={`Product Manager at Zerodha. IIM Calcutta grad`}
+										/>
+									</Grid>
 									<Grid item xs={12}>
 										<FormInput
 											fullWidth
-											variant='filled'
+											variant='outlined'
 											label='LinkedIn URL'
 											name='linkedinUrl'
 											required={false}
-											helperText='If you are on mobile, you can find this url by going to the Linkedin app -> View Profile -> Scrolling down on your profile -> In the Contact section, you will find your profile’s url which you can copy-paste here'
 										/>
 									</Grid>
 
-									<Grid item md={1} xs={2}>
+									<Grid item md={2} xs={2}>
 										<FormInput disabled variant='outlined' name='code' />
 									</Grid>
 
-									<Grid item md={11} xs={10}>
+									<Grid item md={10} xs={10}>
 										<FormInput
 											fullWidth
-											variant='filled'
+											variant='outlined'
 											label='Phone Number'
 											name='phoneNumber'
 											required={false}
-											helperText='Please provide us with your phone number as this will help us add you to relevant groups and send you reminders about your calls'
 										/>
 									</Grid>
 
-									<Grid item md={11} xs={10}>
+									<Grid item md={12} xs={12}>
 										<FormInput
 											fullWidth
-											variant='filled'
+											variant='outlined'
 											label='Location'
 											name='location'
 											required={false}
 										/>
 									</Grid>
-
-									<FormInput
-										fullWidth
-										variant='filled'
-										multiline
-										rows={6}
-										required={false}
-										name='about'
-										label='Bio'
-										placeholder={`Product Manager at Zerodha. IIM Calcutta grad. Former Engineer who loves finance and fin-tech products`}
-									/>
-
-									<FileUpload
-										required={false}
-										name='file'
-										onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-											handleUploadFileUrl(e)
-										}
-									/>
 								</Grid>
 								<Button
 									startIcon={
@@ -214,14 +213,13 @@ const UpdateProfile: React.FC = () => {
 									type='submit'
 									variant='contained'
 									color='primary'>
-									Save details
+									Submit
 								</Button>
 							</Form>
-						</Container>
 					);
 				}}
 			</Formik>
-		</>
+		</Container>
 	);
 };
 

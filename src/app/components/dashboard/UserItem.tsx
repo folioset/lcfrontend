@@ -22,71 +22,42 @@ const UserItem: React.FC<UserItemProps> = ({ user }) => {
 	return (
 		<>
 			<Card
-				elevation={3}
 				onClick={() => history.push(`/public/users/${user._id ?? user.id}`)}>
 				<CardActionArea>
 					<CardContent>
 						<Grid container>
-							<Grid item xs={2}>
+							<Grid item xs={1}>
 								<Avatar
-									style={{ height: '5rem', width: '5rem' }}
+									style={{ height: '4rem', width: '4rem' }}
 									alt={user.name}
 									src={user.profilePicture}
 								/>
 							</Grid>
-							<Grid item xs={8}>
-								<Grid
-									container
-									direction='column'
-									style={{
-										alignItems: 'flex-start',
-										justifyContent: 'center',
-									}}>
+							<Grid item container direction='column' xs={9} style={{paddingLeft: 5, alignItems: 'flex-start'}}>
 									<Grid item>
 										<Typography gutterBottom variant='h6'>
-											{user.name || user.username} (Name)
-										</Typography>
-										<Typography gutterBottom color='primary'>
-											{'@' + user.username} (username)
+											{user.name || user.username}
 										</Typography>
 									</Grid>
 									<Grid item>
-										<Box mt={4}>
 											{user.about && (
 												<Typography variant='body2' gutterBottom>
-													{user.about} (Headline)
+													{user.about}
 												</Typography>
 											)}
-
+									</Grid>
+									<Grid item>
 											<Typography variant='body2' color='textSecondary'>
 												{user.location}
 											</Typography>
-										</Box>
 									</Grid>
-								</Grid>
 							</Grid>
 							<Grid item xs={2}>
-								<Grid container direction='column'>
-									<Grid
-										item
-										style={{
-											justifyContent: 'center',
-											alignItems: 'center',
-											display: 'flex',
-										}}>
-										<Box>
-											<Typography variant='h6'># projects</Typography>
-										</Box>
-									</Grid>
-
-									<Box mt={4}>
-										<Typography color='primary' variant='h4'>
-											{user.numberOfProjects}
+										<Typography variant='h5'>
+											{user.numberOfProjects} projects
 										</Typography>
-									</Box>
-								</Grid>
 							</Grid>
-						</Grid>
+							</Grid>
 					</CardContent>
 				</CardActionArea>
 			</Card>

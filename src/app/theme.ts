@@ -31,13 +31,20 @@ const typography = {
 	subtitle1: {
 		color: 'white',
 	},
+	h5: {
+		fontSize: 18
+	},
+	h6: {
+		fontSize: 18
+	},
 };
 
 const theme = createMuiTheme({
-	palette: {
-		type: 'dark',
-		...palette,
-	},
+	// palette: {
+	// 	type: 'dark',
+	// 	...palette,
+	// },
+	palette,
 	typography,
 });
 

@@ -21,21 +21,11 @@ type FileUploadProps = FieldAttributes<{}> &
 
 const useStyles = makeStyles((theme: Theme) => {
 	return {
-		container: {
-			position: 'absolute',
-			top: '50%',
-			left: '50%',
-			transform: `translate(-50%, -50%)`,
-			padding: theme.spacing(3),
-		},
-		heading: {
-			marginBottom: theme.spacing(2),
-		},
 		fileUpload: {
-			marginBottom: theme.spacing(3),
 			display: 'flex',
-			justifyContent: 'space-between',
+			justifyContent: 'center',
 			alignItems: 'center',
+			width: '100%',
 		},
 	};
 });
@@ -58,19 +48,16 @@ const FileUpload: React.FC<FileUploadProps> = ({
 		<Box className={classes.fileUpload}>
 			<Box>
 				<Button
-					startIcon={<BackupIcon />}
-					variant='outlined'
+					variant='contained'
 					size='small'
 					htmlFor={name}
 					component='label'>
-					Upload File
+				    Change Profile Picture
 				</Button>
 				<small
 					style={{
 						display: 'block',
-						marginTop: 10,
 						color: 'red',
-						marginLeft: 15,
 					}}>
 					{touched && error && error}
 				</small>

@@ -4,19 +4,22 @@ import Modal from '@material-ui/core/Modal';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import { Box, Button, makeStyles, Theme } from '@material-ui/core';
+import { Box, Button, makeStyles, Theme, IconButton } from '@material-ui/core';
 import { User } from '../../types';
 import useDisclosure from '../../hooks/useDisclosure';
 import CreateProject from './Project/CreateProject';
+import EditIcon from '@material-ui/icons/Edit';
 
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
 		flexGrow: 1,
+		backgroundColor: theme.palette.common.white
 	},
-	paper: {},
+	paper: {
+		backgroundColor: theme.palette.common.white
+	},
 	details: {
 		padding: theme.spacing(3),
-		margin: theme.spacing(1),
 
 		[theme.breakpoints.down('sm')]: {
 			paddingLeft: theme.spacing(1),
@@ -35,11 +38,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 		width: 100,
 	},
 	addProjectGridBtn: {
-		[theme.breakpoints.down('sm')]: {
-			display: 'flex',
-			flexDirection: 'row',
-			justifyContent: 'center',
-		},
 		marginTop: theme.spacing(2),
 	},
 	link: {
@@ -69,7 +67,8 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 			)}
 			<Box className={classes.root}>
 				<Paper className={classes.paper}>
-					<Grid container direction='column' className={classes.details}>
+				<Grid container direction='row'>
+					<Grid item xs={11} className={classes.details}>
 						<Avatar
 							className={classes.avatar}
 							alt={user.name}
@@ -99,6 +98,14 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 								</Button>
 							</Box>
 						)}
+					</Grid>
+					<Grid item xs={1} style={{padding: 10}}>
+					    {!isPublic && (
+						<IconButton >
+						    <EditIcon color='primary' />
+						</IconButton>
+						)}
+					</Grid>
 					</Grid>
 				</Paper>
 			</Box>

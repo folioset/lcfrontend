@@ -19,8 +19,9 @@ interface UsersProps {}
 const useStyles = makeStyles((theme: Theme) => {
 	return {
 		root: {
-			paddingTop: theme.spacing(2),
+			paddingTop: theme.spacing(3),
 			paddingBottom: theme.spacing(3),
+			backgroundColor: theme.palette.common.white 
 		},
 		heading: {
 			marginBottom: theme.spacing(3),
@@ -45,11 +46,8 @@ const Users: React.FC<UsersProps> = () => {
 		<>
 			<Container maxWidth='md' className={classes.root}>
 				<Box textAlign='center'>
-					<Typography className={classes.heading} variant='h4'>
-						Users
-					</Typography>
 					{isLoading && <Typography>Loading Users....</Typography>}
-					<Grid container spacing={3}>
+					<Grid container>
 						{data?.map((user: User) => {
 							return (
 								<Grid item xs={12}>
