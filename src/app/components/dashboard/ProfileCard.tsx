@@ -9,14 +9,15 @@ import { User } from '../../types';
 import useDisclosure from '../../hooks/useDisclosure';
 import CreateProject from './Project/CreateProject';
 import EditIcon from '@material-ui/icons/Edit';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
 		flexGrow: 1,
-		backgroundColor: theme.palette.common.white
+		backgroundColor: theme.palette.common.white,
 	},
 	paper: {
-		backgroundColor: theme.palette.common.white
+		backgroundColor: theme.palette.common.white,
 	},
 	details: {
 		padding: theme.spacing(3),
@@ -53,6 +54,7 @@ interface ProfileCardProps {
 const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 	const classes = useStyles();
 	const { isOpen, onOpen, onClose } = useDisclosure();
+	const history = useHistory();
 
 	return (
 		<>
@@ -67,45 +69,46 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 			)}
 			<Box className={classes.root}>
 				<Paper className={classes.paper}>
-				<Grid container direction='row'>
-					<Grid item xs={11} className={classes.details}>
-						<Avatar
-							className={classes.avatar}
-							alt={user.name}
-							src={user.profilePicture}
-						/>
+					<Grid container direction='row'>
+						<Grid item xs={11} className={classes.details}>
+							<Avatar
+								className={classes.avatar}
+								alt={user.name}
+								src={user.profilePicture}
+							/>
 
-						<Typography gutterBottom variant='h4'>
-							{user.name}
-						</Typography>
-						{user.about && (
-							<Typography
-								variant='body2'
-								gutterBottom
-								className={classes.about}>
-								{user.about}
+							<Typography gutterBottom variant='h4'>
+								{user.name}
 							</Typography>
-						)}
-						{user.location && (
-							<Typography variant='body2' color='textSecondary'>
-								{user.location}
-							</Typography>
-						)}
-						{!isPublic && (
-							<Box className={classes.addProjectGridBtn}>
-								<Button color='primary' variant='contained' onClick={onOpen}>
-									Add Project
-								</Button>
-							</Box>
-						)}
-					</Grid>
-					<Grid item xs={1} style={{padding: 10}}>
-					    {!isPublic && (
-						<IconButton >
-						    <EditIcon color='primary' />
-						</IconButton>
-						)}
-					</Grid>
+							{user.about && (
+								<Typography
+									variant='body2'
+									gutterBottom
+									className={classes.about}>
+									{user.about}
+								</Typography>
+							)}
+							{user.location && (
+								<Typography variant='body2' color='textSecondary'>
+									{user.location}
+								</Typography>
+							)}
+							{!isPublic && (
+								<Box className={classes.addProjectGridBtn}>
+									<Button color='primary' variant='contained' onClick={onOpen}>
+										Add Project
+									</Button>
+								</Box>
+							)}
+						</Grid>
+						<Grid item xs={1} style={{ padding: 10 }}>
+							{!isPublic && (
+								<IconButton
+									onClick={() => history.push('/dashboard/me/update')}>
+									<EditIcon color='primary' />
+								</IconButton>
+							)}
+						</Grid>
 					</Grid>
 				</Paper>
 			</Box>
