@@ -45,8 +45,7 @@ import useDisclosure from '../../../hooks/useDisclosure';
 
 const validationSchema = Yup.object().shape({
 	review: Yup.string()
-		.required()
-		.min(1, 'Too Short! You should atleast have 1 characters')
+		.required('This is a required field')
 		.max(200, 'Too Long! Review can only have a maximum of 100 characters'),
 });
 

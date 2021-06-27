@@ -9,7 +9,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 // Components
 import DrawerItem from './DrawerItem';
 import {
-	Avatar,
 	Box,
 	Divider,
 	ListItemText,
@@ -26,6 +25,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import PeopleIcon from '@material-ui/icons/People';
 import Logo from '../../../components/shared/Logo';
 import { User } from '../../../types';
+import Avatar from '../../../components/shared/Avatar';
 
 interface Props {
 	isOpen: boolean;

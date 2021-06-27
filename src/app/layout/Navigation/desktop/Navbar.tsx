@@ -10,7 +10,7 @@ import { Typography } from '@material-ui/core';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
-import { Avatar, Divider, makeStyles } from '@material-ui/core';
+import { Divider, makeStyles } from '@material-ui/core';
 
 import Menu from '@material-ui/core/Menu';
 
@@ -28,6 +28,7 @@ import NavItem from './NavItem';
 import { User } from '../../../types';
 import Logo from '../../../components/shared/Logo';
 import MenuLink from '../../../components/shared/HrefLink/MenuLink';
+import Avatar from '../../../components/shared/Avatar';
 
 // Styles
 const useStyles = makeStyles((theme) => {
@@ -96,7 +97,7 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 								<Typography color='primary'>All Users</Typography>
 							</NavItem>
 							<Button
-								startIcon={<Avatar src={user.profilePicture} />}
+								startIcon={<Avatar alt={user.name} src={user.profilePicture} />}
 								aria-controls='dropdown'
 								aria-haspopup='true'
 								color='primary'

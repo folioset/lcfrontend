@@ -3,7 +3,6 @@ import { format } from 'date-fns';
 
 // Material ui
 
-import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -13,6 +12,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core';
 
 // types
 import { Review } from '../../types';
+import Avatar from '../shared/Avatar';
 
 interface ReviewCardProps {
 	review: Review;

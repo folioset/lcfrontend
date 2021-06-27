@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 
 // Material ui
-import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Grid from '@material-ui/core/Grid';
@@ -13,6 +12,7 @@ import { makeStyles, Theme } from '@material-ui/core';
 
 // types
 import { User } from '../../types';
+import Avatar from '../shared/Avatar';
 
 interface UserItemProps {
 	user: User;

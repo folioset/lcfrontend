@@ -2,7 +2,6 @@ import * as React from 'react';
 import Paper from '@material-ui/core/Paper';
 import Modal from '@material-ui/core/Modal';
 import Grid from '@material-ui/core/Grid';
-import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { Box, Button, makeStyles, Theme, IconButton } from '@material-ui/core';
 import { User } from '../../types';
@@ -10,10 +9,12 @@ import useDisclosure from '../../hooks/useDisclosure';
 import CreateProject from './Project/CreateProject';
 import EditIcon from '@material-ui/icons/Edit';
 import { useHistory } from 'react-router-dom';
+import Avatar from '../shared/Avatar';
 
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
 		flexGrow: 1,
+		borderRadius: 15,
 		backgroundColor: theme.palette.common.white,
 	},
 	paper: {

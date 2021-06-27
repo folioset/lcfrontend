@@ -59,7 +59,7 @@ const OnBoarding: React.FC = () => {
 
 	// interests, hours
 	const initialValues = {
-		username: user?.name || '',
+		username: user?.username || '',
 		about: '',
 		interests: '',
 	};
