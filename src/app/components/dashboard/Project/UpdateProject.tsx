@@ -5,7 +5,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Form, Formik } from 'formik';
 
 // material UI
-import { makeStyles, Theme } from '@material-ui/core';
+import { Hidden, makeStyles, Paper, Theme } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
@@ -20,22 +20,35 @@ import FormInput from '../../shared/FormInput';
 
 // types
 import { Project } from '../../../types';
+import useFileUpload from '../../../hooks/useFileUpload';
+import { PictureAsPdf } from '@material-ui/icons';
+import FileUpload from '../../shared/FileUpload';
+import PdfViewer from '../../shared/Pdf/PdfViewer';
 
 interface UpdateProjectProps {
 	onClose: () => void;
 	project: Project;
 }
 
+const SUPPORTED_FORMATS = ['application/pdf'];
+
 const validationSchema = Yup.object().shape({
 	title: Yup.string().required('project title is required'),
 	description: Yup.string()
 		.notRequired()
 		.max(200, 'You can only enter a max of 200 characters'),
+	file: Yup.mixed()
+		.notRequired()
+		.test(
+			'fileFormat',
+			'Unsupported Format. Please upload pdfs only',
+			(value: File) => value && SUPPORTED_FORMATS.includes(value.type)
+		),
 });
 
 const useStyles = makeStyles((theme: Theme) => {
 	return {
-		container: () => {
+		container: ({ checkFile }: any) => {
 			return {
 				position: 'absolute',
 				top: '50%',
@@ -43,10 +56,10 @@ const useStyles = makeStyles((theme: Theme) => {
 				transform: `translate(-50%, -50%)`,
 				padding: theme.spacing(3),
 				backgroundColor: theme.palette.common.white,
-				width: 'max-content',
+				width: checkFile ? '75%' : 'max-content',
 
 				[theme.breakpoints.down('md')]: {
-					width: 'max-content',
+					width: checkFile ? '95%' : 'max-content',
 				},
 
 				[theme.breakpoints.down('xs')]: {
@@ -72,9 +85,18 @@ const useStyles = makeStyles((theme: Theme) => {
 	};
 });
 
+interface InitialValues {
+	title: string;
+	description: string;
+	contributors: string[];
+	file: null | File;
+}
+
 const UpdateProject: React.FC<UpdateProjectProps> = React.forwardRef(
 	({ onClose, project }) => {
-		const classes = useStyles();
+		const { fileUrl, handleUploadFileUrl } = useFileUpload();
+		const checkFile = fileUrl || project.projectFile;
+		const classes = useStyles({ checkFile });
 		const queryClient = useQueryClient();
 		const { mutate, isLoading } = useMutation(
 			(data) =>
@@ -103,10 +125,22 @@ const UpdateProject: React.FC<UpdateProjectProps> = React.forwardRef(
 			return res.data;
 		});
 
+		const initialValues: InitialValues = {
+			title: project.title,
+			description: project.description,
+			contributors: project.contributors
+				? project.contributors.map((el: any) => el)
+				: [],
+			file: null,
+		};
+
 		return (
 			<>
 				<Grid container className={classes.container}>
-					<Grid item lg={12} md={12} xs={12}>
+					<Grid
+						lg={fileUrl || project.projectFile ? 5 : 12}
+						md={fileUrl || project.projectFile ? 6 : 12}
+						xs={12}>
 						<Container>
 							<Typography
 								color='primary'
@@ -115,21 +149,22 @@ const UpdateProject: React.FC<UpdateProjectProps> = React.forwardRef(
 								Update this Project
 							</Typography>
 							<Formik
-								onSubmit={async ({ title, description, contributors }) => {
-									const data = {
-										title,
-										description,
-										contributors,
-									};
+								onSubmit={async ({
+									title,
+									description,
+									contributors,
+									file,
+								}) => {
+									const data = new FormData();
+									data.append('title', title);
+									data.append('description', description);
+									data.append('contributors', JSON.stringify(contributors));
+									if (file) {
+										data.append('file', file);
+									}
 									await mutate(data as any);
 								}}
-								initialValues={{
-									title: project.title,
-									description: project.description,
-									contributors: project.contributors
-										? project.contributors.map((el: any) => el)
-										: [],
-								}}
+								initialValues={initialValues}
 								validationSchema={validationSchema}>
 								{({ values, isSubmitting, setFieldValue }) => {
 									return (
@@ -149,6 +184,12 @@ const UpdateProject: React.FC<UpdateProjectProps> = React.forwardRef(
 												variant='outlined'
 												size='small'
 												label='Description'
+											/>
+											<FileUpload
+												name='file'
+												onChange={handleUploadFileUrl}
+												filename={values?.file?.name}
+												icon={<PictureAsPdf />}
 											/>
 											<Box mb={2}>
 												{users && (
@@ -197,6 +238,17 @@ const UpdateProject: React.FC<UpdateProjectProps> = React.forwardRef(
 								}}
 							</Formik>
 						</Container>
+					</Grid>
+					<Grid item lg={7} md={6} xs={12}>
+						<Hidden only={['sm', 'xs']}>
+							<Paper
+								className={classes.pdfviewer}
+								style={{ height: 400, width: '100%' }}>
+								{(fileUrl || project.projectFile) && (
+									<PdfViewer filename={fileUrl || project.projectFile} />
+								)}
+							</Paper>
+						</Hidden>
 					</Grid>
 				</Grid>
 			</>
