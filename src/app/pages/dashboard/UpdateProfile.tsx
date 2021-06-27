@@ -2,7 +2,6 @@ import * as React from 'react';
 
 import * as Yup from 'yup';
 import {
-	Avatar,
 	Box,
 	Button,
 	CircularProgress,
@@ -21,6 +20,7 @@ import FileUpload from '../../components/shared/FileUpload';
 import useFileUpload from '../../hooks/useFileUpload';
 import useAuthRoute from '../../hooks/useAuthRoute';
 import { useLocation } from 'react-router-dom';
+import Avatar from '../../components/shared/Avatar';
 
 const userProfileInitState = (user: any) => {
 	return {
