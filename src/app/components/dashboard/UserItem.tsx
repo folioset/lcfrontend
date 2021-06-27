@@ -88,6 +88,7 @@ const UserItem: React.FC<UserItemProps> = ({ user }) => {
 							</Hidden>
 							<Grid
 								item
+								container
 								sm={2}
 								xs={10}
 								justify='center'
