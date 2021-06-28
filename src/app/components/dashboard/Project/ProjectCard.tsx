@@ -203,7 +203,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 	);
 
 	// Update Rating
-	const { mutate: addRating } = useMutation(
+	const { mutate: addRating, isLoading: ratingLoading } = useMutation(
 		async (data) => {
 			const res = await axios({
 				method: 'PUT',
@@ -213,8 +213,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 			return res.data;
 		},
 		{
-			onSuccess: () => {
-				queryClient.invalidateQueries(['projects', user._id]);
+			onSuccess: async () => {
+				await queryClient.invalidateQueries(['projects', project.createdBy]);
 			},
 		}
 	);
