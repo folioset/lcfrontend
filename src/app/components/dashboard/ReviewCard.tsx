@@ -44,10 +44,9 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 							style={{ paddingRight: 3 }}
 							color='textSecondary'
 							variant='caption'>
-							{'Updated on ' +
-								format(
+							{format(
 									new Date(review.reviewDetails.updatedAt),
-									'MMMM dd yyyy'
+									'dd MMMM yyyy'
 								)}
 						</Typography>
 					}
