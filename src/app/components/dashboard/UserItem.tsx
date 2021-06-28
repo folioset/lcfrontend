@@ -72,7 +72,7 @@ const UserItem: React.FC<UserItemProps> = ({ user }) => {
 								</Grid>
 								<Grid item>
 									{user.about && (
-										<Typography variant='body2' gutterBottom>
+										<Typography variant='body2' style={{textAlign: 'initial'}} gutterBottom>
 											{user.about}
 										</Typography>
 									)}

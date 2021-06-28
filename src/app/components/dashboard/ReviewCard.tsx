@@ -57,12 +57,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 						</Avatar>
 					}
 					title={
-						<Box display='flex' alignItems='center' style={{ gap: 10 }}>
 							<Typography variant='body1'>{review.name}</Typography>
-							<Typography color='primary' variant='caption'>
-								@{review.username}
-							</Typography>
-						</Box>
 					}
 					subheader={
 						<>

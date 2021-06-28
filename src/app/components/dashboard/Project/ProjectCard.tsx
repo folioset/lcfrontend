@@ -44,10 +44,9 @@ import { Project, Review, User } from '../../../types';
 import useDisclosure from '../../../hooks/useDisclosure';
 
 const validationSchema = Yup.object().shape({
-	review: Yup.string().max(
-		200,
-		'Too Long! Review can only have a maximum of 100 characters'
-	),
+	review: Yup.string()
+		.required('This is a required field')
+		.max(200, 'Too Long! Review can only have a maximum of 100 characters'),
 });
 
 const useStyles = makeStyles((theme: Theme) => {
@@ -65,30 +64,26 @@ const useStyles = makeStyles((theme: Theme) => {
 		expandOpen: {
 			transform: 'rotate(180deg)',
 		},
+		cardContent: {
+			borderBottomWidth: '1px',
+			borderBottomStyle: 'solid',
+			borderBottomColor: theme.palette.divider
+		},
 		description: {
 			paddingLeft: theme.spacing(4),
-		},
-		commentForm: {
-			paddingLeft: theme.spacing(4),
-
-			[theme.breakpoints.down('sm')]: {
-				paddingLeft: 0,
-			},
 		},
 		comment: {
 			'& fieldset': {
 				borderRadius: 500,
 			},
 		},
-		cardCommentBox: {
-			marginBottom: theme.spacing(1),
-			marginLeft: theme.spacing(1),
+		section: {
+			padding: theme.spacing(0.5)
 		},
-		rating: {
+		centered: {
 			display: 'flex',
 			alignItems: 'center',
-			justifyContent: 'center',
-			marginBottom: theme.spacing(2),
+			justifyContent: 'center'
 		},
 		pdf: {
 			height: '100vh',
@@ -208,7 +203,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 	);
 
 	// Update Rating
-	const { mutate: addRating, isLoading: ratingLoading } = useMutation(
+	const { mutate: addRating } = useMutation(
 		async (data) => {
 			const res = await axios({
 				method: 'PUT',
@@ -218,8 +213,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 			return res.data;
 		},
 		{
-			onSuccess: async (data) => {
-				await queryClient.invalidateQueries(['projects', project.createdBy]);
+			onSuccess: () => {
+				queryClient.invalidateQueries(['projects', user._id]);
 			},
 		}
 	);
@@ -282,18 +277,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 						) : null
 					}
 				/>
-				<CardContent>
+				<CardContent className={classes.cardContent}>
 					<Grid
 						container
 						direction='row'
-						style={{
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'center',
-						}}>
+						className={classes.centered}>
 						<Grid item xs={6} sm={2} className={classes.avgRating}>
 							<Typography color='primary' variant='h4'>
-								{ratingLoading ? 'Loading...' : project.avgRating?.toFixed(2)}
+								{project.avgRating?.toFixed(2)}
 							</Typography>
 						</Grid>
 						<Hidden only={['xs']}>
@@ -331,9 +322,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 				</CardContent>
 				<CardActions className={classes.cardActions}>
 					{isPublic && (
-						<Grid container className={classes.cardCommentBox}>
-							<Grid item xs={3}>
-								<Box
+						<Grid container direction='column' className={classes.section}>
+							<Grid item container direction='row' className={classes.section} style={{marginBottom: 5}} spacing={1}>
+								{/* <Box
 									style={{ width: 235 }}
 									display='flex'
 									alignItems='center'
@@ -342,20 +333,25 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 										Your Rating
 									</Typography>
 									<Typography variant='body2'>{rating.toFixed(1)}</Typography>
-								</Box>
-								<Rating
-									value={rating}
-									onChange={(e: any) => {
-										let newRating = parseFloat(e.target.value);
-										if (rating === newRating) newRating = 0;
-										setRating(newRating);
-										addRating({ value: newRating } as any);
-									}}
-									max={10}
-									name={`project-${project._id}-rating`}
-								/>
+								</Box> */}
+								<Grid item className={classes.centered}>
+									<Rating
+										value={rating}
+										onChange={(e: any) => {
+											let newRating = parseFloat(e.target.value);
+											if (rating === newRating) newRating = 0;
+											setRating(newRating);
+											addRating({ value: newRating } as any);
+										}}
+										max={10}
+										name={`project-${project._id}-rating`}
+									/>
+								</Grid>
+								<Grid item className={classes.centered}>
+									<Typography variant='body2' color='primary'>{rating.toFixed(1)}</Typography>
+								</Grid>
 							</Grid>
-							<Grid item md={9} xs={12} className={classes.commentForm}>
+							<Grid item>
 								<Formik
 									initialValues={{
 										review: '',
@@ -370,33 +366,15 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 										resetForm();
 									}}>
 									<>
-										<Form
-											autoComplete='off'
-											style={{ display: 'flex', alignItems: 'center' }}>
+										<Form style={{ display: 'flex', alignItems: 'center' }}>
 											<FormInput
 												name='review'
 												className={classes.comment}
 												fullWidth
-												placeholder={`Add a ${type}...`}
+												placeholder={`Share your feedback...`}
 												variant='outlined'
 												size='small'
 											/>
-											<Tooltip
-												title='This as a Suggestion for further Improvement'
-												aria-label='Add project'>
-												<IconButton
-													onClick={() => {
-														setType(
-															type === 'comment' ? 'suggestion' : 'comment'
-														);
-													}}>
-													{type === 'comment' ? (
-														<EmojiObjectsIcon />
-													) : (
-														<EmojiObjectsIcon color='primary' />
-													)}
-												</IconButton>
-											</Tooltip>
 											<IconButton type='submit' color='primary'>
 												<SendIcon />
 											</IconButton>
