@@ -266,7 +266,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 					subheader={
 						<Typography color='textSecondary' variant='caption'>
 							{'Updated on ' +
-								format(new Date(project.updatedAt!), 'MMMM dd yyyy')}
+								format(new Date(project.updatedAt!), 'dd MMMM yyyy')}
 						</Typography>
 					}
 					action={
