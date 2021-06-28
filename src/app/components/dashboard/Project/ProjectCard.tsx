@@ -218,7 +218,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 			return res.data;
 		},
 		{
-			onSuccess: async (data) => {
+			onSuccess: async () => {
 				await queryClient.invalidateQueries(['projects', project.createdBy]);
 			},
 		}
