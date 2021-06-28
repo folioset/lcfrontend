@@ -44,9 +44,10 @@ import { Project, Review, User } from '../../../types';
 import useDisclosure from '../../../hooks/useDisclosure';
 
 const validationSchema = Yup.object().shape({
-	review: Yup.string()
-		.required('This is a required field')
-		.max(200, 'Too Long! Review can only have a maximum of 100 characters'),
+	review: Yup.string().max(
+		200,
+		'Too Long! Review can only have a maximum of 100 characters'
+	),
 });
 
 const useStyles = makeStyles((theme: Theme) => {
@@ -207,7 +208,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 	);
 
 	// Update Rating
-	const { mutate: addRating } = useMutation(
+	const { mutate: addRating, isLoading: ratingLoading } = useMutation(
 		async (data) => {
 			const res = await axios({
 				method: 'PUT',
@@ -217,8 +218,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 			return res.data;
 		},
 		{
-			onSuccess: () => {
-				queryClient.invalidateQueries(['projects', user._id]);
+			onSuccess: async (data) => {
+				await queryClient.invalidateQueries(['projects', project.createdBy]);
 			},
 		}
 	);
@@ -292,7 +293,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 						}}>
 						<Grid item xs={6} sm={2} className={classes.avgRating}>
 							<Typography color='primary' variant='h4'>
-								{project.avgRating?.toFixed(2)}
+								{ratingLoading ? 'Loading...' : project.avgRating?.toFixed(2)}
 							</Typography>
 						</Grid>
 						<Hidden only={['xs']}>
@@ -369,7 +370,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 										resetForm();
 									}}>
 									<>
-										<Form style={{ display: 'flex', alignItems: 'center' }}>
+										<Form
+											autoComplete='off'
+											style={{ display: 'flex', alignItems: 'center' }}>
 											<FormInput
 												name='review'
 												className={classes.comment}

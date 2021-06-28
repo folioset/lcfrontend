@@ -3,7 +3,6 @@ import {
 	CircularProgress,
 	Container,
 	makeStyles,
-	MenuItem,
 	Typography,
 } from '@material-ui/core';
 import { Form, Formik } from 'formik';
@@ -14,7 +13,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
 import { useHistory, useLocation } from 'react-router-dom';
 import useAuthRoute from '../../hooks/useAuthRoute';
-import FormSelect from '../../components/shared/FormSelect';
+// import FormSelect from '../../components/shared/FormSelect';
 import { User } from '../../types';
 
 const useStyles = makeStyles((theme) => {
@@ -29,8 +28,8 @@ const useStyles = makeStyles((theme) => {
 const validationSchema = Yup.object().shape({
 	username: Yup.string().required('This field is required'),
 	about: Yup.string().required('This field is required'),
-	hours: Yup.number().required('This field is required').positive(),
-	interests: Yup.string().required('This field is required'),
+	// hours: Yup.number().required('This field is required').positive(),
+	// interests: Yup.string().required('This field is required'),
 });
 
 const OnBoarding: React.FC = () => {
@@ -40,7 +39,7 @@ const OnBoarding: React.FC = () => {
 	const history = useHistory();
 	const queryClient = useQueryClient();
 	const user = queryClient.getQueryData<User>('user');
-	const { mutate } = useMutation(
+	const { mutate, isLoading } = useMutation(
 		async (data) => {
 			const res = await axios({
 				method: 'put',
@@ -57,11 +56,9 @@ const OnBoarding: React.FC = () => {
 		}
 	);
 
-	// interests, hours
 	const initialValues = {
 		username: user?.username || '',
 		about: '',
-		interests: '',
 	};
 
 	return (
@@ -75,7 +72,7 @@ const OnBoarding: React.FC = () => {
 						await mutate(values as any);
 						resetForm();
 					}}>
-					{({ isSubmitting }) => {
+					{() => {
 						return (
 							<Form autoComplete='off'>
 								<Typography variant='h4' className={classes.heading}>
@@ -88,15 +85,15 @@ const OnBoarding: React.FC = () => {
 									required
 									fullWidth
 								/>
-								<FormInput
+								{/* <FormInput
 									type='number'
 									name='hours'
 									variant='outlined'
 									label='How many hours per week can you dedicate to solve the case studies?'
 									required
 									fullWidth
-								/>
-								<FormSelect name='interests' label='Interests'>
+								/> */}
+								{/* <FormSelect name='interests' label='Interests'>
 									{[
 										'Consumer tech',
 										'Ed-tech',
@@ -107,7 +104,7 @@ const OnBoarding: React.FC = () => {
 									].map((field) => {
 										return <MenuItem value={field}>{field}</MenuItem>;
 									})}
-								</FormSelect>
+								</FormSelect> */}
 								<FormInput
 									name='username'
 									variant='outlined'
@@ -119,7 +116,7 @@ const OnBoarding: React.FC = () => {
 									type='submit'
 									size='small'
 									startIcon={
-										isSubmitting ? (
+										isLoading ? (
 											<CircularProgress
 												size='small'
 												style={{ color: 'white' }}
