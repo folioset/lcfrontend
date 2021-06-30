@@ -9,7 +9,6 @@ import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Typography from '@material-ui/core/Typography';
 import {
-	Button,
 	CardActions,
 	Collapse,
 	createStyles,
@@ -18,7 +17,9 @@ import {
 	Theme,
 } from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import MessageIcon from '@material-ui/icons/Message';
+import Box from '@material-ui/core/Box';
 
 // types
 import { Project, Review } from '../../types';
@@ -27,8 +28,8 @@ import { Form, Formik } from 'formik';
 import FormInput from '../shared/FormInput';
 import { useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
-import clsx from 'clsx';
 import useDisclosure from '../../hooks/useDisclosure';
+import theme from '../../theme';
 
 interface ReviewCardProps {
 	review: Review;
@@ -60,18 +61,8 @@ const useStyles = makeStyles((theme: Theme) =>
 		},
 		replyForm: {
 			display: 'flex',
-			width: '83%',
 			alignItems: 'center',
-		},
-		expand: {
-			transform: 'rotate(0deg)',
-			marginLeft: 'auto',
-			transition: theme.transitions.create('transform', {
-				duration: theme.transitions.duration.shortest,
-			}),
-		},
-		expandOpen: {
-			transform: 'rotate(180deg)',
+			width: '100%',
 		},
 	})
 );
@@ -159,19 +150,19 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, project }) => {
 							</Form>
 						</>
 					</Formik>
-					<Button
-						onClick={toggleOpen}
-						color='primary'
-						size='small'
-						endIcon={
-							<ExpandMoreIcon
-								className={clsx(classes.expand, {
-									[classes.expandOpen]: isOpen,
-								})}
-							/>
-						}>
-						View All Replies
-					</Button>
+					<Box textAlign='center'>
+						<IconButton style={{ color: theme.palette.error.light }}>
+							<FavoriteIcon />
+						</IconButton>
+						<Typography variant='caption'>12</Typography>
+					</Box>
+
+					<Box textAlign='center'>
+						<IconButton onClick={toggleOpen} color='primary'>
+							<MessageIcon />
+						</IconButton>
+						<Typography variant='caption'>2</Typography>
+					</Box>
 				</CardActions>
 				<Collapse in={isOpen} timeout='auto' unmountOnExit>
 					<CardContent>
