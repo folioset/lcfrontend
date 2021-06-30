@@ -19,13 +19,13 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Collapse from '@material-ui/core/Collapse';
 import Modal from '@material-ui/core/Modal';
-import Tooltip from '@material-ui/core/Tooltip';
+// import Tooltip from '@material-ui/core/Tooltip';
 import Hidden from '@material-ui/core/Hidden';
 
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
+// import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SendIcon from '@material-ui/icons/Send';
 
@@ -52,19 +52,14 @@ const validationSchema = Yup.object().shape({
 const useStyles = makeStyles((theme: Theme) => {
 	return {
 		card: {
-			marginBottom: 30, 
-			paddingLeft: 5, 
+			marginBottom: 30,
+			paddingLeft: 5,
 			paddingRight: 5,
-			// boxShadow: "0 8px 40px -12px rgba(0,0,0,0.3)",
-			// "&:hover": {
-			// boxShadow: "0 16px 70px -12.125px rgba(0,0,0,0.3)"
-			// },
 			borderRadius: 20,
 			borderWidth: 5,
 			borderColor: '#e0dfdc',
-			
 			elevation: 1,
-			boxShadow: 'none'
+			boxShadow: 'none',
 		},
 		cardActions: {
 			flexDirection: 'column',
@@ -83,7 +78,7 @@ const useStyles = makeStyles((theme: Theme) => {
 			borderBottomWidth: '1px',
 			borderBottomStyle: 'solid',
 			borderBottomColor: theme.palette.divider,
-			paddingBottom: theme.spacing(4)
+			paddingBottom: theme.spacing(4),
 		},
 		rating: {
 			paddingLeft: theme.spacing(3.3),
@@ -94,18 +89,18 @@ const useStyles = makeStyles((theme: Theme) => {
 			},
 		},
 		section: {
-			padding: theme.spacing(0.5)
+			padding: theme.spacing(0.5),
 		},
 		centered: {
 			display: 'flex',
 			alignItems: 'center',
-			justifyContent: 'center'
+			justifyContent: 'center',
 		},
 		centeredPadding: {
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',
-			paddingLeft: theme.spacing(4)
+			paddingLeft: theme.spacing(4),
 		},
 		pdf: {
 			height: '100vh',
@@ -221,7 +216,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 	);
 
 	// Update Rating
-	const { mutate: addRating, isLoading: ratingLoading } = useMutation(
+	const { mutate: addRating } = useMutation(
 		async (data) => {
 			const res = await axios({
 				method: 'PUT',
@@ -296,12 +291,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 					}
 				/>
 				<CardContent className={classes.cardContent}>
-					<Grid
-						container
-						direction='row'
-						className={classes.centered}>
-						
-						<Grid container item sm={1} style={{ display: 'flex', justifyContent: 'center'}}>
+					<Grid container direction='row' className={classes.centered}>
+						<Grid
+							container
+							item
+							sm={1}
+							style={{ display: 'flex', justifyContent: 'center' }}>
 							<Button
 								variant='contained'
 								size='small'
@@ -310,21 +305,30 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 								View
 							</Button>
 						</Grid>
-							<Grid item sm={11} className={classes.centeredPadding}>
-								<Grid container direction='column' style={{ display: 'flex', justifyContent: 'center'}}>
-									<Grid item>
-										{project.description && (
-											<Typography>{project.description}</Typography>
-										)}
-									</Grid>
+						<Grid item sm={11} className={classes.centeredPadding}>
+							<Grid
+								container
+								direction='column'
+								style={{ display: 'flex', justifyContent: 'center' }}>
+								<Grid item>
+									{project.description && (
+										<Typography>{project.description}</Typography>
+									)}
 								</Grid>
 							</Grid>
+						</Grid>
 					</Grid>
 				</CardContent>
 				<CardActions className={classes.cardActions}>
 					{isPublic && (
 						<Grid container direction='column' className={classes.section}>
-							<Grid item container direction='row' className={classes.section} style={{marginBottom: 5}} spacing={1}>
+							<Grid
+								item
+								container
+								direction='row'
+								className={classes.section}
+								style={{ marginBottom: 5 }}
+								spacing={1}>
 								<Grid item sm={1} className={classes.avgRating}>
 									<Typography variant='h4'>
 										{project.avgRating?.toFixed(1)}
@@ -341,11 +345,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 										}}
 										max={10}
 										name={`project-${project._id}-rating`}
-										className={classes.rating}									
+										className={classes.rating}
 									/>
 								</Grid>
 								<Grid item className={classes.centered}>
-									<Typography variant='body2' color='primary'>{rating.toFixed(1)}</Typography>
+									<Typography variant='body2' color='primary'>
+										{rating.toFixed(1)}
+									</Typography>
 								</Grid>
 							</Grid>
 							<Grid item>
@@ -353,6 +359,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 									initialValues={{
 										review: '',
 									}}
+									validateOnBlur={false}
 									validationSchema={validationSchema}
 									onSubmit={async ({ review }, { resetForm }) => {
 										const data = {
@@ -363,7 +370,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 										resetForm();
 									}}>
 									<>
-										<Form style={{ display: 'flex', alignItems: 'center' }}>
+										<Form
+											autoComplete='off'
+											style={{ display: 'flex', alignItems: 'center' }}>
 											<FormInput
 												name='review'
 												className={classes.comment}
@@ -409,7 +418,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 						)}
 						{data?.map((review: Review) => {
 							return (
-								<ReviewCard key={review.reviewDetails._id} {...{ review }} />
+								<ReviewCard
+									key={review.reviewDetails._id}
+									{...{ review, project }}
+								/>
 							);
 						})}
 
