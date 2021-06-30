@@ -51,6 +51,21 @@ const validationSchema = Yup.object().shape({
 
 const useStyles = makeStyles((theme: Theme) => {
 	return {
+		card: {
+			marginBottom: 30, 
+			paddingLeft: 5, 
+			paddingRight: 5,
+			// boxShadow: "0 8px 40px -12px rgba(0,0,0,0.3)",
+			// "&:hover": {
+			// boxShadow: "0 16px 70px -12.125px rgba(0,0,0,0.3)"
+			// },
+			borderRadius: 20,
+			borderWidth: 5,
+			borderColor: '#e0dfdc',
+			
+			elevation: 1,
+			boxShadow: 'none'
+		},
 		cardActions: {
 			flexDirection: 'column',
 		},
@@ -67,10 +82,11 @@ const useStyles = makeStyles((theme: Theme) => {
 		cardContent: {
 			borderBottomWidth: '1px',
 			borderBottomStyle: 'solid',
-			borderBottomColor: theme.palette.divider
+			borderBottomColor: theme.palette.divider,
+			paddingBottom: theme.spacing(4)
 		},
-		description: {
-			paddingLeft: theme.spacing(4),
+		rating: {
+			paddingLeft: theme.spacing(3.3),
 		},
 		comment: {
 			'& fieldset': {
@@ -84,6 +100,12 @@ const useStyles = makeStyles((theme: Theme) => {
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center'
+		},
+		centeredPadding: {
+			display: 'flex',
+			alignItems: 'center',
+			justifyContent: 'center',
+			paddingLeft: theme.spacing(4)
 		},
 		pdf: {
 			height: '100vh',
@@ -110,10 +132,6 @@ const useStyles = makeStyles((theme: Theme) => {
 			top: -3,
 			right: 30,
 			zIndex: 2000,
-		},
-		xsDescription: {
-			marginTop: theme.spacing(4),
-			textAlign: 'justify',
 		},
 		avgRating: {
 			display: 'flex',
@@ -255,7 +273,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 					<PdfViewer className={classes.pdf} filename={project.projectFile} />
 				</>
 			</Modal>
-			<Card style={{ marginBottom: 30, paddingLeft: 5, paddingRight: 5 }}>
+			<Card className={classes.card}>
 				<CardHeader
 					title={project.title}
 					subheader={
@@ -282,23 +300,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 						container
 						direction='row'
 						className={classes.centered}>
-						<Grid item xs={6} sm={2} className={classes.avgRating}>
-							<Typography color='primary' variant='h4'>
-								{project.avgRating?.toFixed(2)}
-							</Typography>
-						</Grid>
-						<Hidden only={['xs']}>
-							<Grid item sm={8} className={classes.description}>
-								<Grid container direction='column' style={{ display: 'flex' }}>
-									<Grid item>
-										{project.description && (
-											<Typography>{project.description}</Typography>
-										)}
-									</Grid>
-								</Grid>
-							</Grid>
-						</Hidden>
-						<Grid container item xs={6} sm={2} justify='flex-end'>
+						
+						<Grid container item sm={1} style={{ display: 'flex', justifyContent: 'center'}}>
 							<Button
 								variant='contained'
 								size='small'
@@ -307,34 +310,27 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 								View
 							</Button>
 						</Grid>
-					</Grid>
-					<Hidden only={['xl', 'lg', 'sm', 'md']}>
-						<Grid item xs={12} className={classes.xsDescription}>
-							<Grid container direction='column' style={{ display: 'flex' }}>
-								<Grid item>
-									{project.description && (
-										<Typography>{project.description}</Typography>
-									)}
+							<Grid item sm={11} className={classes.centeredPadding}>
+								<Grid container direction='column' style={{ display: 'flex', justifyContent: 'center'}}>
+									<Grid item>
+										{project.description && (
+											<Typography>{project.description}</Typography>
+										)}
+									</Grid>
 								</Grid>
 							</Grid>
-						</Grid>
-					</Hidden>
+					</Grid>
 				</CardContent>
 				<CardActions className={classes.cardActions}>
 					{isPublic && (
 						<Grid container direction='column' className={classes.section}>
 							<Grid item container direction='row' className={classes.section} style={{marginBottom: 5}} spacing={1}>
-								{/* <Box
-									style={{ width: 235 }}
-									display='flex'
-									alignItems='center'
-									justifyContent='space-between'>
-									<Typography variant='caption' component='legend'>
-										Your Rating
+								<Grid item sm={1} className={classes.avgRating}>
+									<Typography variant='h4'>
+										{project.avgRating?.toFixed(1)}
 									</Typography>
-									<Typography variant='body2'>{rating.toFixed(1)}</Typography>
-								</Box> */}
-								<Grid item className={classes.centered}>
+								</Grid>
+								<Grid item className={classes.centeredPadding}>
 									<Rating
 										value={rating}
 										onChange={(e: any) => {
@@ -345,6 +341,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 										}}
 										max={10}
 										name={`project-${project._id}-rating`}
+										className={classes.rating}									
 									/>
 								</Grid>
 								<Grid item className={classes.centered}>

@@ -5,6 +5,7 @@ const palette = {
 		main: '#00BFA6',
 	},
 	background: {
+		// default: '#f7f7f7',
 		default: '#111111',
 	},
 	profile: {

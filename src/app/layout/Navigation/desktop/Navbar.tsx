@@ -36,7 +36,8 @@ const useStyles = makeStyles((theme) => {
 		appBar: {
 			position: 'sticky',
 			top: 0,
-			backgroundColor: theme.palette.background.default,
+			// backgroundColor: theme.palette.background.default,
+			backgroundColor: theme.palette.common.white,
 			padding: theme.spacing(1),
 		},
 		toolbar: {

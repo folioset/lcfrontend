@@ -14,11 +14,16 @@ import Avatar from '../shared/Avatar';
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
 		flexGrow: 1,
-		borderRadius: 15,
 		backgroundColor: theme.palette.common.white,
 	},
 	paper: {
 		backgroundColor: theme.palette.common.white,
+		borderRadius: 20,
+			borderWidth: 1,
+			borderColor: theme.palette.divider,
+			
+			elevation: 0,
+			boxShadow: 'none'
 	},
 	details: {
 		padding: theme.spacing(3),
