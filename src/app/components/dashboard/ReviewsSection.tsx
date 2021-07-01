@@ -27,7 +27,6 @@ import FormInput from '../shared/FormInput';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import axios from 'axios';
 import useDisclosure from '../../hooks/useDisclosure';
-import theme from '../../theme';
 import ReviewCard from './ReviewCard';
 
 interface ReviewsSectionProps {
@@ -63,6 +62,9 @@ const useStyles = makeStyles((theme: Theme) =>
 			alignItems: 'center',
 			width: '100%',
 		},
+		likeIcon: {
+			color: theme.palette.error.light,
+		},
 	})
 );
 
@@ -70,6 +72,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ review, project }) => {
 	const classes = useStyles();
 	const queryClient = useQueryClient();
 	const [liked, setLiked] = React.useState(false);
+	const [numlikes, setNumLikes] = React.useState(0);
 	const { isOpen, toggleOpen, onOpen } = useDisclosure();
 	const user = queryClient.getQueryData<User>('user');
 
@@ -106,13 +109,31 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ review, project }) => {
 		}
 	);
 
+	const { mutate: handleLike } = useMutation(
+		async () => {
+			const res = await axios({
+				method: 'post',
+				url: `/api/project/${project._id}/reviews/${review.reviewDetails._id}/toggle-like`,
+			});
+			return res.data;
+		},
+		{
+			onSuccess: () => {
+				setNumLikes(numlikes + (liked ? -1 : 1));
+				setLiked(!liked);
+			},
+		}
+	);
+
 	React.useEffect(() => {
-		review.reviewDetails.replies?.forEach((e) => {
-			if (e === user!._id) {
+		review.reviewDetails.likes?.forEach((like) => {
+			if (like.createdBy === user!._id) {
 				setLiked(true);
 			} else {
 				setLiked(false);
 			}
+
+			setNumLikes(review.reviewDetails.likes?.length || 0);
 		});
 	}, [user, review]);
 
@@ -157,12 +178,12 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ review, project }) => {
 						</>
 					</Formik>
 					<Box textAlign='center'>
-						<IconButton style={{ color: theme.palette.error.light }}>
+						<IconButton
+							className={classes.likeIcon}
+							onClick={() => handleLike()}>
 							{liked ? <FavoriteIcon /> : <FavoriteBorderOutlinedIcon />}
 						</IconButton>
-						<Typography variant='caption'>
-							{review.reviewDetails.likes?.length || 0}
-						</Typography>
+						<Typography variant='caption'>{numlikes}</Typography>
 					</Box>
 
 					<Box textAlign='center'>

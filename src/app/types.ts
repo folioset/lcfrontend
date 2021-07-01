@@ -33,6 +33,11 @@ export type Project = {
 	_id: string;
 };
 
+export type Like = {
+	_id: string;
+	createdBy: string;
+};
+
 export type ReviewDetail = {
 	category: 'suggestion' | 'comment';
 	createdAt: Date | string | number;
@@ -42,7 +47,7 @@ export type ReviewDetail = {
 	review: string;
 	_id: string;
 	replies?: string[];
-	likes?: string[];
+	likes?: Like[];
 };
 
 export type Review = {
