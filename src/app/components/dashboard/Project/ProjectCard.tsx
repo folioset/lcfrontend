@@ -55,11 +55,11 @@ const useStyles = makeStyles((theme: Theme) => {
 			marginBottom: 30,
 			paddingLeft: 5,
 			paddingRight: 5,
-			borderRadius: 20,
+			borderRadius: 10,
 			borderWidth: 5,
-			borderColor: '#e0dfdc',
-			elevation: 1,
-			boxShadow: 'none',
+			borderColor: '#111111',
+			elevation: 0,
+			boxShadow: '0 0 3px 1px rgba(0, 0, 0, 0.1)'
 		},
 		cardActions: {
 			flexDirection: 'column',
