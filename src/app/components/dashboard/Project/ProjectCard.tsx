@@ -19,19 +19,17 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Collapse from '@material-ui/core/Collapse';
 import Modal from '@material-ui/core/Modal';
-// import Tooltip from '@material-ui/core/Tooltip';
 import Hidden from '@material-ui/core/Hidden';
 
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-// import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SendIcon from '@material-ui/icons/Send';
 
 // components
 import Rating from '../../shared/Rating';
-import ReviewCard from '../ReviewCard';
+import ReviewsSection from '../ReviewsSection';
 import PdfViewer from '../../shared/Pdf/PdfViewer';
 import FormInput from '../../shared/FormInput';
 import UpdateProject from './UpdateProject';
@@ -418,8 +416,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 						)}
 						{data?.map((review: Review) => {
 							return (
-								<ReviewCard
-									key={review.reviewDetails._id}
+								<ReviewsSection
+									key={review.reviewDetails!._id}
 									{...{ review, project }}
 								/>
 							);

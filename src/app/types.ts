@@ -41,6 +41,8 @@ export type ReviewDetail = {
 	createdBy: string;
 	review: string;
 	_id: string;
+	replies?: string[];
+	likes?: string[];
 };
 
 export type Review = {
