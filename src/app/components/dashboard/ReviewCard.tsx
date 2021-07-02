@@ -16,14 +16,16 @@ interface ReviewCardProps {
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		root: {
-			marginBottom: theme.spacing(3),
+			marginBottom: theme.spacing(1),
 			backgroundColor: theme.palette.grey['100'],
+			borderRadius: 10
 		},
 		avatar: {
 			backgroundColor: theme.palette.primary.main,
 		},
 		content: {
 			marginTop: theme.spacing(3),
+			marginBottom: -10
 		},
 		comment: {
 			'& fieldset': {
@@ -52,19 +54,17 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 						{format(new Date(review.reviewDetails?.updatedAt), 'dd MMMM yyyy')}
 					</Typography>
 				}
-				style={{ marginBottom: -20 }}
+				style={{ marginBottom: -40 }}
 				avatar={
 					<Avatar className={classes.avatar} src={review.profilePicture}>
 						{review.name.split('')[0]}
 					</Avatar>
 				}
-				title={<Typography variant='body1'>{review.name}</Typography>}
+				title={<Typography variant='body2'>{review.name}</Typography>}
 				subheader={
-					<>
 						<Typography color='textSecondary' variant='caption'>
 							{review.about}
 						</Typography>
-					</>
 				}
 			/>
 			<CardContent className={classes.content}>

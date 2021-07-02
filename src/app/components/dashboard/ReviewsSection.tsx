@@ -12,6 +12,9 @@ import {
 	IconButton,
 	makeStyles,
 	Theme,
+	Grid,
+	Button,
+	Link,
 } from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -44,7 +47,7 @@ const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		root: {
 			marginBottom: theme.spacing(3),
-			backgroundColor: theme.palette.grey['100'],
+			backgroundColor: theme.palette.common.white,
 		},
 		avatar: {
 			backgroundColor: theme.palette.primary.main,
@@ -63,8 +66,14 @@ const useStyles = makeStyles((theme: Theme) =>
 			width: '100%',
 		},
 		likeIcon: {
-			color: theme.palette.error.light,
+			color: theme.palette.error.light
 		},
+		countBox: {
+			marginLeft: 10, 
+			paddingLeft: 10,
+			borderLeft: '1px solid',
+			borderLeftColor: theme.palette.divider
+		}
 	})
 );
 
@@ -141,7 +150,23 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ review, project }) => {
 		<>
 			<Card elevation={0} className={classes.root}>
 				<ReviewCard {...{ review, project }} />
-
+	            <Grid container direction='row' style={{marginLeft: 15}}>
+					<Grid item>
+					{liked 
+					? <Link onClick={() => handleLike()} color='primary'> Insightful</Link>
+					: <Link onClick={() => handleLike()} color='textPrimary'> Insightful</Link>
+					}
+					</Grid>
+					<Grid item style={{marginLeft:5}}>
+						<FavoriteIcon />
+					</Grid>
+					<Grid item>
+						<Typography>{numlikes}</Typography>
+					</Grid>
+					<Grid item className={classes.countBox}> 
+						<Link onClick={toggleOpen} color='textPrimary'> {review.reviewDetails.replies?.length || 0} Replies</Link>
+					</Grid>
+				</Grid>
 				<CardActions>
 					<Formik
 						initialValues={{
@@ -177,23 +202,6 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ review, project }) => {
 							</Form>
 						</>
 					</Formik>
-					<Box textAlign='center'>
-						<IconButton
-							className={classes.likeIcon}
-							onClick={() => handleLike()}>
-							{liked ? <FavoriteIcon /> : <FavoriteBorderOutlinedIcon />}
-						</IconButton>
-						<Typography variant='caption'>{numlikes}</Typography>
-					</Box>
-
-					<Box textAlign='center'>
-						<IconButton onClick={toggleOpen} color='primary'>
-							<MessageIcon />
-						</IconButton>
-						<Typography variant='caption'>
-							{review.reviewDetails.replies?.length || 0}
-						</Typography>
-					</Box>
 				</CardActions>
 				<Collapse in={isOpen} timeout='auto' unmountOnExit>
 					{repliesLoading && <Typography>Loading....</Typography>}

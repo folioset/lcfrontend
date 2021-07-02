@@ -80,6 +80,10 @@ const useStyles = makeStyles((theme: Theme) => {
 		},
 		rating: {
 			paddingLeft: theme.spacing(0.7),
+			paddingBottom: theme.spacing(0.1)
+		},
+		ratingNumber: {
+			paddingLeft: theme.spacing(0.7)
 		},
 		comment: {
 			'& fieldset': {
@@ -332,12 +336,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 									    <Typography variant='h4'>
 											{project.avgRating?.toFixed(1)} 
 										</Typography>
-										<Typography color='textSecondary' variant='h5' style={{marginLeft: 3}}>
+										<Typography color='textSecondary' variant='h5' style={{marginLeft: 3, paddingTop: 2}}>
 											({project.numberOfRatings})
 										</Typography>
 									</Box>
 								</Grid>
 								<Grid item className={classes.centeredPadding}>
+								<Box style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
 									<Typography variant='h5' color='textSecondary'>
 										Add Rating:
 									</Typography>
@@ -353,9 +358,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 										name={`project-${project._id}-rating`}
 										className={classes.rating}
 									/>
-									<Typography variant='h6' color='primary' className={classes.rating} >
+									<Typography variant='h6' color='primary' className={classes.ratingNumber} >
 										{rating.toFixed(1)}
 									</Typography>
+								</Box>
 								</Grid>
 							</Grid>
 							<Grid item>
