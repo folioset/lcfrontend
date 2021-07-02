@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme: Theme) => {
 			borderWidth: 5,
 			borderColor: '#111111',
 			elevation: 0,
-			boxShadow: '0 0 3px 1px rgba(0, 0, 0, 0.1)'
+			boxShadow: '0 0 3px 1px rgba(0, 0, 0, 0.1)',
 		},
 		cardActions: {
 			flexDirection: 'column',
@@ -80,10 +80,10 @@ const useStyles = makeStyles((theme: Theme) => {
 		},
 		rating: {
 			paddingLeft: theme.spacing(0.7),
-			paddingBottom: theme.spacing(0.1)
+			paddingBottom: theme.spacing(0.1),
 		},
 		ratingNumber: {
-			paddingLeft: theme.spacing(0.7)
+			paddingLeft: theme.spacing(0.7),
 		},
 		comment: {
 			'& fieldset': {
@@ -134,7 +134,7 @@ const useStyles = makeStyles((theme: Theme) => {
 			display: 'flex',
 			justifyContent: 'center',
 			alignItems: 'center',
-            textAlign: 'center',
+			textAlign: 'center',
 			[theme.breakpoints.down('xs')]: {
 				justifyContent: 'flex-start',
 			},
@@ -273,11 +273,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 			</Modal>
 			<Card className={classes.card}>
 				<CardHeader
-					title={
-						<Typography variant='h4'>
-							{project.title}
-						</Typography>
-					}
+					title={<Typography variant='h4'>{project.title}</Typography>}
 					subheader={
 						<Typography color='textSecondary' variant='caption'>
 							{'Updated on ' +
@@ -303,15 +299,22 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 							container
 							item
 							sm={1}
-							style={{ display: 'flex', justifyContent: 'center' }}
-							>
-							<Box style={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
-									    <Typography variant='h4'>
-											{project.avgRating?.toFixed(1)} 
-										</Typography>
-										<Typography color='textSecondary' variant='h5' style={{marginLeft: 3, paddingTop: 2}}>
-											({project.numberOfRatings})
-										</Typography>
+							style={{ display: 'flex', justifyContent: 'center' }}>
+							<Box
+								style={{
+									display: 'flex',
+									justifyContent: 'space-around',
+									alignItems: 'center',
+								}}>
+								<Typography variant='h4'>
+									{project.avgRating?.toFixed(1)}
+								</Typography>
+								<Typography
+									color='textSecondary'
+									variant='h5'
+									style={{ marginLeft: 3, paddingTop: 2 }}>
+									({project.numberOfRatings})
+								</Typography>
 							</Box>
 						</Grid>
 						<Grid item sm={11} className={classes.centeredPadding}>
@@ -322,22 +325,58 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 								<Grid item>
 									{project.description && (
 										<Typography>{project.description}</Typography>
-									)}	
-									{/* Add Collaborators in comma seperated format here. e.g. Collaborators: Sreekar, Gitansh Hans */}
-
-									{/* Add Tools in comma seperated format here. e.g. Tools used: Figma, Google Analytics, Amplitude */}
-
-									{/* Add Skills in comma seperated format here. e.g. Skills demonstrated: User Exeperience Design, Product Strategy							 */}
-									
+									)}
 								</Grid>
 							</Grid>
+						</Grid>
+						<Grid item sm={12}>
+							Collaborators:
+							{project.contributors.map((el: any, i: number) => {
+								return (
+									<Typography variant='caption'>
+										{el.name}
+										{i === project.contributors.length - 1 ? '' : ','}
+									</Typography>
+								);
+							})}
+							{/* Add Collaborators in comma seperated format here. e.g. Collaborators: Sreekar, Gitansh Hans */}
+						</Grid>
+						<Grid item sm={12}>
+							Tools:{' '}
+							{project.tools.map((el: any, i: number) => {
+								return (
+									<Typography variant='caption'>
+										{el} {i === project.tools.length - 1 ? '' : ','}
+									</Typography>
+								);
+							})}
+							{/* Add Tools in comma seperated format here. e.g. Tools used: Figma, Google Analytics, Amplitude */}
+						</Grid>
+						<Grid item sm={12}>
+							Skills:{' '}
+							{project.skills.map((el: any, i: number) => {
+								return (
+									<Typography variant='caption'>
+										{el} {i === project.skills.length - 1 ? '' : ','}
+									</Typography>
+								);
+							})}
+							{/* Add Skills in comma seperated format here. e.g. Skills demonstrated: User Exeperience Design, Product Strategy							 */}
 						</Grid>
 					</Grid>
 				</CardContent>
 				<CardActions className={classes.cardActions}>
 					{isPublic && (
 						<Grid container direction='column' className={classes.section}>
-							<Grid item container direction='row' style={{ marginBottom: 5, display: 'flex', alignItems: 'center' }}>
+							<Grid
+								item
+								container
+								direction='row'
+								style={{
+									marginBottom: 5,
+									display: 'flex',
+									alignItems: 'center',
+								}}>
 								<Grid item sm={1} className={classes.avgRating}>
 									<Button
 										variant='contained'
@@ -348,26 +387,34 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 									</Button>
 								</Grid>
 								<Grid item className={classes.centeredPadding}>
-								<Box style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-									<Typography variant='h5' color='textSecondary'>
-										Add Rating:
-									</Typography>
-									<Rating
-										value={rating}
-										onChange={(e: any) => {
-											let newRating = parseFloat(e.target.value);
-											if (rating === newRating) newRating = 0;
-											setRating(newRating);
-											addRating({ value: newRating } as any);
-										}}
-										max={10}
-										name={`project-${project._id}-rating`}
-										className={classes.rating}
-									/>
-									<Typography variant='h6' color='primary' className={classes.ratingNumber} >
-										{rating.toFixed(1)}
-									</Typography>
-								</Box>
+									<Box
+										style={{
+											display: 'flex',
+											justifyContent: 'center',
+											alignItems: 'center',
+										}}>
+										<Typography variant='h5' color='textSecondary'>
+											Add Rating:
+										</Typography>
+										<Rating
+											value={rating}
+											onChange={(e: any) => {
+												let newRating = parseFloat(e.target.value);
+												if (rating === newRating) newRating = 0;
+												setRating(newRating);
+												addRating({ value: newRating } as any);
+											}}
+											max={10}
+											name={`project-${project._id}-rating`}
+											className={classes.rating}
+										/>
+										<Typography
+											variant='h6'
+											color='primary'
+											className={classes.ratingNumber}>
+											{rating.toFixed(1)}
+										</Typography>
+									</Box>
 								</Grid>
 							</Grid>
 							<Grid item>

@@ -66,14 +66,14 @@ const useStyles = makeStyles((theme: Theme) =>
 			width: '100%',
 		},
 		likeIcon: {
-			color: theme.palette.error.light
+			color: theme.palette.error.light,
 		},
 		countBox: {
-			marginLeft: 10, 
+			marginLeft: 10,
 			paddingLeft: 10,
 			borderLeft: '1px solid',
-			borderLeftColor: theme.palette.divider
-		}
+			borderLeftColor: theme.palette.divider,
+		},
 	})
 );
 
@@ -150,21 +150,31 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ review, project }) => {
 		<>
 			<Card elevation={0} className={classes.root}>
 				<ReviewCard {...{ review, project }} />
-	            <Grid container direction='row' style={{marginLeft: 15}}>
+				<Grid container direction='row' style={{ marginLeft: 15 }}>
 					<Grid item>
-					{liked 
-					? <Link onClick={() => handleLike()} color='primary'> Insightful</Link>
-					: <Link onClick={() => handleLike()} color='textPrimary'> Insightful</Link>
-					}
+						{liked ? (
+							<Link onClick={() => handleLike()} color='primary'>
+								{' '}
+								Insightful
+							</Link>
+						) : (
+							<Link onClick={() => handleLike()} color='textPrimary'>
+								{' '}
+								Insightful
+							</Link>
+						)}
 					</Grid>
-					<Grid item style={{marginLeft:5}}>
+					<Grid item style={{ marginLeft: 5 }}>
 						<FavoriteIcon />
 					</Grid>
 					<Grid item>
 						<Typography>{numlikes}</Typography>
 					</Grid>
-					<Grid item className={classes.countBox}> 
-						<Link onClick={toggleOpen} color='textPrimary'> {review.reviewDetails.replies?.length || 0} Replies</Link>
+					<Grid item className={classes.countBox}>
+						<Link onClick={toggleOpen} color='textPrimary'>
+							{' '}
+							{review.reviewDetails.replies?.length || 0} Replies
+						</Link>
 					</Grid>
 				</Grid>
 				<CardActions>

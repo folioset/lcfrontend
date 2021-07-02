@@ -20,6 +20,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import EditIcon from '@material-ui/icons/Edit';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import HomeIcon from '@material-ui/icons/Home';
 
 // Components
 import NavItem from './NavItem';
@@ -39,7 +40,7 @@ const useStyles = makeStyles((theme) => {
 			backgroundColor: theme.palette.background.default,
 			// backgroundColor: theme.palette.common.white,
 			padding: theme.spacing(1),
-			boxShadow: '0 0 3px 1px rgba(0, 0, 0, 0.3)'
+			boxShadow: '0 0 3px 1px rgba(0, 0, 0, 0.3)',
 		},
 		toolbar: {
 			[theme.breakpoints.down('sm')]: {
@@ -88,6 +89,9 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 				<Hidden only={['sm', 'xs']}>
 					{user && (
 						<Box className={classes.nav}>
+							<NavItem exact to='/' icon={<HomeIcon color='primary' />}>
+								<Typography color='primary'>Feed</Typography>
+							</NavItem>
 							<NavItem
 								exact
 								to='/public/users'
