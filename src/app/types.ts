@@ -28,9 +28,14 @@ export type Project = {
 	ratings?: any;
 	title: string;
 	updatedAt?: Date | string | number;
-	__v?: number;
 	avgRating?: number;
 	_id: string;
+};
+
+export type ProjectFeed = Project & {
+	username: string;
+	name: string;
+	profilePicture: string;
 };
 
 export type Like = {

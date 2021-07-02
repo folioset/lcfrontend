@@ -50,7 +50,6 @@ const validationSchema = Yup.object().shape({
 const useStyles = makeStyles((theme: Theme) => {
 	return {
 		card: {
-			marginBottom: 30,
 			paddingLeft: 5,
 			paddingRight: 5,
 			borderRadius: 20,
