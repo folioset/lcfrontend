@@ -41,6 +41,7 @@ import { Project, Review, User } from '../../../types';
 
 // hooks
 import useDisclosure from '../../../hooks/useDisclosure';
+import { useLocation } from 'react-router-dom';
 
 const validationSchema = Yup.object().shape({
 	review: Yup.string()
@@ -169,6 +170,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 	const classes = useStyles();
 	const { isOpen, toggleOpen, onOpen } = useDisclosure();
 	const [type, setType] = React.useState<'comment' | 'suggestion'>('comment');
+	const location = useLocation();
 
 	// Project Modal Toggler
 	const {
@@ -245,7 +247,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 		},
 		{
 			onSuccess: async () => {
-				await queryClient.invalidateQueries(['projects', project.createdBy]);
+				if (location.pathname === '/') {
+					await queryClient.invalidateQueries('feed');
+				} else {
+					await queryClient.invalidateQueries(['projects', project.createdBy]);
+				}
 			},
 		}
 	);
