@@ -305,13 +305,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 							sm={1}
 							style={{ display: 'flex', justifyContent: 'center' }}
 							>
-							<Button
-								variant='contained'
-								size='small'
-								color='primary'
-								onClick={onModalOpen}>
-								View
-							</Button>
+							<Box style={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
+									    <Typography variant='h4'>
+											{project.avgRating?.toFixed(1)} 
+										</Typography>
+										<Typography color='textSecondary' variant='h5' style={{marginLeft: 3, paddingTop: 2}}>
+											({project.numberOfRatings})
+										</Typography>
+							</Box>
 						</Grid>
 						<Grid item sm={11} className={classes.centeredPadding}>
 							<Grid
@@ -321,7 +322,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 								<Grid item>
 									{project.description && (
 										<Typography>{project.description}</Typography>
-									)}									
+									)}	
+									{/* Add Collaborators in comma seperated format here. e.g. Collaborators: Sreekar, Gitansh Hans */}
+
+									{/* Add Tools in comma seperated format here. e.g. Tools used: Figma, Google Analytics, Amplitude */}
+
+									{/* Add Skills in comma seperated format here. e.g. Skills demonstrated: User Exeperience Design, Product Strategy							 */}
+									
 								</Grid>
 							</Grid>
 						</Grid>
@@ -332,14 +339,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 						<Grid container direction='column' className={classes.section}>
 							<Grid item container direction='row' style={{ marginBottom: 5, display: 'flex', alignItems: 'center' }}>
 								<Grid item sm={1} className={classes.avgRating}>
-									<Box style={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
-									    <Typography variant='h4'>
-											{project.avgRating?.toFixed(1)} 
-										</Typography>
-										<Typography color='textSecondary' variant='h5' style={{marginLeft: 3, paddingTop: 2}}>
-											({project.numberOfRatings})
-										</Typography>
-									</Box>
+									<Button
+										variant='contained'
+										size='small'
+										color='primary'
+										onClick={onModalOpen}>
+										View
+									</Button>
 								</Grid>
 								<Grid item className={classes.centeredPadding}>
 								<Box style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
