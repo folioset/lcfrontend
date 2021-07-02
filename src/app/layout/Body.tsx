@@ -1,6 +1,8 @@
 import * as React from 'react';
+import { useQueryClient } from 'react-query';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import Loader from '../components/shared/Loader';
+import { User } from '../types';
 
 // Pages
 const ErrorPage = React.lazy(() => import('../pages/404'));
@@ -8,13 +10,16 @@ const Dashboard = React.lazy(() => import('../pages/dashboard'));
 const Home = React.lazy(() => import('../pages/Home'));
 const OnBoarding = React.lazy(() => import('../pages/onboarding'));
 const Public = React.lazy(() => import('../pages/public'));
+const Feed = React.lazy(() => import('../pages/Feed'));
 
 const Body: React.FC = () => {
+	const queryClient = useQueryClient();
+	const user = queryClient.getQueryData<User>('user');
 	return (
 		<React.Suspense fallback={<Loader fullScreen />}>
 			<Switch>
 				<Route path='/' exact>
-					<Home />
+					{user ? <Feed /> : <Home />}
 				</Route>
 
 				<Route path='/onboarding' exact>
