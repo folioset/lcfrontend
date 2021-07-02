@@ -39,9 +39,7 @@ const typography = {
 		fontWeight: 500,
 	},
 	body2: {
-		fontSise: 14,
-		fontWeight: 500,
-		color: 'black'
+		fontSise: 14
 	}
 };
 

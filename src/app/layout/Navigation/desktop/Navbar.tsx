@@ -36,8 +36,7 @@ const useStyles = makeStyles((theme) => {
 		appBar: {
 			position: 'sticky',
 			top: 0,
-			backgroundColor: theme.palette.background.default,
-			// backgroundColor: theme.palette.common.white,
+			backgroundColor: theme.palette.common.white,
 			padding: theme.spacing(1),
 			boxShadow: '0 0 3px 1px rgba(0, 0, 0, 0.3)'
 		},
@@ -91,14 +90,14 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 							<NavItem
 								exact
 								to='/public/users'
-								icon={<AccountCircleIcon color='primary' />}>
-								<Typography color='primary'>All Users</Typography>
+								icon={<AccountCircleIcon color='secondary' />}>
+								<Typography color='secondary'>All Users</Typography>
 							</NavItem>
 							<Button
 								startIcon={<Avatar alt={user.name} src={user.profilePicture} />}
 								aria-controls='dropdown'
 								aria-haspopup='true'
-								color='primary'
+								color='secondary'
 								endIcon={<KeyboardArrowDownIcon />}
 								onClick={handleClick}>
 								{user.name.split(' ')[0]}
@@ -149,7 +148,7 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 					<Hidden only={['xl', 'lg', 'md']}>
 						<Box ml='auto' color='white'>
 							<IconButton color='inherit' onClick={onOpen}>
-								<MenuIcon />
+								<MenuIcon color='secondary'/>
 							</IconButton>
 						</Box>
 					</Hidden>

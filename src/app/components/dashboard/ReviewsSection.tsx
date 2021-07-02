@@ -18,6 +18,7 @@ import {
 } from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import MessageIcon from '@material-ui/icons/Message';
 import Box from '@material-ui/core/Box';
@@ -150,23 +151,23 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ review, project }) => {
 		<>
 			<Card elevation={0} className={classes.root}>
 				<ReviewCard {...{ review, project }} />
-	            <Grid container direction='row' style={{marginLeft: 15}}>
-					<Grid item>
+	            <Box style={{marginLeft: 15, display: 'flex', alignItems: 'center'}}>
+					<Box>
 					{liked 
-					? <Link onClick={() => handleLike()} color='primary'> Insightful</Link>
-					: <Link onClick={() => handleLike()} color='textPrimary'> Insightful</Link>
+					? <Link onClick={() => handleLike()} color='primary' style={{fontWeight: 600, fontSize: 13}}> Insightful</Link>
+					: <Link onClick={() => handleLike()} color='textPrimary' style={{fontWeight: 600, fontSize: 13}}> Insightful</Link>
 					}
-					</Grid>
-					<Grid item style={{marginLeft:5}}>
-						<FavoriteIcon />
-					</Grid>
-					<Grid item>
-						<Typography>{numlikes}</Typography>
-					</Grid>
-					<Grid item className={classes.countBox}> 
-						<Link onClick={toggleOpen} color='textPrimary'> {review.reviewDetails.replies?.length || 0} Replies</Link>
-					</Grid>
-				</Grid>
+					</Box>
+					<Box style={{marginLeft:5}}>
+						<EmojiObjectsIcon color='primary' fontSize='small' style={{verticalAlign:'middle'}}/>
+					</Box>
+					<Box>
+						<Typography color='textSecondary' variant='body2'>{numlikes}</Typography>
+					</Box>
+					<Box className={classes.countBox}> 
+						<Link onClick={toggleOpen} color='textPrimary' style={{fontWeight: 500, fontSize: 13}}> {review.reviewDetails.replies?.length || 0} Replies</Link>
+					</Box>
+				</Box>
 				<CardActions>
 					<Formik
 						initialValues={{

@@ -26,6 +26,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SendIcon from '@material-ui/icons/Send';
+import StarRateIcon from '@material-ui/icons/StarRate';
 
 // components
 import Rating from '../../shared/Rating';
@@ -139,6 +140,12 @@ const useStyles = makeStyles((theme: Theme) => {
 				justifyContent: 'flex-start',
 			},
 		},
+		ratingBox: {
+			display: 'flex', 
+			justifyContent: 'space-around', 
+			alignItems: 'center', 
+			backgroundColor: theme.palette.primary.main
+		}
 	};
 });
 
@@ -305,10 +312,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 							sm={1}
 							style={{ display: 'flex', justifyContent: 'center' }}
 							>
-							<Box style={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
+							<Box className={classes.ratingBox}>
 									    <Typography variant='h4'>
 											{project.avgRating?.toFixed(1)} 
 										</Typography>
+										<StarRateIcon color='primary' />
 										<Typography color='textSecondary' variant='h5' style={{marginLeft: 3, paddingTop: 2}}>
 											({project.numberOfRatings})
 										</Typography>
@@ -328,7 +336,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 									{/* Add Tools in comma seperated format here. e.g. Tools used: Figma, Google Analytics, Amplitude */}
 
 									{/* Add Skills in comma seperated format here. e.g. Skills demonstrated: User Exeperience Design, Product Strategy							 */}
-									
+
 								</Grid>
 							</Grid>
 						</Grid>
