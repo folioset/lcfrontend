@@ -31,6 +31,10 @@ export type Project = {
 	__v?: number;
 	avgRating?: number;
 	_id: string;
+	numberOfRatings: number;
+	tools: any;
+	skills: any;
+
 };
 
 export type Like = {

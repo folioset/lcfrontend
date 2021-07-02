@@ -27,6 +27,11 @@ const useStyles = makeStyles((theme: Theme) => {
 			paddingTop: theme.spacing(3),
 			paddingBottom: theme.spacing(3),
 			backgroundColor: theme.palette.common.white,
+			borderRadius: 10,
+			borderWidth: 5,
+			borderColor: '#111111',
+			elevation: 0,
+			boxShadow: '0 0 3px 1px rgba(0, 0, 0, 0.1)'
 		},
 		heading: {
 			marginBottom: theme.spacing(3),
@@ -34,6 +39,9 @@ const useStyles = makeStyles((theme: Theme) => {
 		searchInput: {
 			marginBottom: theme.spacing(3),
 		},
+		usersCard: {
+			textAlign: 'center'
+		}
 	};
 });
 
@@ -93,10 +101,10 @@ const Users: React.FC<UsersProps> = () => {
 							</InputAdornment>
 						),
 					}}
-					placeholder='search by name, username...'
+					placeholder='Search'
 				/>
 
-				<Box textAlign='center'>
+				<Box className={classes.usersCard}>
 					{isLoading && <Typography>Loading Users....</Typography>}
 					<Grid container>
 						{users?.map((user: User) => {

@@ -50,7 +50,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 			<Box className={classes.root}>
 				<Container maxWidth='md'>
 					{user && (
-						<Box my={5}>
+						<Box>
 							<ProfileCard user={user} isPublic={isPublic} />
 						</Box>
 					)}

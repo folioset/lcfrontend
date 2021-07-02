@@ -5,7 +5,7 @@ const palette = {
 		main: '#00BFA6',
 	},
 	background: {
-		default: '#f7f7f7',
+		default: '#f9f9f9',
 		// default: '#111111',
 	},
 	profile: {
@@ -29,10 +29,11 @@ const typography = {
 		color: 'white',
 	},
 	h5: {
-		fontSize: 18,
+		fontSize: 16,
 	},
 	h6: {
-		fontSize: 18,
+		fontSize: 16,
+		fontWeight: 500,
 	},
 };
 

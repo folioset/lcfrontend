@@ -15,15 +15,14 @@ const useStyles = makeStyles((theme: Theme) => ({
 	root: {
 		flexGrow: 1,
 		backgroundColor: theme.palette.common.white,
-	},
-	paper: {
-		backgroundColor: theme.palette.common.white,
-		borderRadius: 20,
-			borderWidth: 1,
-			borderColor: theme.palette.divider,
-			
-			elevation: 0,
-			boxShadow: 'none'
+		marginBottom: 20,
+		paddingLeft: 5,
+		paddingRight: 5,
+		borderRadius: 10,
+		borderWidth: 5,
+		borderColor: '#111111',
+		elevation: 0,
+		boxShadow: '0 0 3px 1px rgba(0, 0, 0, 0.1)'
 	},
 	details: {
 		padding: theme.spacing(3),
@@ -90,7 +89,6 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 				</Modal>
 			)}
 			<Box className={classes.root}>
-				<Paper className={classes.paper}>
 					<Grid container direction='row'>
 						<Grid item xs={12} sm={11} className={classes.details}>
 							<Avatar
@@ -132,7 +130,6 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 							)}
 						</Grid>
 					</Grid>
-				</Paper>
 			</Box>
 		</>
 	);

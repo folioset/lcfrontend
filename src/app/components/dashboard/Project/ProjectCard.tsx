@@ -50,7 +50,7 @@ const validationSchema = Yup.object().shape({
 const useStyles = makeStyles((theme: Theme) => {
 	return {
 		card: {
-			marginBottom: 30,
+			marginBottom: 20,
 			paddingLeft: 5,
 			paddingRight: 5,
 			borderRadius: 10,
@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme: Theme) => {
 			paddingBottom: theme.spacing(4),
 		},
 		rating: {
-			paddingLeft: theme.spacing(3.3),
+			paddingLeft: theme.spacing(0.7),
 		},
 		comment: {
 			'& fieldset': {
@@ -128,8 +128,9 @@ const useStyles = makeStyles((theme: Theme) => {
 		},
 		avgRating: {
 			display: 'flex',
-			justifyContent: 'space-around',
-
+			justifyContent: 'center',
+			alignItems: 'center',
+            textAlign: 'center',
 			[theme.breakpoints.down('xs')]: {
 				justifyContent: 'flex-start',
 			},
@@ -268,7 +269,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 			</Modal>
 			<Card className={classes.card}>
 				<CardHeader
-					title={project.title}
+					title={
+						<Typography variant='h4'>
+							{project.title}
+						</Typography>
+					}
 					subheader={
 						<Typography color='textSecondary' variant='caption'>
 							{'Updated on ' +
@@ -294,7 +299,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 							container
 							item
 							sm={1}
-							style={{ display: 'flex', justifyContent: 'center' }}>
+							style={{ display: 'flex', justifyContent: 'center' }}
+							>
 							<Button
 								variant='contained'
 								size='small'
@@ -311,7 +317,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 								<Grid item>
 									{project.description && (
 										<Typography>{project.description}</Typography>
-									)}
+									)}									
 								</Grid>
 							</Grid>
 						</Grid>
@@ -320,19 +326,21 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 				<CardActions className={classes.cardActions}>
 					{isPublic && (
 						<Grid container direction='column' className={classes.section}>
-							<Grid
-								item
-								container
-								direction='row'
-								className={classes.section}
-								style={{ marginBottom: 5 }}
-								spacing={1}>
+							<Grid item container direction='row' style={{ marginBottom: 5, display: 'flex', alignItems: 'center' }}>
 								<Grid item sm={1} className={classes.avgRating}>
-									<Typography variant='h4'>
-										{project.avgRating?.toFixed(1)}
-									</Typography>
+									<Box style={{display: 'flex', justifyContent: 'space-around', alignItems: 'center'}}>
+									    <Typography variant='h4'>
+											{project.avgRating?.toFixed(1)} 
+										</Typography>
+										<Typography color='textSecondary' variant='h5' style={{marginLeft: 3}}>
+											({project.numberOfRatings})
+										</Typography>
+									</Box>
 								</Grid>
 								<Grid item className={classes.centeredPadding}>
+									<Typography variant='h5' color='textSecondary'>
+										Add Rating:
+									</Typography>
 									<Rating
 										value={rating}
 										onChange={(e: any) => {
@@ -345,9 +353,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 										name={`project-${project._id}-rating`}
 										className={classes.rating}
 									/>
-								</Grid>
-								<Grid item className={classes.centered}>
-									<Typography variant='body2' color='primary'>
+									<Typography variant='h6' color='primary' className={classes.rating} >
 										{rating.toFixed(1)}
 									</Typography>
 								</Grid>
@@ -393,7 +399,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 						<Grid item>
 							<Button
 								onClick={toggleOpen}
-								color='primary'
+								color='default'
 								size='small'
 								endIcon={
 									<ExpandMoreIcon
@@ -424,7 +430,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 						})}
 
 						{!isLoading && !data?.length && (
-							<Typography color='primary'>No reviews yet</Typography>
+							<Typography variant='body2'>No reviews yet</Typography>
 						)}
 					</CardContent>
 				</Collapse>
