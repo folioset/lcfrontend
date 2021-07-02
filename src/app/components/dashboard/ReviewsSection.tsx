@@ -67,14 +67,14 @@ const useStyles = makeStyles((theme: Theme) =>
 			width: '100%',
 		},
 		likeIcon: {
-			color: theme.palette.error.light
+			color: theme.palette.error.light,
 		},
 		countBox: {
-			marginLeft: 10, 
+			marginLeft: 10,
 			paddingLeft: 10,
 			borderLeft: '1px solid',
-			borderLeftColor: theme.palette.divider
-		}
+			borderLeftColor: theme.palette.divider,
+		},
 	})
 );
 

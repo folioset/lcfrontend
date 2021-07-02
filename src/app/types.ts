@@ -19,7 +19,7 @@ export type User = {
 };
 
 export type Project = {
-	contributors: string[];
+	contributors: any;
 	createdAt: Date | string | number;
 	updateAt?: Date | string | number;
 	createdBy: string;
@@ -31,9 +31,8 @@ export type Project = {
 	avgRating?: number;
 	_id: string;
 	numberOfRatings: number;
-	tools: any;
-	skills: any;
-
+	tools: string[];
+	skills: string[];
 };
 
 export type ProjectFeed = Project & {

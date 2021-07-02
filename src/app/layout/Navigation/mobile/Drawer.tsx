@@ -28,6 +28,8 @@ import { User } from '../../../types';
 import Avatar from '../../../components/shared/Avatar';
 import { useHistory } from 'react-router-dom';
 
+import HomeIcon from '@material-ui/icons/Home';
+
 interface Props {
 	isOpen: boolean;
 	onClose: () => void;
@@ -86,6 +88,12 @@ const Drawer: React.FC<Props> = ({ isOpen, onClose }) => {
 				<Divider />
 
 				<>
+					<DrawerItem
+						icon={<HomeIcon color={'inherit'} />}
+						text='Feed'
+						to='/'
+						onClose={onClose}
+					/>
 					<DrawerItem
 						icon={<PeopleIcon color={'inherit'} />}
 						text='All Users'
