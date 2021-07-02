@@ -101,9 +101,17 @@ const useStyles = makeStyles((theme: Theme) => {
 		},
 		centeredPadding: {
 			display: 'flex',
-			alignItems: 'center',
+			justifyContent: 'center',
+			paddingLeft: theme.spacing(3),
+			paddingRight: theme.spacing(3),
+		},
+		collabBox: {
+			display: 'flex',
 			justifyContent: 'center',
 			paddingLeft: theme.spacing(4),
+			borderLeftWidth: '1px',
+			borderLeftColor: theme.palette.divider,	
+			borderLeftStyle: 'solid'
 		},
 		pdf: {
 			height: '100vh',
@@ -144,7 +152,7 @@ const useStyles = makeStyles((theme: Theme) => {
 			display: 'flex', 
 			justifyContent: 'space-around', 
 			alignItems: 'center', 
-			backgroundColor: theme.palette.primary.main
+			// backgroundColor: theme.palette.primary.main
 		}
 	};
 });
@@ -302,23 +310,16 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 				/>
 				<CardContent className={classes.cardContent}>
 					<Grid container direction='row' className={classes.centered}>
-						<Grid
-							container
-							item
-							sm={1}
-							style={{ display: 'flex', justifyContent: 'center' }}
-							>
-							<Box className={classes.ratingBox}>
-									    <Typography variant='h4'>
-											{project.avgRating?.toFixed(1)} 
-										</Typography>
-										<StarRateIcon color='primary' />
-										<Typography color='textSecondary' variant='h5' style={{marginLeft: 3, paddingTop: 2}}>
-											({project.numberOfRatings})
-										</Typography>
-							</Box>
+						<Grid item sm={1} style={{ display: 'flex', justifyContent: 'center' }}>
+						    <Button
+										variant='contained'
+										size='small'
+										color='primary'
+										onClick={onModalOpen}>
+										View
+									</Button>
 						</Grid>
-						<Grid item sm={11} className={classes.centeredPadding}>
+						<Grid item sm={7} className={classes.centeredPadding}>
 							<Grid
 								container
 								direction='column'
@@ -330,40 +331,54 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 								</Grid>
 							</Grid>
 						</Grid>
-						<Grid item sm={12}>
-							Collaborators:
-							{project.contributors.map((el: any, i: number) => {
-								return (
-									<Typography variant='caption'>
-										{el.name}
-										{i === project.contributors.length - 1 ? '' : ','}
-									</Typography>
-								);
-							})}
-							{/* Add Collaborators in comma seperated format here. e.g. Collaborators: Sreekar, Gitansh Hans */}
-						</Grid>
-						<Grid item sm={12}>
-							Tools:{' '}
-							{project.tools.map((el: any, i: number) => {
-								return (
-									<Typography variant='caption'>
-										{el} {i === project.tools.length - 1 ? '' : ','}
-									</Typography>
-								);
-							})}
-							{/* Add Tools in comma seperated format here. e.g. Tools used: Figma, Google Analytics, Amplitude */}
-						</Grid>
-						<Grid item sm={12}>
-							Skills:{' '}
-							{project.skills.map((el: any, i: number) => {
-								return (
-									<Typography variant='caption'>
-										{el} {i === project.skills.length - 1 ? '' : ','}
-									</Typography>
-								);
-							})}
-							{/* Add Skills in comma seperated format here. e.g. Skills demonstrated: User Exeperience Design, Product Strategy							 */}
-						</Grid>
+						<Grid item sm={4} container direction='column' className={classes.collabBox}>
+							{project.contributors.length!==0 ? (
+							<Grid item container direction='row'>
+								<Grid item>
+									<Typography variant='body2' color='textSecondary'>Collaborators:{'  '}</Typography>
+								</Grid>
+								<Grid item>
+								{project.contributors.map((el: any, i: number) => {
+									return (
+										<Typography variant='caption'>
+											{el.name}
+											{i === project.contributors.length - 1 ? '' : ','}
+										</Typography>
+									);
+								})}
+								</Grid>
+							</Grid>) : null}
+							{project.tools.length!==0 ? (
+							<Grid item container direction='row'>
+								<Grid item>
+									<Typography variant='body2' color='textSecondary'>Tools:{'  '}</Typography>
+								</Grid>
+								<Grid item>
+								{project.tools.map((el: any, i: number) => {
+									return (
+										<Typography variant='caption'>
+											{el} {i === project.tools.length - 1 ? '' : ','}
+										</Typography>
+									);
+								})}
+								</Grid>
+							</Grid>) : null}
+							{project.skills.length!==0 ? (
+							<Grid item container direction='row'>
+								<Grid item>
+									<Typography variant='body2' color='textSecondary'>Skills:{'  '}</Typography>
+								</Grid>
+								<Grid item>
+								{project.skills.map((el: any, i: number) => {
+									return (
+										<Typography variant='caption'>
+											{el} {i === project.skills.length - 1 ? '' : ','}
+										</Typography>
+									);
+								})}
+								</Grid>
+							</Grid>) : null}
+					    </Grid>
 					</Grid>
 				</CardContent>
 				<CardActions className={classes.cardActions}>
@@ -379,13 +394,15 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 									alignItems: 'center',
 								}}>
 								<Grid item sm={1} className={classes.avgRating}>
-									<Button
-										variant='contained'
-										size='small'
-										color='primary'
-										onClick={onModalOpen}>
-										View
-									</Button>
+									<Box className={classes.ratingBox}>
+									    <Typography variant='h4' style={{fontSize: 18}}>
+											{project.avgRating?.toFixed(1)} 
+										</Typography>
+										<StarRateIcon color='primary' />
+										<Typography color='textSecondary' variant='h5' style={{marginLeft: 1}}>
+											({project.numberOfRatings})
+										</Typography>
+							        </Box>
 								</Grid>
 								<Grid item className={classes.centeredPadding}>
 									<Box

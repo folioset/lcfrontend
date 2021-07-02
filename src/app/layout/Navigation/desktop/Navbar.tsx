@@ -50,8 +50,7 @@ const useStyles = makeStyles((theme) => {
 			marginLeft: 'auto',
 			display: 'flex',
 			justifyContent: 'center',
-			alignItems: 'center',
-			gap: theme.spacing(2),
+			alignItems: 'center'
 		},
 		formControl: {
 			display: 'flex',
@@ -88,14 +87,14 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 				<Hidden only={['sm', 'xs']}>
 					{user && (
 						<Box className={classes.nav}>
-							<NavItem exact to='/' icon={<HomeIcon color='primary' />}>
-								<Typography color='primary'>Feed</Typography>
+							<NavItem exact to='/' icon={<HomeIcon color='secondary' />}>
+								<Typography color='secondary'>Feed</Typography>
 							</NavItem>
 							<NavItem
 								exact
 								to='/public/users'
 								icon={<AccountCircleIcon color='secondary' />}>
-								<Typography color='secondary'>All Users</Typography>
+								<Typography color='secondary'>Users</Typography>
 							</NavItem>
 							<Button
 								startIcon={<Avatar alt={user.name} src={user.profilePicture} />}
