@@ -4,6 +4,8 @@ import Typography from '@material-ui/core/Typography';
 import * as React from 'react';
 import { useQuery } from 'react-query';
 import axios from 'axios';
+import FeedProject from '../components/dashboard/Project/FeedProjectCard';
+import { ProjectFeed } from '../types';
 
 interface FeedProps {}
 
@@ -19,13 +21,15 @@ const useStyles = makeStyles((theme: Theme) => {
 		},
 		loading: {
 			textAlign: 'center',
+			display: 'block',
+			color: theme.palette.grey['50'],
 		},
 	};
 });
 
 const Feed: React.FC<FeedProps> = () => {
 	const classes = useStyles();
-	const { isLoading } = useQuery('feed', async () => {
+	const { isLoading, data } = useQuery('feed', async () => {
 		const res = await axios({
 			method: 'get',
 			url: '/api/feed',
@@ -35,7 +39,7 @@ const Feed: React.FC<FeedProps> = () => {
 
 	return (
 		<>
-			<Container className={classes.container}>
+			<Container maxWidth='md' className={classes.container}>
 				<Typography variant='h2' className={classes.heading}>
 					My Feed
 				</Typography>
@@ -44,6 +48,9 @@ const Feed: React.FC<FeedProps> = () => {
 						Loading Feed...
 					</Typography>
 				)}
+				{data?.map((project: ProjectFeed) => {
+					return <FeedProject {...{ project }} />;
+				})}
 			</Container>
 		</>
 	);

@@ -26,6 +26,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import Logo from '../../../components/shared/Logo';
 import { User } from '../../../types';
 import Avatar from '../../../components/shared/Avatar';
+import { useHistory } from 'react-router-dom';
 
 interface Props {
 	isOpen: boolean;
@@ -61,6 +62,7 @@ const Drawer: React.FC<Props> = ({ isOpen, onClose }) => {
 	const theme = useTheme();
 	const color = theme.palette.error.main;
 	const classes = useStyles();
+	const history = useHistory();
 
 	return (
 		<MUIDrawer
@@ -70,7 +72,7 @@ const Drawer: React.FC<Props> = ({ isOpen, onClose }) => {
 			onClose={onClose}>
 			<Box width={DRAWER_WIDTH}>
 				<Box className={classes.toolbar}>
-					<Box className={classes.logo}>
+					<Box className={classes.logo} onClick={() => history.push('/')}>
 						<Logo />
 					</Box>
 

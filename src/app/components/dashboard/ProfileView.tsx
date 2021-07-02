@@ -27,6 +27,11 @@ const useStyles = makeStyles((theme) => {
 				fontSize: 30,
 			},
 		},
+		projects: {
+			'& > *': {
+				marginBottom: 30,
+			},
+		},
 	};
 });
 
@@ -54,7 +59,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 							<ProfileCard user={user} isPublic={isPublic} />
 						</Box>
 					)}
-					<Box>
+					<Box className={classes.projects}>
 						{isLoading && (
 							<Box textAlign='center'>
 								<Typography color='primary'>Loading Projects ....</Typography>

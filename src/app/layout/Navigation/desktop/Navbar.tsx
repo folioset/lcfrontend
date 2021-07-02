@@ -83,11 +83,7 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 	return (
 		<AppBar className={classes.appBar} elevation={0} position='static'>
 			<Toolbar className={classes.toolbar}>
-				<Logo
-					onClick={() =>
-						user ? history.push('/dashboard') : history.push('/')
-					}
-				/>
+				<Logo onClick={() => history.push('/')} />
 
 				<Hidden only={['sm', 'xs']}>
 					{user && (
