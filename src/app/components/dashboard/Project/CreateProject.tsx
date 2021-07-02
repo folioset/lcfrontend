@@ -32,6 +32,8 @@ interface InitialValues {
 	description: string;
 	contributors: string[];
 	file: null | File;
+	tools: string[];
+	skills: string[];
 }
 
 const initialValues: InitialValues = {
@@ -39,6 +41,8 @@ const initialValues: InitialValues = {
 	description: '',
 	contributors: [],
 	file: null,
+	tools: [],
+	skills: [],
 };
 
 const SUPPORTED_FORMATS = ['application/pdf'];
@@ -96,6 +100,32 @@ const useStyles = makeStyles((theme: Theme) => {
 	};
 });
 
+const SKILLS = [
+	'User Research',
+	'Market Research',
+	'Competitive Analysis',
+	'Business Strategy',
+	'Go to Market Strategy',
+	'Product Roadmapping',
+	'Product Prioritization',
+	'Writing User Stories',
+	'Product Metrics',
+	'Product Analytics',
+	'Product Requirements Gathering',
+	'User Experience Design',
+];
+
+const TOOLS = [
+	'Figma',
+	'Adobe XD',
+	'Balsamiq',
+	'Google Analytics',
+	'Heap',
+	'Mixpanel',
+	'Amplitude',
+	'JIRA',
+];
+
 const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 	({ onClose }) => {
 		const { fileUrl, handleUploadFileUrl } = useFileUpload();
@@ -142,13 +172,15 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 							</Typography>
 							<Formik
 								onSubmit={async (
-									{ title, description, contributors, file },
+									{ title, description, contributors, file, skills, tools },
 									{ resetForm }
 								) => {
 									const data = new FormData();
 									data.append('title', title);
 									data.append('description', description);
 									data.append('contributors', JSON.stringify(contributors));
+									data.append('skills', JSON.stringify(skills));
+									data.append('tools', JSON.stringify(tools));
 									if (file) {
 										data.append('file', file);
 									}
@@ -219,6 +251,50 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 														value='Loading...'
 													/>
 												)}
+											</Box>
+
+											<Box mb={2}>
+												<Autocomplete
+													multiple
+													id='skills-auto-complete'
+													options={SKILLS}
+													onChange={(e: React.ChangeEvent<{}>, value: any) => {
+														setFieldValue('skills', value);
+													}}
+													getOptionLabel={(option: any) => option}
+													renderInput={(params) => (
+														<TextField
+															{...params}
+															fullWidth
+															variant='outlined'
+															name='skills'
+															size='small'
+															label='Skills'
+														/>
+													)}
+												/>
+											</Box>
+
+											<Box mb={2}>
+												<Autocomplete
+													multiple
+													id='tools-auto-complete'
+													options={TOOLS}
+													onChange={(e: React.ChangeEvent<{}>, value: any) => {
+														setFieldValue('tools', value);
+													}}
+													getOptionLabel={(option: any) => option}
+													renderInput={(params) => (
+														<TextField
+															{...params}
+															fullWidth
+															variant='outlined'
+															name='tools'
+															size='small'
+															label='Tools'
+														/>
+													)}
+												/>
 											</Box>
 
 											<Button
