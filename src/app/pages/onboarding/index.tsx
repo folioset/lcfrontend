@@ -116,12 +116,7 @@ const OnBoarding: React.FC = () => {
 									type='submit'
 									size='small'
 									startIcon={
-										isLoading ? (
-											<CircularProgress
-												size='small'
-												style={{ color: 'white' }}
-											/>
-										) : null
+										isLoading ? <CircularProgress size='1rem' /> : null
 									}
 									variant='contained'
 									color='primary'>

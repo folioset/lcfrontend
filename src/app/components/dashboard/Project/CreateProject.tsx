@@ -131,7 +131,7 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 		const { fileUrl, handleUploadFileUrl } = useFileUpload();
 		const classes = useStyles({ fileUrl });
 		const queryClient = useQueryClient();
-		const { mutate } = useMutation(
+		const { mutate, isLoading } = useMutation(
 			(data) =>
 				axios({
 					method: 'POST',
@@ -150,14 +150,17 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 			}
 		);
 
-		const { isLoading, data: users } = useQuery('all-users', async (data) => {
-			const res = await axios({
-				method: 'GET',
-				url: `/api/users`,
-				data,
-			});
-			return res.data;
-		});
+		const { isLoading: isUsersLoading, data: users } = useQuery(
+			'all-users',
+			async (data) => {
+				const res = await axios({
+					method: 'GET',
+					url: `/api/users`,
+					data,
+				});
+				return res.data;
+			}
+		);
 
 		return (
 			<>
@@ -189,7 +192,7 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 								}}
 								initialValues={initialValues}
 								validationSchema={validationSchema}>
-								{({ values, isSubmitting, setFieldValue }) => {
+								{({ values, setFieldValue }) => {
 									return (
 										<Form noValidate autoComplete='off'>
 											<FormInput
@@ -215,7 +218,7 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 												icon={<PictureAsPdf />}
 											/>
 											<Box mb={3} mt={3}>
-												{!isLoading ? (
+												{!isUsersLoading ? (
 													<Autocomplete
 														multiple
 														id='contributors-auto-complete'
@@ -301,13 +304,9 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 												type='submit'
 												size='small'
 												startIcon={
-													isSubmitting ? (
-														<CircularProgress
-															size='small'
-															style={{ color: 'white' }}
-														/>
-													) : null
+													isLoading ? <CircularProgress size='1rem' /> : null
 												}
+												disabled={isLoading}
 												variant='contained'
 												color='primary'>
 												Create Project

@@ -306,9 +306,7 @@ const UpdateProject: React.FC<UpdateProjectProps> = React.forwardRef(
 												size='small'
 												disabled={isLoading}
 												startIcon={
-													isLoading ? (
-														<CircularProgress color='primary' size='small' />
-													) : null
+													isLoading ? <CircularProgress size='1rem' /> : null
 												}
 												variant='contained'
 												color='primary'>
