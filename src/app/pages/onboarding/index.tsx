@@ -3,6 +3,7 @@ import {
 	CircularProgress,
 	Container,
 	makeStyles,
+	MenuItem,
 	Typography,
 } from '@material-ui/core';
 import { Form, Formik } from 'formik';
@@ -15,6 +16,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import useAuthRoute from '../../hooks/useAuthRoute';
 // import FormSelect from '../../components/shared/FormSelect';
 import { User } from '../../types';
+import FormSelect from '../../components/shared/FormSelect';
 
 const useStyles = makeStyles((theme) => {
 	return {
@@ -29,7 +31,7 @@ const validationSchema = Yup.object().shape({
 	username: Yup.string().required('This field is required'),
 	about: Yup.string().required('This field is required'),
 	// hours: Yup.number().required('This field is required').positive(),
-	// interests: Yup.string().required('This field is required'),
+	interests: Yup.string().required('This field is required'),
 });
 
 const OnBoarding: React.FC = () => {
@@ -59,6 +61,8 @@ const OnBoarding: React.FC = () => {
 	const initialValues = {
 		username: user?.username || '',
 		about: '',
+		hours: 2,
+		interests: '',
 	};
 
 	return (
@@ -85,15 +89,15 @@ const OnBoarding: React.FC = () => {
 									required
 									fullWidth
 								/>
-								{/* <FormInput
+								<FormInput
 									type='number'
 									name='hours'
 									variant='outlined'
 									label='How many hours per week can you dedicate to solve the case studies?'
 									required
 									fullWidth
-								/> */}
-								{/* <FormSelect name='interests' label='Interests'>
+								/>
+								<FormSelect name='interests' label='Interests'>
 									{[
 										'Consumer tech',
 										'Ed-tech',
@@ -104,7 +108,7 @@ const OnBoarding: React.FC = () => {
 									].map((field) => {
 										return <MenuItem value={field}>{field}</MenuItem>;
 									})}
-								</FormSelect> */}
+								</FormSelect>
 								<FormInput
 									name='username'
 									variant='outlined'
