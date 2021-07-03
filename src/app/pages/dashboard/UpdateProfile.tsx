@@ -120,7 +120,7 @@ const UpdateProfile: React.FC = () => {
 								<Grid item xs={12} container direction='row'>
 									<Grid
 										item
-										xs={6}
+										xs={5}
 										style={{ display: 'flex', justifyContent: 'flex-end' }}>
 										<Avatar
 											src={
@@ -133,7 +133,7 @@ const UpdateProfile: React.FC = () => {
 											style={{ height: '6rem', width: '6rem' }}
 										/>
 									</Grid>
-									<Grid item xs={6} style={{ display: 'flex' }}>
+									<Grid item xs={7} style={{ display: 'flex', paddingLeft: 10 }}>
 										<FileUpload
 											btnText='upload profile picture'
 											required={false}
@@ -156,6 +156,15 @@ const UpdateProfile: React.FC = () => {
 										placeholder={`Product Manager at Zerodha. IIM Calcutta grad`}
 									/>
 								</Grid>
+								<Grid item md={12} xs={12}>
+									<FormInput
+										fullWidth
+										variant='outlined'
+										label='Location'
+										name='location'
+										required={false}
+									/>
+								</Grid>
 								<Grid item xs={12}>
 									<FormInput
 										fullWidth
@@ -176,16 +185,6 @@ const UpdateProfile: React.FC = () => {
 										variant='outlined'
 										label='Phone Number'
 										name='phoneNumber'
-										required={false}
-									/>
-								</Grid>
-
-								<Grid item md={12} xs={12}>
-									<FormInput
-										fullWidth
-										variant='outlined'
-										label='Location'
-										name='location'
 										required={false}
 									/>
 								</Grid>
