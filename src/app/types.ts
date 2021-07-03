@@ -31,6 +31,7 @@ export type Project = {
 	avgRating?: number;
 	_id: string;
 	numberOfRatings: number;
+	contributorDetailsArr: string[];
 	tools: string[];
 	skills: string[];
 };

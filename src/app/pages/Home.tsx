@@ -7,6 +7,9 @@ import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core';
+import ForumIcon from '@material-ui/icons/Forum';
+import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
+import CreateIcon from '@material-ui/icons/Create';
 
 // Assets
 import { ReactComponent as SvgBackground } from '../../assets/home.svg';
@@ -76,10 +79,24 @@ const Home: React.FC = () => {
 						</Typography>
 					</Box>
 
-					<Box mt={2}>
+					<Box mt={4} style={{display: 'flex', alignItems: 'center'}}>
+						<ForumIcon fontSize='small' style={{marginRight: 10}} color='primary' />
 						<Typography className={classes.subHeading} variant='subtitle1'>
-							Join an exclusive community of product professionals. Share your
-							work. Help each other improve.
+							Join an exclusive community of product professionals!
+						</Typography>
+					</Box>
+
+					<Box mt={1} style={{display: 'flex', alignItems: 'center'}}>
+						<EmojiObjectsIcon fontSize='small' style={{marginRight: 10}} color='primary'/>
+						<Typography className={classes.subHeading} variant='subtitle1'>
+							Showcase your Product thinking.
+						</Typography>
+					</Box>
+
+					<Box mt={1} style={{display: 'flex', alignItems: 'center'}}>
+						<CreateIcon fontSize='small' style={{marginRight: 10}} color='primary'/>
+						<Typography className={classes.subHeading} variant='subtitle1'>
+							Give and Receive Feedback. Learn from the community.
 						</Typography>
 					</Box>
 

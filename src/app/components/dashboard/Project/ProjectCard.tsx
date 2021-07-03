@@ -7,7 +7,7 @@ import { Form, Formik } from 'formik';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 // Material UI
-import { makeStyles, Theme } from '@material-ui/core';
+import { makeStyles, Theme, Link } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -42,6 +42,8 @@ import { Project, Review, User } from '../../../types';
 // hooks
 import useDisclosure from '../../../hooks/useDisclosure';
 import { useLocation } from 'react-router-dom';
+
+import { Link as RouterLink } from 'react-router-dom';
 
 const validationSchema = Yup.object().shape({
 	review: Yup.string()
@@ -145,6 +147,7 @@ const useStyles = makeStyles((theme: Theme) => {
 			justifyContent: 'center',
 			alignItems: 'center',
 			textAlign: 'center',
+			paddingLeft: theme.spacing(1),
 			[theme.breakpoints.down('xs')]: {
 				justifyContent: 'flex-start',
 			},
@@ -325,7 +328,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 										View
 									</Button>
 						</Grid>
-						<Grid item sm={7} className={classes.centeredPadding}>
+						<Grid item sm={6} className={classes.centeredPadding}>
 							<Grid
 								container
 								direction='column'
@@ -337,32 +340,36 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 								</Grid>
 							</Grid>
 						</Grid>
-						<Grid item sm={4} container direction='column' className={classes.collabBox}>
+						<Grid item sm={5} container direction='column' className={classes.collabBox}>
 							{project.contributors.length!==0 ? (
-							<Grid item container direction='row'>
+							<Grid item container direction='row' spacing={1}>
 								<Grid item>
-									<Typography variant='body2' color='textSecondary'>Collaborators:{'  '}</Typography>
+									<Typography variant='body2' color='textSecondary'>Collaborators:</Typography>
 								</Grid>
 								<Grid item>
-								{project.contributors.map((el: any, i: number) => {
+								{project.contributorDetailsArr.map((el: any, i: number) => {
 									return (
-										<Typography variant='caption'>
-											{el.name}
-											{i === project.contributors.length - 1 ? '' : ','}
-										</Typography>
+										<Link
+										component={RouterLink}
+										to={`/public/users/${el._id}`}
+										color='primary'
+										style={{fontSize: 14, fontWeight: 500}}>
+										{el.name}
+										{i === project.contributors.length - 1 ? '' : ','}
+									</Link>
 									);
 								})}
 								</Grid>
 							</Grid>) : null}
 							{project.tools.length!==0 ? (
-							<Grid item container direction='row'>
+							<Grid item container direction='row' spacing={1}>
 								<Grid item>
-									<Typography variant='body2' color='textSecondary'>Tools:{'  '}</Typography>
+									<Typography variant='body2' color='textSecondary'>Tools:</Typography>
 								</Grid>
 								<Grid item>
 								{project.tools.map((el: any, i: number) => {
 									return (
-										<Typography variant='caption'>
+										<Typography variant='body2' color='secondary' style={{fontSize: 14, fontWeight: 500}}>
 											{el} {i === project.tools.length - 1 ? '' : ','}
 										</Typography>
 									);
@@ -370,14 +377,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 								</Grid>
 							</Grid>) : null}
 							{project.skills.length!==0 ? (
-							<Grid item container direction='row'>
+							<Grid item container direction='row' spacing={1}>
 								<Grid item>
-									<Typography variant='body2' color='textSecondary'>Skills:{'  '}</Typography>
+									<Typography variant='body2' color='textSecondary'>Skills:</Typography>
 								</Grid>
 								<Grid item>
 								{project.skills.map((el: any, i: number) => {
 									return (
-										<Typography variant='caption'>
+										<Typography variant='body2' color='secondary' style={{fontSize: 14, fontWeight: 500}}>
 											{el} {i === project.skills.length - 1 ? '' : ','}
 										</Typography>
 									);

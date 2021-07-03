@@ -165,7 +165,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ review, project }) => {
 						<Typography color='textSecondary' variant='body2'>{numlikes}</Typography>
 					</Box>
 					<Box className={classes.countBox}> 
-						<Link onClick={toggleOpen} color='textPrimary' style={{fontWeight: 500, fontSize: 13}}> {review.reviewDetails.replies?.length || 0} Replies</Link>
+						<Link onClick={toggleOpen} color='textPrimary' style={{fontWeight: 600, fontSize: 13}}> {review.reviewDetails.replies?.length || 0} Replies</Link>
 					</Box>
 				</Box>
 				<CardActions>

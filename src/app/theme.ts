@@ -21,7 +21,7 @@ const typography = {
 	h3: {
 		fontSize: 30,
 		fontWeight: 500,
-		color: 'white',
+		color: 'black',
 	},
 	h4: {
 		fontSize: 20,
@@ -29,7 +29,8 @@ const typography = {
 		color: 'black',
 	},
 	subtitle1: {
-		color: 'white',
+		color: 'black',
+		fontWeight: 400
 	},
 	h5: {
 		fontSize: 16,

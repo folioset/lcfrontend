@@ -129,7 +129,7 @@ const UpdateProject: React.FC<UpdateProjectProps> = React.forwardRef(
 			title: project.title,
 			description: project.description,
 			contributors: project.contributors
-				? project.contributors.map((el: any) => el)
+				? project.contributorDetailsArr.map((el: any) => el.name)
 				: [],
 			file: null,
 		};
