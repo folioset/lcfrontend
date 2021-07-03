@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Paper from '@material-ui/core/Paper';
 import Modal from '@material-ui/core/Modal';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -22,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 		borderWidth: 5,
 		borderColor: '#111111',
 		elevation: 0,
-		boxShadow: '0 0 3px 1px rgba(0, 0, 0, 0.1)'
+		boxShadow: '0 0 3px 1px rgba(0, 0, 0, 0.1)',
 	},
 	details: {
 		padding: theme.spacing(3),
@@ -89,47 +88,46 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 				</Modal>
 			)}
 			<Box className={classes.root}>
-					<Grid container direction='row'>
-						<Grid item xs={12} sm={11} className={classes.details}>
-							<Avatar
-								className={classes.avatar}
-								alt={user.name}
-								src={user.profilePicture}
-							/>
+				<Grid container direction='row'>
+					<Grid item xs={12} sm={11} className={classes.details}>
+						<Avatar
+							className={classes.avatar}
+							alt={user.name}
+							src={user.profilePicture}
+						/>
 
-							<Typography gutterBottom variant='h4'>
-								{user.name}
+						<Typography gutterBottom variant='h4'>
+							{user.name}
+						</Typography>
+						{user.about && (
+							<Typography
+								variant='body2'
+								gutterBottom
+								className={classes.about}>
+								{user.about}
 							</Typography>
-							{user.about && (
-								<Typography
-									variant='body2'
-									gutterBottom
-									className={classes.about}>
-									{user.about}
-								</Typography>
-							)}
-							{user.location && (
-								<Typography variant='body2' color='textSecondary'>
-									{user.location}
-								</Typography>
-							)}
-							{!isPublic && (
-								<Box className={classes.addProjectGridBtn}>
-									<Button color='primary' variant='contained' onClick={onOpen}>
-										Add Project
-									</Button>
-								</Box>
-							)}
-						</Grid>
-						<Grid item xs={12} sm={1} className={classes.editIcon}>
-							{!isPublic && (
-								<IconButton
-									onClick={() => history.push('/dashboard/me/update')}>
-									<EditIcon color='primary' />
-								</IconButton>
-							)}
-						</Grid>
+						)}
+						{user.location && (
+							<Typography variant='body2' color='textSecondary'>
+								{user.location}
+							</Typography>
+						)}
+						{!isPublic && (
+							<Box className={classes.addProjectGridBtn}>
+								<Button color='primary' variant='contained' onClick={onOpen}>
+									Add Project
+								</Button>
+							</Box>
+						)}
 					</Grid>
+					<Grid item xs={12} sm={1} className={classes.editIcon}>
+						{!isPublic && (
+							<IconButton onClick={() => history.push('/dashboard/me/update')}>
+								<EditIcon color='primary' />
+							</IconButton>
+						)}
+					</Grid>
+				</Grid>
 			</Box>
 		</>
 	);

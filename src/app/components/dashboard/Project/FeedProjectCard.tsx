@@ -1,10 +1,4 @@
-import {
-	CardActions,
-	Link,
-	makeStyles,
-	Theme,
-	Typography,
-} from '@material-ui/core';
+import { Link, makeStyles, Theme, Typography } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import * as React from 'react';
@@ -22,7 +16,7 @@ const useStyles = makeStyles((theme: Theme) => {
 		name: {
 			cursor: 'pointer',
 			fontSize: 17,
-			fontWeight: 520
+			fontWeight: 520,
 		},
 		root: {
 			marginBottom: theme.spacing(4),
@@ -30,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) => {
 			borderWidth: 5,
 			borderColor: '#111111',
 			elevation: 0,
-			boxShadow: '0 0 3px 1px rgba(0, 0, 0, 0.1)'
+			boxShadow: '0 0 3px 1px rgba(0, 0, 0, 0.1)',
 		},
 	};
 });
@@ -53,11 +47,7 @@ const FeedProject: React.FC<FeedProjectProps> = ({ project }) => {
 							{project.name}
 						</Link>
 					}
-					subheader={
-						<Typography variant='body2'>
-							{project.about}
-						</Typography>
-					}
+					subheader={<Typography variant='body2'>{project.about}</Typography>}
 				/>
 				<ProjectCard isPublic project={project} />
 			</Card>

@@ -101,20 +101,44 @@ const useStyles = makeStyles((theme: Theme) => {
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',
+
+			[theme.breakpoints.down('xs')]: {
+				flexDirection: 'column',
+			},
+		},
+		centeredButton: {
+			display: 'flex',
+			justifyContent: 'center',
+
+			[theme.breakpoints.down('xs')]: {
+				marginBottom: theme.spacing(3),
+			},
+		},
+		description: {
+			[theme.breakpoints.down('xs')]: {
+				textAlign: 'left',
+				fontSize: 15,
+				marginBottom: theme.spacing(3),
+			},
 		},
 		centeredPadding: {
 			display: 'flex',
 			justifyContent: 'center',
 			paddingLeft: theme.spacing(3),
 			paddingRight: theme.spacing(3),
+
+			[theme.breakpoints.down('xs')]: {
+				paddingLeft: 0,
+				paddingRight: 0,
+			},
 		},
 		collabBox: {
 			display: 'flex',
 			justifyContent: 'center',
 			paddingLeft: theme.spacing(4),
 			borderLeftWidth: '1px',
-			borderLeftColor: theme.palette.divider,	
-			borderLeftStyle: 'solid'
+			borderLeftColor: theme.palette.divider,
+			borderLeftStyle: 'solid',
 		},
 		pdf: {
 			height: '100vh',
@@ -148,16 +172,31 @@ const useStyles = makeStyles((theme: Theme) => {
 			alignItems: 'center',
 			textAlign: 'center',
 			paddingLeft: theme.spacing(1),
+
 			[theme.breakpoints.down('xs')]: {
 				justifyContent: 'flex-start',
 			},
 		},
+		avgRatingBox: {
+			display: 'flex',
+			justifyContent: 'space-around',
+			alignItems: 'center',
+		},
 		ratingBox: {
-			display: 'flex', 
-			justifyContent: 'space-around', 
-			alignItems: 'center', 
-			// backgroundColor: theme.palette.primary.main
-		}
+			display: 'flex',
+			justifyContent: 'center',
+			alignItems: 'center',
+
+			[theme.breakpoints.down('xs')]: {
+				marginTop: 10,
+				flexDirection: 'column',
+				alignItems: 'start',
+
+				'& h6': {
+					paddingLeft: theme.spacing(1),
+				},
+			},
+		},
 	};
 });
 
@@ -172,7 +211,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 	const [rating, setRating] = React.useState(0);
 	const classes = useStyles();
 	const { isOpen, toggleOpen, onOpen } = useDisclosure();
-	const [type, setType] = React.useState<'comment' | 'suggestion'>('comment');
+	const [type] = React.useState<'comment' | 'suggestion'>('comment');
 	const location = useLocation();
 
 	// Project Modal Toggler
@@ -319,14 +358,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 				/>
 				<CardContent className={classes.cardContent}>
 					<Grid container direction='row' className={classes.centered}>
-						<Grid item sm={1} style={{ display: 'flex', justifyContent: 'center' }}>
-						    <Button
-										variant='contained'
-										size='small'
-										color='primary'
-										onClick={onModalOpen}>
-										View
-									</Button>
+						<Grid item sm={1} className={classes.centeredButton}>
+							<Button
+								variant='contained'
+								size='small'
+								color='primary'
+								onClick={onModalOpen}>
+								View
+							</Button>
 						</Grid>
 						<Grid item sm={6} className={classes.centeredPadding}>
 							<Grid
@@ -335,63 +374,87 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 								style={{ display: 'flex', justifyContent: 'center' }}>
 								<Grid item>
 									{project.description && (
-										<Typography>{project.description}</Typography>
+										<Typography className={classes.description}>
+											{project.description}
+										</Typography>
 									)}
 								</Grid>
 							</Grid>
 						</Grid>
-						<Grid item sm={5} container direction='column' className={classes.collabBox}>
-							{project.contributors.length!==0 ? (
-							<Grid item container direction='row'>
-								<Grid item style={{marginRight: 5}}>
-									<Typography variant='body2' color='textSecondary'>Contributors:</Typography>
-								</Grid>
-								<Grid item>
-								{project.contributorDetailsArr?.map((el: any, i: number) => {
-									return (
-										<Link
-										component={RouterLink}
-										to={`/public/users/${el._id}`}
-										color='primary'
-										style={{fontSize: 14, fontWeight: 550}}>
-										{el.name}
-										{i === project.contributors.length - 1 ? '' : ', '}
-									</Link>
-									);
-								})}
-								</Grid>
-							</Grid>) : null}
-							{project.tools.length!==0 ? (
-							<Grid item container direction='row'>
-								<Grid item style={{marginRight: 5}}>
-									<Typography variant='body2' color='textSecondary'>Tools:</Typography>
-								</Grid>
-								<Grid item>
-								{project.tools.map((el: any, i: number) => {
-									return (
-										<Typography variant='body2' color='secondary' style={{fontSize: 14, fontWeight: 500}}>
-											{el} {i === project.tools.length - 1 ? '' : ','}
+						<Grid
+							item
+							sm={5}
+							container
+							direction='column'
+							className={classes.collabBox}>
+							{project.contributors.length !== 0 ? (
+								<Grid item container direction='row'>
+									<Grid item style={{ marginRight: 5 }}>
+										<Typography variant='body2' color='textSecondary'>
+											Contributors:
 										</Typography>
-									);
-								})}
+									</Grid>
+									<Grid item>
+										{project.contributorDetailsArr?.map(
+											(el: any, i: number) => {
+												return (
+													<Link
+														component={RouterLink}
+														to={`/public/users/${el._id}`}
+														color='primary'
+														style={{ fontSize: 14, fontWeight: 550 }}>
+														{el.name}
+														{i === project.contributors.length - 1 ? '' : ', '}
+													</Link>
+												);
+											}
+										)}
+									</Grid>
 								</Grid>
-							</Grid>) : null}
-							{project.skills.length!==0 ? (
-							<Grid item container direction='row'>
-								<Grid item style={{marginRight: 5}}>
-									<Typography variant='body2' color='textSecondary'>Skills:</Typography>
-								</Grid>
-								<Grid item>
-								{project.skills.map((el: any, i: number) => {
-									return (
-										<Typography variant='body2' color='secondary' style={{fontSize: 14, fontWeight: 500}}>
-											{el} {i === project.skills.length - 1 ? '' : ','}
+							) : null}
+							{project.tools.length !== 0 ? (
+								<Grid item container direction='row'>
+									<Grid item style={{ marginRight: 5 }}>
+										<Typography variant='body2' color='textSecondary'>
+											Tools:
 										</Typography>
-									);
-								})}
+									</Grid>
+									<Grid item>
+										{project.tools.map((el: any, i: number) => {
+											return (
+												<Typography
+													variant='body2'
+													color='secondary'
+													style={{ fontSize: 14, fontWeight: 500 }}>
+													{el} {i === project.tools.length - 1 ? '' : ','}
+												</Typography>
+											);
+										})}
+									</Grid>
 								</Grid>
-							</Grid>) : null}
-					    </Grid>
+							) : null}
+							{project.skills.length !== 0 ? (
+								<Grid item container direction='row'>
+									<Grid item style={{ marginRight: 5 }}>
+										<Typography variant='body2' color='textSecondary'>
+											Skills:
+										</Typography>
+									</Grid>
+									<Grid item>
+										{project.skills.map((el: any, i: number) => {
+											return (
+												<Typography
+													variant='body2'
+													color='secondary'
+													style={{ fontSize: 14, fontWeight: 500 }}>
+													{el} {i === project.skills.length - 1 ? '' : ','}
+												</Typography>
+											);
+										})}
+									</Grid>
+								</Grid>
+							) : null}
+						</Grid>
 					</Grid>
 				</CardContent>
 				<CardActions className={classes.cardActions}>
@@ -407,26 +470,25 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 									alignItems: 'center',
 								}}>
 								<Grid item sm={1} className={classes.avgRating}>
-									<Box className={classes.ratingBox}>
-									    <Typography variant='h4' style={{fontSize: 18}}>
-											{project.avgRating?.toFixed(1)} 
+									<Box className={classes.avgRatingBox}>
+										<Typography variant='h4' style={{ fontSize: 18 }}>
+											{project.avgRating?.toFixed(1)}
 										</Typography>
 										<StarRateIcon color='primary' />
-										<Typography color='textSecondary' variant='h5' style={{marginLeft: 1}}>
+										<Typography
+											color='textSecondary'
+											variant='h5'
+											style={{ marginLeft: 1 }}>
 											({project.numberOfRatings})
 										</Typography>
-							        </Box>
+									</Box>
 								</Grid>
 								<Grid item className={classes.centeredPadding}>
-									<Box
-										style={{
-											display: 'flex',
-											justifyContent: 'center',
-											alignItems: 'center',
-										}}>
-										<Typography variant='h5' color='textSecondary'>
+									<Box className={classes.ratingBox}>
+										<Typography variant='subtitle2' color='textSecondary'>
 											Add Rating:
 										</Typography>
+
 										<Rating
 											value={rating}
 											onChange={(e: any) => {
