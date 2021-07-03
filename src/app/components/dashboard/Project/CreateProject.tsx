@@ -214,7 +214,7 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 												filename={values.file?.name}
 												icon={<PictureAsPdf />}
 											/>
-											<Box mb={2} mt={2}>
+											<Box mb={3} mt={3}>
 												{!isLoading ? (
 													<Autocomplete
 														multiple
@@ -253,7 +253,7 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 												)}
 											</Box>
 
-											<Box mb={2}>
+											<Box mb={3}>
 												<Autocomplete
 													multiple
 													id='skills-auto-complete'
@@ -275,7 +275,7 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 												/>
 											</Box>
 
-											<Box mb={2}>
+											<Box mb={3}>
 												<Autocomplete
 													multiple
 													id='tools-auto-complete'

@@ -225,7 +225,7 @@ const UpdateProject: React.FC<UpdateProjectProps> = React.forwardRef(
 												filename={values?.file?.name}
 												icon={<PictureAsPdf />}
 											/>
-											<Box mb={2}>
+											<Box mb={3} mt={3}>
 												{users && (
 													<Autocomplete
 														multiple
@@ -255,7 +255,7 @@ const UpdateProject: React.FC<UpdateProjectProps> = React.forwardRef(
 												)}
 											</Box>
 
-											<Box mb={2}>
+											<Box mb={3}>
 												<Autocomplete
 													multiple
 													id='skills-auto-complete'
@@ -278,7 +278,7 @@ const UpdateProject: React.FC<UpdateProjectProps> = React.forwardRef(
 												/>
 											</Box>
 
-											<Box mb={2}>
+											<Box mb={3}>
 												<Autocomplete
 													multiple
 													defaultValue={[...project.tools]}

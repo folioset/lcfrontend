@@ -19,8 +19,10 @@ interface FeedProjectProps {
 
 const useStyles = makeStyles((theme: Theme) => {
 	return {
-		username: {
+		name: {
 			cursor: 'pointer',
+			fontSize: 17,
+			fontWeight: 520
 		},
 		root: {
 			marginBottom: theme.spacing(4),
@@ -41,15 +43,20 @@ const FeedProject: React.FC<FeedProjectProps> = ({ project }) => {
 			<Card className={classes.root}>
 				<CardHeader
 					avatar={<Avatar aria-label='user' src={project.profilePicture} />}
-					title={<Typography>{project.name}</Typography>}
-					subheader={
+					title={
 						<Link
 							component={RouterLink}
 							to={`/public/users/${project.createdBy}`}
-							className={classes.username}
-							color='primary'>
-							{'@' + project.username}
+							className={classes.name}
+							color='secondary'
+							variant='h4'>
+							{project.name}
 						</Link>
+					}
+					subheader={
+						<Typography variant='body2'>
+							{project.about}
+						</Typography>
 					}
 				/>
 				<ProjectCard isPublic project={project} />

@@ -342,28 +342,28 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 						</Grid>
 						<Grid item sm={5} container direction='column' className={classes.collabBox}>
 							{project.contributors.length!==0 ? (
-							<Grid item container direction='row' spacing={1}>
-								<Grid item>
-									<Typography variant='body2' color='textSecondary'>Collaborators:</Typography>
+							<Grid item container direction='row'>
+								<Grid item style={{marginRight: 5}}>
+									<Typography variant='body2' color='textSecondary'>Contributors:</Typography>
 								</Grid>
 								<Grid item>
-								{project.contributorDetailsArr.map((el: any, i: number) => {
+								{project.contributorDetailsArr?.map((el: any, i: number) => {
 									return (
 										<Link
 										component={RouterLink}
 										to={`/public/users/${el._id}`}
 										color='primary'
-										style={{fontSize: 14, fontWeight: 500}}>
+										style={{fontSize: 14, fontWeight: 550}}>
 										{el.name}
-										{i === project.contributors.length - 1 ? '' : ','}
+										{i === project.contributors.length - 1 ? '' : ', '}
 									</Link>
 									);
 								})}
 								</Grid>
 							</Grid>) : null}
 							{project.tools.length!==0 ? (
-							<Grid item container direction='row' spacing={1}>
-								<Grid item>
+							<Grid item container direction='row'>
+								<Grid item style={{marginRight: 5}}>
 									<Typography variant='body2' color='textSecondary'>Tools:</Typography>
 								</Grid>
 								<Grid item>
@@ -377,8 +377,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 								</Grid>
 							</Grid>) : null}
 							{project.skills.length!==0 ? (
-							<Grid item container direction='row' spacing={1}>
-								<Grid item>
+							<Grid item container direction='row'>
+								<Grid item style={{marginRight: 5}}>
 									<Typography variant='body2' color='textSecondary'>Skills:</Typography>
 								</Grid>
 								<Grid item>

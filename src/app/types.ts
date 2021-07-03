@@ -31,7 +31,6 @@ export type Project = {
 	avgRating?: number;
 	_id: string;
 	numberOfRatings: number;
-	contributorDetailsArr: string[];
 	tools: string[];
 	skills: string[];
 	contributorDetailsArr?: User[];
@@ -40,6 +39,7 @@ export type Project = {
 export type ProjectFeed = Project & {
 	username: string;
 	name: string;
+	about: string;
 	profilePicture: string;
 };
 

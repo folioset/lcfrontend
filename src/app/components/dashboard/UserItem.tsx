@@ -93,7 +93,7 @@ const UserItem: React.FC<UserItemProps> = ({ user }) => {
 								xs={10}
 								justify='center'
 								className={classes.projectsNum}>
-								<Typography variant='h5' color='primary'>
+								<Typography variant='h5' color='primary' style={{fontWeight: 500}}>
 									{user.numberOfProjects} projects
 								</Typography>
 							</Grid>

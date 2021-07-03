@@ -122,14 +122,14 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 								}}>
 								<Box paddingTop={3}>
 									<NavItem
-										icon={<AccountCircleIcon color='primary' />}
+										icon={<AccountCircleIcon color='secondary' />}
 										dropdown
 										exact
 										to='/dashboard'>
 										Profile
 									</NavItem>
 									<NavItem
-										icon={<EditIcon color='primary' />}
+										icon={<EditIcon color='secondary' />}
 										dropdown
 										exact
 										to='/dashboard/me/update'>

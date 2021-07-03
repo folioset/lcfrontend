@@ -40,9 +40,6 @@ const Feed: React.FC<FeedProps> = () => {
 	return (
 		<>
 			<Container maxWidth='md' className={classes.container}>
-				<Typography variant='h2' className={classes.heading}>
-					My Feed
-				</Typography>
 				{isLoading && (
 					<Typography className={classes.loading} variant='caption'>
 						Loading Feed...
