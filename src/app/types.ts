@@ -33,6 +33,7 @@ export type Project = {
 	numberOfRatings: number;
 	tools: string[];
 	skills: string[];
+	contributorDetailsArr?: User[];
 };
 
 export type ProjectFeed = Project & {

@@ -38,12 +38,12 @@ const validationSchema = Yup.object().shape({
 		.notRequired()
 		.max(200, 'You can only enter a max of 200 characters'),
 	file: Yup.mixed()
-		.notRequired()
 		.test(
 			'fileFormat',
 			'Unsupported Format. Please upload pdfs only',
-			(value: File) => value && SUPPORTED_FORMATS.includes(value.type)
-		),
+			(value: File) => (value ? SUPPORTED_FORMATS.includes(value?.type) : true)
+		)
+		.notRequired(),
 });
 
 const useStyles = makeStyles((theme: Theme) => {
@@ -85,11 +85,39 @@ const useStyles = makeStyles((theme: Theme) => {
 	};
 });
 
+const SKILLS = [
+	'User Research',
+	'Market Research',
+	'Competitive Analysis',
+	'Business Strategy',
+	'Go to Market Strategy',
+	'Product Roadmapping',
+	'Product Prioritization',
+	'Writing User Stories',
+	'Product Metrics',
+	'Product Analytics',
+	'Product Requirements Gathering',
+	'User Experience Design',
+];
+
+const TOOLS = [
+	'Figma',
+	'Adobe XD',
+	'Balsamiq',
+	'Google Analytics',
+	'Heap',
+	'Mixpanel',
+	'Amplitude',
+	'JIRA',
+];
+
 interface InitialValues {
 	title: string;
 	description: string;
-	contributors: string[];
+	contributors: any;
 	file: null | File;
+	tools: string[];
+	skills: string[];
 }
 
 const UpdateProject: React.FC<UpdateProjectProps> = React.forwardRef(
@@ -128,11 +156,13 @@ const UpdateProject: React.FC<UpdateProjectProps> = React.forwardRef(
 		const initialValues: InitialValues = {
 			title: project.title,
 			description: project.description,
-			contributors: project.contributors
-				? project.contributors.map((el: any) => el)
-				: [],
+			contributors: project.contributors.length > 0 ? project.contributors : [],
 			file: null,
+			skills: project.skills || [],
+			tools: project.tools || [],
 		};
+
+		console.log(initialValues);
 
 		return (
 			<>
@@ -154,11 +184,15 @@ const UpdateProject: React.FC<UpdateProjectProps> = React.forwardRef(
 									description,
 									contributors,
 									file,
+									skills,
+									tools,
 								}) => {
 									const data = new FormData();
 									data.append('title', title);
 									data.append('description', description);
 									data.append('contributors', JSON.stringify(contributors));
+									data.append('skills', JSON.stringify(skills));
+									data.append('tools', JSON.stringify(tools));
 									if (file) {
 										data.append('file', file);
 									}
@@ -197,6 +231,7 @@ const UpdateProject: React.FC<UpdateProjectProps> = React.forwardRef(
 														multiple
 														id='contributors-auto-complete'
 														options={users}
+														defaultValue={[...project.contributorDetailsArr!]}
 														onChange={(
 															e: React.ChangeEvent<{}>,
 															value: any
@@ -218,6 +253,52 @@ const UpdateProject: React.FC<UpdateProjectProps> = React.forwardRef(
 														)}
 													/>
 												)}
+											</Box>
+
+											<Box mb={2}>
+												<Autocomplete
+													multiple
+													id='skills-auto-complete'
+													options={SKILLS}
+													defaultValue={[...project.skills]}
+													onChange={(e: React.ChangeEvent<{}>, value: any) => {
+														setFieldValue('skills', value);
+													}}
+													getOptionLabel={(option: any) => option}
+													renderInput={(params) => (
+														<TextField
+															{...params}
+															fullWidth
+															variant='outlined'
+															name='skills'
+															size='small'
+															label='Skills'
+														/>
+													)}
+												/>
+											</Box>
+
+											<Box mb={2}>
+												<Autocomplete
+													multiple
+													defaultValue={[...project.tools]}
+													id='tools-auto-complete'
+													options={TOOLS}
+													onChange={(e: React.ChangeEvent<{}>, value: any) => {
+														setFieldValue('tools', value);
+													}}
+													getOptionLabel={(option: any) => option}
+													renderInput={(params) => (
+														<TextField
+															{...params}
+															fullWidth
+															variant='outlined'
+															name='tools'
+															size='small'
+															label='Tools'
+														/>
+													)}
+												/>
 											</Box>
 
 											<Button
