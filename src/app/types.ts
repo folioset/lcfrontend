@@ -34,6 +34,7 @@ export type Project = {
 	tools: string[];
 	skills: string[];
 	contributorDetailsArr?: User[];
+	lastUpdatedDate?: Date;
 };
 
 export type ProjectFeed = Project & {

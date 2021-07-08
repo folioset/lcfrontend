@@ -193,6 +193,7 @@ const UpdateProject: React.FC<UpdateProjectProps> = React.forwardRef(
 									data.append('contributors', JSON.stringify(contributors));
 									data.append('skills', JSON.stringify(skills));
 									data.append('tools', JSON.stringify(tools));
+									data.append('isUpdated', 'true');
 									if (file) {
 										data.append('file', file);
 									}
