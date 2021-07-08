@@ -133,13 +133,17 @@ const useStyles = makeStyles((theme: Theme) => {
 				paddingRight: 0,
 			},
 		},
+		thumbnail: {
+			paddingRight: theme.spacing(4),
+			borderRightWidth: '1px',
+			borderRightColor: theme.palette.divider,
+			borderRightStyle: 'solid',
+		},
 		collabBox: {
 			display: 'flex',
 			justifyContent: 'center',
 			paddingLeft: theme.spacing(4),
-			borderLeftWidth: '1px',
-			borderLeftColor: theme.palette.divider,
-			borderLeftStyle: 'solid',
+			
 		},
 		pdf: {
 			height: '100vh',
@@ -361,29 +365,64 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 				/>
 				<CardContent className={classes.cardContent}>
 					<Grid container direction='row' className={classes.centered}>
-						<Grid item sm={1} className={classes.centeredButton}>
+						<Grid item sm={6} className={classes.thumbnail}>
 							<PdfThumbnail file={project.projectFile} onClick={onModalOpen} />
-						</Grid>
-						<Grid item sm={6} className={classes.centeredPadding}>
-							<Grid
-								container
-								direction='column'
-								style={{ display: 'flex', justifyContent: 'center' }}>
-								<Grid item>
-									{project.description && (
-										<Typography className={classes.description}>
-											{project.description}
-										</Typography>
-									)}
-								</Grid>
-							</Grid>
 						</Grid>
 						<Grid
 							item
-							sm={5}
+							sm={6}
 							container
 							direction='column'
 							className={classes.collabBox}>
+							{project.description && (
+								<Grid item style={{marginBottom: 10}}>
+										<Typography className={classes.description}>
+											{project.description}
+										</Typography>
+								</Grid>
+							)}
+							{project.skills.length !== 0 ? (
+								<Grid item container direction='row'>
+									<Grid item style={{ marginRight: 5 }}>
+										<Typography variant='body2' color='textSecondary'>
+											Skills:
+										</Typography>
+									</Grid>
+									<Grid item>
+										{project.skills.map((el: any, i: number) => {
+											return (
+												<Typography
+													key={i}
+													variant='body2'
+													style={{fontWeight: 500 }}>
+													{el} {i === project.skills.length - 1 ? '' : ','}
+												</Typography>
+											);
+										})}
+									</Grid>
+								</Grid>
+							) : null}
+							{project.tools.length !== 0 ? (
+								<Grid item container direction='row'>
+									<Grid item style={{ marginRight: 5 }}>
+										<Typography variant='body2' color='textSecondary'>
+											Tools:
+										</Typography>
+									</Grid>
+									<Grid item>
+										{project.tools.map((el: any, i: number) => {
+											return (
+												<Typography
+													key={i}
+													variant='body2'
+													style={{ fontWeight: 500 }}>
+													{el} {i === project.tools.length - 1 ? '' : ','}
+												</Typography>
+											);
+										})}
+									</Grid>
+								</Grid>
+							) : null}
 							{project.contributors.length !== 0 ? (
 								<Grid item container direction='row'>
 									<Grid item style={{ marginRight: 5 }}>
@@ -407,50 +446,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 												);
 											}
 										)}
-									</Grid>
-								</Grid>
-							) : null}
-							{project.tools.length !== 0 ? (
-								<Grid item container direction='row'>
-									<Grid item style={{ marginRight: 5 }}>
-										<Typography variant='body2' color='textSecondary'>
-											Tools:
-										</Typography>
-									</Grid>
-									<Grid item>
-										{project.tools.map((el: any, i: number) => {
-											return (
-												<Typography
-													key={i}
-													variant='body2'
-													color='secondary'
-													style={{ fontSize: 14, fontWeight: 500 }}>
-													{el} {i === project.tools.length - 1 ? '' : ','}
-												</Typography>
-											);
-										})}
-									</Grid>
-								</Grid>
-							) : null}
-							{project.skills.length !== 0 ? (
-								<Grid item container direction='row'>
-									<Grid item style={{ marginRight: 5 }}>
-										<Typography variant='body2' color='textSecondary'>
-											Skills:
-										</Typography>
-									</Grid>
-									<Grid item>
-										{project.skills.map((el: any, i: number) => {
-											return (
-												<Typography
-													key={i}
-													variant='body2'
-													color='secondary'
-													style={{ fontSize: 14, fontWeight: 500 }}>
-													{el} {i === project.skills.length - 1 ? '' : ','}
-												</Typography>
-											);
-										})}
 									</Grid>
 								</Grid>
 							) : null}
