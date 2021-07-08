@@ -212,7 +212,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 	const [rating, setRating] = React.useState(0);
 	const classes = useStyles();
 	const { isOpen, toggleOpen, onOpen } = useDisclosure();
-	const [type] = React.useState<'comment' | 'suggestion'>('comment');
 	const location = useLocation();
 
 	// Project Modal Toggler
@@ -521,7 +520,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 									onSubmit={async ({ review }, { resetForm }) => {
 										const data = {
 											review,
-											category: type,
+											category: 'feedback',
 										};
 										await addReview(data as any);
 										resetForm();

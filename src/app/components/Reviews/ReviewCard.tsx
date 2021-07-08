@@ -43,7 +43,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 	const classes = useStyles();
-	console.log(review);
 
 	return (
 		<Card elevation={0} className={classes.root}>

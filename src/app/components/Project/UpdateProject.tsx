@@ -162,8 +162,6 @@ const UpdateProject: React.FC<UpdateProjectProps> = React.forwardRef(
 			tools: project.tools || [],
 		};
 
-		console.log(initialValues);
-
 		return (
 			<>
 				<Grid container className={classes.container}>
