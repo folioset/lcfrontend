@@ -360,13 +360,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 				<CardContent className={classes.cardContent}>
 					<Grid container direction='row' className={classes.centered}>
 						<Grid item sm={1} className={classes.centeredButton}>
-							{/* <Button
-								variant='contained'
-								size='small'
-								color='primary'
-								onClick={onModalOpen}>
-								View
-							</Button> */}
 							<PdfThumbnail file={project.projectFile} onClick={onModalOpen} />
 						</Grid>
 						<Grid item sm={6} className={classes.centeredPadding}>
@@ -401,6 +394,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 											(el: any, i: number) => {
 												return (
 													<Link
+														key={i}
 														component={RouterLink}
 														to={`/public/users/${el._id}`}
 														color='primary'
@@ -425,6 +419,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 										{project.tools.map((el: any, i: number) => {
 											return (
 												<Typography
+													key={i}
 													variant='body2'
 													color='secondary'
 													style={{ fontSize: 14, fontWeight: 500 }}>
@@ -446,6 +441,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 										{project.skills.map((el: any, i: number) => {
 											return (
 												<Typography
+													key={i}
 													variant='body2'
 													color='secondary'
 													style={{ fontSize: 14, fontWeight: 500 }}>
@@ -515,7 +511,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 							<Grid item>
 								<Formik
 									initialValues={{
-										review: '',
+										review: ``,
 									}}
 									validateOnBlur={false}
 									validationSchema={validationSchema}
@@ -527,24 +523,28 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 										await addReview(data as any);
 										resetForm();
 									}}>
-									<>
-										<Form
-											autoComplete='off'
-											style={{ display: 'flex', alignItems: 'center' }}>
-											<FormInput
-												multiline
-												name='review'
-												className={classes.comment}
-												fullWidth
-												placeholder={`Share your feedback...`}
-												variant='outlined'
-												size='small'
-											/>
-											<IconButton type='submit' color='primary'>
-												<SendIcon />
-											</IconButton>
-										</Form>
-									</>
+									{({ values }) => {
+										return (
+											<>
+												<Form
+													autoComplete='off'
+													style={{ display: 'flex', alignItems: 'center' }}>
+													<FormInput
+														multiline
+														name='review'
+														className={classes.comment}
+														fullWidth
+														placeholder={`Share your feedback...`}
+														variant='outlined'
+														size='small'
+													/>
+													<IconButton type='submit' color='primary'>
+														<SendIcon />
+													</IconButton>
+												</Form>
+											</>
+										);
+									}}
 								</Formik>
 							</Grid>
 						</Grid>

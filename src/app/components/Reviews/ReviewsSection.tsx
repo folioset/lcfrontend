@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme: Theme) =>
 		},
 		comment: {
 			'& fieldset': {
-				borderRadius: 500,
+				borderRadius: 30,
 			},
 		},
 		replyForm: {
@@ -210,6 +210,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ review, project }) => {
 									src={user?.profilePicture}
 								/>
 								<FormInput
+									multiline
 									name='review'
 									className={classes.comment}
 									fullWidth
@@ -228,7 +229,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ review, project }) => {
 					{repliesLoading && <Typography>Loading....</Typography>}
 
 					{replies?.map((reply: any) => {
-						return <ReviewCard review={reply} />;
+						return <ReviewCard key={reply._id} review={reply} />;
 					})}
 				</Collapse>
 			</Card>

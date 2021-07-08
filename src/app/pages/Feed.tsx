@@ -45,7 +45,7 @@ const Feed: React.FC<FeedProps> = () => {
 		<>
 			<Container maxWidth='md' className={classes.container}>
 				{data?.map((project: ProjectFeed) => {
-					return <FeedProject {...{ project }} />;
+					return <FeedProject key={project._id} {...{ project }} />;
 				})}
 			</Container>
 		</>

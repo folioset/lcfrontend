@@ -43,6 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 	const classes = useStyles();
+	console.log(review);
 
 	return (
 		<Card elevation={0} className={classes.root}>
@@ -73,7 +74,12 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 				}
 			/>
 			<CardContent className={classes.content}>
-				{review.reviewDetails?.review}
+				{`${review.reviewDetails?.review}`.split('\n').map((el) => {
+					if (!el.length) {
+						return <br />;
+					}
+					return <Typography>{el}</Typography>;
+				})}
 			</CardContent>
 		</Card>
 	);
