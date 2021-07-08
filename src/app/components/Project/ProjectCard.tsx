@@ -29,21 +29,22 @@ import SendIcon from '@material-ui/icons/Send';
 import StarRateIcon from '@material-ui/icons/StarRate';
 
 // components
-import Rating from '../../shared/Rating';
-import ReviewsSection from '../ReviewsSection';
-import PdfViewer from '../../shared/Pdf/PdfViewer';
-import FormInput from '../../shared/FormInput';
+import Rating from '../shared/Rating';
+import ReviewsSection from '../Reviews/ReviewsSection';
+import PdfViewer from '../shared/Pdf/PdfViewer';
+import FormInput from '../shared/FormInput';
 import UpdateProject from './UpdateProject';
 import DeleteProject from './DeleteProject';
 
 // types
-import { Project, Review, User } from '../../../types';
+import { Project, Review, User } from '../../types';
 
 // hooks
-import useDisclosure from '../../../hooks/useDisclosure';
+import useDisclosure from '../../hooks/useDisclosure';
 import { useLocation } from 'react-router-dom';
 
 import { Link as RouterLink } from 'react-router-dom';
+import PdfThumbnail from '../shared/Pdf/PdfThumbnail';
 
 const validationSchema = Yup.object().shape({
 	review: Yup.string()
@@ -91,7 +92,7 @@ const useStyles = makeStyles((theme: Theme) => {
 		},
 		comment: {
 			'& fieldset': {
-				borderRadius: 500,
+				borderRadius: 30,
 			},
 		},
 		section: {
@@ -359,13 +360,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 				<CardContent className={classes.cardContent}>
 					<Grid container direction='row' className={classes.centered}>
 						<Grid item sm={1} className={classes.centeredButton}>
-							<Button
+							{/* <Button
 								variant='contained'
 								size='small'
 								color='primary'
 								onClick={onModalOpen}>
 								View
-							</Button>
+							</Button> */}
+							<PdfThumbnail file={project.projectFile} onClick={onModalOpen} />
 						</Grid>
 						<Grid item sm={6} className={classes.centeredPadding}>
 							<Grid
@@ -530,6 +532,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 											autoComplete='off'
 											style={{ display: 'flex', alignItems: 'center' }}>
 											<FormInput
+												multiline
 												name='review'
 												className={classes.comment}
 												fullWidth

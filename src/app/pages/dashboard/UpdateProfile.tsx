@@ -133,7 +133,10 @@ const UpdateProfile: React.FC = () => {
 											style={{ height: '6rem', width: '6rem' }}
 										/>
 									</Grid>
-									<Grid item xs={7} style={{ display: 'flex', paddingLeft: 10 }}>
+									<Grid
+										item
+										xs={7}
+										style={{ display: 'flex', paddingLeft: 10 }}>
 										<FileUpload
 											btnText='upload profile picture'
 											required={false}

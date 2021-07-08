@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
 		root: {
 			marginBottom: theme.spacing(1),
 			backgroundColor: theme.palette.grey['100'],
-			borderRadius: 10
+			borderRadius: 10,
 		},
 		avatar: {
 			backgroundColor: theme.palette.primary.main,
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
 		content: {
 			marginTop: theme.spacing(3),
 			marginBottom: -10,
-			fontSize: 15
+			fontSize: 15,
 		},
 		comment: {
 			'& fieldset': {
@@ -61,11 +61,15 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 						{review.name.split('')[0]}
 					</Avatar>
 				}
-				title={<Typography variant='body2' style={{fontWeight: 500}}>{review.name}</Typography>}
+				title={
+					<Typography variant='body2' style={{ fontWeight: 500 }}>
+						{review.name}
+					</Typography>
+				}
 				subheader={
-						<Typography color='textSecondary' variant='caption'>
-							{review.about}
-						</Typography>
+					<Typography color='textSecondary' variant='caption'>
+						{review.about}
+					</Typography>
 				}
 			/>
 			<CardContent className={classes.content}>

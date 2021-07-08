@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import { Box, Button, makeStyles, Theme, IconButton } from '@material-ui/core';
 import { User } from '../../types';
 import useDisclosure from '../../hooks/useDisclosure';
-import CreateProject from './Project/CreateProject';
+import CreateProject from '../Project/CreateProject';
 import EditIcon from '@material-ui/icons/Edit';
 import { useHistory } from 'react-router-dom';
 import Avatar from '../shared/Avatar';

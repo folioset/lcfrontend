@@ -2,7 +2,7 @@ import { makeStyles, Box, Container, Typography } from '@material-ui/core';
 import * as React from 'react';
 import { Project, User } from '../../types';
 import ProfileCard from './ProfileCard';
-import ProjectCard from './Project/ProjectCard';
+import ProjectCard from '../Project/ProjectCard';
 
 const useStyles = makeStyles((theme) => {
 	return {

@@ -16,14 +16,14 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 // components
-import FormInput from '../../shared/FormInput';
+import FormInput from '../shared/FormInput';
 
 // types
-import { Project } from '../../../types';
-import useFileUpload from '../../../hooks/useFileUpload';
+import { Project } from '../../types';
+import useFileUpload from '../../hooks/useFileUpload';
 import { PictureAsPdf } from '@material-ui/icons';
-import FileUpload from '../../shared/FileUpload';
-import PdfViewer from '../../shared/Pdf/PdfViewer';
+import FileUpload from '../shared/FileUpload';
+import PdfViewer from '../shared/Pdf/PdfViewer';
 
 interface UpdateProjectProps {
 	onClose: () => void;

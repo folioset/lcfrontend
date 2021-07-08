@@ -2,8 +2,8 @@ import { Link, makeStyles, Theme, Typography } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import * as React from 'react';
-import { ProjectFeed } from '../../../types';
-import Avatar from '../../shared/Avatar';
+import { ProjectFeed } from '../../types';
+import Avatar from '../shared/Avatar';
 import { Link as RouterLink } from 'react-router-dom';
 import ProjectCard from './ProjectCard';
 

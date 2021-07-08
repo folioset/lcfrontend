@@ -13,7 +13,7 @@ import axios from 'axios';
 import * as React from 'react';
 import { useQuery } from 'react-query';
 import { useLocation } from 'react-router-dom';
-import UserItem from '../../components/dashboard/UserItem';
+import UserItem from '../../components/User/UserItem';
 import useAuthRoute from '../../hooks/useAuthRoute';
 import { User } from '../../types';
 import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) => {
 			borderWidth: 5,
 			borderColor: '#111111',
 			elevation: 0,
-			boxShadow: '0 0 3px 1px rgba(0, 0, 0, 0.1)'
+			boxShadow: '0 0 3px 1px rgba(0, 0, 0, 0.1)',
 		},
 		heading: {
 			marginBottom: theme.spacing(3),
@@ -40,8 +40,8 @@ const useStyles = makeStyles((theme: Theme) => {
 			marginBottom: theme.spacing(3),
 		},
 		usersCard: {
-			textAlign: 'center'
-		}
+			textAlign: 'center',
+		},
 	};
 });
 

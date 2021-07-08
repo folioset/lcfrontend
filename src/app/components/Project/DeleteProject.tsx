@@ -12,7 +12,7 @@ import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 // types
-import { Project } from '../../../types';
+import { Project } from '../../types';
 
 interface DeleteProjectProps {
 	project: Project;

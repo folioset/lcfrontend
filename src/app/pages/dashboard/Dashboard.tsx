@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import { Project as ProjectType, User } from '../../types';
 import axios from 'axios';
-import ProfileView from '../../components/dashboard/ProfileView';
+import ProfileView from '../../components/User/ProfileView';
 import useAuthRoute from '../../hooks/useAuthRoute';
 import { useLocation } from 'react-router-dom';
 

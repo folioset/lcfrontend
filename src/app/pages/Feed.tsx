@@ -3,7 +3,7 @@ import Container from '@material-ui/core/Container';
 import * as React from 'react';
 import { useQuery } from 'react-query';
 import axios from 'axios';
-import FeedProject from '../components/dashboard/Project/FeedProjectCard';
+import FeedProject from '../components/Project/FeedProjectCard';
 import { ProjectFeed } from '../types';
 import Loader from '../components/shared/Loader';
 
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) => {
 
 const Feed: React.FC<FeedProps> = () => {
 	const classes = useStyles();
-	const { isLoading, data, isFetching } = useQuery('feed', async () => {
+	const { isLoading, data } = useQuery('feed', async () => {
 		const res = await axios({
 			method: 'get',
 			url: '/api/feed',
@@ -37,8 +37,7 @@ const Feed: React.FC<FeedProps> = () => {
 		return res.data;
 	});
 
-	if (isLoading || isFetching) {
-		console.log('loading...');
+	if (isLoading) {
 		return <Loader fullScreen />;
 	}
 
