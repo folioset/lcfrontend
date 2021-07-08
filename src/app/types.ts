@@ -50,7 +50,7 @@ export type Like = {
 };
 
 export type ReviewDetail = {
-	category: 'suggestion' | 'comment';
+	category: string;
 	createdAt: Date | string | number;
 	updatedAt: Date | string | number;
 

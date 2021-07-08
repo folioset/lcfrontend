@@ -216,7 +216,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 	const [rating, setRating] = React.useState(0);
 	const classes = useStyles();
 	const { isOpen, toggleOpen, onOpen } = useDisclosure();
-	const [type] = React.useState<'comment' | 'suggestion'>('comment');
 	const location = useLocation();
 
 	// Project Modal Toggler
@@ -376,12 +375,54 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 							direction='column'
 							className={classes.collabBox}>
 							{project.description && (
-								<Grid item>
+								<Grid item style={{marginBottom: 10}}>
 										<Typography className={classes.description}>
 											{project.description}
 										</Typography>
 								</Grid>
 							)}
+							{project.skills.length !== 0 ? (
+								<Grid item container direction='row'>
+									<Grid item style={{ marginRight: 5 }}>
+										<Typography variant='body2' color='textSecondary'>
+											Skills:
+										</Typography>
+									</Grid>
+									<Grid item>
+										{project.skills.map((el: any, i: number) => {
+											return (
+												<Typography
+													key={i}
+													variant='body2'
+													style={{fontWeight: 500 }}>
+													{el} {i === project.skills.length - 1 ? '' : ','}
+												</Typography>
+											);
+										})}
+									</Grid>
+								</Grid>
+							) : null}
+							{project.tools.length !== 0 ? (
+								<Grid item container direction='row'>
+									<Grid item style={{ marginRight: 5 }}>
+										<Typography variant='body2' color='textSecondary'>
+											Tools:
+										</Typography>
+									</Grid>
+									<Grid item>
+										{project.tools.map((el: any, i: number) => {
+											return (
+												<Typography
+													key={i}
+													variant='body2'
+													style={{ fontWeight: 500 }}>
+													{el} {i === project.tools.length - 1 ? '' : ','}
+												</Typography>
+											);
+										})}
+									</Grid>
+								</Grid>
+							) : null}
 							{project.contributors.length !== 0 ? (
 								<Grid item container direction='row'>
 									<Grid item style={{ marginRight: 5 }}>
@@ -408,74 +449,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 									</Grid>
 								</Grid>
 							) : null}
-							{project.tools.length !== 0 ? (
-								<Grid item container direction='row'>
-									<Grid item style={{ marginRight: 5 }}>
-										<Typography variant='body2' color='textSecondary'>
-											Tools:
-										</Typography>
-									</Grid>
-									<Grid item>
-										{project.tools.map((el: any, i: number) => {
-											return (
-												<Typography
-													key={i}
-													variant='body2'
-													color='secondary'
-													style={{ fontSize: 14, fontWeight: 500 }}>
-													{el} {i === project.tools.length - 1 ? '' : ','}
-												</Typography>
-											);
-										})}
-									</Grid>
-								</Grid>
-							) : null}
-							{project.skills.length !== 0 ? (
-								<Grid item container direction='row'>
-									<Grid item style={{ marginRight: 5 }}>
-										<Typography variant='body2' color='textSecondary'>
-											Skills:
-										</Typography>
-									</Grid>
-									<Grid item>
-										{project.skills.map((el: any, i: number) => {
-											return (
-												<Typography
-													key={i}
-													variant='body2'
-													color='secondary'
-													style={{ fontSize: 14, fontWeight: 500 }}>
-													{el} {i === project.skills.length - 1 ? '' : ','}
-												</Typography>
-											);
-										})}
-									</Grid>
-								</Grid>
-							) : null}
-							
 						</Grid>
 					</Grid>
-					{/* <Grid item sm={12}>
-							<Grid
-								container
-								direction='column'
-								style={{ display: 'flex', justifyContent: 'center' }}>
-								<Grid item>
-									{project.description && (
-										<Typography className={classes.description}>
-											{project.description}
-										</Typography>
-									)}
-								</Grid>
-							</Grid>
-						</Grid> */}
-					<Box>
-					{project.description && (
-										<Typography className={classes.description}>
-											{project.description}
-										</Typography>
-									)}
-					</Box>
 				</CardContent>
 				<CardActions className={classes.cardActions}>
 					{isPublic && (
@@ -540,7 +515,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 									onSubmit={async ({ review }, { resetForm }) => {
 										const data = {
 											review,
-											category: type,
+											category: 'feedback',
 										};
 										await addReview(data as any);
 										resetForm();
