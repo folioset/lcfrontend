@@ -63,6 +63,8 @@ const useStyles = makeStyles((theme: Theme) => {
 			borderColor: '#111111',
 			elevation: 0,
 			boxShadow: '0 0 3px 1px rgba(0, 0, 0, 0.1)',
+			width: '95%',
+			margin: 'auto',
 		},
 		cardActions: {
 			flexDirection: 'column',
@@ -134,16 +136,13 @@ const useStyles = makeStyles((theme: Theme) => {
 			},
 		},
 		thumbnail: {
-			paddingRight: theme.spacing(4),
-			borderRightWidth: '1px',
-			borderRightColor: theme.palette.divider,
-			borderRightStyle: 'solid',
+			// paddingRight: theme.spacing(4),
 		},
 		collabBox: {
 			display: 'flex',
-			justifyContent: 'center',
-			paddingLeft: theme.spacing(4),
-			
+			justifyContent: 'flex-start',
+			// paddingLeft: theme.spacing(1),
+
 		},
 		pdf: {
 			height: '100vh',
@@ -365,20 +364,22 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 				/>
 				<CardContent className={classes.cardContent}>
 					<Grid container direction='row' className={classes.centered}>
-						<Grid item sm={6} className={classes.thumbnail}>
+						<Grid item sm={12} className={classes.thumbnail}>
 							<PdfThumbnail file={project.projectFile} onClick={onModalOpen} />
 						</Grid>
 						<Grid
 							item
-							sm={6}
+							sm={12}
 							container
 							direction='column'
 							className={classes.collabBox}>
 							{project.description && (
-								<Grid item style={{marginBottom: 10}}>
-										<Typography className={classes.description}>
-											{project.description}
-										</Typography>
+								<Grid item style={{
+									marginBottom: 10
+								}}>
+									<Typography className={classes.description}>
+										{project.description}
+									</Typography>
 								</Grid>
 							)}
 							{project.skills.length !== 0 ? (
@@ -394,7 +395,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 												<Typography
 													key={i}
 													variant='body2'
-													style={{fontWeight: 500 }}>
+													style={{ fontWeight: 500 }}>
 													{el} {i === project.skills.length - 1 ? '' : ','}
 												</Typography>
 											);
