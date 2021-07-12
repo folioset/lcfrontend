@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => {
 			marginLeft: 'auto',
 			display: 'flex',
 			justifyContent: 'center',
-			alignItems: 'center'
+			alignItems: 'center',
 		},
 		formControl: {
 			display: 'flex',
@@ -151,7 +151,7 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 					<Hidden only={['xl', 'lg', 'md']}>
 						<Box ml='auto' color='white'>
 							<IconButton color='inherit' onClick={onOpen}>
-								<MenuIcon color='secondary'/>
+								<MenuIcon color='secondary' />
 							</IconButton>
 						</Box>
 					</Hidden>

@@ -15,6 +15,12 @@ import TextField from '@material-ui/core/TextField';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+
 // components
 import FormInput from '../shared/FormInput';
 
@@ -162,7 +168,14 @@ const UpdateProject: React.FC<UpdateProjectProps> = React.forwardRef(
 			tools: project.tools || [],
 		};
 
-		console.log(initialValues);
+		const [isUpdated, setIsUpdated] = React.useState<'yes' | 'no'>('no');
+
+		const handleRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
+			setIsUpdated((event.target as HTMLInputElement).value as any);
+		};
+
+		// console.log(initialValues);
+		// console.log({ isUpdated });
 
 		return (
 			<>
@@ -193,7 +206,10 @@ const UpdateProject: React.FC<UpdateProjectProps> = React.forwardRef(
 									data.append('contributors', JSON.stringify(contributors));
 									data.append('skills', JSON.stringify(skills));
 									data.append('tools', JSON.stringify(tools));
-									data.append('isUpdated', 'true');
+									if (isUpdated === 'yes') {
+										data.append('isUpdated', 'true');
+									}
+
 									if (file) {
 										data.append('file', file);
 									}
@@ -201,7 +217,7 @@ const UpdateProject: React.FC<UpdateProjectProps> = React.forwardRef(
 								}}
 								initialValues={initialValues}
 								validationSchema={validationSchema}>
-								{({ values, isSubmitting, setFieldValue }) => {
+								{({ values, setFieldValue }) => {
 									return (
 										<Form noValidate autoComplete='off'>
 											<FormInput
@@ -226,6 +242,7 @@ const UpdateProject: React.FC<UpdateProjectProps> = React.forwardRef(
 												filename={values?.file?.name}
 												icon={<PictureAsPdf />}
 											/>
+
 											<Box mb={3} mt={3}>
 												{users && (
 													<Autocomplete
@@ -255,6 +272,29 @@ const UpdateProject: React.FC<UpdateProjectProps> = React.forwardRef(
 													/>
 												)}
 											</Box>
+											<FormControl
+												component='fieldset'
+												style={{ marginBottom: 20 }}>
+												<FormLabel component='legend'>
+													Is this a major update to your existing project ?
+												</FormLabel>
+												<RadioGroup
+													aria-label='updated'
+													name='updated'
+													value={isUpdated}
+													onChange={handleRadio}>
+													<FormControlLabel
+														value='yes'
+														control={<Radio />}
+														label='Yes'
+													/>
+													<FormControlLabel
+														value='no'
+														control={<Radio />}
+														label='No'
+													/>
+												</RadioGroup>
+											</FormControl>
 
 											<Box mb={3}>
 												<Autocomplete

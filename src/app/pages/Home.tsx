@@ -32,6 +32,8 @@ const useStyles = makeStyles((theme) => {
 			},
 		},
 		mainHeading: {
+			fontWeight: 'bold',
+
 			[theme.breakpoints.down('md')]: {
 				marginTop: theme.spacing(4),
 				fontSize: 40,
@@ -55,6 +57,17 @@ const useStyles = makeStyles((theme) => {
 				fontColor: theme.palette.common.white,
 			},
 		},
+		subHeadingContainer: {
+			display: 'flex',
+			alignItems: 'center',
+		},
+		subHeadingIcon: {
+			marginRight: 10,
+		},
+		svgBg: {
+			maxWidth: '100%',
+			height: '100%',
+		},
 	};
 });
 
@@ -73,28 +86,39 @@ const Home: React.FC = () => {
 						<Typography
 							className={classes.mainHeading}
 							variant='h3'
-							component='h1'
-							style={{ fontWeight: 'bold' }}>
+							component='h1'>
 							Build your Product Portfolio
 						</Typography>
 					</Box>
 
-					<Box mt={4} style={{display: 'flex', alignItems: 'center'}}>
-						<ForumIcon fontSize='small' style={{marginRight: 10}} color='primary' />
+					<Box mt={4} className={classes.subHeadingContainer}>
+						<ForumIcon
+							fontSize='small'
+							className={classes.subHeadingIcon}
+							color='primary'
+						/>
 						<Typography className={classes.subHeading} variant='subtitle1'>
 							Join an exclusive community of product professionals!
 						</Typography>
 					</Box>
 
-					<Box mt={1} style={{display: 'flex', alignItems: 'center'}}>
-						<EmojiObjectsIcon fontSize='small' style={{marginRight: 10}} color='primary'/>
+					<Box mt={1} className={classes.subHeadingContainer}>
+						<EmojiObjectsIcon
+							fontSize='small'
+							className={classes.subHeadingIcon}
+							color='primary'
+						/>
 						<Typography className={classes.subHeading} variant='subtitle1'>
 							Showcase your Product thinking.
 						</Typography>
 					</Box>
 
-					<Box mt={1} style={{display: 'flex', alignItems: 'center'}}>
-						<CreateIcon fontSize='small' style={{marginRight: 10}} color='primary'/>
+					<Box mt={1} className={classes.subHeadingContainer}>
+						<CreateIcon
+							fontSize='small'
+							className={classes.subHeadingIcon}
+							color='primary'
+						/>
 						<Typography className={classes.subHeading} variant='subtitle1'>
 							Give and Receive Feedback. Learn from the community.
 						</Typography>
@@ -111,7 +135,7 @@ const Home: React.FC = () => {
 					</Box>
 				</Grid>
 				<Grid item lg={4} md={6} sm={8} xs={12}>
-					<SvgBackground style={{ maxWidth: '100%', height: '100%' }} />
+					<SvgBackground className={classes.svgBg} />
 				</Grid>
 			</Grid>
 		</Container>
