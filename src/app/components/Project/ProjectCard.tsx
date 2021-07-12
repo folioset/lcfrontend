@@ -569,17 +569,38 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 								Loading reviews
 							</Typography>
 						)}
-						{data &&
-							[...data?.latestReviews, ...data?.previousReviews].map(
-								(review: Review) => {
-									return (
-										<ReviewsSection
-											key={review.reviewDetails!._id}
-											{...{ review, project }}
-										/>
-									);
-								}
-							)}
+						{data && (
+							<>
+								<Box mb='3'>
+									<Typography>Latest Reviews</Typography>
+								</Box>
+								<Box mb='5'>
+									{[...data?.latestReviews].map((review: Review) => {
+										return (
+											<ReviewsSection
+												key={review.reviewDetails!._id}
+												{...{ review, project }}
+											/>
+										);
+									})}
+								</Box>
+								{data?.previousReviews.length > 0 && (
+									<>
+										<Box mb='3'>
+											<Typography>Previous Reviews</Typography>
+										</Box>
+										{[...data.previousReviews].map((review: Review) => {
+											return (
+												<ReviewsSection
+													key={review.reviewDetails!._id}
+													{...{ review, project }}
+												/>
+											);
+										})}
+									</>
+								)}
+							</>
+						)}
 
 						{!isLoading && !data?.length && (
 							<Typography variant='body2'>No reviews yet</Typography>
