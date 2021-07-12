@@ -140,14 +140,7 @@ const useStyles = makeStyles((theme: Theme) => {
 		},
 		collabBox: {
 			display: 'flex',
-<<<<<<< HEAD
-			justifyContent: 'center',
-			paddingLeft: theme.spacing(4),
-=======
 			justifyContent: 'flex-start',
-			// paddingLeft: theme.spacing(1),
-
->>>>>>> b8caaff8ff89ba6bf8aeb112654de70b841059d6
 		},
 		pdf: {
 			height: '100vh',
@@ -379,13 +372,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 							direction='column'
 							className={classes.collabBox}>
 							{project.description && (
-<<<<<<< HEAD
 								<Grid item style={{ marginBottom: 10 }}>
-=======
-								<Grid item style={{
-									marginBottom: 10
-								}}>
->>>>>>> b8caaff8ff89ba6bf8aeb112654de70b841059d6
 									<Typography className={classes.description}>
 										{project.description}
 									</Typography>
