@@ -25,6 +25,7 @@ const Dashboard: React.FC = () => {
 		}
 	);
 
+
 	return (
 		<>
 			<ProfileView user={user} isLoading={isLoading} data={data} />

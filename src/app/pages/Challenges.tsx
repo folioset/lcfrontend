@@ -4,9 +4,10 @@ import * as React from 'react';
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import FeedProject from '../components/Project/FeedProjectCard';
-import { ProjectFeed } from '../types';
+import { ChallengeFeed } from '../types';
 import Loader from '../components/shared/Loader';
-import SideBtnCard from '../components/User/SideBtnCard';
+import ChallengeCard from '../components/Challenge/ChallengeCard';
+import FeedChallenge from '../components/Challenge/FeedChallCard';
 
 interface FeedProps { }
 
@@ -14,7 +15,6 @@ const useStyles = makeStyles((theme: Theme) => {
 	return {
 		container: {
 			padding: theme.spacing(1),
-			marginTop: 2,
 		},
 		heading: {
 			color: theme.palette.grey['200'],
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) => {
 			// borderWidth: '4px',
 			// borderStyle: 'solid',
 			// borderColor: 'green',
-			maxWidth: 900,
+			maxWidth: 850,
 			margin: 'auto',
 			backgroundColor: '#f5f5f5',
 			justifyContent: 'center'
@@ -43,13 +43,14 @@ const useStyles = makeStyles((theme: Theme) => {
 
 const Feed: React.FC<FeedProps> = () => {
 	const classes = useStyles();
-	const { isLoading, data } = useQuery('feed', async () => {
+	const { isLoading, data } = useQuery('feedChall', async () => {
 		const res = await axios({
 			method: 'get',
-			url: '/api/feed',
+			url: '/api/question',
 		});
 		return res.data;
 	});
+
 
 
 	if (isLoading) {
@@ -59,13 +60,10 @@ const Feed: React.FC<FeedProps> = () => {
 	return (
 		<>
 			<Grid container className={classes.GridContr}>
-				<Grid item xs={12} md={4} className={classes.check} >
-					<SideBtnCard />
-				</Grid>
 				<Grid item xs={12} md={8}>
 					<Container maxWidth='sm' className={classes.container}>
-						{data?.map((project: ProjectFeed) => {
-							return <FeedProject key={project._id} {...{ project }} />;
+						{data?.map((challenge: ChallengeFeed) => {
+							return <FeedChallenge key={challenge._id} {...{ challenge }} />;
 						})}
 					</Container>
 				</Grid>

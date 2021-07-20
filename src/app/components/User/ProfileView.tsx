@@ -65,7 +65,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 								<Typography color='primary'>Loading Projects ....</Typography>
 							</Box>
 						)}
-						{data?.map((project: Project) => {
+						{data?.length ? (data.map((project: Project) => {
 							return (
 								<ProjectCard
 									isPublic={isPublic}
@@ -73,7 +73,10 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 									{...{ project }}
 								/>
 							);
-						})}
+						})) : (<Box textAlign='center'>
+							<Typography color='primary' variant='h4'>No Projects Yet!!</Typography>
+						</Box>)
+						}
 					</Box>
 				</Container>
 			</Box>
