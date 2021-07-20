@@ -497,12 +497,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 											name={`project-${project._id}-rating`}
 											className={classes.rating}
 										/>
-										<Typography
+										{/* <Typography
 											variant='h6'
 											color='primary'
 											className={classes.ratingNumber}>
 											{rating.toFixed(1)}
-										</Typography>
+										</Typography> */}
 									</Box>
 								</Grid>
 							</Grid>
@@ -581,7 +581,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 								/>
 							);
 						})}
-
 						{!isLoading && !data?.length && (
 							<Typography variant='body2'>No reviews yet</Typography>
 						)}

@@ -37,7 +37,49 @@ export type Project = {
 	lastUpdatedDate?: Date;
 };
 
+export type Answer = Challenge & {
+	_id: string;
+	text: string;
+	updatedAt: Date | string | number;
+	projectFile: string;
+	// rating?: any;
+	// avgRating?: number;
+	// numberOfRatings: number;
+}
+
+export type Challenge = {
+	createdAt: Date | string | number;
+	updateAt?: Date | string | number;
+	createdBy: {
+		username: string;
+		name: string;
+		about: string;
+		profilePicture: string;
+		_id: string;
+	};
+	isCaseStudy: boolean;
+	title: string;
+	description: string;
+	answers: Answer[];
+	// ratings?: any;
+	updatedAt?: Date | string | number;
+	// avgRating?: number;
+	_id: string;
+	// numberOfRatings: number;
+	// tools: string[];
+	// skills: string[];
+	// contributorDetailsArr?: User[];
+	lastUpdatedDate?: Date;
+};
+
 export type ProjectFeed = Project & {
+	username: string;
+	name: string;
+	about: string;
+	profilePicture: string;
+};
+
+export type ChallengeFeed = Challenge & {
 	username: string;
 	name: string;
 	about: string;
