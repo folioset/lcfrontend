@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => {
 			marginLeft: 'auto',
 			display: 'flex',
 			justifyContent: 'center',
-			alignItems: 'center'
+			alignItems: 'center',
 		},
 		formControl: {
 			display: 'flex',

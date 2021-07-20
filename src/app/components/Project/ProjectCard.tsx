@@ -141,8 +141,6 @@ const useStyles = makeStyles((theme: Theme) => {
 		collabBox: {
 			display: 'flex',
 			justifyContent: 'flex-start',
-			// paddingLeft: theme.spacing(1),
-
 		},
 		pdf: {
 			height: '100vh',
@@ -374,9 +372,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 							direction='column'
 							className={classes.collabBox}>
 							{project.description && (
-								<Grid item style={{
-									marginBottom: 10
-								}}>
+								<Grid item style={{ marginBottom: 10 }}>
 									<Typography className={classes.description}>
 										{project.description}
 									</Typography>
@@ -573,14 +569,40 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 								Loading reviews
 							</Typography>
 						)}
-						{data?.map((review: Review) => {
-							return (
-								<ReviewsSection
-									key={review.reviewDetails!._id}
-									{...{ review, project }}
-								/>
-							);
-						})}
+
+						{data && (
+							<>
+								<Box mb='3'>
+									<Typography>Latest Reviews</Typography>
+								</Box>
+								<Box mb='5'>
+									{[...data?.latestReviews].map((review: Review) => {
+										return (
+											<ReviewsSection
+												key={review.reviewDetails!._id}
+												{...{ review, project }}
+											/>
+										);
+									})}
+								</Box>
+								{data?.previousReviews.length > 0 && (
+									<>
+										<Box mb='3'>
+											<Typography>Previous Reviews</Typography>
+										</Box>
+										{[...data.previousReviews].map((review: Review) => {
+											return (
+												<ReviewsSection
+													key={review.reviewDetails!._id}
+													{...{ review, project }}
+												/>
+											);
+										})}
+									</>
+								)}
+							</>
+						)}
+
 						{!isLoading && !data?.length && (
 							<Typography variant='body2'>No reviews yet</Typography>
 						)}
