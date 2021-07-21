@@ -46,7 +46,7 @@ const Feed: React.FC<FeedProps> = () => {
 	const { isLoading, data } = useQuery('feedChall', async () => {
 		const res = await axios({
 			method: 'get',
-			url: '/api/question',
+			url: '/api/question/1',
 		});
 		return res.data;
 	});

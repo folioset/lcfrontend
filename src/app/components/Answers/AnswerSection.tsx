@@ -92,11 +92,12 @@ const ReviewsSection: React.FC<AnswersSectionProps> = ({ answer, challenge }) =>
             // console.log(res.data);
             // setAnsDeatils(data);
             return res.data;
-        }, {
-        onSuccess: () => {
-            queryClient.invalidateQueries(['all-answer', answer._id]);
         },
-    }
+        //  {
+        // onSuccess: () => {
+        //     queryClient.invalidateQueries(['all-answer', answer._id]);
+        // },
+        // }
     );
 
     // if (isAnswerLoading) {

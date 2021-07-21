@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
             // marginTop: theme.spacing(3),
             // marginBottom: -10,
             justifyContent: 'center',
-            marginLeft: 50,
+            // marginLeft: 50,
             fontSize: 15,
         },
         comment: {

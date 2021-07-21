@@ -219,7 +219,6 @@ interface ChallengeCardProps {
 const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) => {
     const queryClient = useQueryClient();
     const user = queryClient.getQueryData<User>('user')!;
-    const [rating, setRating] = React.useState(0);
 
     const classes = useStyles();
     const { isOpen, onClose, onOpen } = useDisclosure();
@@ -263,6 +262,7 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
     //     onClose: onUpdateClose,
     // } = useDisclosure();
 
+    // React.useEffect(() => {
     // Get all Answers 
     const { isLoading, data } = useQuery(
         ['all-answer', challenge._id],
@@ -271,25 +271,11 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                 method: 'get',
                 url: `/api/question/answers/${challenge._id}/1`,
             });
+            console.log("call");
             return res.data;
         },
-        // {
-        //     onSuccess: () => {
-        //         // queryClient.invalidateQueries('all-answer');
-        //         console.log("success");
-
-        //     },
-        //     onSettled: (data) => {
-        //         if (data) {
-        //             onClose();
-        //             console.log(data, challenge._id);
-        //         }
-        //     },
-        //     onError: (err) => {
-        //         console.log(err);
-        //     }
-        // }
     );
+    // }, [])
 
     //adding normal answer
     const { mutate: addAnswerMutate, isLoading: addAnswerLoading } = useMutation(
@@ -301,8 +287,9 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
             }),
         {
             onSuccess: () => {
-                queryClient.invalidateQueries('my-challenge');
+                queryClient.invalidateQueries('all-answer');
                 console.log("success");
+                AnsViewToggleOpen();
             },
             onSettled: (data) => {
                 if (data) {
@@ -315,6 +302,8 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
             }
         }
     );
+
+
 
 
 
