@@ -275,13 +275,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 	// Update Rating
 	const { mutate: addRating } = useMutation(
 		async (data) => {
-			console.log(data.value);
 			const res = await axios({
 				method: 'PUT',
 				url: `/api/project/${project._id}/add-rating`,
 				data,
 			});
-			console.log(res.data);
 			return res.data;
 		},
 		{
@@ -447,7 +445,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 										className={rating === 'fine' ? classes.active : classes.inactive}>
 											Fine
 										</Button>
-										<Button onClick={() => addRating({ value: 'good' } as any)}>
+										<Button onClick={() => {
+											setRating('good')
+											addRating({ value: 'good' } as any)}}>
 											Good
 										</Button>
 										<Button onClick={() => addRating({ value: 'excellent' } as any)}>
