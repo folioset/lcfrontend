@@ -189,6 +189,7 @@ const CreateProject: React.FC<CreateProjectProps> = React.forwardRef(
 									if (file) {
 										data.append('file', file);
 									}
+
 									await mutate(data as any);
 									resetForm();
 								}}

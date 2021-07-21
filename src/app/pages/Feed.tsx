@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme: Theme) => {
 	return {
 		container: {
 			padding: theme.spacing(1),
+			marginTop: 2,
 		},
 		heading: {
 			color: theme.palette.grey['200'],
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme: Theme) => {
 			// borderWidth: '4px',
 			// borderStyle: 'solid',
 			// borderColor: 'green',
-			maxWidth: 850,
+			maxWidth: 900,
 			margin: 'auto',
 			backgroundColor: '#f5f5f5',
 			justifyContent: 'center'
@@ -72,10 +73,6 @@ const Feed: React.FC<FeedProps> = () => {
 		console.log(num, 'i am in useeffect');
         refetch();
       }, [num]);
-
-	if (isLoading) {
-		return <Loader fullScreen />;
-	}
 
 	return (
 		<>

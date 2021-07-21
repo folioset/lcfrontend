@@ -21,6 +21,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import HomeIcon from '@material-ui/icons/Home';
+import TrendingUpSharpIcon from '@material-ui/icons/TrendingUpSharp';
 
 // Components
 import NavItem from './NavItem';
@@ -95,6 +96,12 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 								to='/public/users'
 								icon={<AccountCircleIcon color='secondary' />}>
 								<Typography color='secondary'>Users</Typography>
+							</NavItem>
+							<NavItem
+								exact
+								to='/public/challenges'
+								icon={<TrendingUpSharpIcon color='secondary' />}>
+								<Typography color='secondary'>Challenges</Typography>
 							</NavItem>
 							<Button
 								startIcon={<Avatar alt={user.name} src={user.profilePicture} />}
