@@ -3,6 +3,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 const palette = {
 	primary: {
 		main: '#00BFA6',
+		light: '#90EE90'
 	},
 	background: {
 		default: '#f9f9f9',
@@ -17,15 +18,15 @@ const palette = {
 };
 
 const typography = {
-	fontFamily: "'Montserrat', sans-serif",
+	fontFamily: "'Helvetica Neue', sans-serif",
 	h3: {
 		fontSize: 30,
 		fontWeight: 500,
 		color: 'black',
 	},
 	h4: {
-		fontSize: 20,
-		fontWeight: 500,
+		fontSize: 17,
+		fontWeight: 450,
 		color: 'black',
 	},
 	subtitle1: {
@@ -33,14 +34,18 @@ const typography = {
 		fontWeight: 400
 	},
 	h5: {
-		fontSize: 16,
+		fontSize: 13,
+		fontWeight: 500
 	},
 	h6: {
 		fontSize: 17,
 		fontWeight: 500,
 	},
+	caption: {
+
+	},
 	body2: {
-		fontSise: 14
+		fontSize: 15
 	}
 };
 

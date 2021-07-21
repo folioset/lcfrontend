@@ -35,6 +35,10 @@ export type Project = {
 	skills: string[];
 	contributorDetailsArr?: User[];
 	lastUpdatedDate?: Date;
+	fineRatings: number;
+	goodRatings: number;
+	excellentRatings: number;
+	extraOrdinaryRatings: number;
 };
 
 export type ProjectFeed = Project & {

@@ -12,9 +12,9 @@ const PdfThumbnail: React.FC<{ file: string; onClick: (e: any) => void }> = ({
 	}, []);
 
 	return (
-		<Box style={{ cursor: 'pointer' }} onClick={onClick}>
+		<Box style={{ cursor: 'pointer'}} onClick={onClick}>
 			<Document file={file}>
-				<Page height={400} width={400} pageNumber={1} />
+				<Page height={550} width={550} pageNumber={1} />
 			</Document>
 		</Box>
 	);

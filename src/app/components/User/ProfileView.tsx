@@ -20,6 +20,15 @@ const useStyles = makeStyles((theme) => {
 				padding: theme.spacing(1),
 			},
 		},
+		card: {
+			borderRadius: 10,
+			borderWidth: 5,
+			borderColor: '#111111',
+			elevation: 0,
+			boxShadow: '0 0 3px 1px rgba(0, 0, 0, 0.1)',
+			width: '95%',
+			margin: 'auto',
+		},
 		heading: {
 			marginBottom: theme.spacing(4),
 
@@ -67,11 +76,13 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 						)}
 						{data?.map((project: Project) => {
 							return (
-								<ProjectCard
-									isPublic={isPublic}
-									key={project._id}
-									{...{ project }}
-								/>
+								<Box className={classes.card}>
+									<ProjectCard
+										isPublic={isPublic}
+										key={project._id}
+										{...{ project }}
+									/>
+								</Box>
 							);
 						})}
 					</Box>
