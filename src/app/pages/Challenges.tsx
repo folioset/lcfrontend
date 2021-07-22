@@ -63,7 +63,7 @@ const Feed: React.FC<FeedProps> = () => {
 				<Grid item xs={12} md={8}>
 					<Container maxWidth='sm' className={classes.container}>
 						{data?.map((challenge: ChallengeFeed) => {
-							return <FeedChallenge key={challenge._id} {...{ challenge }} />;
+							return <FeedChallenge key={challenge._id} {...{ challenge }} isPublic />;
 						})}
 					</Container>
 				</Grid>

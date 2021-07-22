@@ -92,7 +92,6 @@ const AnswersCard: React.FC<AnswerCardProps> = ({ answersData }) => {
     } = useDisclosure();
 
 
-
     return (
 
         <>
@@ -126,6 +125,10 @@ const AnswersCard: React.FC<AnswerCardProps> = ({ answersData }) => {
                             variant='caption'>
                             {/* {format(new Date(answersData?.updatedAt), 'dd MMMM yyyy')} */}
                             {answersData?.updatedAt}
+                            {/* {format(
+                                new Date(answersData?.updatedAt!),
+                                'dd MMMM yyyy'
+                            )} */}
                         </Typography>
                     }
                     // style={{ marginBottom: -40 }}

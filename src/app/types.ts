@@ -44,7 +44,8 @@ export type Project = {
 export type Answer = Challenge & {
 	_id: string;
 	text: string;
-	updatedAt: Date | string | number;
+	createdAt: Date | string | number;
+	updateAt?: Date | string | number;
 	projectFile: string;
 	// rating?: any;
 	// avgRating?: number;

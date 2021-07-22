@@ -7,7 +7,7 @@ import { Form, Formik } from 'formik';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 // Material UI
-import { makeStyles, Theme, Link } from '@material-ui/core';
+import { makeStyles, Theme, Link, MenuItem } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -20,11 +20,11 @@ import Button from '@material-ui/core/Button';
 import Collapse from '@material-ui/core/Collapse';
 import Modal from '@material-ui/core/Modal';
 import Hidden from '@material-ui/core/Hidden';
+import Fade from '@material-ui/core/Fade';
+import Menu from '@material-ui/core/Menu';
 
 import CancelIcon from '@material-ui/icons/Cancel';
-import EditIcon from '@material-ui/icons/Edit';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import DeleteIcon from '@material-ui/icons/Delete';
 import SendIcon from '@material-ui/icons/Send';
 
 // components
@@ -45,6 +45,8 @@ import { Link as RouterLink } from 'react-router-dom';
 import PdfThumbnail from '../shared/Pdf/PdfThumbnail';
 import CreateCaseAnswer from './CreateCaseAnswer';
 import DeleteChallenge from './DeleteChallenge';
+import UpdateProject from '../Project/UpdateProject';
+import UpdateChallenge from './UpdateChallenge';
 
 const validationSchema = Yup.object().shape({
     text: Yup.string()
@@ -224,9 +226,6 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
     const { isOpen, onClose, onOpen } = useDisclosure();
     const location = useLocation();
 
-    // console.log(challenge);
-
-
     // Add Answer Modal Toggler
     const {
         isOpen: isAnswerOpen,
@@ -248,13 +247,6 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
     //     onClose: onModalClose,
     // } = useDisclosure();
 
-    // Delete Confirm Toggler
-    const {
-        isOpen: isDeleteOpen,
-        onOpen: onDeleteOpen,
-        onClose: onDeleteClose,
-    } = useDisclosure();
-
     // // Update Project Toggler
     // const {
     //     isOpen: isUpdateOpen,
@@ -271,7 +263,6 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                 method: 'get',
                 url: `/api/question/answers/${challenge._id}/1`,
             });
-            console.log("call");
             return res.data;
         },
     );
@@ -370,14 +361,10 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
     //     }
     // );
 
-    // authorizing deletetion of question
-    if (user._id === challenge.createdBy._id) isPublic = false;
-
 
     return (
         <>
             {/* Add answer modal */}
-
             <Modal
                 open={isOpen}
                 onClose={onClose}
@@ -386,14 +373,6 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                 <CreateCaseAnswer {...{ onClose, challenge }} />
             </Modal>
 
-            {/* Delete Project */}
-            <Modal
-                open={isDeleteOpen}
-                onClose={onDeleteClose}
-                aria-labelledby='challenge-file'
-                aria-describedby='pdf file of the challenge'>
-                <DeleteChallenge onClose={onDeleteClose} challenge={challenge} />
-            </Modal>
             {/* Update Project */}
             {/* <Modal
                 open={isUpdateOpen}
@@ -423,27 +402,15 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
             <Card className={classes.card}>
                 <CardHeader
                     title={<Typography variant='h4'>Question:{challenge.title}</Typography>}
-                    // subheader={
-                    //     <Typography color='textSecondary' variant='caption'>
-                    //         {'Updated on ' +
-                    //             format(
-                    //                 new Date(challenge.lastUpdatedDate || challenge.createdAt!),
-                    //                 'dd MMMM yyyy'
-                    //             )}
-                    //     </Typography>
-                    // }
-                    action={
-                        !isPublic ? (
-                            <>
-                                {/* <IconButton onClick={onUpdateOpen}>
-                                    <EditIcon color='primary' />
-                                </IconButton> */}
-                                <IconButton onClick={onDeleteOpen}>
-                                    <DeleteIcon style={{ color: 'red' }} />
-                                </IconButton>
-                            </>
-                        ) : null
-                    }
+                // subheader={
+                //     <Typography color='textSecondary' variant='caption'>
+                //         {'Updated on ' +
+                //             format(
+                //                 new Date(challenge.lastUpdatedDate || challenge.createdAt!),
+                //                 'dd MMMM yyyy'
+                //             )}
+                //     </Typography>
+                // }
                 />
                 <CardContent className={classes.cardContent}>
                     <Grid container direction='row' className={classes.centered}>
