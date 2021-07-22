@@ -279,8 +279,8 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
         {
             onSuccess: () => {
                 queryClient.invalidateQueries('all-answer');
-                console.log("success");
-                AnsViewToggleOpen();
+                // console.log("success");
+                // AnsViewToggleOpen();
             },
             onSettled: (data) => {
                 if (data) {
