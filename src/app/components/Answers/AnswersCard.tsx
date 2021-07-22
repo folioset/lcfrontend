@@ -12,9 +12,12 @@ import PdfThumbnail from '../shared/Pdf/PdfThumbnail';
 import { Box, Grid, Hidden, IconButton, Modal } from '@material-ui/core';
 import useDisclosure from '../../hooks/useDisclosure';
 import CancelIcon from '@material-ui/icons/Cancel';
+import DeleteAnswer from './DeleteAnswer';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 interface AnswerCardProps {
     answersData: Answer;
+    challenge: Challenge;
 }
 
 // const initialValues = {
@@ -80,7 +83,7 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-const AnswersCard: React.FC<AnswerCardProps> = ({ answersData }) => {
+const AnswersCard: React.FC<AnswerCardProps> = ({ answersData, challenge }) => {
     const classes = useStyles();
     // const [ansDeatils, setAnsDeatils] = React.useState<Answer>(null)
     // console.log("answerData from answer", answerData);
@@ -92,9 +95,35 @@ const AnswersCard: React.FC<AnswerCardProps> = ({ answersData }) => {
     } = useDisclosure();
 
 
+    // Delete Answer Confirm Toggler
+    const {
+        isOpen: isDeleteOpen,
+        onOpen: onDeleteOpen,
+        onClose: onDeleteClose,
+    } = useDisclosure();
+
+
+    // const {
+    //     isOpen: isModalOpen,
+    //     onOpen: onModalOpen,
+    //     onClose: onModalClose,
+    // } = useDisclosure();
+
+
     return (
 
         <>
+
+            {/* Delete challenge */}
+            <Modal
+                open={isDeleteOpen}
+                onClose={onDeleteClose}
+                aria-labelledby='challenge-file'
+                aria-describedby='pdf file of the challenge'>
+                <DeleteAnswer onClose={onDeleteClose} challenge={challenge} answersData={answersData} />
+            </Modal>
+
+
             {/* Show answerData File */}
             {answersData?.projectFile ? (<Modal
                 open={isModalOpen}
@@ -110,8 +139,6 @@ const AnswersCard: React.FC<AnswerCardProps> = ({ answersData }) => {
                         </Box>
                     </Hidden>
 
-
-
                     <PdfViewer className={classes.pdf} filename={answersData?.projectFile} />
 
                 </>
@@ -119,17 +146,22 @@ const AnswersCard: React.FC<AnswerCardProps> = ({ answersData }) => {
             <Card elevation={0} className={classes.root}>
                 <CardHeader
                     action={
-                        <Typography
-                            style={{ paddingRight: 3 }}
-                            color='textSecondary'
-                            variant='caption'>
-                            {/* {format(new Date(answersData?.updatedAt), 'dd MMMM yyyy')} */}
-                            {answersData?.updatedAt}
-                            {/* {format(
+                        <>
+                            <Typography
+                                style={{ paddingRight: 3 }}
+                                color='textSecondary'
+                                variant='caption'>
+                                {/* {format(new Date(answersData?.updatedAt), 'dd MMMM yyyy')} */}
+                                {answersData?.updatedAt}
+                                {/* {format(
                                 new Date(answersData?.updatedAt!),
                                 'dd MMMM yyyy'
                             )} */}
-                        </Typography>
+                            </Typography>
+                            <IconButton onClick={onDeleteOpen}>
+                                <DeleteIcon style={{ color: 'red' }} />
+                            </IconButton>
+                        </>
                     }
                     // style={{ marginBottom: -40 }}
                     avatar={
