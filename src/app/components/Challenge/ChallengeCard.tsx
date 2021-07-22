@@ -8,7 +8,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import {useState, useEffect} from 'react';
 
 // Material UI
-import { makeStyles, Theme, Link } from '@material-ui/core';
+import { makeStyles, Theme, Link, MenuItem } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -21,11 +21,11 @@ import Button from '@material-ui/core/Button';
 import Collapse from '@material-ui/core/Collapse';
 import Modal from '@material-ui/core/Modal';
 import Hidden from '@material-ui/core/Hidden';
+import Fade from '@material-ui/core/Fade';
+import Menu from '@material-ui/core/Menu';
 
 import CancelIcon from '@material-ui/icons/Cancel';
-import EditIcon from '@material-ui/icons/Edit';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import DeleteIcon from '@material-ui/icons/Delete';
 import SendIcon from '@material-ui/icons/Send';
 
 // components
@@ -46,6 +46,8 @@ import { Link as RouterLink } from 'react-router-dom';
 import PdfThumbnail from '../shared/Pdf/PdfThumbnail';
 import CreateCaseAnswer from './CreateCaseAnswer';
 import DeleteChallenge from './DeleteChallenge';
+import UpdateProject from '../Project/UpdateProject';
+import UpdateChallenge from './UpdateChallenge';
 
 const validationSchema = Yup.object().shape({
     text: Yup.string()
@@ -271,6 +273,7 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
             return res.data;
         },
     );
+    // }, [])
 
     useEffect(() => {
 		refetch();
@@ -291,8 +294,9 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
             }),
         {
             onSuccess: () => {
-                queryClient.invalidateQueries('my-challenge');
-                console.log("success");
+                queryClient.invalidateQueries('all-answer');
+                // console.log("success");
+                // AnsViewToggleOpen();
             },
             onSettled: (data) => {
                 if (data) {
@@ -314,7 +318,6 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
     return (
         <>
             {/* Add answer modal */}
-
             <Modal
                 open={isOpen}
                 onClose={onClose}
@@ -346,7 +349,7 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
 						{!isPublic && (
 							<>
 								<IconButton onClick={onDeleteOpen}>
-									<DeleteIcon style={{ color: 'red' }} />
+									{/* <DeleteIcon style={{ color: 'red' }} /> */}
 								</IconButton>
 							</>
 						)}
@@ -452,16 +455,7 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                     {!isLoading && !data?.length && (
                         <Typography variant='body2'>No answers yet</Typography>
                     )}
-                {data?.length > 1 ? (
-                <Button onClick={() => { 
-                    setNum(num+1);
-                    // setMore(true)
-                }}> View More Answers</Button> 
-                ): null}
-            
-
                 </CardContent>
-
                 {data?.length ? (<Grid container>
                     <Grid item>
                         <Button
@@ -475,7 +469,7 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                                     })}
                                 />
                             }>
-                            View More Answers
+                            All Answers
                         </Button>
                     </Grid>
                 </Grid>) : null}

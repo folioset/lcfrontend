@@ -10,6 +10,7 @@ import Loader from '../components/shared/Loader';
 import ChallengeCard from '../components/Challenge/ChallengeCard';
 import SideBtnCard from '../components/User/SideBtnCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import FeedChallenge from '../components/Challenge/FeedChallCard';
 
 interface FeedProps { }
 
@@ -91,7 +92,7 @@ const Feed: React.FC<FeedProps> = () => {
 						>
 						<Container maxWidth='sm' className={classes.container}>
 							{items.map((challenge: ChallengeFeed) => {
-								return <ChallengeCard key={challenge._id} isPublic challenge={challenge} />;
+								return <FeedChallenge key={challenge._id} {...{ challenge }} isPublic />;
 							})
 						    }
 						</Container>
