@@ -7,7 +7,7 @@ import axios from 'axios';
 import FeedProject from '../components/Project/FeedProjectCard';
 import { ProjectFeed } from '../types';
 import Loader from '../components/shared/Loader';
-import SideBtnCard from '../components/Project/SideBtnCard';
+import SideBtnCard from '../components/User/SideBtnCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 interface FeedProps { }

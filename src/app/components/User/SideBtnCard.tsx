@@ -1,5 +1,5 @@
 import { CardMedia, CardContent, CardActions, CardActionArea, Button, makeStyles, Theme, Typography } from '@material-ui/core';
-import Card from '@material-ui/core/Card';
+import {Card, Box} from '@material-ui/core';
 import CardHeader from '@material-ui/core/CardHeader';
 import * as React from 'react';
 import { Link, useHistory } from 'react-router-dom';
@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme: Theme) => {
             top: 90,
             margin: 'auto',
             borderRadius: 8,
+            padding: 20
         },
         CardImg: {
             borderRadius: '50%',
@@ -38,8 +39,11 @@ const useStyles = makeStyles((theme: Theme) => {
             textAlign: 'center',
         },
         btnAlign: {
-            // flexDirection: 'column',
-            justifyContent: 'space-around',
+            display:'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            textAlign: 'center'
         },
         cardTypo: {
             color: "black",
@@ -48,6 +52,10 @@ const useStyles = makeStyles((theme: Theme) => {
                 textDecoration: 'underline',
             },
         },
+        action: {
+            textTransform: 'none',
+            fontWeight: 'bold'
+        }
     };
 });
 
@@ -127,17 +135,11 @@ const SideBtnCard: React.FC<ProfileCardProps> = ({ isPublic }) => {
                         </CardContent>
                     </CardActionArea>
                 </Link>
-                <CardActions className={classes.btnAlign}>
-                    <Button size="small" color="primary" onClick={onOpen}>
-                        Add Project
-                    </Button>
-                    <Button size="small" color="primary" onClick={onOpenChall}>
-                        Add Challenge
-                    </Button>
-                    <Button size="small" color="primary" onClick={onOpenAnswer}>
-                        Add Question
-                    </Button>
-                </CardActions>
+                <Box className={classes.btnAlign}>
+                    <Button size="large" color="primary" className={classes.action} onClick={onOpen}>Add Project</Button>
+                    <Button size="large" color="primary" className={classes.action} onClick={onOpenChall}>Add Challenge</Button>
+                    <Button size="large" color="primary" className={classes.action} onClick={onOpenAnswer}>Ask a Question</Button>
+                </Box>
             </Card>
         </>
     );

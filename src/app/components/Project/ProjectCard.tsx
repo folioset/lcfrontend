@@ -106,16 +106,8 @@ const useStyles = makeStyles((theme: Theme) => {
 				marginBottom: theme.spacing(3),
 			},
 		},
-		centeredPadding: {
+		ratings: {
 			display: 'flex',
-			justifyContent: 'center',
-			paddingLeft: theme.spacing(3),
-			paddingRight: theme.spacing(3),
-
-			[theme.breakpoints.down('xs')]: {
-				paddingLeft: 0,
-				paddingRight: 0,
-			},
 		},
 		thumbnail: {
 			// paddingRight: theme.spacing(4),
@@ -169,26 +161,44 @@ const useStyles = makeStyles((theme: Theme) => {
 			justifyContent: 'space-around',
 			alignItems: 'center',
 		},
-		ratingBox: {
-			display: 'flex',
-			justifyContent: 'center',
-			alignItems: 'center',
+		// ratingBox: {
+		// 	display: 'flex',
+		// 	justifyContent: 'center',
+		// 	alignItems: 'center',
 
-			[theme.breakpoints.down('xs')]: {
-				marginTop: 10,
-				flexDirection: 'column',
-				alignItems: 'start',
+		// 	[theme.breakpoints.down('xs')]: {
+		// 		marginTop: 10,
+		// 		flexDirection: 'column',
+		// 		alignItems: 'start',
 
-				'& h6': {
-					paddingLeft: theme.spacing(1),
-				},
-			},
-		},
+		// 		'& h6': {
+		// 			paddingLeft: theme.spacing(1),
+		// 		},
+		// 	},
+		// },
 		active: {
-			color: 'primary'
+			color: theme.palette.primary.main,
+			textTransform: 'none',
+			fontWeight: 550, 
+			fontSize: 16
+			
 		},
 		inactive : {
-			color: 'secondary',
+			color: theme.palette.secondary.main,
+			textTransform: 'none',
+			fontSize: 16
+			
+		},
+		submitButton: {
+			marginTop: 10,
+			marginLeft: 2,
+			textTransform: 'none', 
+			width: '30px',
+			height: '30px',
+			backgroundColor: theme.palette.primary.main,
+			color: 'black',
+			borderRadius: 15
+		
 		}
 	};
 });
@@ -206,7 +216,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 	const location = useLocation();
 	const [rated, setRated] = useState(false);
 	const [rating, setRating] = useState('');
-
+    const [typing, setTyping] = useState(false);
 	// Project Modal Toggler
 	const {
 		isOpen: isModalOpen,
@@ -247,17 +257,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 	);
 
 	// Set Default Project Rating
-	React.useEffect(() => {
-		if (project) {
-			project.ratings.forEach((el: any) => {
-				if (el.createdBy === user._id) {
-					setRating(el.value);
-					setRated(true);
-					// console.log(el.value)
-				}
-			});
-		}
-	}, [project, user._id]);
+	// React.useEffect(() => {
+	// 	if (project) {
+	// 		project.ratings.forEach((el: any) => {
+	// 			if (el.createdBy === user._id) {
+	// 				setRating(el.value);
+	// 				setRated(true);
+	// 				// console.log(el.value)
+	// 			}
+	// 		});
+	// 	}
+	// }, [project, user._id]);
 
 	// Get all Project Reviews
 	const { isLoading, data } = useQuery(
@@ -293,6 +303,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 			},
 		}
 	);
+
+	const showRating = (value: any) => {
+		setRating(value)
+		addRating({ value: value } as any)
+	}
 
 	return (
 		<>
@@ -430,34 +445,23 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 				<CardActions className={classes.cardActions}>
 					{isPublic && (
 						<Grid container direction='column' className={classes.section}>
-							<Grid
-								item
-								container
-								direction='row'
-								style={{
-									marginBottom: 5,
-									display: 'flex',
-									alignItems: 'center',
-								}}>
-								<Grid item className={classes.centeredPadding}>
-									<Box className={classes.ratingBox}>
-										<Button onClick={() => addRating({ value: 'fine' } as any)}
+							<Grid item className={classes.ratings}>
+										<Button onClick={() => showRating('fine')}
 										className={rating === 'fine' ? classes.active : classes.inactive}>
-											Fine
-										</Button>
-										<Button onClick={() => {
-											setRating('good')
-											addRating({ value: 'good' } as any)}}>
 											Good
 										</Button>
-										<Button onClick={() => addRating({ value: 'excellent' } as any)}>
+										<Button onClick={() => showRating('good')}
+											className={rating === 'good' ? classes.active : classes.inactive}>
+											Great
+										</Button>
+										<Button onClick={() => showRating('excellent')}
+											className={rating === 'excellent' ? classes.active : classes.inactive}>
 											Excellent
 										</Button>
-										<Button onClick={() => addRating({ value: 'extraordinary' } as any)}>
+										<Button onClick={() => showRating('extraordinary')}
+											className={rating === 'extraordinary' ? classes.active : classes.inactive}>
 											Extraordinary
 										</Button>
-									</Box>
-								</Grid>
 							</Grid>
 							<Grid item>
 								<Formik
@@ -472,13 +476,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 										};
 										await addReview(data as any);
 										resetForm();
-									}}>
+									}}
+									>
 									{({ values }) => {
 										return (
 											<>
 												<Form
 													autoComplete='off'
-													style={{ display: 'flex', alignItems: 'center' }}>
+													style={{ display: 'flex', flexDirection: 'column', textAlign: 'left'}}>
 													<FormInput
 														multiline
 														name='review'
@@ -487,10 +492,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 														placeholder={`Share your feedback...`}
 														variant='outlined'
 														size='small'
+														onFocus={() => setTyping(true)}
 													/>
-													<IconButton type='submit' color='primary'>
-														<SendIcon />
-													</IconButton>
+													{typing && <Button type='submit' color='primary' className={classes.submitButton}>Post</Button>}
 												</Form>
 											</>
 										);

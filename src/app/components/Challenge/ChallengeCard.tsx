@@ -5,6 +5,7 @@ import axios from 'axios';
 import { format } from 'date-fns';
 import { Form, Formik } from 'formik';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import {useState, useEffect} from 'react';
 
 // Material UI
 import { makeStyles, Theme, Link } from '@material-ui/core';
@@ -202,11 +203,22 @@ const useStyles = makeStyles((theme: Theme) => {
             },
         },
         btnAlign: {
-            justifyContent: 'flex-end'
+           
         },
         dataOneHide: {
             display: 'none',
-        }
+        },
+        submitButton: {
+			marginTop: 10,
+			marginLeft: 2,
+			textTransform: 'none', 
+			width: '30px',
+			height: '30px',
+			backgroundColor: theme.palette.primary.main,
+			color: 'black',
+			borderRadius: 15
+		
+		}
     };
 });
 
@@ -220,12 +232,11 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
     const queryClient = useQueryClient();
     const user = queryClient.getQueryData<User>('user')!;
     const [rating, setRating] = React.useState(0);
-
+    const [num, setNum] = useState(1);
     const classes = useStyles();
     const { isOpen, onClose, onOpen } = useDisclosure();
     const location = useLocation();
-
-    // console.log(challenge);
+    const [typing, setTyping] = useState(false);
 
 
     // Add Answer Modal Toggler
@@ -242,13 +253,6 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
         onClose: onAnsViewClose,
     } = useDisclosure();
 
-    // // Project Modal Toggler
-    // const {
-    //     isOpen: isModalOpen,
-    //     onOpen: onModalOpen,
-    //     onClose: onModalClose,
-    // } = useDisclosure();
-
     // Delete Confirm Toggler
     const {
         isOpen: isDeleteOpen,
@@ -256,40 +260,26 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
         onClose: onDeleteClose,
     } = useDisclosure();
 
-    // // Update Project Toggler
-    // const {
-    //     isOpen: isUpdateOpen,
-    //     onOpen: onUpdateOpen,
-    //     onClose: onUpdateClose,
-    // } = useDisclosure();
-
     // Get all Answers 
-    const { isLoading, data } = useQuery(
+    const { isLoading, data, refetch } = useQuery(
         ['all-answer', challenge._id],
         async () => {
             const res = await axios({
                 method: 'get',
-                url: `/api/question/answers/${challenge._id}/1`,
+                url: `/api/question/answers/${challenge._id}/${num}`,
             });
             return res.data;
         },
-        // {
-        //     onSuccess: () => {
-        //         // queryClient.invalidateQueries('all-answer');
-        //         console.log("success");
-
-        //     },
-        //     onSettled: (data) => {
-        //         if (data) {
-        //             onClose();
-        //             console.log(data, challenge._id);
-        //         }
-        //     },
-        //     onError: (err) => {
-        //         console.log(err);
-        //     }
-        // }
     );
+
+    useEffect(() => {
+		refetch();
+	}, [])
+
+    useEffect(() => {
+		console.log(num, 'i am in useeffect');
+        refetch();
+      }, [num]);
 
     //adding normal answer
     const { mutate: addAnswerMutate, isLoading: addAnswerLoading } = useMutation(
@@ -317,70 +307,6 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
     );
 
 
-
-    //  Add Review
-    // const { mutate: addReview } = useMutation(
-    //     async (data) => {
-    //         const res = await axios({
-    //             method: 'POST',
-    //             // url: `/api/project/${project._id}/reviews/`,
-    //             data,
-    //         });
-    //         return res.data;
-    //     },
-    //     {
-    //         onSuccess: () => {
-    //             // queryClient.invalidateQueries(['project-reviews', project._id]);
-    //             onOpen();
-    //         },
-    //     }
-    // );
-
-    // // Set Default Project Rating
-    // React.useEffect(() => {
-    //     if (challenge) {
-    //         challenge.ratings.forEach((el: any) => {
-    //             if (el.createdBy === user._id) {
-    //                 setRating(el.value);
-    //             }
-    //         });
-    //     }
-    // }, [project, user._id]);
-
-    // Get all Project Reviews
-    // const { isLoading, data } = useQuery(
-    //     ['project-reviews', project._id],
-    //     async () => {
-    //         const res = await axios({
-    //             method: 'get',
-    //             url: `/api/project/${project._id}/reviews`,
-    //         });
-
-    //         return res.data;
-    //     }
-    // );
-
-    // Update Rating
-    // const { mutate: addRating } = useMutation(
-    //     async (data) => {
-    //         const res = await axios({
-    //             method: 'PUT',
-    //             url: `/api/project/${project._id}/add-rating`,
-    //             data,
-    //         });
-    //         return res.data;
-    //     },
-    //     {
-    //         onSuccess: async () => {
-    //             if (location.pathname === '/') {
-    //                 await queryClient.invalidateQueries('feed');
-    //             } else {
-    //                 await queryClient.invalidateQueries(['projects', project.createdBy]);
-    //             }
-    //         },
-    //     }
-    // );
-
     // authorizing deletetion of question
     if (user._id === challenge.createdBy._id) isPublic = false;
 
@@ -405,62 +331,31 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                 aria-describedby='pdf file of the challenge'>
                 <DeleteChallenge onClose={onDeleteClose} challenge={challenge} />
             </Modal>
-            {/* Update Project */}
-            {/* <Modal
-                open={isUpdateOpen}
-                onClose={onUpdateClose}
-                aria-labelledby='project-file'
-                aria-describedby='pdf file of the project'>
-                <UpdateChallenge onClose={onUpdateClose} challenge={challenge} />
-            </Modal> */}
-            {/* Show Project File */}
-            {/* <Modal
-                open={isModalOpen}
-                onClose={onModalClose}
-                aria-labelledby='project-file'
-                aria-describedby='pdf file of the project'>
-                <>
-                    <Hidden only={['xl', 'lg', 'md', 'sm']}>
-                        <Box className={classes.pdfCloseBtn}>
-                            <IconButton onClick={onModalClose} color='inherit'>
-                                <CancelIcon />
-                            </IconButton>
-                        </Box>
-                    </Hidden>
-
-                    <PdfViewer className={classes.pdf} filename={project.projectFile} />
-                </>
-            </Modal> */}
+          
             <Card className={classes.card}>
                 <CardHeader
                     title={<Typography variant='h4'>Question:{challenge.title}</Typography>}
-                    // subheader={
-                    //     <Typography color='textSecondary' variant='caption'>
-                    //         {'Updated on ' +
-                    //             format(
-                    //                 new Date(challenge.lastUpdatedDate || challenge.createdAt!),
-                    //                 'dd MMMM yyyy'
-                    //             )}
-                    //     </Typography>
-                    // }
                     action={
-                        !isPublic ? (
-                            <>
-                                {/* <IconButton onClick={onUpdateOpen}>
-                                    <EditIcon color='primary' />
-                                </IconButton> */}
-                                <IconButton onClick={onDeleteOpen}>
-                                    <DeleteIcon style={{ color: 'red' }} />
-                                </IconButton>
-                            </>
-                        ) : null
-                    }
+						<Box style={{display: 'flex', textAlign: 'center', alignItems: 'center', justifyContent: 'center'}}>
+							<Typography color='textSecondary' variant='caption'>
+								{format(
+										new Date(challenge.createdAt!),
+										'dd MMMM yyyy'
+									)}
+							</Typography>
+						{!isPublic && (
+							<>
+								<IconButton onClick={onDeleteOpen}>
+									<DeleteIcon style={{ color: 'red' }} />
+								</IconButton>
+							</>
+						)}
+                        </Box>
+					}
                 />
                 <CardContent className={classes.cardContent}>
                     <Grid container direction='row' className={classes.centered}>
-                        {/* <Grid item sm={12} className={classes.thumbnail}>
-                            <PdfThumbnail file={project.projectFile} onClick={onModalOpen} />
-                        </Grid> */}
+                       
                         <Grid
                             item
                             sm={12}
@@ -476,219 +371,16 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                                     </Typography>
                                 </Grid>
                             )}
-                            {/* {challenge.skills.length !== 0 ? (
-                                <Grid item container direction='row'>
-                                    <Grid item style={{ marginRight: 5 }}>
-                                        <Typography variant='body2' color='textSecondary'>
-                                            Skills:
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item>
-                                        {challenge.skills.map((el: any, i: number) => {
-                                            return (
-                                                <Typography
-                                                    key={i}
-                                                    variant='body2'
-                                                    style={{ fontWeight: 500 }}>
-                                                    {el} {i === challenge.skills.length - 1 ? '' : ','}
-                                                </Typography>
-                                            );
-                                        })}
-                                    </Grid>
-                                </Grid>
-                            ) : null} */}
-                            {/* {project.tools.length !== 0 ? (
-                                <Grid item container direction='row'>
-                                    <Grid item style={{ marginRight: 5 }}>
-                                        <Typography variant='body2' color='textSecondary'>
-                                            Tools:
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item>
-                                        {project.tools.map((el: any, i: number) => {
-                                            return (
-                                                <Typography
-                                                    key={i}
-                                                    variant='body2'
-                                                    style={{ fontWeight: 500 }}>
-                                                    {el} {i === project.tools.length - 1 ? '' : ','}
-                                                </Typography>
-                                            );
-                                        })}
-                                    </Grid>
-                                </Grid>
-                            ) : null} */}
-                            {/* {project.contributors.length !== 0 ? (
-                                <Grid item container direction='row'>
-                                    <Grid item style={{ marginRight: 5 }}>
-                                        <Typography variant='body2' color='textSecondary'>
-                                            Contributors:
-                                        </Typography>
-                                    </Grid>
-                                    <Grid item>
-                                        {project.contributorDetailsArr?.map(
-                                            (el: any, i: number) => {
-                                                return (
-                                                    <Link
-                                                        key={i}
-                                                        component={RouterLink}
-                                                        to={`/public/users/${el._id}`}
-                                                        color='primary'
-                                                        style={{ fontSize: 14, fontWeight: 550 }}>
-                                                        {el.name}
-                                                        {i === project.contributors.length - 1 ? '' : ', '}
-                                                    </Link>
-                                                );
-                                            }
-                                        )}
-                                    </Grid>
-                                </Grid>
-                            ) : null} */}
                         </Grid>
                     </Grid>
                 </CardContent>
-                {/* <CardActions className={classes.cardActions}>
-                    {isPublic && (
-                        <Grid container direction='column' className={classes.section}>
-                            <Grid
-                                item
-                                container
-                                direction='row'
-                                style={{
-                                    marginBottom: 5,
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                }}>
-                                <Grid item sm={1} className={classes.avgRating}>
-                                    <Box className={classes.avgRatingBox}>
-                                        <Typography variant='h4' style={{ fontSize: 18 }}>
-                                            {challenge.avgRating?.toFixed(1)}
-                                        </Typography>
-                                        <StarRateIcon color='primary' />
-                                        <Typography
-                                            color='textSecondary'
-                                            variant='h5'
-                                            style={{ marginLeft: 1 }}>
-                                            ({challenge.numberOfRatings})
-                                        </Typography>
-                                    </Box>
-                                </Grid>
-                                <Grid item className={classes.centeredPadding}>
-                                    <Box className={classes.ratingBox}>
-                                        <Typography variant='subtitle2' color='textSecondary'>
-                                            Add Rating:
-                                        </Typography>
-
-                                        <Rating
-                                            value={rating}
-                                            onChange={(e: any) => {
-                                                let newRating = parseFloat(e.target.value);
-                                                if (rating === newRating) newRating = 0;
-                                                setRating(newRating);
-                                                addRating({ value: newRating } as any);
-                                            }}
-                                            max={10}
-                                            name={`project-${project._id}-rating`}
-                                            className={classes.rating}
-                                        />
-                                        <Typography
-                                            variant='h6'
-                                            color='primary'
-                                            className={classes.ratingNumber}>
-                                            {rating.toFixed(1)}
-                                        </Typography>
-                                    </Box>
-                                </Grid>
-                            // </Grid>
-                            <Grid item>
-                                <Formik
-                                    initialValues={{
-                                        review: ``,
-                                    }}
-                                    validateOnBlur={false}
-                                    validationSchema={validationSchema}
-                                    onSubmit={async ({ review }, { resetForm }) => {
-                                        const data = {
-                                            review,
-                                            category: 'feedback',
-                                        };
-                                        await addReview(data as any);
-                                        resetForm();
-                                    }}>
-                                    {({ values }) => {
-                                        return (
-                                            <>
-                                                <Form
-                                                    autoComplete='off'
-                                                    style={{ display: 'flex', alignItems: 'center' }}>
-                                                    <FormInput
-                                                        multiline
-                                                        name='review'
-                                                        className={classes.comment}
-                                                        fullWidth
-                                                        placeholder={`Share your feedback...`}
-                                                        variant='outlined'
-                                                        size='small'
-                                                    />
-                                                    <IconButton type='submit' color='primary'>
-                                                        <SendIcon />
-                                                    </IconButton>
-                                                </Form>
-                                            </>
-                                        );
-                                    }}
-                                </Formik>
-                            </Grid>
-                        </Grid>
-                    )}
-
-                    <Grid container>
-                        <Grid item>
-                            <Button
-                                onClick={toggleOpen}
-                                color='default'
-                                size='small'
-                                endIcon={
-                                    <ExpandMoreIcon
-                                        className={clsx(classes.expand, {
-                                            [classes.expandOpen]: isOpen,
-                                        })}
-                                    />
-                                }>
-                                All Reviews
-                            </Button>
-                        </Grid>
-                    </Grid>
-                </CardActions> */}
-                {/* <Collapse in={isOpen} timeout='auto' unmountOnExit>
-                    <CardContent>
-                        {isLoading && (
-                            <Typography color='primary' variant='caption'>
-                                Loading reviews
-                            </Typography>
-                        )}
-                        {data?.latestReviews.map((review: Review) => {
-                            return (
-                                <ReviewsSection
-                                    key={review.reviewDetails!._id}
-                                    {...{ review, challenge }}
-                                />
-                            );
-                        })}
-                        {!isLoading && !data?.length && (
-                            <Typography variant='body2'>No reviews yet</Typography>
-                        )}
-                    </CardContent>
-                </Collapse> */}
+              
                 <CardActions className={classes.btnAlign}>
                     {challenge.isCaseStudy ?
                         (<Button size="small" color="primary" onClick={onOpen}>
                             Add Project
                         </Button>) :
                         (
-                            // <Button size="small" color="primary" onClick={onAnswerOpen}>
-                            //     Add Answer
-                            // </Button>
                             <>
                                 <Grid style={{ width: '100%' }}>
                                     <Grid item>
@@ -710,7 +402,7 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                                                     <>
                                                         <Form
                                                             autoComplete='off'
-                                                            style={{ display: 'flex', alignItems: 'center' }}>
+                                                            style={{ display: 'flex', flexDirection: 'column', textAlign: 'left'}}>
                                                             <FormInput
                                                                 multiline
                                                                 name='text'
@@ -719,10 +411,9 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                                                                 placeholder={`Share your Answer...`}
                                                                 variant='outlined'
                                                                 size='small'
+                                                                onFocus={() => setTyping(true)}
                                                             />
-                                                            <IconButton type='submit' color='primary'>
-                                                                <SendIcon />
-                                                            </IconButton>
+                                                            {typing && <Button type='submit' color='primary' className={classes.submitButton}>Post</Button>}
                                                         </Form>
                                                     </>
                                                 );
@@ -761,7 +452,16 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                     {!isLoading && !data?.length && (
                         <Typography variant='body2'>No answers yet</Typography>
                     )}
+                {data?.length > 1 ? (
+                <Button onClick={() => { 
+                    setNum(num+1);
+                    // setMore(true)
+                }}> View More Answers</Button> 
+                ): null}
+            
+
                 </CardContent>
+
                 {data?.length ? (<Grid container>
                     <Grid item>
                         <Button
@@ -775,7 +475,7 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                                     })}
                                 />
                             }>
-                            All Answers
+                            View More Answers
                         </Button>
                     </Grid>
                 </Grid>) : null}

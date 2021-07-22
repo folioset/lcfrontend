@@ -22,6 +22,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 // import InfiniteScroll from 'react-infinite-scroller';
 import FeedProject from '../../components/Project/FeedProjectCard';
 import { ProjectFeed } from '../../types';
+import ReactPlayer from 'react-player'
 
 const useStyles = makeStyles((theme) => {
 	return {
@@ -32,12 +33,12 @@ const useStyles = makeStyles((theme) => {
 	};
 });
 
-const validationSchema = Yup.object().shape({
-	username: Yup.string().required('This field is required'),
-	about: Yup.string().required('This field is required'),
-	// hours: Yup.number().required('This field is required').positive(),
-	interests: Yup.string().required('This field is required'),
-});
+// const validationSchema = Yup.object().shape({
+// 	username: Yup.string().required('This field is required'),
+// 	about: Yup.string().required('This field is required'),
+// 	// hours: Yup.number().required('This field is required').positive(),
+// 	interests: Yup.string().required('This field is required'),
+// });
 
 
 const Test: React.FC = () => {
@@ -52,83 +53,41 @@ const Test: React.FC = () => {
 
 
 
-    const { isLoading, data, refetch } = useQuery('feed', async () => {
-		const res = await axios({
-			method: 'get',
-			url: `/api/feed/${num}`,
-		});
-		// setItems(items.concat(data));
-		setItems(items => ([...items, ...res.data]));
-		console.log(res.data);
-		return res.data;
-	});
+    // const { isLoading, data, refetch } = useQuery('feed', async () => {
+	// 	const res = await axios({
+	// 		method: 'get',
+	// 		url: `/api/feed/${num}`,
+	// 	});
+	// 	// setItems(items.concat(data));
+	// 	setItems(items => ([...items, ...res.data]));
+	// 	console.log(res.data);
+	// 	return res.data;
+	// });
 
-	useEffect(() => {
-		refetch();
-	}, [])
+	// useEffect(() => {
+	// 	refetch();
+	// }, [])
 
-	useEffect(() => {
-		console.log(items, "i am in items");
-	}, [items]);
+	// useEffect(() => {
+	// 	console.log(items, "i am in items");
+	// }, [items]);
 
-    useEffect(() => {
-		console.log(num, 'i am in useeffect');
-        refetch();
-      }, [num]);
+    // useEffect(() => {
+	// 	console.log(num, 'i am in useeffect');
+    //     refetch();
+    //   }, [num]);
 
-    // const fetchMoreData = async () => {
-    //     // a fake async api call like which sends
-    //     // 20 more records in 1.5 secs
-    //     // setTimeout(() => {
-    //     //   this.setState({
-    //     //     items: this.state.items.concat(Array.from({ length: 20 }))
-    //     //   });
-    //     // }, 1500);
-    //     setNum(num + 1);
-    //     await refetch();
-    //   };
+   
 
 	return (
 		<>
-		<Typography>Testing 1 2 3..</Typography>
-        <InfiniteScroll
-          dataLength={items.length}
-          next={() => {
-			  console.log(num, "i am in next");
-			  setNum(num+1)
-		  }}
-          hasMore={true}
-          loader={<h4>Loading...</h4>}
-		  scrollThreshold={0.7}
-        >
-          <Container>
-			
-			{items.map((project: ProjectFeed) => {
-				return <FeedProject key={project._id} {...{ project }} />;
-			})
-			
-			}
-        </Container>
-        </InfiniteScroll>
-		{/* <InfiniteScroll
-			pageStart={0}
-			loadMore={fetchMoreData}
-			hasMore={true}
-			loader={<h4>Loading...</h4>}
-			threshold={400}
-		>
-			<Container>
-            {data?.map((project: ProjectFeed) => {
-				return <FeedProject key={project._id} {...{ project }} />;
-			})}
-        	</Container>
-		</InfiniteScroll> */}
-        {/* <Button onClick={fetchMoreData}>See more</Button>
-        <Container>
-            {data?.map((project: ProjectFeed) => {
-				return <FeedProject key={project._id} {...{ project }} />;
-			})}
-        </Container> */}
+			<ReactPlayer 
+			url='https://www.youtube.com/watch?v=ysz5S6PUM-U' 
+			playing={true}
+			controls={true}
+			width='600px'
+			height='300px'
+			/>
 		</>
 	);
 };
