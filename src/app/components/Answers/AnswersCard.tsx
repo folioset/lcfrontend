@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
             // marginTop: theme.spacing(3),
             // marginBottom: -10,
             justifyContent: 'center',
-            marginLeft: 50,
+            // marginLeft: 50,
             fontSize: 15,
         },
         comment: {
@@ -92,7 +92,6 @@ const AnswersCard: React.FC<AnswerCardProps> = ({ answersData }) => {
     } = useDisclosure();
 
 
-
     return (
 
         <>
@@ -126,6 +125,10 @@ const AnswersCard: React.FC<AnswerCardProps> = ({ answersData }) => {
                             variant='caption'>
                             {/* {format(new Date(answersData?.updatedAt), 'dd MMMM yyyy')} */}
                             {answersData?.updatedAt}
+                            {/* {format(
+                                new Date(answersData?.updatedAt!),
+                                'dd MMMM yyyy'
+                            )} */}
                         </Typography>
                     }
                     // style={{ marginBottom: -40 }}
