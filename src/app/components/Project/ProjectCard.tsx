@@ -5,6 +5,7 @@ import axios from 'axios';
 import { format } from 'date-fns';
 import { Form, Formik } from 'formik';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useState, useEffect } from 'react';
 
 // Material UI
 import { makeStyles, Theme, Link } from '@material-ui/core';
@@ -46,25 +47,11 @@ import { useLocation } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
 import PdfThumbnail from '../shared/Pdf/PdfThumbnail';
 
-const validationSchema = Yup.object().shape({
-	review: Yup.string()
-		.required('This is a required field')
-		.max(200, 'Too Long! Review can only have a maximum of 100 characters'),
-});
-
 const useStyles = makeStyles((theme: Theme) => {
 	return {
 		card: {
-			marginBottom: 20,
-			paddingLeft: 5,
+			paddingLeft: 3,
 			paddingRight: 5,
-			borderRadius: 10,
-			borderWidth: 5,
-			borderColor: '#111111',
-			elevation: 0,
-			boxShadow: '0 0 3px 1px rgba(0, 0, 0, 0.1)',
-			width: '95%',
-			margin: 'auto',
 		},
 		cardActions: {
 			flexDirection: 'column',
@@ -80,10 +67,21 @@ const useStyles = makeStyles((theme: Theme) => {
 			transform: 'rotate(180deg)',
 		},
 		cardContent: {
+			marginTop: -20,
 			borderBottomWidth: '1px',
 			borderBottomStyle: 'solid',
 			borderBottomColor: theme.palette.divider,
 			paddingBottom: theme.spacing(4),
+		},
+		tag: {
+			backgroundColor: theme.palette.grey['200'],
+			borderRadius: 8,
+			paddingTop: 4,
+			paddingBottom: 4,
+			paddingLeft: 10,
+			paddingRight: 10,
+			marginLeft: 3,
+			marginRight: 3,
 		},
 		rating: {
 			paddingLeft: theme.spacing(0.7),
@@ -100,15 +98,6 @@ const useStyles = makeStyles((theme: Theme) => {
 		section: {
 			padding: theme.spacing(0.5),
 		},
-		centered: {
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'center',
-
-			[theme.breakpoints.down('xs')]: {
-				flexDirection: 'column',
-			},
-		},
 		centeredButton: {
 			display: 'flex',
 			justifyContent: 'center',
@@ -117,26 +106,14 @@ const useStyles = makeStyles((theme: Theme) => {
 				marginBottom: theme.spacing(3),
 			},
 		},
-		description: {
-			[theme.breakpoints.down('xs')]: {
-				textAlign: 'left',
-				fontSize: 15,
-				marginBottom: theme.spacing(3),
-			},
-		},
-		centeredPadding: {
+		ratings: {
 			display: 'flex',
-			justifyContent: 'center',
-			paddingLeft: theme.spacing(3),
-			paddingRight: theme.spacing(3),
-
-			[theme.breakpoints.down('xs')]: {
-				paddingLeft: 0,
-				paddingRight: 0,
-			},
 		},
 		thumbnail: {
 			// paddingRight: theme.spacing(4),
+			display: 'flex',
+			alignItems: 'center',
+			justifyContent: 'center',
 		},
 		collabBox: {
 			display: 'flex',
@@ -184,20 +161,41 @@ const useStyles = makeStyles((theme: Theme) => {
 			justifyContent: 'space-around',
 			alignItems: 'center',
 		},
-		ratingBox: {
-			display: 'flex',
-			justifyContent: 'center',
-			alignItems: 'center',
+		// ratingBox: {
+		// 	display: 'flex',
+		// 	justifyContent: 'center',
+		// 	alignItems: 'center',
 
-			[theme.breakpoints.down('xs')]: {
-				marginTop: 10,
-				flexDirection: 'column',
-				alignItems: 'start',
+		// 	[theme.breakpoints.down('xs')]: {
+		// 		marginTop: 10,
+		// 		flexDirection: 'column',
+		// 		alignItems: 'start',
 
-				'& h6': {
-					paddingLeft: theme.spacing(1),
-				},
-			},
+		// 		'& h6': {
+		// 			paddingLeft: theme.spacing(1),
+		// 		},
+		// 	},
+		// },
+		active: {
+			color: theme.palette.primary.main,
+			textTransform: 'none',
+			fontWeight: 550,
+			fontSize: 16,
+		},
+		inactive: {
+			color: theme.palette.secondary.main,
+			textTransform: 'none',
+			fontSize: 16,
+		},
+		submitButton: {
+			marginTop: 10,
+			marginLeft: 2,
+			textTransform: 'none',
+			width: '30px',
+			height: '30px',
+			backgroundColor: theme.palette.primary.main,
+			color: 'black',
+			borderRadius: 15,
 		},
 	};
 });
@@ -210,11 +208,12 @@ interface ProjectCardProps {
 const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 	const queryClient = useQueryClient();
 	const user = queryClient.getQueryData<User>('user')!;
-	const [rating, setRating] = React.useState(0);
 	const classes = useStyles();
 	const { isOpen, toggleOpen, onOpen } = useDisclosure();
 	const location = useLocation();
-
+	const [rated, setRated] = useState(false);
+	const [rating, setRating] = useState('');
+	const [typing, setTyping] = useState(false);
 	// Project Modal Toggler
 	const {
 		isOpen: isModalOpen,
@@ -255,15 +254,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 	);
 
 	// Set Default Project Rating
-	React.useEffect(() => {
-		if (project) {
-			project.ratings.forEach((el: any) => {
-				if (el.createdBy === user._id) {
-					setRating(el.value);
-				}
-			});
-		}
-	}, [project, user._id]);
+	// React.useEffect(() => {
+	// 	if (project) {
+	// 		project.ratings.forEach((el: any) => {
+	// 			if (el.createdBy === user._id) {
+	// 				setRating(el.value);
+	// 				setRated(true);
+	// 				// console.log(el.value)
+	// 			}
+	// 		});
+	// 	}
+	// }, [project, user._id]);
 
 	// Get all Project Reviews
 	const { isLoading, data } = useQuery(
@@ -290,6 +291,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 		},
 		{
 			onSuccess: async () => {
+				console.log('success!');
 				if (location.pathname === '/') {
 					await queryClient.invalidateQueries('feed');
 				} else {
@@ -298,6 +300,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 			},
 		}
 	);
+
+	const showRating = (value: any) => {
+		setRating(value);
+		addRating({ value: value } as any);
+	};
 
 	return (
 		<>
@@ -338,169 +345,131 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 			<Card className={classes.card}>
 				<CardHeader
 					title={<Typography variant='h4'>{project.title}</Typography>}
-					subheader={
-						<Typography color='textSecondary' variant='caption'>
-							{'Updated on ' +
-								format(
+					action={
+						<Box
+							style={{
+								display: 'flex',
+								textAlign: 'center',
+								alignItems: 'center',
+								justifyContent: 'center',
+							}}>
+							<Typography color='textSecondary' variant='caption'>
+								{format(
 									new Date(project.lastUpdatedDate || project.createdAt!),
 									'dd MMMM yyyy'
 								)}
-						</Typography>
-					}
-					action={
-						!isPublic ? (
-							<>
-								<IconButton onClick={onUpdateOpen}>
-									<EditIcon color='primary' />
-								</IconButton>
-								<IconButton onClick={onDeleteOpen}>
-									<DeleteIcon style={{ color: 'red' }} />
-								</IconButton>
-							</>
-						) : null
+							</Typography>
+							{!isPublic && (
+								<>
+									<IconButton onClick={onUpdateOpen}>
+										<EditIcon color='primary' />
+									</IconButton>
+									<IconButton onClick={onDeleteOpen}>
+										<DeleteIcon style={{ color: 'red' }} />
+									</IconButton>
+								</>
+							)}
+						</Box>
 					}
 				/>
 				<CardContent className={classes.cardContent}>
-					<Grid container direction='row' className={classes.centered}>
-						<Grid item sm={12} className={classes.thumbnail}>
-							<PdfThumbnail file={project.projectFile} onClick={onModalOpen} />
-						</Grid>
-						<Grid
-							item
-							sm={12}
-							container
-							direction='column'
-							className={classes.collabBox}>
-							{project.description && (
-								<Grid item style={{ marginBottom: 10 }}>
-									<Typography className={classes.description}>
-										{project.description}
-									</Typography>
-								</Grid>
-							)}
+					<Grid container>
+						{project.description && (
+							<Grid item style={{ marginBottom: 10 }}>
+								<Typography variant='body2'>{project.description}</Typography>
+							</Grid>
+						)}
+						<Grid item container direction='row'>
 							{project.skills.length !== 0 ? (
 								<Grid item container direction='row'>
-									<Grid item style={{ marginRight: 5 }}>
-										<Typography variant='body2' color='textSecondary'>
-											Skills:
-										</Typography>
-									</Grid>
-									<Grid item>
-										{project.skills.map((el: any, i: number) => {
-											return (
-												<Typography
-													key={i}
-													variant='body2'
-													style={{ fontWeight: 500 }}>
-													{el} {i === project.skills.length - 1 ? '' : ','}
+									{project.skills.map((el: any, i: number) => {
+										return (
+											<Grid item className={classes.tag}>
+												<Typography key={i} variant='h5'>
+													{el}
 												</Typography>
-											);
-										})}
-									</Grid>
+											</Grid>
+										);
+									})}
 								</Grid>
 							) : null}
 							{project.tools.length !== 0 ? (
 								<Grid item container direction='row'>
-									<Grid item style={{ marginRight: 5 }}>
-										<Typography variant='body2' color='textSecondary'>
-											Tools:
-										</Typography>
-									</Grid>
-									<Grid item>
-										{project.tools.map((el: any, i: number) => {
-											return (
-												<Typography
-													key={i}
-													variant='body2'
-													style={{ fontWeight: 500 }}>
-													{el} {i === project.tools.length - 1 ? '' : ','}
+									{project.tools.map((el: any, i: number) => {
+										return (
+											<Grid item className={classes.tag}>
+												<Typography key={i} variant='h5'>
+													{el}
 												</Typography>
-											);
-										})}
-									</Grid>
-								</Grid>
-							) : null}
-							{project.contributors.length !== 0 ? (
-								<Grid item container direction='row'>
-									<Grid item style={{ marginRight: 5 }}>
-										<Typography variant='body2' color='textSecondary'>
-											Contributors:
-										</Typography>
-									</Grid>
-									<Grid item>
-										{project.contributorDetailsArr?.map(
-											(el: any, i: number) => {
-												return (
-													<Link
-														key={i}
-														component={RouterLink}
-														to={`/public/users/${el._id}`}
-														color='primary'
-														style={{ fontSize: 14, fontWeight: 550 }}>
-														{el.name}
-														{i === project.contributors.length - 1 ? '' : ', '}
-													</Link>
-												);
-											}
-										)}
-									</Grid>
+											</Grid>
+										);
+									})}
 								</Grid>
 							) : null}
 						</Grid>
+						<Grid item sm={12} className={classes.thumbnail}>
+							<PdfThumbnail file={project.projectFile} onClick={onModalOpen} />
+						</Grid>
+						{project.contributors.length !== 0 ? (
+							<Grid item container direction='row'>
+								<Grid item style={{ marginRight: 5 }}>
+									<Typography variant='body2' color='textSecondary'>
+										Contributors:
+									</Typography>
+								</Grid>
+								<Grid item>
+									{project.contributorDetailsArr?.map((el: any, i: number) => {
+										return (
+											<Link
+												key={i}
+												component={RouterLink}
+												to={`/public/users/${el._id}`}
+												color='primary'
+												style={{ fontSize: 14, fontWeight: 550 }}>
+												{el.name}
+												{i === project.contributors.length - 1 ? '' : ', '}
+											</Link>
+										);
+									})}
+								</Grid>
+							</Grid>
+						) : null}
 					</Grid>
 				</CardContent>
 				<CardActions className={classes.cardActions}>
 					{isPublic && (
 						<Grid container direction='column' className={classes.section}>
-							<Grid
-								item
-								container
-								direction='row'
-								style={{
-									marginBottom: 5,
-									display: 'flex',
-									alignItems: 'center',
-								}}>
-								<Grid item sm={1} className={classes.avgRating}>
-									<Box className={classes.avgRatingBox}>
-										<Typography variant='h4' style={{ fontSize: 18 }}>
-											{project.avgRating?.toFixed(1)}
-										</Typography>
-										<StarRateIcon color='primary' />
-										<Typography
-											color='textSecondary'
-											variant='h5'
-											style={{ marginLeft: 1 }}>
-											({project.numberOfRatings})
-										</Typography>
-									</Box>
-								</Grid>
-								<Grid item className={classes.centeredPadding}>
-									<Box className={classes.ratingBox}>
-										<Typography variant='subtitle2' color='textSecondary'>
-											Add Rating:
-										</Typography>
-
-										<Rating
-											value={rating}
-											onChange={(e: any) => {
-												let newRating = parseFloat(e.target.value);
-												if (rating === newRating) newRating = 0;
-												setRating(newRating);
-												addRating({ value: newRating } as any);
-											}}
-											max={10}
-											name={`project-${project._id}-rating`}
-											className={classes.rating}
-										/>
-										<Typography
-											variant='h6'
-											color='primary'
-											className={classes.ratingNumber}>
-											{rating.toFixed(1)}
-										</Typography>
-									</Box>
-								</Grid>
+							<Grid item className={classes.ratings}>
+								<Button
+									onClick={() => showRating('fine')}
+									className={
+										rating === 'fine' ? classes.active : classes.inactive
+									}>
+									Good
+								</Button>
+								<Button
+									onClick={() => showRating('good')}
+									className={
+										rating === 'good' ? classes.active : classes.inactive
+									}>
+									Great
+								</Button>
+								<Button
+									onClick={() => showRating('excellent')}
+									className={
+										rating === 'excellent' ? classes.active : classes.inactive
+									}>
+									Excellent
+								</Button>
+								<Button
+									onClick={() => showRating('extraordinary')}
+									className={
+										rating === 'extraordinary'
+											? classes.active
+											: classes.inactive
+									}>
+									Extraordinary
+								</Button>
 							</Grid>
 							<Grid item>
 								<Formik
@@ -508,7 +477,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 										review: ``,
 									}}
 									validateOnBlur={false}
-									validationSchema={validationSchema}
 									onSubmit={async ({ review }, { resetForm }) => {
 										const data = {
 											review,
@@ -522,7 +490,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 											<>
 												<Form
 													autoComplete='off'
-													style={{ display: 'flex', alignItems: 'center' }}>
+													style={{
+														display: 'flex',
+														flexDirection: 'column',
+														textAlign: 'left',
+													}}>
 													<FormInput
 														multiline
 														name='review'
@@ -531,10 +503,16 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 														placeholder={`Share your feedback...`}
 														variant='outlined'
 														size='small'
+														onFocus={() => setTyping(true)}
 													/>
-													<IconButton type='submit' color='primary'>
-														<SendIcon />
-													</IconButton>
+													{typing && (
+														<Button
+															type='submit'
+															color='primary'
+															className={classes.submitButton}>
+															Post
+														</Button>
+													)}
 												</Form>
 											</>
 										);
@@ -544,7 +522,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 						</Grid>
 					)}
 
-					<Grid container>
+					{/* <Grid container>
 						<Grid item>
 							<Button
 								onClick={toggleOpen}
@@ -560,31 +538,18 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 								All Reviews
 							</Button>
 						</Grid>
-					</Grid>
+					</Grid> */}
 				</CardActions>
-				<Collapse in={isOpen} timeout='auto' unmountOnExit>
-					<CardContent>
-						{isLoading && (
-							<Typography color='primary' variant='caption'>
-								Loading reviews
-							</Typography>
-						)}
-						{data && (
+				{/* <Collapse in={isOpen} timeout='auto' unmountOnExit> */}
+				<CardContent>
+					{isLoading && (
+						<Typography color='primary' variant='caption'>
+							Loading reviews
+						</Typography>
+					)}
+					{/* {data && (
 							<>
-								<Box mb='3'>
-									{data?.map((review: Review) => {
-										return (
-											<ReviewsSection
-												key={review.reviewDetails._id}
-												{...{ review, project }}
-											/>
-										);
-									})}
-								</Box>
-								{/* <Box mb='3'>
-									<Typography>Latest Reviews</Typography>
-								</Box> */}
-								{/* <Box mb='5'>
+								<Box mb='5'>
 									{[...data?.latestReviews].map((review: Review) => {
 										return (
 											<ReviewsSection
@@ -593,8 +558,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 											/>
 										);
 									})}
-								</Box> */}
-								{/* {data?.previousReviews.length > 0 && (
+								</Box>
+								{data?.previousReviews.length > 0 && (
 									<>
 										<Box mb='3'>
 											<Typography>Previous Reviews</Typography>
@@ -608,15 +573,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 											);
 										})}
 									</>
-								)} */}
+								)}
 							</>
-						)}
-
-						{!isLoading && !data?.length && (
-							<Typography variant='body2'>No reviews yet</Typography>
-						)}
-					</CardContent>
-				</Collapse>
+						)} */}
+				</CardContent>
+				{/* </Collapse> */}
 			</Card>
 		</>
 	);

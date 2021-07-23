@@ -15,8 +15,14 @@ const useStyles = makeStyles((theme: Theme) => {
 	return {
 		name: {
 			cursor: 'pointer',
-			fontSize: 17,
-			fontWeight: 520,
+			fontSize: 15,
+			fontWeight: 450,
+			marginLeft: -7
+		},
+		about: {
+			fontSize: 13,
+			fontColor: 'textSecondary',
+			marginLeft: -7
 		},
 		root: {
 			marginBottom: theme.spacing(4),
@@ -43,12 +49,12 @@ const FeedProject: React.FC<FeedProjectProps> = ({ project }) => {
 							component={RouterLink}
 							to={`/public/users/${project.createdBy}`}
 							className={classes.name}
-							color='secondary'
+							color='textPrimary'
 							variant='h4'>
 							{project.name}
 						</Link>
 					}
-					subheader={<Typography variant='body2'>{project.about}</Typography>}
+					subheader={<Typography variant='body2' className={classes.about}>{project.about}</Typography>}
 				/>
 				<ProjectCard isPublic project={project} />
 			</Card>

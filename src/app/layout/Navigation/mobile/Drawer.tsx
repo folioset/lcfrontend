@@ -23,6 +23,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import EditIcon from '@material-ui/icons/Edit';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import PeopleIcon from '@material-ui/icons/People';
+import TrendingUpSharpIcon from '@material-ui/icons/TrendingUpSharp';
 import Logo from '../../../components/shared/Logo';
 import { User } from '../../../types';
 import Avatar from '../../../components/shared/Avatar';
@@ -98,6 +99,12 @@ const Drawer: React.FC<Props> = ({ isOpen, onClose }) => {
 						icon={<PeopleIcon color={'inherit'} />}
 						text='All Users'
 						to='/public/users'
+						onClose={onClose}
+					/>
+					<DrawerItem
+						icon={<TrendingUpSharpIcon color={'inherit'} />}
+						text='Challenges'
+						to='/public/challenges'
 						onClose={onClose}
 					/>
 					<Divider />

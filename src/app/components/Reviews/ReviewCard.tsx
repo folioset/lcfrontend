@@ -1,12 +1,11 @@
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardHeader from '@material-ui/core/CardHeader';
-import Typography from '@material-ui/core/Typography';
+import { Link, Typography, Card, CardHeader, CardContent } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import * as React from 'react';
 import { Project, Review } from '../../types';
 import Avatar from '../shared/Avatar';
 import { format } from 'date-fns';
+
+import { Link as RouterLink } from 'react-router-dom';
 
 interface ReviewCardProps {
 	review: Review;
@@ -23,8 +22,19 @@ const useStyles = makeStyles((theme: Theme) =>
 		avatar: {
 			backgroundColor: theme.palette.primary.main,
 		},
+		name: {
+			cursor: 'pointer',
+			fontSize: 15,
+			fontWeight: 450,
+			marginLeft: -7
+		},
+		about: {
+			fontSize: 13,
+			fontColor: 'textSecondary',
+			marginLeft: -7
+		},
 		content: {
-			marginTop: theme.spacing(3),
+			marginTop: -20,
 			marginBottom: -10,
 			fontSize: 15,
 		},
@@ -55,29 +65,30 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 						{format(new Date(review.reviewDetails?.updatedAt), 'dd MMMM yyyy')}
 					</Typography>
 				}
-				style={{ marginBottom: -40 }}
 				avatar={
 					<Avatar className={classes.avatar} src={review.profilePicture}>
 						{review.name.split('')[0]}
 					</Avatar>
 				}
 				title={
-					<Typography variant='body2' style={{ fontWeight: 500 }}>
+					<Link
+						component={RouterLink}
+						to={`/public/users/${review.reviewDetails?.createdBy}`}
+						className={classes.name}
+						color='secondary'
+						variant='h4'>
 						{review.name}
-					</Typography>
+					</Link>
 				}
-				subheader={
-					<Typography color='textSecondary' variant='caption'>
-						{review.about}
-					</Typography>
-				}
+				subheader={<Typography variant='body2' className={classes.about}>{review.about}</Typography>}
+				
 			/>
 			<CardContent className={classes.content}>
 				{`${review.reviewDetails?.review}`.split('\n').map((el) => {
 					if (!el.length) {
 						return <br />;
 					}
-					return <Typography>{el}</Typography>;
+					return <Typography variant='body2'>{el}</Typography>;
 				})}
 			</CardContent>
 		</Card>

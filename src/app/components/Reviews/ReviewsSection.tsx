@@ -17,6 +17,7 @@ import {
 import SendIcon from '@material-ui/icons/Send';
 import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
 import Box from '@material-ui/core/Box';
+import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
 // types
 import { Project, Review, User } from '../../types';
@@ -33,17 +34,11 @@ interface ReviewsSectionProps {
 	project: Project;
 }
 
-const validationSchema = Yup.object().shape({
-	review: Yup.string()
-		.required('This is a required field')
-		.max(200, 'Too Long! Review can only have a maximum of 100 characters'),
-});
-
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		root: {
-			marginBottom: theme.spacing(3),
 			backgroundColor: theme.palette.common.white,
+			marginBottom: theme.spacing(1)
 		},
 		avatar: {
 			backgroundColor: theme.palette.primary.main,
@@ -159,8 +154,8 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ review, project }) => {
 						) : (
 							<Link
 								onClick={() => handleLike()}
-								color='textPrimary'
-								style={{ fontWeight: 600, fontSize: 13 }}>
+								color='secondary'
+								style={{ fontWeight: 550, fontSize: 13 }}>
 								{' '}
 								Insightful
 							</Link>
@@ -181,20 +176,29 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ review, project }) => {
 					<Box className={classes.countBox}>
 						<Link
 							onClick={toggleOpen}
-							color='textPrimary'
-							style={{ fontWeight: 600, fontSize: 13 }}>
+							color='secondary'
+							style={{ fontWeight: 550, fontSize: 13 }}>
+							{' '}
+							Reply
+						</Link>
+					</Box>
+					<Box className={classes.countBox}>
+						<Link
+							onClick={toggleOpen}
+							color='secondary'
+							style={{ fontWeight: 550, fontSize: 13 }}>
 							{' '}
 							{review.reviewDetails.replies?.length || 0} Replies
 						</Link>
 					</Box>
 				</Box>
+				<Collapse in={isOpen} timeout='auto' unmountOnExit>
 				<CardActions>
 					<Formik
 						initialValues={{
 							review: '',
 						}}
 						validateOnBlur={false}
-						validationSchema={validationSchema}
 						onSubmit={async ({ review }, { resetForm }) => {
 							const data = {
 								review,
@@ -206,7 +210,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ review, project }) => {
 						<>
 							<Form autoComplete='off' className={classes.replyForm}>
 								<Avatar
-									style={{ marginRight: 10 }}
+									style={{ marginLeft: 5, marginRight: 10 }}
 									src={user?.profilePicture}
 								/>
 								<FormInput
@@ -225,12 +229,14 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ review, project }) => {
 						</>
 					</Formik>
 				</CardActions>
-				<Collapse in={isOpen} timeout='auto' unmountOnExit>
+				    <Box style={{marginLeft: 60}}>
 					{repliesLoading && <Typography>Loading....</Typography>}
 
 					{replies?.map((reply: any) => {
 						return <ReviewCard key={reply._id} review={reply} />;
 					})}
+					</Box>
+					
 				</Collapse>
 			</Card>
 		</>
