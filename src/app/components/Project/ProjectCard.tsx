@@ -572,9 +572,19 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 						{data && (
 							<>
 								<Box mb='3'>
-									<Typography>Latest Reviews</Typography>
+									{data?.map((review: Review) => {
+										return (
+											<ReviewsSection
+												key={review.reviewDetails._id}
+												{...{ review, project }}
+											/>
+										);
+									})}
 								</Box>
-								<Box mb='5'>
+								{/* <Box mb='3'>
+									<Typography>Latest Reviews</Typography>
+								</Box> */}
+								{/* <Box mb='5'>
 									{[...data?.latestReviews].map((review: Review) => {
 										return (
 											<ReviewsSection
@@ -583,8 +593,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 											/>
 										);
 									})}
-								</Box>
-								{data?.previousReviews.length > 0 && (
+								</Box> */}
+								{/* {data?.previousReviews.length > 0 && (
 									<>
 										<Box mb='3'>
 											<Typography>Previous Reviews</Typography>
@@ -598,7 +608,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 											);
 										})}
 									</>
-								)}
+								)} */}
 							</>
 						)}
 

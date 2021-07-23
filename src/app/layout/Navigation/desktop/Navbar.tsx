@@ -21,6 +21,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import HomeIcon from '@material-ui/icons/Home';
+import ForumIcon from '@material-ui/icons/Forum';
 
 // Components
 import NavItem from './NavItem';
@@ -89,6 +90,12 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 						<Box className={classes.nav}>
 							<NavItem exact to='/' icon={<HomeIcon color='secondary' />}>
 								<Typography color='secondary'>Feed</Typography>
+							</NavItem>
+							<NavItem
+								exact
+								to='/interview'
+								icon={<ForumIcon color='secondary' />}>
+								<Typography color='secondary'>Interview</Typography>
 							</NavItem>
 							<NavItem
 								exact
