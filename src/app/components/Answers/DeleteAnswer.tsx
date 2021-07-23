@@ -12,11 +12,12 @@ import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 // types
-import { Challenge } from '../../types';
+import { Answer, Challenge } from '../../types';
 
-interface DeleteChallengeProps {
+interface DeleteAnswerProps {
     challenge: Challenge;
     onClose: () => void;
+    answersData: Answer;
 }
 
 const useStyles = makeStyles((theme: Theme) => {
@@ -50,21 +51,24 @@ const useStyles = makeStyles((theme: Theme) => {
     };
 });
 
-const DeleteChallenge: React.FC<DeleteChallengeProps> = ({ challenge, onClose }) => {
+const DeleteAnswer: React.FC<DeleteAnswerProps> = ({ onClose, challenge, answersData }) => {
     const queryClient = useQueryClient();
     const classes = useStyles();
 
-    const { mutate: deleteChallenge, isLoading: isDeletingChall } = useMutation(
+    console.log(answersData);
+
+
+    const { mutate: deleteAnswer, isLoading: isDeletingAnswer } = useMutation(
         async () => {
             const res = await axios({
                 method: 'delete',
-                url: `/api/question/${challenge._id}`,
+                url: `/api/question/${challenge._id}/${answersData._id}`,
             });
             return res.data;
         },
         {
             onSuccess: () => {
-                queryClient.invalidateQueries('feedChall');
+                queryClient.invalidateQueries('all-answer');
                 onClose();
             },
             onError: (err) => {
@@ -76,16 +80,16 @@ const DeleteChallenge: React.FC<DeleteChallengeProps> = ({ challenge, onClose })
     return (
         <>
             <Paper className={classes.deleteConfirm}>
-                <Typography>Are you sure you want to delete this challenge ?</Typography>
+                <Typography>Are you sure you want to delete this answer ?</Typography>
                 <Box className={classes.deleteConfirmBtns}>
                     <Button
                         disableElevation
-                        onClick={() => deleteChallenge()}
+                        onClick={() => deleteAnswer()}
                         variant='contained'
                         color='primary'
-                        disabled={isDeletingChall}
+                        disabled={isDeletingAnswer}
                         startIcon={
-                            isDeletingChall ? (
+                            isDeletingAnswer ? (
                                 <CircularProgress size='small' style={{ color: 'white' }} />
                             ) : (
                                 <DeleteIcon />
@@ -102,4 +106,4 @@ const DeleteChallenge: React.FC<DeleteChallengeProps> = ({ challenge, onClose })
     );
 };
 
-export default DeleteChallenge;
+export default DeleteAnswer;

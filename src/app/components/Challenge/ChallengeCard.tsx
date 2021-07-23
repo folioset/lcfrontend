@@ -5,7 +5,7 @@ import axios from 'axios';
 import { format } from 'date-fns';
 import { Form, Formik } from 'formik';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 
 // Material UI
 import { makeStyles, Theme, Link, MenuItem } from '@material-ui/core';
@@ -27,6 +27,7 @@ import Menu from '@material-ui/core/Menu';
 import CancelIcon from '@material-ui/icons/Cancel';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SendIcon from '@material-ui/icons/Send';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 // components
 import Rating from '../shared/Rating';
@@ -66,7 +67,7 @@ const useStyles = makeStyles((theme: Theme) => {
             borderColor: '#111111',
             elevation: 0,
             boxShadow: '0 0 3px 1px rgba(0, 0, 0, 0.1)',
-            width: '95%',
+            width: '100%',
             margin: 'auto',
         },
         cardActions: {
@@ -205,22 +206,26 @@ const useStyles = makeStyles((theme: Theme) => {
             },
         },
         btnAlign: {
-           
+
         },
         dataOneHide: {
             display: 'none',
         },
         submitButton: {
-			marginTop: 10,
-			marginLeft: 2,
-			textTransform: 'none', 
-			width: '30px',
-			height: '30px',
-			backgroundColor: theme.palette.primary.main,
-			color: 'black',
-			borderRadius: 15
-		
-		}
+            marginTop: 10,
+            marginLeft: 2,
+            textTransform: 'none',
+            width: '30px',
+            height: '30px',
+            backgroundColor: theme.palette.primary.main,
+            color: 'black',
+            borderRadius: 15,
+        },
+        answerContent: {
+            display: 'flex',
+            justifyContent: 'flex-end',
+            width: '100%'
+        },
     };
 });
 
@@ -240,6 +245,17 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
     const location = useLocation();
     const [typing, setTyping] = useState(false);
 
+
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     // Add Answer Modal Toggler
     const {
@@ -262,6 +278,13 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
         onClose: onDeleteClose,
     } = useDisclosure();
 
+    // Update Challenge Toggler
+    const {
+        isOpen: isUpdateOpen,
+        onOpen: onUpdateOpen,
+        onClose: onUpdateClose,
+    } = useDisclosure();
+
     // Get all Answers 
     const { isLoading, data, refetch } = useQuery(
         ['all-answer', challenge._id],
@@ -273,16 +296,15 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
             return res.data;
         },
     );
-    // }, [])
 
     useEffect(() => {
-		refetch();
-	}, [])
-
-    useEffect(() => {
-		console.log(num, 'i am in useeffect');
         refetch();
-      }, [num]);
+    }, [])
+
+    useEffect(() => {
+        console.log(num, 'i am in useeffect');
+        refetch();
+    }, [num]);
 
     //adding normal answer
     const { mutate: addAnswerMutate, isLoading: addAnswerLoading } = useMutation(
@@ -295,13 +317,10 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
         {
             onSuccess: () => {
                 queryClient.invalidateQueries('all-answer');
-                // console.log("success");
-                // AnsViewToggleOpen();
             },
             onSettled: (data) => {
                 if (data) {
                     onClose();
-                    console.log(data);
                 }
             },
             onError: (err) => {
@@ -326,7 +345,16 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                 <CreateCaseAnswer {...{ onClose, challenge }} />
             </Modal>
 
-            {/* Delete Project */}
+            {/* Update challenge */}
+            <Modal
+                open={isUpdateOpen}
+                onClose={onUpdateClose}
+                aria-labelledby='project-file'
+                aria-describedby='pdf file of the project'>
+                <UpdateChallenge onClose={onUpdateClose} challenge={challenge} />
+            </Modal>
+
+            {/* Delete challenge */}
             <Modal
                 open={isDeleteOpen}
                 onClose={onDeleteClose}
@@ -334,31 +362,46 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                 aria-describedby='pdf file of the challenge'>
                 <DeleteChallenge onClose={onDeleteClose} challenge={challenge} />
             </Modal>
-          
+
             <Card className={classes.card}>
                 <CardHeader
-                    title={<Typography variant='h4'>Question:{challenge.title}</Typography>}
+                    title={
+                        <Typography variant='h4'>Challenge</Typography>
+                    }
                     action={
-						<Box style={{display: 'flex', textAlign: 'center', alignItems: 'center', justifyContent: 'center'}}>
-							<Typography color='textSecondary' variant='caption'>
-								{format(
-										new Date(challenge.createdAt!),
-										'dd MMMM yyyy'
-									)}
-							</Typography>
-						{!isPublic && (
-							<>
-								<IconButton onClick={onDeleteOpen}>
-									{/* <DeleteIcon style={{ color: 'red' }} /> */}
-								</IconButton>
-							</>
-						)}
+                        <Box style={{ display: 'flex', textAlign: 'center', alignItems: 'center', justifyContent: 'center' }}>
+                            <Typography color='textSecondary' variant='caption'>
+                                {format(
+                                    new Date(challenge.createdAt!),
+                                    'dd MMMM yyyy'
+                                )}
+                            </Typography>
+                            {!isPublic && (
+                                <>
+                                    <div>
+                                        <Button aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}>
+                                            <MoreHorizIcon />
+                                        </Button>
+                                        <Menu
+                                            id="fade-menu"
+                                            anchorEl={anchorEl}
+                                            keepMounted
+                                            open={open}
+                                            onClose={handleClose}
+                                            TransitionComponent={Fade}
+                                        >
+                                            <MenuItem onClick={onUpdateOpen}>Edit Challenge</MenuItem>
+                                            <MenuItem onClick={onDeleteOpen}>Delete Challenge</MenuItem>
+                                        </Menu>
+                                    </div>
+                                </>
+                            )}
                         </Box>
-					}
+                    }
                 />
                 <CardContent className={classes.cardContent}>
                     <Grid container direction='row' className={classes.centered}>
-                       
+
                         <Grid
                             item
                             sm={12}
@@ -366,18 +409,26 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                             direction='column'
                             className={classes.collabBox}>
                             {challenge.description && (
-                                <Grid item style={{
-                                    marginBottom: 10
-                                }}>
-                                    <Typography className={classes.description}>
-                                        Description:{challenge.description}
-                                    </Typography>
-                                </Grid>
+                                <>
+                                    <Grid item style={{
+                                        marginBottom: 10
+                                    }}>
+                                        <Typography variant='h4'>Question: {challenge.title}</Typography>
+                                    </Grid>
+                                    <Grid item style={{
+                                        marginBottom: 10
+                                    }}>
+
+                                        <Typography className={classes.description}>
+                                            Description: {challenge.description}
+                                        </Typography>
+                                    </Grid>
+                                </>
                             )}
                         </Grid>
                     </Grid>
                 </CardContent>
-              
+
                 <CardActions className={classes.btnAlign}>
                     {challenge.isCaseStudy ?
                         (<Button size="small" color="primary" onClick={onOpen}>
@@ -405,7 +456,7 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                                                     <>
                                                         <Form
                                                             autoComplete='off'
-                                                            style={{ display: 'flex', flexDirection: 'column', textAlign: 'left'}}>
+                                                            style={{ display: 'flex', flexDirection: 'column', textAlign: 'left', alignItems: 'flex-end' }}>
                                                             <FormInput
                                                                 multiline
                                                                 name='text'
@@ -455,8 +506,8 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                     {!isLoading && !data?.length && (
                         <Typography variant='body2'>No answers yet</Typography>
                     )}
-                </CardContent>
-                {data?.length ? (<Grid container>
+                </CardContent >
+                {data?.length > 1 ? (<Grid container style={{ justifyContent: 'flex-end' }}>
                     <Grid item>
                         <Button
                             onClick={AnsViewToggleOpen}

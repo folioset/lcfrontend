@@ -150,8 +150,6 @@ const CreateCaseAnswer: React.FC<CreateCaseAnswerProps> = React.forwardRef(
                 onSettled: (data) => {
                     if (data) {
                         onClose();
-                        console.log("case asnwer data", data);
-
                     }
                 },
             }

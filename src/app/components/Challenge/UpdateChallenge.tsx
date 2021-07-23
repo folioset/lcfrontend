@@ -81,7 +81,7 @@ interface InitialValues {
 
 const UpdateChallenge: React.FC<UpdateChallengeProps> = React.forwardRef(
     ({ onClose, challenge }) => {
-        const { fileUrl, handleUploadFileUrl } = useFileUpload();
+        // const { fileUrl, handleUploadFileUrl } = useFileUpload();
         // const checkFile = fileUrl || challenge.projectFile;
         const classes = useStyles();
         const queryClient = useQueryClient();

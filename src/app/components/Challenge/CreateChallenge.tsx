@@ -124,7 +124,7 @@ const CreateChallenge: React.FC<CreateChallengeProps> = React.forwardRef(
                 }),
             {
                 onSuccess: () => {
-                    queryClient.invalidateQueries('my-challenge');
+                    queryClient.invalidateQueries('feedChall');
                 },
                 onSettled: (data) => {
                     if (data) {
