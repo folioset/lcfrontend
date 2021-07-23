@@ -221,11 +221,6 @@ const useStyles = makeStyles((theme: Theme) => {
             color: 'black',
             borderRadius: 15,
         },
-        answerContent: {
-            display: 'flex',
-            justifyContent: 'flex-end',
-            width: '100%'
-        },
     };
 });
 
@@ -256,13 +251,6 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
     const handleClose = () => {
         setAnchorEl(null);
     };
-
-    // Add Answer Modal Toggler
-    const {
-        isOpen: isAnswerOpen,
-        onOpen: onAnswerOpen,
-        onClose: onAnswerClose,
-    } = useDisclosure();
 
     // view Answer Toggler
     const {
@@ -366,7 +354,7 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
             <Card className={classes.card}>
                 <CardHeader
                     title={
-                        <Typography variant='h4'>Challenge</Typography>
+                        <Typography variant='h4'>Question: {challenge.title}</Typography>
                     }
                     action={
                         <Box style={{ display: 'flex', textAlign: 'center', alignItems: 'center', justifyContent: 'center' }}>
@@ -410,11 +398,11 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                             className={classes.collabBox}>
                             {challenge.description && (
                                 <>
-                                    <Grid item style={{
+                                    {/* <Grid item style={{
                                         marginBottom: 10
                                     }}>
                                         <Typography variant='h4'>Question: {challenge.title}</Typography>
-                                    </Grid>
+                                    </Grid> */}
                                     <Grid item style={{
                                         marginBottom: 10
                                     }}>

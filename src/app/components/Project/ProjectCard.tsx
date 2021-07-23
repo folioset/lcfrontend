@@ -5,7 +5,7 @@ import axios from 'axios';
 import { format } from 'date-fns';
 import { Form, Formik } from 'formik';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 
 // Material UI
 import { makeStyles, Theme, Link } from '@material-ui/core';
@@ -111,7 +111,7 @@ const useStyles = makeStyles((theme: Theme) => {
 		},
 		thumbnail: {
 			// paddingRight: theme.spacing(4),
-			display: 'flex', 
+			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center'
 		},
@@ -179,26 +179,26 @@ const useStyles = makeStyles((theme: Theme) => {
 		active: {
 			color: theme.palette.primary.main,
 			textTransform: 'none',
-			fontWeight: 550, 
+			fontWeight: 550,
 			fontSize: 16
-			
+
 		},
-		inactive : {
+		inactive: {
 			color: theme.palette.secondary.main,
 			textTransform: 'none',
 			fontSize: 16
-			
+
 		},
 		submitButton: {
 			marginTop: 10,
 			marginLeft: 2,
-			textTransform: 'none', 
+			textTransform: 'none',
 			width: '30px',
 			height: '30px',
 			backgroundColor: theme.palette.primary.main,
 			color: 'black',
 			borderRadius: 15
-		
+
 		}
 	};
 });
@@ -216,7 +216,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 	const location = useLocation();
 	const [rated, setRated] = useState(false);
 	const [rating, setRating] = useState('');
-    const [typing, setTyping] = useState(false);
+	const [typing, setTyping] = useState(false);
 	// Project Modal Toggler
 	const {
 		isOpen: isModalOpen,
@@ -349,119 +349,119 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 				<CardHeader
 					title={<Typography variant='h4'>{project.title}</Typography>}
 					action={
-						<Box style={{display: 'flex', textAlign: 'center', alignItems: 'center', justifyContent: 'center'}}>
+						<Box style={{ display: 'flex', textAlign: 'center', alignItems: 'center', justifyContent: 'center' }}>
 							<Typography color='textSecondary' variant='caption'>
 								{format(
-										new Date(project.lastUpdatedDate || project.createdAt!),
-										'dd MMMM yyyy'
-									)}
+									new Date(project.lastUpdatedDate || project.createdAt!),
+									'dd MMMM yyyy'
+								)}
 							</Typography>
-						{!isPublic && (
-							<>
-								<IconButton onClick={onUpdateOpen}>
-									<EditIcon color='primary' />
-								</IconButton>
-								<IconButton onClick={onDeleteOpen}>
-									<DeleteIcon style={{ color: 'red' }} />
-								</IconButton>
-							</>
-						)}
+							{!isPublic && (
+								<>
+									<IconButton onClick={onUpdateOpen}>
+										<EditIcon color='primary' />
+									</IconButton>
+									<IconButton onClick={onDeleteOpen}>
+										<DeleteIcon style={{ color: 'red' }} />
+									</IconButton>
+								</>
+							)}
 						</Box>
-						
+
 					}
 				/>
 				<CardContent className={classes.cardContent}>
 					<Grid container>
-							{project.description && (
-								<Grid item style={{ marginBottom: 10 }}>
-									<Typography variant='body2'>
-										{project.description}
-									</Typography>
-								</Grid>
-							)}
-							<Grid item container direction='row'>
+						{project.description && (
+							<Grid item style={{ marginBottom: 10 }}>
+								<Typography variant='body2'>
+									{project.description}
+								</Typography>
+							</Grid>
+						)}
+						<Grid item container direction='row'>
 							{project.skills.length !== 0 ? (
 								<Grid item container direction='row'>
-										{project.skills.map((el: any, i: number) => {
-											return (
-												<Grid item className={classes.tag}>
-													<Typography
+									{project.skills.map((el: any, i: number) => {
+										return (
+											<Grid item className={classes.tag}>
+												<Typography
 													key={i}
 													variant='h5'>
 													{el}
 												</Typography>
-												</Grid>
-											);
-										})}
-									</Grid>
+											</Grid>
+										);
+									})}
+								</Grid>
 							) : null}
 							{project.tools.length !== 0 ? (
-									<Grid item container direction='row'>
-										{project.tools.map((el: any, i: number) => {
-											return (
-												<Grid item className={classes.tag}>
+								<Grid item container direction='row'>
+									{project.tools.map((el: any, i: number) => {
+										return (
+											<Grid item className={classes.tag}>
 												<Typography
 													key={i}
 													variant='h5'>
-													{el} 
+													{el}
 												</Typography>
-												</Grid>
-											);
-										})}
-									</Grid>
-							) : null}
-							</Grid>
-							<Grid item sm={12} className={classes.thumbnail}>
-								<PdfThumbnail file={project.projectFile} onClick={onModalOpen} />
-							</Grid>
-							{project.contributors.length !== 0 ? (
-								<Grid item container direction='row'>
-									<Grid item style={{ marginRight: 5 }}>
-										<Typography variant='body2' color='textSecondary'>
-											Contributors:
-										</Typography>
-									</Grid>
-									<Grid item>
-										{project.contributorDetailsArr?.map(
-											(el: any, i: number) => {
-												return (
-													<Link
-														key={i}
-														component={RouterLink}
-														to={`/public/users/${el._id}`}
-														color='primary'
-														style={{ fontSize: 14, fontWeight: 550 }}>
-														{el.name}
-														{i === project.contributors.length - 1 ? '' : ', '}
-													</Link>
-												);
-											}
-										)}
-									</Grid>
+											</Grid>
+										);
+									})}
 								</Grid>
 							) : null}
 						</Grid>
+						<Grid item sm={12} className={classes.thumbnail}>
+							<PdfThumbnail file={project.projectFile} onClick={onModalOpen} />
+						</Grid>
+						{project.contributors.length !== 0 ? (
+							<Grid item container direction='row'>
+								<Grid item style={{ marginRight: 5 }}>
+									<Typography variant='body2' color='textSecondary'>
+										Contributors:
+									</Typography>
+								</Grid>
+								<Grid item>
+									{project.contributorDetailsArr?.map(
+										(el: any, i: number) => {
+											return (
+												<Link
+													key={i}
+													component={RouterLink}
+													to={`/public/users/${el._id}`}
+													color='primary'
+													style={{ fontSize: 14, fontWeight: 550 }}>
+													{el.name}
+													{i === project.contributors.length - 1 ? '' : ', '}
+												</Link>
+											);
+										}
+									)}
+								</Grid>
+							</Grid>
+						) : null}
+					</Grid>
 				</CardContent>
 				<CardActions className={classes.cardActions}>
 					{isPublic && (
 						<Grid container direction='column' className={classes.section}>
 							<Grid item className={classes.ratings}>
-										<Button onClick={() => showRating('fine')}
-										className={rating === 'fine' ? classes.active : classes.inactive}>
-											Good
-										</Button>
-										<Button onClick={() => showRating('good')}
-											className={rating === 'good' ? classes.active : classes.inactive}>
-											Great
-										</Button>
-										<Button onClick={() => showRating('excellent')}
-											className={rating === 'excellent' ? classes.active : classes.inactive}>
-											Excellent
-										</Button>
-										<Button onClick={() => showRating('extraordinary')}
-											className={rating === 'extraordinary' ? classes.active : classes.inactive}>
-											Extraordinary
-										</Button>
+								<Button onClick={() => showRating('fine')}
+									className={rating === 'fine' ? classes.active : classes.inactive}>
+									Good
+								</Button>
+								<Button onClick={() => showRating('good')}
+									className={rating === 'good' ? classes.active : classes.inactive}>
+									Great
+								</Button>
+								<Button onClick={() => showRating('excellent')}
+									className={rating === 'excellent' ? classes.active : classes.inactive}>
+									Excellent
+								</Button>
+								<Button onClick={() => showRating('extraordinary')}
+									className={rating === 'extraordinary' ? classes.active : classes.inactive}>
+									Extraordinary
+								</Button>
 							</Grid>
 							<Grid item>
 								<Formik
@@ -477,13 +477,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 										await addReview(data as any);
 										resetForm();
 									}}
-									>
+								>
 									{({ values }) => {
 										return (
 											<>
 												<Form
 													autoComplete='off'
-													style={{ display: 'flex', flexDirection: 'column', textAlign: 'left'}}>
+													style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
 													<FormInput
 														multiline
 														name='review'
@@ -523,13 +523,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 					</Grid> */}
 				</CardActions>
 				{/* <Collapse in={isOpen} timeout='auto' unmountOnExit> */}
-					<CardContent>
-						{isLoading && (
-							<Typography color='primary' variant='caption'>
-								Loading reviews
-							</Typography>
-						)}
-						{/* {data && (
+				<CardContent>
+					{isLoading && (
+						<Typography color='primary' variant='caption'>
+							Loading reviews
+						</Typography>
+					)}
+					{/* {data && (
 							<>
 								<Box mb='5'>
 									{[...data?.latestReviews].map((review: Review) => {
@@ -558,7 +558,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 								)}
 							</>
 						)} */}
-					</CardContent>
+				</CardContent>
 				{/* </Collapse> */}
 			</Card>
 		</>

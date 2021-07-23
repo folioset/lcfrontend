@@ -32,6 +32,7 @@ import AnswersCard from '../Answers/AnswersCard';
 interface AnswersSectionProps {
     answer: Answer;
     challenge: Challenge;
+    isPublic?: boolean;
 }
 
 const validationSchema = Yup.object().shape({
@@ -166,7 +167,7 @@ const ReviewsSection: React.FC<AnswersSectionProps> = ({ answer, challenge }) =>
     return (
         <>
             <Card elevation={0} className={classes.root}>
-                <AnswersCard answersData={answersData} challenge={challenge} />
+                <AnswersCard answersData={answersData} challenge={challenge} isPublic />
                 {/* <Box style={{ marginLeft: 15, display: 'flex', alignItems: 'center' }}>
                     <Box>
                         {liked ? (
