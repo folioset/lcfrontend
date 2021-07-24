@@ -28,6 +28,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SendIcon from '@material-ui/icons/Send';
 import StarRateIcon from '@material-ui/icons/StarRate';
+import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined';
+import ThumbUpAltRoundedIcon from '@material-ui/icons/ThumbUpAltRounded';
 
 // components
 import Rating from '../shared/Rating';
@@ -108,6 +110,7 @@ const useStyles = makeStyles((theme: Theme) => {
 		},
 		ratings: {
 			display: 'flex',
+			marginBottom: 10
 		},
 		thumbnail: {
 			// paddingRight: theme.spacing(4),
@@ -180,13 +183,20 @@ const useStyles = makeStyles((theme: Theme) => {
 			color: theme.palette.primary.main,
 			textTransform: 'none',
 			fontWeight: 550, 
-			fontSize: 16
+			fontSize: 16,
+			borderWidth: 2,
+			borderColor: theme.palette.primary.main,
+			borderRadius: 5
 			
 		},
 		inactive : {
 			color: theme.palette.secondary.main,
 			textTransform: 'none',
-			fontSize: 16
+			fontSize: 16,
+			marginRight: 10,
+			// border: '1px solid',
+			// borderColor: theme.palette.secondary.main,
+			// borderRadius: 15
 			
 		},
 		submitButton: {
@@ -446,21 +456,55 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 					{isPublic && (
 						<Grid container direction='column' className={classes.section}>
 							<Grid item className={classes.ratings}>
-										<Button onClick={() => showRating('fine')}
-										className={rating === 'fine' ? classes.active : classes.inactive}>
-											Good
-										</Button>
 										<Button onClick={() => showRating('good')}
 											className={rating === 'good' ? classes.active : classes.inactive}>
-											Great
+											<Box style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+												<Typography style={{marginRight: 4, marginTop: 1.5, fontWeight: 450}}>Good</Typography>
+												{rating === 'good' ?
+												<ThumbUpAltRoundedIcon fontSize='small' color='primary'></ThumbUpAltRoundedIcon>
+											    : 
+												<ThumbUpAltOutlinedIcon fontSize='small' color='secondary'></ThumbUpAltOutlinedIcon>
+												}
+												
+											</Box>
 										</Button>
 										<Button onClick={() => showRating('excellent')}
 											className={rating === 'excellent' ? classes.active : classes.inactive}>
-											Excellent
+											<Box style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+												<Typography style={{marginRight: 4, marginTop: 1.5, fontWeight: 450}}>Excellent</Typography>
+												{rating === 'excellent' ?
+												<ThumbUpAltRoundedIcon fontSize='small' color='primary'></ThumbUpAltRoundedIcon>
+											    : 
+												<ThumbUpAltOutlinedIcon fontSize='small' color='secondary'></ThumbUpAltOutlinedIcon>
+												}
+												{rating === 'excellent' ?
+												<ThumbUpAltRoundedIcon fontSize='small' color='primary'></ThumbUpAltRoundedIcon>
+											    : 
+												<ThumbUpAltOutlinedIcon fontSize='small' color='secondary'></ThumbUpAltOutlinedIcon>
+												}
+												
+											</Box>
 										</Button>
 										<Button onClick={() => showRating('extraordinary')}
 											className={rating === 'extraordinary' ? classes.active : classes.inactive}>
-											Extraordinary
+											<Box style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+												<Typography style={{marginRight: 4, marginTop: 1.5, fontWeight: 450}}>Extraordinary</Typography>
+												{rating === 'extraordinary' ?
+												<ThumbUpAltRoundedIcon fontSize='small' color='primary'></ThumbUpAltRoundedIcon>
+											    : 
+												<ThumbUpAltOutlinedIcon fontSize='small' color='secondary'></ThumbUpAltOutlinedIcon>
+												}
+												{rating === 'extraordinary' ?
+												<ThumbUpAltRoundedIcon fontSize='small' color='primary'></ThumbUpAltRoundedIcon>
+											    : 
+												<ThumbUpAltOutlinedIcon fontSize='small' color='secondary'></ThumbUpAltOutlinedIcon>
+												}
+												{rating === 'extraordinary' ?
+												<ThumbUpAltRoundedIcon fontSize='small' color='primary'></ThumbUpAltRoundedIcon>
+											    : 
+												<ThumbUpAltOutlinedIcon fontSize='small' color='secondary'></ThumbUpAltOutlinedIcon>
+												}
+											</Box>
 										</Button>
 							</Grid>
 							<Grid item>
@@ -529,10 +573,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 								Loading reviews
 							</Typography>
 						)}
-						{/* {data && (
+						{/* {console.log(data)} */}
+						{data && (
 							<>
 								<Box mb='5'>
-									{[...data?.latestReviews].map((review: Review) => {
+									{data?.map((review: Review) => {
 										return (
 											<ReviewsSection
 												key={review.reviewDetails!._id}
@@ -541,23 +586,23 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 										);
 									})}
 								</Box>
-								{data?.previousReviews.length > 0 && (
-									<>
-										<Box mb='3'>
-											<Typography>Previous Reviews</Typography>
-										</Box>
-										{[...data.previousReviews].map((review: Review) => {
-											return (
-												<ReviewsSection
-													key={review.reviewDetails!._id}
-													{...{ review, project }}
-												/>
-											);
-										})}
-									</>
-								)}
+								{/* // {data?.previousReviews.length > 0 && (
+								// 	<>
+								// 		<Box mb='3'>
+								// 			<Typography>Previous Reviews</Typography>
+								// 		</Box>
+								// 		{[...data.previousReviews].map((review: Review) => {
+								// 			return (
+								// 				<ReviewsSection
+								// 					key={review.reviewDetails!._id}
+								// 					{...{ review, project }}
+								// 				/>
+								// 			);
+								// 		})}
+								// 	</>
+								// )} */}
 							</>
-						)} */}
+						)}
 					</CardContent>
 				{/* </Collapse> */}
 			</Card>
