@@ -22,6 +22,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import HomeIcon from '@material-ui/icons/Home';
 import TrendingUpSharpIcon from '@material-ui/icons/TrendingUpSharp';
+import ForumIcon from '@material-ui/icons/Forum';
 
 // Components
 import NavItem from './NavItem';
@@ -96,6 +97,12 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 								to='/public/users'
 								icon={<AccountCircleIcon color='secondary' />}>
 								<Typography color='secondary'>Users</Typography>
+							</NavItem>
+							<NavItem
+								exact
+								to='/interview'
+								icon={<ForumIcon color='secondary' />}>
+								<Typography color='secondary'>Interview</Typography>
 							</NavItem>
 							<NavItem
 								exact

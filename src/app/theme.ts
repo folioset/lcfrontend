@@ -4,7 +4,7 @@ const palette = {
 	primary: {
 		// main: '#00BFA6',
 		main: '#11b7c5',
-		light: '#90EE90'
+		light: '#90EE90',
 	},
 	background: {
 		default: '#f9f9f9',
@@ -32,22 +32,20 @@ const typography = {
 	},
 	subtitle1: {
 		color: 'black',
-		fontWeight: 400
+		fontWeight: 400,
 	},
 	h5: {
 		fontSize: 13,
-		fontWeight: 500
+		fontWeight: 500,
 	},
 	h6: {
 		fontSize: 17,
 		fontWeight: 500,
 	},
-	caption: {
-
-	},
+	caption: {},
 	body2: {
-		fontSize: 15
-	}
+		fontSize: 15,
+	},
 };
 
 const theme = createMuiTheme({

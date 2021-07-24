@@ -12,6 +12,7 @@ const OnBoarding = React.lazy(() => import('../pages/onboarding'));
 const Public = React.lazy(() => import('../pages/public'));
 const Feed = React.lazy(() => import('../pages/Feed'));
 const Test = React.lazy(() => import('../pages/test'));
+const InterviewRoutes = React.lazy(() => import('../pages/interview'));
 
 const Body: React.FC = () => {
 	const queryClient = useQueryClient();
@@ -35,12 +36,16 @@ const Body: React.FC = () => {
 					<Test />
 				</Route>
 
-				<Route path='/error' exact>
-					<ErrorPage />
+				<Route path='/interview'>
+					<InterviewRoutes />
 				</Route>
 
 				<Route path='/public'>
 					<Public />
+				</Route>
+
+				<Route path='/error' exact>
+					<ErrorPage />
 				</Route>
 
 				<Redirect to='/error' />
