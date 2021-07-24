@@ -4,20 +4,28 @@ import CardHeader from '@material-ui/core/CardHeader';
 import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import * as React from 'react';
-import { Challenge, Answer } from '../../types';
+import { Challenge, Answer, User } from '../../types';
 import Avatar from '../shared/Avatar';
 import { format } from 'date-fns';
 import PdfViewer from '../shared/Pdf/PdfViewer';
 import PdfThumbnail from '../shared/Pdf/PdfThumbnail';
-import { Box, Grid, Hidden, IconButton, Modal } from '@material-ui/core';
+import { Box, Button, Grid, Hidden, IconButton, MenuItem, Modal } from '@material-ui/core';
 import useDisclosure from '../../hooks/useDisclosure';
 import CancelIcon from '@material-ui/icons/Cancel';
 import DeleteAnswer from './DeleteAnswer';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Menu from '@material-ui/core/Menu';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import Fade from '@material-ui/core/Fade';
+import { useMutation, useQueryClient } from 'react-query';
+import FormInput from '../shared/FormInput';
+import axios from 'axios';
+import { Form } from 'formik';
 
 interface AnswerCardProps {
     answersData: Answer;
     challenge: Challenge;
+    isPublic?: boolean;
 }
 
 // const initialValues = {
@@ -80,13 +88,52 @@ const useStyles = makeStyles((theme: Theme) =>
                 width: '100vw',
             },
         },
+        active: {
+            color: theme.palette.primary.main,
+            textTransform: 'none',
+            fontWeight: 550,
+            fontSize: 16
+
+        },
+        inactive: {
+            color: theme.palette.secondary.main,
+            textTransform: 'none',
+            fontSize: 16
+
+        },
+        section: {
+            alignItems: 'flex-end',
+            padding: theme.spacing(0.5),
+        },
+        ratings: {
+            display: 'flex',
+        },
     })
 );
 
-const AnswersCard: React.FC<AnswerCardProps> = ({ answersData, challenge }) => {
+const AnswersCard: React.FC<AnswerCardProps> = ({ answersData, challenge, isPublic }) => {
     const classes = useStyles();
-    // const [ansDeatils, setAnsDeatils] = React.useState<Answer>(null)
-    // console.log("answerData from answer", answerData);
+    const queryClient = useQueryClient();
+    const user = queryClient.getQueryData<User>('user')!;
+
+    //menu
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const open = Boolean(anchorEl);
+
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const [rated, setRated] = React.useState(false);
+    const [rating, setRating] = React.useState('');
+    const [typing, setTyping] = React.useState(false);
+
+
+    console.log(answersData);
 
     const {
         isOpen: isModalOpen,
@@ -94,12 +141,18 @@ const AnswersCard: React.FC<AnswerCardProps> = ({ answersData, challenge }) => {
         onClose: onModalClose,
     } = useDisclosure();
 
-
-    // Delete Answer Confirm Toggler
+    // Delete answer Toggler
     const {
         isOpen: isDeleteOpen,
         onOpen: onDeleteOpen,
         onClose: onDeleteClose,
+    } = useDisclosure();
+
+    // Update answer Toggler
+    const {
+        isOpen: isUpdateOpen,
+        onOpen: onUpdateOpen,
+        onClose: onUpdateClose,
     } = useDisclosure();
 
 
@@ -109,12 +162,61 @@ const AnswersCard: React.FC<AnswerCardProps> = ({ answersData, challenge }) => {
     //     onClose: onModalClose,
     // } = useDisclosure();
 
+    // authorizing deletetion of answer
+    if (user._id === challenge.createdBy._id) isPublic = false;
+
+    // Update Rating
+    const { mutate: addRating } = useMutation(
+        async (data) => {
+            const res = await axios({
+                method: 'PUT',
+                // url: `/api/project/${project._id}/add-rating`,
+                data,
+            });
+            return res.data;
+        },
+        // {
+        //     onSuccess: async () => {
+        //         console.log('success!');
+        //         if (location.pathname === '/') {
+        //             await queryClient.invalidateQueries('feedChall');
+        //         } else {
+        //             await queryClient.invalidateQueries(['all-answer', answersData.createdBy]);
+        //         }
+        //     },
+        // }
+    );
+
+    const showRating = (value: any) => {
+        setRating(value)
+        addRating({ value: value } as any)
+    }
+
+
 
     return (
 
         <>
 
             {/* Delete challenge */}
+            {/* <Modal
+                open={isDeleteOpen}
+                onClose={onDeleteClose}
+                aria-labelledby='challenge-file'
+                aria-describedby='pdf file of the challenge'>
+                <DeleteAnswer onClose={onDeleteClose} challenge={challenge} answersData={answersData} />
+            </Modal> */}
+
+            {/* Update answer */}
+            {/* <Modal
+                open={isUpdateOpen}
+                onClose={onUpdateClose}
+                aria-labelledby='project-file'
+                aria-describedby='pdf file of the project'>
+                <UpdateAnswer onClose={onUpdateClose} answer={answer} />
+            </Modal> */}
+
+            {/* Delete answer */}
             <Modal
                 open={isDeleteOpen}
                 onClose={onDeleteClose}
@@ -143,27 +245,46 @@ const AnswersCard: React.FC<AnswerCardProps> = ({ answersData, challenge }) => {
 
                 </>
             </Modal>) : null}
+
             <Card elevation={0} className={classes.root}>
                 <CardHeader
                     action={
-                        <>
+                        <Box style={{ display: 'flex', textAlign: 'center', alignItems: 'center', justifyContent: 'center' }}>
                             <Typography
-                                style={{ paddingRight: 3 }}
+                                // style={{ paddingRight: 3 }}
                                 color='textSecondary'
                                 variant='caption'>
-                                {/* {format(new Date(answersData?.updatedAt), 'dd MMMM yyyy')} */}
-                                {answersData?.updatedAt}
-                                {/* {format(
-                                new Date(answersData?.updatedAt!),
-                                'dd MMMM yyyy'
-                            )} */}
+                                {/* {answersData?.createdAt} */}
+                                {format(
+                                    new Date(challenge.createdAt!),
+                                    'dd MMMM yyyy'
+                                )}
                             </Typography>
-                            <IconButton onClick={onDeleteOpen}>
+                            {!isPublic && (
+                                <>
+                                    <div>
+                                        <Button aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}>
+                                            <MoreHorizIcon />
+                                        </Button>
+                                        <Menu
+                                            id="fade-menu"
+                                            anchorEl={anchorEl}
+                                            keepMounted
+                                            open={open}
+                                            onClose={handleClose}
+                                            TransitionComponent={Fade}
+                                        >
+                                            <MenuItem onClick={onUpdateOpen}>Edit answer</MenuItem>
+                                            <MenuItem onClick={onDeleteOpen}>Delete asnwer</MenuItem>
+                                        </Menu>
+                                    </div>
+                                </>
+                            )}
+                            {/* <IconButton onClick={onDeleteOpen}>
                                 <DeleteIcon style={{ color: 'red' }} />
-                            </IconButton>
-                        </>
+                            </IconButton> */}
+                        </Box>
                     }
-                    // style={{ marginBottom: -40 }}
                     avatar={
                         <Avatar className={classes.avatar} src={answersData?.createdBy.profilePicture}>
                             {answersData?.createdBy.name.split('')[0]}
@@ -198,6 +319,67 @@ const AnswersCard: React.FC<AnswerCardProps> = ({ answersData, challenge }) => {
                         Answer : {answersData?.description}
                     </Typography>
                 </CardContent>
+
+                {/* {isPublic && ( */}
+                <Grid container direction='column' className={classes.section}>
+                    <Grid item className={classes.ratings}>
+                        <Button onClick={() => showRating('fine')}
+                            className={rating === 'fine' ? classes.active : classes.inactive}>
+                            Good
+                        </Button>
+                        <Button onClick={() => showRating('good')}
+                            className={rating === 'good' ? classes.active : classes.inactive}>
+                            Great
+                        </Button>
+                        <Button onClick={() => showRating('excellent')}
+                            className={rating === 'excellent' ? classes.active : classes.inactive}>
+                            Excellent
+                        </Button>
+                        <Button onClick={() => showRating('extraordinary')}
+                            className={rating === 'extraordinary' ? classes.active : classes.inactive}>
+                            Extraordinary
+                        </Button>
+                    </Grid>
+                    {/* <Grid item>
+                        <Formik
+                            initialValues={{
+                                review: ``,
+                            }}
+                            validateOnBlur={false}
+                            onSubmit={async ({ review }, { resetForm }) => {
+                                const data = {
+                                    review,
+                                    category: 'feedback',
+                                };
+                                await addReview(data as any);
+                                resetForm();
+                            }}
+                        >
+                            {({ values }) => {
+                                return (
+                                    <>
+                                        <Form
+                                            autoComplete='off'
+                                            style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
+                                            <FormInput
+                                                multiline
+                                                name='review'
+                                                className={classes.comment}
+                                                fullWidth
+                                                placeholder={`Share your feedback...`}
+                                                variant='outlined'
+                                                size='small'
+                                                onFocus={() => setTyping(true)}
+                                            />
+                                            {typing && <Button type='submit' color='primary' className={classes.submitButton}>Post</Button>}
+                                        </Form>
+                                    </>
+                                );
+                            }}
+                        </Formik>
+                    </Grid> */}
+                </Grid>
+                {/* )} */}
 
             </Card>
         </>

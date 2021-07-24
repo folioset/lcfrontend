@@ -5,10 +5,11 @@ import axios from 'axios';
 import { format } from 'date-fns';
 import { Form, Formik } from 'formik';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 
 // Material UI
-import { makeStyles, Theme, Link } from '@material-ui/core';
+import { makeStyles, Theme, Link, MenuItem } from '@material-ui/core';
+
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -28,6 +29,9 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SendIcon from '@material-ui/icons/Send';
 import StarRateIcon from '@material-ui/icons/StarRate';
+import Fade from '@material-ui/core/Fade';
+import Menu from '@material-ui/core/Menu';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined';
 import ThumbUpAltRoundedIcon from '@material-ui/icons/ThumbUpAltRounded';
 
@@ -208,7 +212,9 @@ const useStyles = makeStyles((theme: Theme) => {
 			backgroundColor: theme.palette.primary.main,
 			color: 'black',
 			borderRadius: 15
-		
+		},
+		MenuItem: {
+			color: 'red',
 		}
 	};
 });
@@ -226,7 +232,20 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 	const location = useLocation();
 	const [rated, setRated] = useState(false);
 	const [rating, setRating] = useState('');
-    const [typing, setTyping] = useState(false);
+	const [typing, setTyping] = useState(false);
+
+	// project menu
+	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+	const open = Boolean(anchorEl);
+
+	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+		setAnchorEl(event.currentTarget);
+	};
+
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
+
 	// Project Modal Toggler
 	const {
 		isOpen: isModalOpen,
@@ -359,25 +378,36 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 				<CardHeader
 					title={<Typography variant='h4'>{project.title}</Typography>}
 					action={
-						<Box style={{display: 'flex', textAlign: 'center', alignItems: 'center', justifyContent: 'center'}}>
+						<Box style={{ display: 'flex', textAlign: 'center', alignItems: 'center', justifyContent: 'center' }}>
 							<Typography color='textSecondary' variant='caption'>
 								{format(
-										new Date(project.lastUpdatedDate || project.createdAt!),
-										'dd MMMM yyyy'
-									)}
+									new Date(project.lastUpdatedDate || project.createdAt!),
+									'dd MMMM yyyy'
+								)}
 							</Typography>
-						{!isPublic && (
-							<>
-								<IconButton onClick={onUpdateOpen}>
-									<EditIcon color='primary' />
-								</IconButton>
-								<IconButton onClick={onDeleteOpen}>
-									<DeleteIcon style={{ color: 'red' }} />
-								</IconButton>
-							</>
-						)}
+
+							{/* menu */}
+							{!isPublic && (
+								<>
+									<div>
+										<Button aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}>
+											<MoreHorizIcon />
+										</Button>
+										<Menu
+											id="fade-menu"
+											anchorEl={anchorEl}
+											keepMounted
+											open={open}
+											onClose={handleClose}
+											TransitionComponent={Fade}
+										>
+											<MenuItem onClick={onUpdateOpen}>Edit Challenge</MenuItem>
+											<MenuItem onClick={onDeleteOpen}>Delete Challenge</MenuItem>
+										</Menu>
+									</div>
+								</>
+							)}
 						</Box>
-						
 					}
 				/>
 				<CardContent className={classes.cardContent}>
