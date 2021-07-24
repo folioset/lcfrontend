@@ -10,6 +10,7 @@ import OnBoardingLayout from './page-layouts/OnBoardingLayout';
 
 // components
 import Loader from '../components/shared/Loader';
+import InterviewLayout from './page-layouts/InterviewLayout';
 
 const Layout: React.FC = () => {
 	const { layout } = React.useContext(LayoutContext);
@@ -19,7 +20,19 @@ const Layout: React.FC = () => {
 		return <Loader fullScreen={true} />;
 	}
 
-	return <>{layout === 'OnBoarding' ? <OnBoardingLayout /> : <AppLayout />}</>;
+	if (layout === 'OnBoarding') {
+		return <OnBoardingLayout />;
+	}
+
+	if (layout === 'Interview') {
+		return <InterviewLayout />;
+	}
+
+	return (
+		<>
+			<AppLayout />
+		</>
+	);
 };
 
 export default Layout;

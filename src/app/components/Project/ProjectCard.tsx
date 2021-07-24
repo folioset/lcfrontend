@@ -8,7 +8,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useState, useEffect } from 'react';
 
 // Material UI
-import { makeStyles, Theme, Link } from '@material-ui/core';
+import { makeStyles, Theme, Link, MenuItem } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -28,6 +28,9 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SendIcon from '@material-ui/icons/Send';
 import StarRateIcon from '@material-ui/icons/StarRate';
+import Fade from '@material-ui/core/Fade';
+import Menu from '@material-ui/core/Menu';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 // components
 import Rating from '../shared/Rating';
@@ -199,6 +202,9 @@ const useStyles = makeStyles((theme: Theme) => {
 			color: 'black',
 			borderRadius: 15
 
+		},
+		MenuItem: {
+			color: 'red',
 		}
 	};
 });
@@ -217,6 +223,20 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 	const [rated, setRated] = useState(false);
 	const [rating, setRating] = useState('');
 	const [typing, setTyping] = useState(false);
+
+	// project menu
+	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+	const open = Boolean(anchorEl);
+
+	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+		setAnchorEl(event.currentTarget);
+	};
+
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
+
+
 	// Project Modal Toggler
 	const {
 		isOpen: isModalOpen,
@@ -356,14 +376,26 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 									'dd MMMM yyyy'
 								)}
 							</Typography>
+
+							{/* menu */}
 							{!isPublic && (
 								<>
-									<IconButton onClick={onUpdateOpen}>
-										<EditIcon color='primary' />
-									</IconButton>
-									<IconButton onClick={onDeleteOpen}>
-										<DeleteIcon style={{ color: 'red' }} />
-									</IconButton>
+									<div>
+										<Button aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}>
+											<MoreHorizIcon />
+										</Button>
+										<Menu
+											id="fade-menu"
+											anchorEl={anchorEl}
+											keepMounted
+											open={open}
+											onClose={handleClose}
+											TransitionComponent={Fade}
+										>
+											<MenuItem onClick={onUpdateOpen}>Edit Challenge</MenuItem>
+											<MenuItem onClick={onDeleteOpen}>Delete Challenge</MenuItem>
+										</Menu>
+									</div>
 								</>
 							)}
 						</Box>

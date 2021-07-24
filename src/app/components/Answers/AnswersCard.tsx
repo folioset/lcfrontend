@@ -20,6 +20,7 @@ import Fade from '@material-ui/core/Fade';
 import { useMutation, useQueryClient } from 'react-query';
 import FormInput from '../shared/FormInput';
 import axios from 'axios';
+import { Form } from 'formik';
 
 interface AnswerCardProps {
     answersData: Answer;
@@ -340,43 +341,43 @@ const AnswersCard: React.FC<AnswerCardProps> = ({ answersData, challenge, isPubl
                         </Button>
                     </Grid>
                     {/* <Grid item>
-                            <Formik
-                                initialValues={{
-                                    review: ``,
-                                }}
-                                validateOnBlur={false}
-                                onSubmit={async ({ review }, { resetForm }) => {
-                                    const data = {
-                                        review,
-                                        category: 'feedback',
-                                    };
-                                    await addReview(data as any);
-                                    resetForm();
-                                }}
-                            >
-                                {({ values }) => {
-                                    return (
-                                        <>
-                                            <Form
-                                                autoComplete='off'
-                                                style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
-                                                <FormInput
-                                                    multiline
-                                                    name='review'
-                                                    className={classes.comment}
-                                                    fullWidth
-                                                    placeholder={`Share your feedback...`}
-                                                    variant='outlined'
-                                                    size='small'
-                                                    onFocus={() => setTyping(true)}
-                                                />
-                                                {typing && <Button type='submit' color='primary' className={classes.submitButton}>Post</Button>}
-                                            </Form>
-                                        </>
-                                    );
-                                }}
-                            </Formik>
-                        </Grid> */}
+                        <Formik
+                            initialValues={{
+                                review: ``,
+                            }}
+                            validateOnBlur={false}
+                            onSubmit={async ({ review }, { resetForm }) => {
+                                const data = {
+                                    review,
+                                    category: 'feedback',
+                                };
+                                await addReview(data as any);
+                                resetForm();
+                            }}
+                        >
+                            {({ values }) => {
+                                return (
+                                    <>
+                                        <Form
+                                            autoComplete='off'
+                                            style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
+                                            <FormInput
+                                                multiline
+                                                name='review'
+                                                className={classes.comment}
+                                                fullWidth
+                                                placeholder={`Share your feedback...`}
+                                                variant='outlined'
+                                                size='small'
+                                                onFocus={() => setTyping(true)}
+                                            />
+                                            {typing && <Button type='submit' color='primary' className={classes.submitButton}>Post</Button>}
+                                        </Form>
+                                    </>
+                                );
+                            }}
+                        </Formik>
+                    </Grid> */}
                 </Grid>
                 {/* )} */}
 

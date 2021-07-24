@@ -59,6 +59,7 @@ const useStyles = makeStyles((theme: Theme) => {
 				position: 'absolute',
 				top: '50%',
 				left: '50%',
+				maxHeight: '100vh',
 				transform: `translate(-50%, -50%)`,
 				padding: theme.spacing(3),
 				backgroundColor: theme.palette.common.white,

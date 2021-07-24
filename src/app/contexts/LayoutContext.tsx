@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useLocation } from 'react-router';
 
 interface LayoutContextProps {
-	layout?: 'App' | 'OnBoarding';
+	layout?: 'App' | 'OnBoarding' | 'Interview';
 }
 
 export const LayoutContext = React.createContext<Partial<LayoutContextProps>>(
@@ -10,12 +10,16 @@ export const LayoutContext = React.createContext<Partial<LayoutContextProps>>(
 );
 
 const LayoutContextProvider = ({ children }: any) => {
-	const [layout, setLayout] = React.useState<'App' | 'OnBoarding'>('App');
+	const [layout, setLayout] = React.useState<
+		'App' | 'OnBoarding' | 'Interview'
+	>('App');
 
 	const location = useLocation();
 
 	React.useEffect(() => {
-		if (location.pathname === '/onboarding') {
+		if (location.pathname.startsWith('/interview')) {
+			setLayout('Interview');
+		} else if (location.pathname === '/onboarding') {
 			setLayout('OnBoarding');
 		} else {
 			setLayout('App');
