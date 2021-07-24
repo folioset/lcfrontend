@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react';
 
 // Material UI
 import { makeStyles, Theme, Link, MenuItem } from '@material-ui/core';
+
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -31,6 +32,8 @@ import StarRateIcon from '@material-ui/icons/StarRate';
 import Fade from '@material-ui/core/Fade';
 import Menu from '@material-ui/core/Menu';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined';
+import ThumbUpAltRoundedIcon from '@material-ui/icons/ThumbUpAltRounded';
 
 // components
 import Rating from '../shared/Rating';
@@ -111,10 +114,11 @@ const useStyles = makeStyles((theme: Theme) => {
 		},
 		ratings: {
 			display: 'flex',
+			marginBottom: 10
 		},
 		thumbnail: {
 			// paddingRight: theme.spacing(4),
-			display: 'flex',
+			display: 'flex', 
 			alignItems: 'center',
 			justifyContent: 'center'
 		},
@@ -182,26 +186,32 @@ const useStyles = makeStyles((theme: Theme) => {
 		active: {
 			color: theme.palette.primary.main,
 			textTransform: 'none',
-			fontWeight: 550,
-			fontSize: 16
-
+			fontWeight: 550, 
+			fontSize: 16,
+			borderWidth: 2,
+			borderColor: theme.palette.primary.main,
+			borderRadius: 5
+			
 		},
-		inactive: {
+		inactive : {
 			color: theme.palette.secondary.main,
 			textTransform: 'none',
-			fontSize: 16
-
+			fontSize: 16,
+			marginRight: 10,
+			// border: '1px solid',
+			// borderColor: theme.palette.secondary.main,
+			// borderRadius: 15
+			
 		},
 		submitButton: {
 			marginTop: 10,
 			marginLeft: 2,
-			textTransform: 'none',
+			textTransform: 'none', 
 			width: '30px',
 			height: '30px',
 			backgroundColor: theme.palette.primary.main,
 			color: 'black',
 			borderRadius: 15
-
 		},
 		MenuItem: {
 			color: 'red',
@@ -235,7 +245,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
-
 
 	// Project Modal Toggler
 	const {
@@ -399,101 +408,134 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 								</>
 							)}
 						</Box>
-
 					}
 				/>
 				<CardContent className={classes.cardContent}>
 					<Grid container>
-						{project.description && (
-							<Grid item style={{ marginBottom: 10 }}>
-								<Typography variant='body2'>
-									{project.description}
-								</Typography>
-							</Grid>
-						)}
-						<Grid item container direction='row'>
-							{project.skills.length !== 0 ? (
-								<Grid item container direction='row'>
-									{project.skills.map((el: any, i: number) => {
-										return (
-											<Grid item className={classes.tag}>
-												<Typography
-													key={i}
-													variant='h5'>
-													{el}
-												</Typography>
-											</Grid>
-										);
-									})}
-								</Grid>
-							) : null}
-							{project.tools.length !== 0 ? (
-								<Grid item container direction='row'>
-									{project.tools.map((el: any, i: number) => {
-										return (
-											<Grid item className={classes.tag}>
-												<Typography
-													key={i}
-													variant='h5'>
-													{el}
-												</Typography>
-											</Grid>
-										);
-									})}
-								</Grid>
-							) : null}
-						</Grid>
-						<Grid item sm={12} className={classes.thumbnail}>
-							<PdfThumbnail file={project.projectFile} onClick={onModalOpen} />
-						</Grid>
-						{project.contributors.length !== 0 ? (
-							<Grid item container direction='row'>
-								<Grid item style={{ marginRight: 5 }}>
-									<Typography variant='body2' color='textSecondary'>
-										Contributors:
+							{project.description && (
+								<Grid item style={{ marginBottom: 10 }}>
+									<Typography variant='body2'>
+										{project.description}
 									</Typography>
 								</Grid>
-								<Grid item>
-									{project.contributorDetailsArr?.map(
-										(el: any, i: number) => {
+							)}
+							<Grid item container direction='row'>
+							{project.skills.length !== 0 ? (
+								<Grid item container direction='row'>
+										{project.skills.map((el: any, i: number) => {
 											return (
-												<Link
+												<Grid item className={classes.tag}>
+													<Typography
 													key={i}
-													component={RouterLink}
-													to={`/public/users/${el._id}`}
-													color='primary'
-													style={{ fontSize: 14, fontWeight: 550 }}>
-													{el.name}
-													{i === project.contributors.length - 1 ? '' : ', '}
-												</Link>
+													variant='h5'>
+													{el}
+												</Typography>
+												</Grid>
 											);
-										}
-									)}
-								</Grid>
+										})}
+									</Grid>
+							) : null}
+							{project.tools.length !== 0 ? (
+									<Grid item container direction='row'>
+										{project.tools.map((el: any, i: number) => {
+											return (
+												<Grid item className={classes.tag}>
+												<Typography
+													key={i}
+													variant='h5'>
+													{el} 
+												</Typography>
+												</Grid>
+											);
+										})}
+									</Grid>
+							) : null}
 							</Grid>
-						) : null}
-					</Grid>
+							<Grid item sm={12} className={classes.thumbnail}>
+								<PdfThumbnail file={project.projectFile} onClick={onModalOpen} />
+							</Grid>
+							{project.contributors.length !== 0 ? (
+								<Grid item container direction='row'>
+									<Grid item style={{ marginRight: 5 }}>
+										<Typography variant='body2' color='textSecondary'>
+											Contributors:
+										</Typography>
+									</Grid>
+									<Grid item>
+										{project.contributorDetailsArr?.map(
+											(el: any, i: number) => {
+												return (
+													<Link
+														key={i}
+														component={RouterLink}
+														to={`/public/users/${el._id}`}
+														color='primary'
+														style={{ fontSize: 14, fontWeight: 550 }}>
+														{el.name}
+														{i === project.contributors.length - 1 ? '' : ', '}
+													</Link>
+												);
+											}
+										)}
+									</Grid>
+								</Grid>
+							) : null}
+						</Grid>
 				</CardContent>
 				<CardActions className={classes.cardActions}>
 					{isPublic && (
 						<Grid container direction='column' className={classes.section}>
 							<Grid item className={classes.ratings}>
-								<Button onClick={() => showRating('fine')}
-									className={rating === 'fine' ? classes.active : classes.inactive}>
-									Good
-								</Button>
-								<Button onClick={() => showRating('good')}
-									className={rating === 'good' ? classes.active : classes.inactive}>
-									Great
-								</Button>
-								<Button onClick={() => showRating('excellent')}
-									className={rating === 'excellent' ? classes.active : classes.inactive}>
-									Excellent
-								</Button>
-								<Button onClick={() => showRating('extraordinary')}
-									className={rating === 'extraordinary' ? classes.active : classes.inactive}>
-									Extraordinary
-								</Button>
+										<Button onClick={() => showRating('good')}
+											className={rating === 'good' ? classes.active : classes.inactive}>
+											<Box style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+												<Typography style={{marginRight: 4, marginTop: 1.5, fontWeight: 450}}>Good</Typography>
+												{rating === 'good' ?
+												<ThumbUpAltRoundedIcon fontSize='small' color='primary'></ThumbUpAltRoundedIcon>
+											    : 
+												<ThumbUpAltOutlinedIcon fontSize='small' color='secondary'></ThumbUpAltOutlinedIcon>
+												}
+												
+											</Box>
+										</Button>
+										<Button onClick={() => showRating('excellent')}
+											className={rating === 'excellent' ? classes.active : classes.inactive}>
+											<Box style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+												<Typography style={{marginRight: 4, marginTop: 1.5, fontWeight: 450}}>Excellent</Typography>
+												{rating === 'excellent' ?
+												<ThumbUpAltRoundedIcon fontSize='small' color='primary'></ThumbUpAltRoundedIcon>
+											    : 
+												<ThumbUpAltOutlinedIcon fontSize='small' color='secondary'></ThumbUpAltOutlinedIcon>
+												}
+												{rating === 'excellent' ?
+												<ThumbUpAltRoundedIcon fontSize='small' color='primary'></ThumbUpAltRoundedIcon>
+											    : 
+												<ThumbUpAltOutlinedIcon fontSize='small' color='secondary'></ThumbUpAltOutlinedIcon>
+												}
+												
+											</Box>
+										</Button>
+										<Button onClick={() => showRating('extraordinary')}
+											className={rating === 'extraordinary' ? classes.active : classes.inactive}>
+											<Box style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+												<Typography style={{marginRight: 4, marginTop: 1.5, fontWeight: 450}}>Extraordinary</Typography>
+												{rating === 'extraordinary' ?
+												<ThumbUpAltRoundedIcon fontSize='small' color='primary'></ThumbUpAltRoundedIcon>
+											    : 
+												<ThumbUpAltOutlinedIcon fontSize='small' color='secondary'></ThumbUpAltOutlinedIcon>
+												}
+												{rating === 'extraordinary' ?
+												<ThumbUpAltRoundedIcon fontSize='small' color='primary'></ThumbUpAltRoundedIcon>
+											    : 
+												<ThumbUpAltOutlinedIcon fontSize='small' color='secondary'></ThumbUpAltOutlinedIcon>
+												}
+												{rating === 'extraordinary' ?
+												<ThumbUpAltRoundedIcon fontSize='small' color='primary'></ThumbUpAltRoundedIcon>
+											    : 
+												<ThumbUpAltOutlinedIcon fontSize='small' color='secondary'></ThumbUpAltOutlinedIcon>
+												}
+											</Box>
+										</Button>
 							</Grid>
 							<Grid item>
 								<Formik
@@ -509,13 +551,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 										await addReview(data as any);
 										resetForm();
 									}}
-								>
+									>
 									{({ values }) => {
 										return (
 											<>
 												<Form
 													autoComplete='off'
-													style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
+													style={{ display: 'flex', flexDirection: 'column', textAlign: 'left'}}>
 													<FormInput
 														multiline
 														name='review'
@@ -555,16 +597,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 					</Grid> */}
 				</CardActions>
 				{/* <Collapse in={isOpen} timeout='auto' unmountOnExit> */}
-				<CardContent>
-					{isLoading && (
-						<Typography color='primary' variant='caption'>
-							Loading reviews
-						</Typography>
-					)}
-					{/* {data && (
+					<CardContent>
+						{isLoading && (
+							<Typography color='primary' variant='caption'>
+								Loading reviews
+							</Typography>
+						)}
+						{/* {console.log(data)} */}
+						{data && (
 							<>
 								<Box mb='5'>
-									{[...data?.latestReviews].map((review: Review) => {
+									{data?.map((review: Review) => {
 										return (
 											<ReviewsSection
 												key={review.reviewDetails!._id}
@@ -573,24 +616,24 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 										);
 									})}
 								</Box>
-								{data?.previousReviews.length > 0 && (
-									<>
-										<Box mb='3'>
-											<Typography>Previous Reviews</Typography>
-										</Box>
-										{[...data.previousReviews].map((review: Review) => {
-											return (
-												<ReviewsSection
-													key={review.reviewDetails!._id}
-													{...{ review, project }}
-												/>
-											);
-										})}
-									</>
-								)}
+								{/* // {data?.previousReviews.length > 0 && (
+								// 	<>
+								// 		<Box mb='3'>
+								// 			<Typography>Previous Reviews</Typography>
+								// 		</Box>
+								// 		{[...data.previousReviews].map((review: Review) => {
+								// 			return (
+								// 				<ReviewsSection
+								// 					key={review.reviewDetails!._id}
+								// 					{...{ review, project }}
+								// 				/>
+								// 			);
+								// 		})}
+								// 	</>
+								// )} */}
 							</>
-						)} */}
-				</CardContent>
+						)}
+					</CardContent>
 				{/* </Collapse> */}
 			</Card>
 		</>
