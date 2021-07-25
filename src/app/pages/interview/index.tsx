@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import InterviewContextProvider from '../../contexts/InterviewContext';
 import InterviewFinish from './InterviewFinish';
 import InterviewOnboarding from './InterviewOnboarding';
 import InterviewRoom from './InterviewRoom';
@@ -8,7 +9,7 @@ interface InterviewRoutesProps {}
 
 const InterviewRoutes: React.FC<InterviewRoutesProps> = () => {
 	return (
-		<>
+		<InterviewContextProvider>
 			<Switch>
 				<Route path='/interview' exact>
 					<InterviewOnboarding />
@@ -22,7 +23,7 @@ const InterviewRoutes: React.FC<InterviewRoutesProps> = () => {
 					<InterviewFinish />
 				</Route>
 			</Switch>
-		</>
+		</InterviewContextProvider>
 	);
 };
 

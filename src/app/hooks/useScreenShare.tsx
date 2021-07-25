@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
+import { InterviewContext } from '../contexts/InterviewContext';
 
 const useScreenShare = () => {
 	const history = useHistory();
@@ -9,6 +10,8 @@ const useScreenShare = () => {
 	const streamRef = React.useRef<any>();
 	const [chunks, setChunks] = React.useState<any>([]);
 	const [isRecording, setIsRecording] = React.useState<boolean>(false);
+	const [videoBlob, setVideoBlob] = React.useState<Blob>();
+	const { saveFile } = React.useContext(InterviewContext);
 
 	const [microphoneDevices, setMicrophoneDevices] = React.useState<any>([]);
 
@@ -25,15 +28,15 @@ const useScreenShare = () => {
 
 	React.useEffect(() => {
 		if (chunks.length) {
-			const blob = new Blob(chunks, {
+			const vBlob = new Blob(chunks, {
 				type: 'video/mp4',
 			});
+			setVideoBlob(vBlob);
 
-			const blobUrl = URL.createObjectURL(blob);
-			setChunks([]);
-			history.push('/interview/finish', { url: blobUrl, blob });
+			// Save Blob
+			history.push('/interview/finish');
 		}
-	}, [chunks, history]);
+	}, [chunks, history, saveFile]);
 
 	const getStream = async () => {
 		// Screen record stream
@@ -104,6 +107,7 @@ const useScreenShare = () => {
 		stopRecord,
 		isRecording,
 		microphoneDevices,
+		videoBlob,
 	};
 };
 

@@ -5,6 +5,7 @@ import {
 	Theme,
 	Typography,
 } from '@material-ui/core';
+import * as Yup from 'yup';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import { Form, Formik } from 'formik';
@@ -14,6 +15,10 @@ import FormInput from '../../components/shared/FormInput';
 import FormSelect from '../../components/shared/FormSelect';
 
 interface InterviewOnboardingProps {}
+
+const validationSchema = Yup.object().shape({
+	fieldInterest: Yup.string().required('This is a required field'),
+});
 
 const useStyles = makeStyles((theme: Theme) => {
 	return {
@@ -48,9 +53,15 @@ const InterviewOnboarding: React.FC<InterviewOnboardingProps> = () => {
 					</Typography>
 					<Container maxWidth='sm'>
 						<Formik
-							initialValues={{ fieldInterest: '', interviewType: '' }}
-							onSubmit={() => {
-								history.push('/interview/room');
+							validationSchema={validationSchema}
+							initialValues={{
+								fieldInterest: '',
+								interviewType: 'Product Management',
+							}}
+							onSubmit={({ fieldInterest, interviewType }) => {
+								localStorage.setItem('interviewType', interviewType);
+								localStorage.setItem('fieldInterest', fieldInterest);
+								history.replace('/interview/room');
 							}}>
 							{() => {
 								return (
@@ -65,14 +76,19 @@ const InterviewOnboarding: React.FC<InterviewOnboardingProps> = () => {
 											name='interviewType'
 											label='What type of interview would you like to take ?'>
 											{[
+												'Product Management',
 												'Product Improvement',
-												' Product Design',
-												' Product Strategy',
+												'Product Design',
+												'Product Strategy',
 												'Product Metrics',
 												'Product Execution',
 												'Guesstimation',
 											].map((field) => {
-												return <MenuItem value={field}>{field}</MenuItem>;
+												return (
+													<MenuItem key={field} value={field}>
+														{field}
+													</MenuItem>
+												);
 											})}
 										</FormSelect>
 										<Button

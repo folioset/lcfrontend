@@ -1,13 +1,17 @@
 import {
 	Box,
 	Button,
+	CircularProgress,
 	Container,
 	makeStyles,
 	Theme,
 	Typography,
 } from '@material-ui/core';
+import axios from 'axios';
 import * as React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useMutation } from 'react-query';
+import { useHistory } from 'react-router-dom';
+import { InterviewContext } from '../../contexts/InterviewContext';
 
 interface InterviewFinishProps {}
 
@@ -33,9 +37,33 @@ const useStyles = makeStyles((theme: Theme) => {
 });
 
 const InterviewFinish: React.FC<InterviewFinishProps> = () => {
-	const location = useLocation<any>();
+	const history = useHistory();
 	const classes = useStyles();
-	console.log(location);
+	const { file, fileUrl, questionId } = React.useContext(InterviewContext);
+
+	const { mutate, isLoading } = useMutation(
+		async (data) => {
+			const res = await axios({
+				url: '/api/interview/finish',
+				method: 'post',
+				data,
+			});
+			return res.data;
+		},
+		{
+			onSuccess: (data: any) => {
+				console.log(data);
+				history.replace('/');
+			},
+		}
+	);
+
+	const handleInterviewSubmission = () => {
+		const data = new FormData();
+		data.append('file', file as any);
+		data.append('questionid', questionId!);
+		mutate(data as any);
+	};
 
 	return (
 		<>
@@ -44,15 +72,16 @@ const InterviewFinish: React.FC<InterviewFinishProps> = () => {
 					Your Interview
 				</Typography>
 				<Box className={classes.videoContainer}>
-					<video
-						className={classes.video}
-						controls
-						src={location?.state?.url as any}
-						style={{}}
-					/>
+					<video className={classes.video} controls src={fileUrl} />
 				</Box>
 				<Box textAlign='center'>
-					<Button variant='contained' color='primary'>
+					<Button
+						startIcon={isLoading ? <CircularProgress size='1rem' /> : null}
+						onClick={() => {
+							handleInterviewSubmission();
+						}}
+						variant='contained'
+						color='primary'>
 						Finish Interview
 					</Button>
 				</Box>

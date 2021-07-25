@@ -1,10 +1,12 @@
-import { Button, makeStyles, Theme } from '@material-ui/core';
+import { Button, makeStyles, Theme, CircularProgress } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import axios from 'axios';
 import * as React from 'react';
-import useScreenShare from '../../hooks/useScreenShare';
+import { useMutation } from 'react-query';
+import { InterviewContext } from '../../contexts/InterviewContext';
 
 interface InterviewRoomProps {}
 
@@ -37,11 +39,33 @@ const InterviewRoom: React.FC<InterviewRoomProps> = () => {
 	const {
 		userScreenVideoRef,
 		userVideoRef,
+		updateQuestion,
+		question,
 		startRecord,
 		stopRecord,
 		isRecording,
-	} = useScreenShare();
-	const classes = useStyles({ isRecording });
+	} = React.useContext(InterviewContext);
+	const classes = useStyles();
+	const { mutate, isLoading } = useMutation(
+		async () => {
+			const res = await axios({
+				method: 'post',
+				url: '/api/interview/getquestion',
+				data: {
+					category: localStorage.getItem('interviewType'),
+				},
+			});
+			return res.data;
+		},
+		{
+			onSuccess: async (data: { question: string; questionid: string }) => {
+				if (updateQuestion) updateQuestion(data.question, data.questionid);
+				if (startRecord) {
+					await startRecord();
+				}
+			},
+		}
+	);
 
 	return (
 		<>
@@ -54,26 +78,61 @@ const InterviewRoom: React.FC<InterviewRoomProps> = () => {
 						Your screen and Video will be recorded while interview is in
 						progress
 					</Typography>
+					{question && (
+						<Typography
+							style={{ fontWeight: 'bold' }}
+							variant='h4'
+							className={classes.subheading}>
+							{question}
+						</Typography>
+					)}
+					<Typography
+						style={{
+							fontWeight: 'bold',
+							color: 'red',
+							textAlign: 'center',
+							marginBottom: 20,
+						}}>
+						Please do not refresh your page
+					</Typography>
+
 					<Box textAlign='center' mb={5}>
 						{!isRecording && (
-							<Button
-								onClick={async () => {
-									startRecord();
-								}}
-								variant='contained'
-								color='primary'>
-								Start Interview
-							</Button>
+							<>
+								<Box display='flex' alignItems='center' justifyContent='center'>
+									<Button
+										startIcon={
+											isLoading ? <CircularProgress size='1rem' /> : null
+										}
+										onClick={async () => {
+											await mutate();
+										}}
+										variant='contained'
+										color='primary'>
+										Start Interview
+									</Button>
+								</Box>
+							</>
 						)}
 						{isRecording && (
-							<Button
-								onClick={async () => {
-									stopRecord();
-								}}
-								variant='contained'
-								color='primary'>
-								End Interview
-							</Button>
+							<Box display='flex' alignItems='center' justifyContent='center'>
+								<Typography
+									style={{
+										fontWeight: 'bold',
+										color: 'red',
+										textAlign: 'center',
+									}}>
+									Recording...
+								</Typography>
+								<Button
+									onClick={async () => {
+										if (stopRecord) stopRecord();
+									}}
+									variant='contained'
+									color='primary'>
+									End Interview
+								</Button>
+							</Box>
 						)}
 					</Box>
 					<Grid container spacing={5}>
