@@ -109,6 +109,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ review, project }) => {
 		}
 	);
 
+
 	const { mutate: handleLike } = useMutation(
 		async () => {
 			const res = await axios({
@@ -233,7 +234,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ review, project }) => {
 					{repliesLoading && <Typography>Loading....</Typography>}
 
 					{replies?.map((reply: any) => {
-						return <ReviewCard key={reply._id} review={reply} />;
+						return <ReviewCard key={reply._id} review={reply} project={project}/>;
 					})}
 					</Box>
 					

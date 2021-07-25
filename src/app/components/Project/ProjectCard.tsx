@@ -3,43 +3,21 @@ import * as Yup from 'yup';
 import clsx from 'clsx';
 import axios from 'axios';
 import { format } from 'date-fns';
-import { Form, Formik } from 'formik';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useState, useEffect } from 'react';
 
 // Material UI
 import { makeStyles, Theme, Link, MenuItem } from '@material-ui/core';
 
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardHeader from '@material-ui/core/CardHeader';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import Collapse from '@material-ui/core/Collapse';
-import Modal from '@material-ui/core/Modal';
-import Hidden from '@material-ui/core/Hidden';
+import {Card, CardContent, CardHeader, CardActions, Box, Grid, Button, Modal, Hidden, Typography, IconButton, Fade, Menu} from '@material-ui/core';
 
 import CancelIcon from '@material-ui/icons/Cancel';
-import EditIcon from '@material-ui/icons/Edit';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import DeleteIcon from '@material-ui/icons/Delete';
-import SendIcon from '@material-ui/icons/Send';
-import StarRateIcon from '@material-ui/icons/StarRate';
-import Fade from '@material-ui/core/Fade';
-import Menu from '@material-ui/core/Menu';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined';
-import ThumbUpAltRoundedIcon from '@material-ui/icons/ThumbUpAltRounded';
 
 // components
-import Rating from '../shared/Rating';
+import RatingCard from '../shared/RatingCard';
 import ReviewsSection from '../Reviews/ReviewsSection';
 import PdfViewer from '../shared/Pdf/PdfViewer';
-import FormInput from '../shared/FormInput';
 import UpdateProject from './UpdateProject';
 import DeleteProject from './DeleteProject';
 
@@ -48,7 +26,6 @@ import { Project, Review, User } from '../../types';
 
 // hooks
 import useDisclosure from '../../hooks/useDisclosure';
-import { useLocation } from 'react-router-dom';
 
 import { Link as RouterLink } from 'react-router-dom';
 import PdfThumbnail from '../shared/Pdf/PdfThumbnail';
@@ -89,42 +66,11 @@ const useStyles = makeStyles((theme: Theme) => {
 			marginLeft: 3,
 			marginRight: 3
 		},
-		rating: {
-			paddingLeft: theme.spacing(0.7),
-			paddingBottom: theme.spacing(0.1),
-		},
-		ratingNumber: {
-			paddingLeft: theme.spacing(0.7),
-		},
-		comment: {
-			'& fieldset': {
-				borderRadius: 30,
-			},
-		},
-		section: {
-			padding: theme.spacing(0.5),
-		},
-		centeredButton: {
-			display: 'flex',
-			justifyContent: 'center',
-
-			[theme.breakpoints.down('xs')]: {
-				marginBottom: theme.spacing(3),
-			},
-		},
-		ratings: {
-			display: 'flex',
-			marginBottom: 10
-		},
 		thumbnail: {
 			// paddingRight: theme.spacing(4),
 			display: 'flex', 
 			alignItems: 'center',
 			justifyContent: 'center'
-		},
-		collabBox: {
-			display: 'flex',
-			justifyContent: 'flex-start',
 		},
 		pdf: {
 			height: '100vh',
@@ -152,67 +98,6 @@ const useStyles = makeStyles((theme: Theme) => {
 			right: 30,
 			zIndex: 2000,
 		},
-		avgRating: {
-			display: 'flex',
-			justifyContent: 'center',
-			alignItems: 'center',
-			textAlign: 'center',
-			paddingLeft: theme.spacing(1),
-
-			[theme.breakpoints.down('xs')]: {
-				justifyContent: 'flex-start',
-			},
-		},
-		avgRatingBox: {
-			display: 'flex',
-			justifyContent: 'space-around',
-			alignItems: 'center',
-		},
-		// ratingBox: {
-		// 	display: 'flex',
-		// 	justifyContent: 'center',
-		// 	alignItems: 'center',
-
-		// 	[theme.breakpoints.down('xs')]: {
-		// 		marginTop: 10,
-		// 		flexDirection: 'column',
-		// 		alignItems: 'start',
-
-		// 		'& h6': {
-		// 			paddingLeft: theme.spacing(1),
-		// 		},
-		// 	},
-		// },
-		active: {
-			color: theme.palette.primary.main,
-			textTransform: 'none',
-			fontWeight: 550, 
-			fontSize: 16,
-			borderWidth: 2,
-			borderColor: theme.palette.primary.main,
-			borderRadius: 5
-			
-		},
-		inactive : {
-			color: theme.palette.secondary.main,
-			textTransform: 'none',
-			fontSize: 16,
-			marginRight: 10,
-			// border: '1px solid',
-			// borderColor: theme.palette.secondary.main,
-			// borderRadius: 15
-			
-		},
-		submitButton: {
-			marginTop: 10,
-			marginLeft: 2,
-			textTransform: 'none', 
-			width: '30px',
-			height: '30px',
-			backgroundColor: theme.palette.primary.main,
-			color: 'black',
-			borderRadius: 15
-		},
 		MenuItem: {
 			color: 'red',
 		}
@@ -228,11 +113,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 	const queryClient = useQueryClient();
 	const user = queryClient.getQueryData<User>('user')!;
 	const classes = useStyles();
-	const { isOpen, toggleOpen, onOpen } = useDisclosure();
-	const location = useLocation();
-	const [rated, setRated] = useState(false);
-	const [rating, setRating] = useState('');
-	const [typing, setTyping] = useState(false);
+	const [num, setNum] = useState(1);
 
 	// project menu
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -267,23 +148,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 		onClose: onUpdateClose,
 	} = useDisclosure();
 
-	//  Add Review
-	const { mutate: addReview } = useMutation(
-		async (data) => {
-			const res = await axios({
-				method: 'POST',
-				url: `/api/project/${project._id}/reviews/`,
-				data,
-			});
-			return res.data;
-		},
-		{
-			onSuccess: () => {
-				queryClient.invalidateQueries(['project-reviews', project._id]);
-				onOpen();
-			},
-		}
-	);
 
 	// Set Default Project Rating
 	// React.useEffect(() => {
@@ -298,44 +162,32 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 	// 	}
 	// }, [project, user._id]);
 
+
+	useEffect(() => {
+		console.log(num, 'this is num in 2nd use');
+		refetchReviews();
+	}, [num])
+
 	// Get all Project Reviews
-	const { isLoading, data } = useQuery(
-		['project-reviews', project._id],
+	const { isLoading, data: reviews, refetch: refetchReviews } = useQuery(
+		['project-reviews', project._id, num],
 		async () => {
 			const res = await axios({
 				method: 'get',
-				url: `/api/project/${project._id}/reviews`,
+				url: `/api/project/${project._id}/reviews/${num}`,
 			});
+			console.log(res.data);
 
 			return res.data;
 		}
 	);
 
-	// Update Rating
-	const { mutate: addRating } = useMutation(
-		async (data) => {
-			const res = await axios({
-				method: 'PUT',
-				url: `/api/project/${project._id}/add-rating`,
-				data,
-			});
-			return res.data;
-		},
-		{
-			onSuccess: async () => {
-				console.log('success!');
-				if (location.pathname === '/') {
-					await queryClient.invalidateQueries('feed');
-				} else {
-					await queryClient.invalidateQueries(['projects', project.createdBy]);
-				}
-			},
-		}
-	);
+	const handleMoreReviews = () => {
+		setNum(num+1);
+	}
 
-	const showRating = (value: any) => {
-		setRating(value)
-		addRating({ value: value } as any)
+	const handlePreviousReviews = () => {
+		setNum(num-1);
 	}
 
 	return (
@@ -484,130 +336,22 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 				</CardContent>
 				<CardActions className={classes.cardActions}>
 					{isPublic && (
-						<Grid container direction='column' className={classes.section}>
-							<Grid item className={classes.ratings}>
-										<Button onClick={() => showRating('good')}
-											className={rating === 'good' ? classes.active : classes.inactive}>
-											<Box style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-												<Typography style={{marginRight: 4, marginTop: 1.5, fontWeight: 450}}>Good</Typography>
-												{rating === 'good' ?
-												<ThumbUpAltRoundedIcon fontSize='small' color='primary'></ThumbUpAltRoundedIcon>
-											    : 
-												<ThumbUpAltOutlinedIcon fontSize='small' color='secondary'></ThumbUpAltOutlinedIcon>
-												}
-												
-											</Box>
-										</Button>
-										<Button onClick={() => showRating('excellent')}
-											className={rating === 'excellent' ? classes.active : classes.inactive}>
-											<Box style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-												<Typography style={{marginRight: 4, marginTop: 1.5, fontWeight: 450}}>Excellent</Typography>
-												{rating === 'excellent' ?
-												<ThumbUpAltRoundedIcon fontSize='small' color='primary'></ThumbUpAltRoundedIcon>
-											    : 
-												<ThumbUpAltOutlinedIcon fontSize='small' color='secondary'></ThumbUpAltOutlinedIcon>
-												}
-												{rating === 'excellent' ?
-												<ThumbUpAltRoundedIcon fontSize='small' color='primary'></ThumbUpAltRoundedIcon>
-											    : 
-												<ThumbUpAltOutlinedIcon fontSize='small' color='secondary'></ThumbUpAltOutlinedIcon>
-												}
-												
-											</Box>
-										</Button>
-										<Button onClick={() => showRating('extraordinary')}
-											className={rating === 'extraordinary' ? classes.active : classes.inactive}>
-											<Box style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-												<Typography style={{marginRight: 4, marginTop: 1.5, fontWeight: 450}}>Extraordinary</Typography>
-												{rating === 'extraordinary' ?
-												<ThumbUpAltRoundedIcon fontSize='small' color='primary'></ThumbUpAltRoundedIcon>
-											    : 
-												<ThumbUpAltOutlinedIcon fontSize='small' color='secondary'></ThumbUpAltOutlinedIcon>
-												}
-												{rating === 'extraordinary' ?
-												<ThumbUpAltRoundedIcon fontSize='small' color='primary'></ThumbUpAltRoundedIcon>
-											    : 
-												<ThumbUpAltOutlinedIcon fontSize='small' color='secondary'></ThumbUpAltOutlinedIcon>
-												}
-												{rating === 'extraordinary' ?
-												<ThumbUpAltRoundedIcon fontSize='small' color='primary'></ThumbUpAltRoundedIcon>
-											    : 
-												<ThumbUpAltOutlinedIcon fontSize='small' color='secondary'></ThumbUpAltOutlinedIcon>
-												}
-											</Box>
-										</Button>
-							</Grid>
-							<Grid item>
-								<Formik
-									initialValues={{
-										review: ``,
-									}}
-									validateOnBlur={false}
-									onSubmit={async ({ review }, { resetForm }) => {
-										const data = {
-											review,
-											category: 'feedback',
-										};
-										await addReview(data as any);
-										resetForm();
-									}}
-									>
-									{({ values }) => {
-										return (
-											<>
-												<Form
-													autoComplete='off'
-													style={{ display: 'flex', flexDirection: 'column', textAlign: 'left'}}>
-													<FormInput
-														multiline
-														name='review'
-														className={classes.comment}
-														fullWidth
-														placeholder={`Share your feedback...`}
-														variant='outlined'
-														size='small'
-														onFocus={() => setTyping(true)}
-													/>
-													{typing && <Button type='submit' color='primary' className={classes.submitButton}>Post</Button>}
-												</Form>
-											</>
-										);
-									}}
-								</Formik>
-							</Grid>
-						</Grid>
+						<RatingCard {...{project}}/>
 					)}
-
-					{/* <Grid container>
-						<Grid item>
-							<Button
-								onClick={toggleOpen}
-								color='default'
-								size='small'
-								endIcon={
-									<ExpandMoreIcon
-										className={clsx(classes.expand, {
-											[classes.expandOpen]: isOpen,
-										})}
-									/>
-								}>
-								All Reviews
-							</Button>
-						</Grid>
-					</Grid> */}
 				</CardActions>
-				{/* <Collapse in={isOpen} timeout='auto' unmountOnExit> */}
-					<CardContent>
+					<CardContent className={classes.cardContent}>
+						{num > 1 && <Button onClick={handlePreviousReviews} style={{textTransform: 'none'}}>
+							Previous reviews
+						</Button>}
 						{isLoading && (
 							<Typography color='primary' variant='caption'>
 								Loading reviews
 							</Typography>
 						)}
-						{/* {console.log(data)} */}
-						{data && (
+						{reviews?.length > 0 && (
 							<>
-								<Box mb='5'>
-									{data?.map((review: Review) => {
+								<Box>
+									{reviews?.map((review: Review) => {
 										return (
 											<ReviewsSection
 												key={review.reviewDetails!._id}
@@ -616,25 +360,12 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 										);
 									})}
 								</Box>
-								{/* // {data?.previousReviews.length > 0 && (
-								// 	<>
-								// 		<Box mb='3'>
-								// 			<Typography>Previous Reviews</Typography>
-								// 		</Box>
-								// 		{[...data.previousReviews].map((review: Review) => {
-								// 			return (
-								// 				<ReviewsSection
-								// 					key={review.reviewDetails!._id}
-								// 					{...{ review, project }}
-								// 				/>
-								// 			);
-								// 		})}
-								// 	</>
-								// )} */}
+								<Button onClick={handleMoreReviews} style={{textTransform: 'none', marginBottom: -20}}>
+									Load more reviews
+								</Button>
 							</>
 						)}
 					</CardContent>
-				{/* </Collapse> */}
 			</Card>
 		</>
 	);

@@ -1,15 +1,17 @@
-import { Link, Typography, Card, CardHeader, CardContent } from '@material-ui/core';
+import { Link, Typography, Card, CardHeader, CardContent, Button } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import * as React from 'react';
 import { Project, Review } from '../../types';
 import Avatar from '../shared/Avatar';
 import { format } from 'date-fns';
-
+import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { useQuery, useQueryClient } from 'react-query';
+import axios from 'axios';
 
 interface ReviewCardProps {
 	review: Review;
-	project?: Project;
+	project: Project;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -51,8 +53,24 @@ const useStyles = makeStyles((theme: Theme) =>
 	})
 );
 
-const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
+const ReviewCard: React.FC<ReviewCardProps> = ({ review, project }) => {
 	const classes = useStyles();
+	const [more, setMore] = useState(false);
+
+	const { isLoading: completeReviewLoading, data: completeReview } = useQuery(
+		['complete-review', project._id, review.reviewDetails._id],
+		async () => {
+			const res = await axios({
+				method: 'GET',
+				url: `/api/project/${project._id}/reviews/${review.reviewDetails._id}/get-more`,
+			});
+			return res.data;
+		}
+	);
+
+	const handleSeeMore = () => {
+		setMore(true);
+	}
 
 	return (
 		<Card elevation={0} className={classes.root}>
@@ -84,12 +102,29 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
 				
 			/>
 			<CardContent className={classes.content}>
-				{`${review.reviewDetails?.review}`.split('\n').map((el) => {
+				{more ?
+				completeReview.split('\n').map((el: any) => {
 					if (!el.length) {
 						return <br />;
 					}
 					return <Typography variant='body2'>{el}</Typography>;
-				})}
+				})
+				:
+				<>
+				{
+					`${review.reviewDetails?.review}`.split('\n').map((el) => {
+						if (!el.length) {
+							return <br />;
+						}
+						return <Typography variant='body2'>{el}</Typography>;
+					})
+				}
+					<Link onClick={handleSeeMore}>
+						<Typography variant='body2' color='secondary'>see more</Typography>
+					</Link>	
+				</>
+				
+				}
 			</CardContent>
 		</Card>
 	);
