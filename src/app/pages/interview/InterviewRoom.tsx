@@ -1,9 +1,21 @@
-import { Button, makeStyles, Theme, CircularProgress } from '@material-ui/core';
+import {
+	Button,
+	makeStyles,
+	Theme,
+	CircularProgress,
+	Select,
+	FormControl,
+	ListItem,
+	ListItemIcon,
+	ListItemText,
+} from '@material-ui/core';
 import Box from '@material-ui/core/Box';
+import InputLabel from '@material-ui/core/InputLabel';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
+import CheckIcon from '@material-ui/icons/Check';
 import * as React from 'react';
 import { useMutation } from 'react-query';
 import { InterviewContext } from '../../contexts/InterviewContext';
@@ -43,8 +55,12 @@ const InterviewRoom: React.FC<InterviewRoomProps> = () => {
 		question,
 		startRecord,
 		stopRecord,
+		microphoneDevices,
 		isRecording,
+		microphoneDevice,
+		setMicrophoneDevice,
 	} = React.useContext(InterviewContext);
+
 	const classes = useStyles();
 	const { mutate, isLoading } = useMutation(
 		async () => {
@@ -95,6 +111,37 @@ const InterviewRoom: React.FC<InterviewRoomProps> = () => {
 						}}>
 						Please do not refresh your page
 					</Typography>
+
+					<Box mb={5}>
+						<Box textAlign='center' mb={3}>
+							<Typography variant='h5'>Audio and Video Settings</Typography>
+						</Box>
+						<Box display='flex' style={{ gap: '2rem' }}>
+							<FormControl fullWidth variant='filled'>
+								<InputLabel id='Audio'>Audio</InputLabel>
+								<Select
+									label='Audio'
+									labelId='demo-simple-select-filled-label'
+									id='demo-simple-select-filled'>
+									{microphoneDevices.map((device: any, i: any) => {
+										return (
+											<ListItem
+												onClick={() => setMicrophoneDevice(device)}
+												button
+												key={i}>
+												<ListItemText>{device.label}</ListItemText>
+												{device.deviceId === microphoneDevice.deviceId && (
+													<ListItemIcon>
+														<CheckIcon />
+													</ListItemIcon>
+												)}
+											</ListItem>
+										);
+									})}
+								</Select>
+							</FormControl>
+						</Box>
+					</Box>
 
 					<Box textAlign='center' mb={5}>
 						{!isRecording && (

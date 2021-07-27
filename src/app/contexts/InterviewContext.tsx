@@ -13,6 +13,9 @@ interface InterviewContextProps {
 	saveFile: (file: File) => void;
 	fileUrl: string;
 	file: File;
+	microphoneDevices: any;
+	microphoneDevice: any;
+	setMicrophoneDevice: any;
 }
 
 export const InterviewContext = React.createContext<
@@ -32,6 +35,9 @@ const InterviewContextProvider: React.FC = ({ children }: any) => {
 		stopRecord,
 		isRecording,
 		videoBlob,
+		microphoneDevices,
+		microphoneDevice,
+		setMicrophoneDevice,
 	} = useScreenShare();
 
 	React.useEffect(() => {
@@ -68,6 +74,9 @@ const InterviewContextProvider: React.FC = ({ children }: any) => {
 					isRecording,
 					fileUrl,
 					file,
+					microphoneDevices,
+					microphoneDevice,
+					setMicrophoneDevice,
 				}}>
 				{children}
 			</InterviewContext.Provider>

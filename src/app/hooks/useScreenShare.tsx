@@ -14,6 +14,7 @@ const useScreenShare = () => {
 	const { saveFile } = React.useContext(InterviewContext);
 
 	const [microphoneDevices, setMicrophoneDevices] = React.useState<any>([]);
+	const [microphoneDevice, setMicrophoneDevice] = React.useState<any>();
 
 	React.useEffect(() => {
 		(async () => {
@@ -22,8 +23,23 @@ const useScreenShare = () => {
 
 			// audio devices
 			const audioInputDevices = devices.filter((d) => d.kind === 'audioinput');
+			const currentDevice = devices.filter((d) => d.deviceId === 'default')[0];
+			setMicrophoneDevice(currentDevice);
 			setMicrophoneDevices(audioInputDevices);
 		})();
+	}, []);
+
+	React.useEffect(() => {
+		navigator.mediaDevices.ondevicechange = async function (event) {
+			const devices: MediaDeviceInfo[] =
+				await navigator.mediaDevices.enumerateDevices();
+
+			// audio devices
+			const audioInputDevices = devices.filter((d) => d.kind === 'audioinput');
+			const currentDevice = devices.filter((d) => d.deviceId === 'default')[0];
+			setMicrophoneDevice(currentDevice);
+			setMicrophoneDevices(audioInputDevices);
+		};
 	}, []);
 
 	React.useEffect(() => {
@@ -49,7 +65,9 @@ const useScreenShare = () => {
 
 		// User Media (Webcam & Microphone)
 		const userVideoStream = await navigator.mediaDevices.getUserMedia({
-			audio: true,
+			audio: {
+				deviceId: microphoneDevice.deviceId,
+			},
 			video: true,
 		});
 
@@ -108,6 +126,8 @@ const useScreenShare = () => {
 		isRecording,
 		microphoneDevices,
 		videoBlob,
+		microphoneDevice,
+		setMicrophoneDevice,
 	};
 };
 
