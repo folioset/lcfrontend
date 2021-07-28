@@ -8,7 +8,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import useAuthRoute from '../../hooks/useAuthRoute';
 import Loader from '../../components/shared/Loader';
 
-interface PublicProfileProps {}
+interface PublicProfileProps { }
 
 const PublicProfile: React.FC<PublicProfileProps> = () => {
 	const location = useLocation();

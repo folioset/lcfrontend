@@ -9,7 +9,7 @@ import { useState, useEffect } from 'react';
 // Material UI
 import { makeStyles, Theme, Link, MenuItem } from '@material-ui/core';
 
-import {Card, CardContent, CardHeader, CardActions, Box, Grid, Button, Modal, Hidden, Typography, IconButton, Fade, Menu} from '@material-ui/core';
+import { Card, CardContent, CardHeader, CardActions, Box, Grid, Button, Modal, Hidden, Typography, IconButton, Fade, Menu } from '@material-ui/core';
 
 import CancelIcon from '@material-ui/icons/Cancel';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme: Theme) => {
 		},
 		thumbnail: {
 			// paddingRight: theme.spacing(4),
-			display: 'flex', 
+			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center'
 		},
@@ -115,7 +115,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 	const classes = useStyles();
 	const [num, setNum] = useState(1);
 
-	// project menu
+	// project dot menu
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 
@@ -126,6 +126,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
+
+	console.log("project is ", project);
+
 
 	// Project Modal Toggler
 	const {
@@ -183,11 +186,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 	);
 
 	const handleMoreReviews = () => {
-		setNum(num+1);
+		setNum(num + 1);
 	}
 
 	const handlePreviousReviews = () => {
-		setNum(num-1);
+		setNum(num - 1);
 	}
 
 	return (
@@ -264,108 +267,108 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 				/>
 				<CardContent className={classes.cardContent}>
 					<Grid container>
-							{project.description && (
-								<Grid item style={{ marginBottom: 10 }}>
-									<Typography variant='body2'>
-										{project.description}
-									</Typography>
-								</Grid>
-							)}
-							<Grid item container direction='row'>
+						{project.description && (
+							<Grid item style={{ marginBottom: 10 }}>
+								<Typography variant='body2'>
+									{project.description}
+								</Typography>
+							</Grid>
+						)}
+						<Grid item container direction='row'>
 							{project.skills.length !== 0 ? (
 								<Grid item container direction='row'>
-										{project.skills.map((el: any, i: number) => {
-											return (
-												<Grid item className={classes.tag}>
-													<Typography
+									{project.skills.map((el: any, i: number) => {
+										return (
+											<Grid item className={classes.tag}>
+												<Typography
 													key={i}
 													variant='h5'>
 													{el}
 												</Typography>
-												</Grid>
-											);
-										})}
-									</Grid>
+											</Grid>
+										);
+									})}
+								</Grid>
 							) : null}
 							{project.tools.length !== 0 ? (
-									<Grid item container direction='row'>
-										{project.tools.map((el: any, i: number) => {
-											return (
-												<Grid item className={classes.tag}>
+								<Grid item container direction='row'>
+									{project.tools.map((el: any, i: number) => {
+										return (
+											<Grid item className={classes.tag}>
 												<Typography
 													key={i}
 													variant='h5'>
-													{el} 
+													{el}
 												</Typography>
-												</Grid>
-											);
-										})}
-									</Grid>
-							) : null}
-							</Grid>
-							<Grid item sm={12} className={classes.thumbnail}>
-								<PdfThumbnail file={project.projectFile} onClick={onModalOpen} />
-							</Grid>
-							{project.contributors.length !== 0 ? (
-								<Grid item container direction='row'>
-									<Grid item style={{ marginRight: 5 }}>
-										<Typography variant='body2' color='textSecondary'>
-											Contributors:
-										</Typography>
-									</Grid>
-									<Grid item>
-										{project.contributorDetailsArr?.map(
-											(el: any, i: number) => {
-												return (
-													<Link
-														key={i}
-														component={RouterLink}
-														to={`/public/users/${el._id}`}
-														color='primary'
-														style={{ fontSize: 14, fontWeight: 550 }}>
-														{el.name}
-														{i === project.contributors.length - 1 ? '' : ', '}
-													</Link>
-												);
-											}
-										)}
-									</Grid>
+											</Grid>
+										);
+									})}
 								</Grid>
 							) : null}
 						</Grid>
+						<Grid item sm={12} className={classes.thumbnail}>
+							<PdfThumbnail file={project.projectFile} onClick={onModalOpen} />
+						</Grid>
+						{project.contributors.length !== 0 ? (
+							<Grid item container direction='row'>
+								<Grid item style={{ marginRight: 5 }}>
+									<Typography variant='body2' color='textSecondary'>
+										Contributors:
+									</Typography>
+								</Grid>
+								<Grid item>
+									{project.contributorDetailsArr?.map(
+										(el: any, i: number) => {
+											return (
+												<Link
+													key={i}
+													component={RouterLink}
+													to={`/public/users/${el._id}`}
+													color='primary'
+													style={{ fontSize: 14, fontWeight: 550 }}>
+													{el.name}
+													{i === project.contributors.length - 1 ? '' : ', '}
+												</Link>
+											);
+										}
+									)}
+								</Grid>
+							</Grid>
+						) : null}
+					</Grid>
 				</CardContent>
 				<CardActions className={classes.cardActions}>
 					{isPublic && (
-						<RatingCard {...{project}}/>
+						<RatingCard {...{ project }} />
 					)}
 				</CardActions>
-					<CardContent className={classes.cardContent}>
-						{num > 1 && <Button onClick={handlePreviousReviews} style={{textTransform: 'none'}}>
-							Previous reviews
-						</Button>}
-						{isLoading && (
-							<Typography color='primary' variant='caption'>
-								Loading reviews
-							</Typography>
-						)}
-						{reviews?.length > 0 && (
-							<>
-								<Box>
-									{reviews?.map((review: Review) => {
-										return (
-											<ReviewsSection
-												key={review.reviewDetails!._id}
-												{...{ review, project }}
-											/>
-										);
-									})}
-								</Box>
-								<Button onClick={handleMoreReviews} style={{textTransform: 'none', marginBottom: -20}}>
-									Load more reviews
-								</Button>
-							</>
-						)}
-					</CardContent>
+				<CardContent className={classes.cardContent}>
+					{num > 1 && <Button onClick={handlePreviousReviews} style={{ textTransform: 'none' }}>
+						Previous reviews
+					</Button>}
+					{isLoading && (
+						<Typography color='primary' variant='caption'>
+							Loading reviews
+						</Typography>
+					)}
+					{reviews?.length > 0 && (
+						<>
+							<Box>
+								{reviews?.map((review: Review) => {
+									return (
+										<ReviewsSection
+											key={review.reviewDetails!._id}
+											{...{ review, project }}
+										/>
+									);
+								})}
+							</Box>
+							<Button onClick={handleMoreReviews} style={{ textTransform: 'none', marginBottom: -20 }}>
+								Load more reviews
+							</Button>
+						</>
+					)}
+				</CardContent>
 			</Card>
 		</>
 	);

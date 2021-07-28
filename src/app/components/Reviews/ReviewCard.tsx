@@ -58,7 +58,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, project }) => {
 	const [more, setMore] = useState(false);
 
 	const { isLoading: completeReviewLoading, data: completeReview } = useQuery(
-		['complete-review', project._id, review.reviewDetails._id],
+		['complete-review', project?._id, review.reviewDetails._id],
 		async () => {
 			const res = await axios({
 				method: 'GET',
@@ -99,31 +99,31 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, project }) => {
 					</Link>
 				}
 				subheader={<Typography variant='body2' className={classes.about}>{review.about}</Typography>}
-				
+
 			/>
 			<CardContent className={classes.content}>
 				{more ?
-				completeReview.split('\n').map((el: any) => {
-					if (!el.length) {
-						return <br />;
-					}
-					return <Typography variant='body2'>{el}</Typography>;
-				})
-				:
-				<>
-				{
-					`${review.reviewDetails?.review}`.split('\n').map((el) => {
+					completeReview.split('\n').map((el: any) => {
 						if (!el.length) {
 							return <br />;
 						}
 						return <Typography variant='body2'>{el}</Typography>;
 					})
-				}
-					<Link onClick={handleSeeMore}>
-						<Typography variant='body2' color='secondary'>see more</Typography>
-					</Link>	
-				</>
-				
+					:
+					<>
+						{
+							`${review.reviewDetails?.review}`.split('\n').map((el) => {
+								if (!el.length) {
+									return <br />;
+								}
+								return <Typography variant='body2'>{el}</Typography>;
+							})
+						}
+						<Link onClick={handleSeeMore}>
+							<Typography variant='body2' color='secondary'>see more</Typography>
+						</Link>
+					</>
+
 				}
 			</CardContent>
 		</Card>

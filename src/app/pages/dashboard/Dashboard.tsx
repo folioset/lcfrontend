@@ -17,13 +17,16 @@ const Dashboard: React.FC = () => {
 		'my-projects',
 		async () => {
 			try {
-				const res = await axios.get(`/api/user/${user._id}/get-all-projects`);
+				const res = await axios.get(`/api/user/get-all-projects/me`);
 				return res.data;
 			} catch (err) {
 				return err;
 			}
 		}
 	);
+
+
+	console.log("projects data", data);
 
 
 	return (

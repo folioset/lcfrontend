@@ -99,7 +99,7 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ review, project }) => {
 	);
 
 	const { isLoading: repliesLoading, data: replies } = useQuery(
-		['project-review-replies', project._id, review.reviewDetails._id],
+		['project-review-replies', project?._id, review.reviewDetails._id],
 		async () => {
 			const res = await axios({
 				method: 'GET',
@@ -194,50 +194,50 @@ const ReviewsSection: React.FC<ReviewsSectionProps> = ({ review, project }) => {
 					</Box>
 				</Box>
 				<Collapse in={isOpen} timeout='auto' unmountOnExit>
-				<CardActions>
-					<Formik
-						initialValues={{
-							review: '',
-						}}
-						validateOnBlur={false}
-						onSubmit={async ({ review }, { resetForm }) => {
-							const data = {
-								review,
-								category: 'reply',
-							};
-							await addReply(data as any);
-							resetForm();
-						}}>
-						<>
-							<Form autoComplete='off' className={classes.replyForm}>
-								<Avatar
-									style={{ marginLeft: 5, marginRight: 10 }}
-									src={user?.profilePicture}
-								/>
-								<FormInput
-									multiline
-									name='review'
-									className={classes.comment}
-									fullWidth
-									placeholder={`Reply to this ${review.reviewDetails.category}`}
-									variant='outlined'
-									size='small'
-								/>
-								<IconButton type='submit' color='primary'>
-									<SendIcon />
-								</IconButton>
-							</Form>
-						</>
-					</Formik>
-				</CardActions>
-				    <Box style={{marginLeft: 60}}>
-					{repliesLoading && <Typography>Loading....</Typography>}
+					<CardActions>
+						<Formik
+							initialValues={{
+								review: '',
+							}}
+							validateOnBlur={false}
+							onSubmit={async ({ review }, { resetForm }) => {
+								const data = {
+									review,
+									category: 'reply',
+								};
+								await addReply(data as any);
+								resetForm();
+							}}>
+							<>
+								<Form autoComplete='off' className={classes.replyForm}>
+									<Avatar
+										style={{ marginLeft: 5, marginRight: 10 }}
+										src={user?.profilePicture}
+									/>
+									<FormInput
+										multiline
+										name='review'
+										className={classes.comment}
+										fullWidth
+										placeholder={`Reply to this ${review.reviewDetails.category}`}
+										variant='outlined'
+										size='small'
+									/>
+									<IconButton type='submit' color='primary'>
+										<SendIcon />
+									</IconButton>
+								</Form>
+							</>
+						</Formik>
+					</CardActions>
+					<Box style={{ marginLeft: 60 }}>
+						{repliesLoading && <Typography>Loading....</Typography>}
 
-					{replies?.map((reply: any) => {
-						return <ReviewCard key={reply._id} review={reply} project={project}/>;
-					})}
+						{replies?.map((reply: any) => {
+							return <ReviewCard key={reply._id} review={reply} project={project} />;
+						})}
 					</Box>
-					
+
 				</Collapse>
 			</Card>
 		</>
