@@ -13,13 +13,15 @@ import {
     makeStyles,
     Theme,
     Link,
+    CardContent,
+    Button,
 } from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
 import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
 import Box from '@material-ui/core/Box';
 
 // types
-import { Challenge, Answer, User } from '../../types';
+import { Challenge, Answer, User, Review } from '../../types';
 import Avatar from '../shared/Avatar';
 import { Form, Formik } from 'formik';
 import FormInput from '../shared/FormInput';
@@ -28,6 +30,8 @@ import axios from 'axios';
 import useDisclosure from '../../hooks/useDisclosure';
 import AnswerCard from '../Answers/AnswersCard';
 import AnswersCard from '../Answers/AnswersCard';
+import RatingCard from '../shared/RatingCard';
+import ReviewsSection from '../Reviews/ReviewsSection';
 
 interface AnswersSectionProps {
     answer: Answer;
@@ -45,7 +49,8 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             marginBottom: theme.spacing(3),
-            backgroundColor: theme.palette.common.white,
+            backgroundColor: theme.palette.grey['100'],
+            borderRadius: 15
         },
         avatar: {
             backgroundColor: theme.palette.primary.main,
@@ -72,191 +77,114 @@ const useStyles = makeStyles((theme: Theme) =>
             borderLeft: '1px solid',
             borderLeftColor: theme.palette.divider,
         },
+        cardActions: {
+            flexDirection: 'column',
+        },
+        cardContent: {
+            marginTop: -20,
+            borderBottomWidth: '1px',
+            borderBottomStyle: 'solid',
+            borderBottomColor: theme.palette.divider,
+            paddingBottom: theme.spacing(4),
+        },
     })
 );
 
-const ReviewsSection: React.FC<AnswersSectionProps> = ({ answer, challenge }) => {
+const AnswerSection: React.FC<AnswersSectionProps> = ({ answer, challenge }) => {
     const classes = useStyles();
     const queryClient = useQueryClient();
     const [liked, setLiked] = React.useState(false);
     const [numlikes, setNumLikes] = React.useState(0);
     const { isOpen, toggleOpen, onOpen } = useDisclosure();
     const user = queryClient.getQueryData<User>('user');
+    const [num, setNum] = React.useState(1);
 
+
+    //get complete answer by ID
     const { isLoading: isAnswerLoading, data: answersData } = useQuery(
         ['all-answer', answer._id],
         async () => {
             const res = await axios({
                 method: 'get',
-                url: `/api/question/${challenge._id}/${answer._id}`,
+                url: `/api/question/${challenge._id}/${answer._id}/complete`,
             });
-            // console.log(res.data);
-            // setAnsDeatils(data);
             return res.data;
         }
     );
 
-    // if (isAnswerLoading) {
-    //     return <Loader />
-    // }
-    // console.log(answersData);
+    // console.log("answer", answer);
+    // console.log("answersData", answersData);
 
 
+    React.useEffect(() => {
+        console.log(num, 'this is num in 2nd use');
+        refetchReviews();
+    }, [num])
 
-    // const { mutate: addReply } = useMutation(
-    //     async (data: any) => {
-    //         const res = await axios({
-    //             method: 'POST',
-    //             url: `/api/project/${project._id}/reviews/${review.reviewDetails._id}/replies`,
-    //             data,
-    //         });
-    //         return res.data;
-    //     },
-    //     {
-    //         onSuccess: async () => {
-    //             await queryClient.invalidateQueries([
-    //                 'project-review-replies',
-    //                 project._id,
-    //                 review.reviewDetails._id,
-    //             ]);
-    //             await queryClient.invalidateQueries(['project-reviews', project._id]);
-    //             onOpen();
-    //         },
-    //     }
-    // );
+    // Get all Project Reviews
+    const { isLoading, data: reviews, refetch: refetchReviews } = useQuery(
+        ['project-reviews', answer._id, num],
+        async () => {
+            const res = await axios({
+                method: 'get',
+                url: `/api/project/${answer._id}/reviews/${num}`,
+            });
+            return res.data;
+        }
+    );
 
-    // const { isLoading: repliesLoading, data: replies } = useQuery(
-    //     ['project-review-replies', project._id, review.reviewDetails._id],
-    //     async () => {
-    //         const res = await axios({
-    //             method: 'GET',
-    //             url: `/api/project/${project._id}/reviews/${review.reviewDetails._id}/replies`,
-    //         });
-    //         return res.data;
-    //     }
-    // );
+    const handleMoreReviews = () => {
+        setNum(num + 1);
+    }
 
-    // const { mutate: handleLike } = useMutation(
-    //     async () => {
-    //         const res = await axios({
-    //             method: 'post',
-    //             url: `/api/project/${project._id}/reviews/${review.reviewDetails._id}/toggle-like`,
-    //         });
-    //         return res.data;
-    //     },
-    //     {
-    //         onSuccess: () => {
-    //             setNumLikes(numlikes + (liked ? -1 : 1));
-    //             setLiked(!liked);
-    //         },
-    //     }
-    // );
+    const handlePreviousReviews = () => {
+        setNum(num - 1);
+    }
 
-    // React.useEffect(() => {
-    //     review.reviewDetails.likes?.forEach((like) => {
-    //         if (like.createdBy === user!._id) {
-    //             setLiked(true);
-    //         } else {
-    //             setLiked(false);
-    //         }
-
-    //         setNumLikes(review.reviewDetails.likes?.length || 0);
-    //     });
-    // }, [user, review]);
 
     return (
         <>
             <Card elevation={0} className={classes.root}>
-                <AnswersCard answersData={answersData} challenge={challenge} isPublic />
-                {/* <Box style={{ marginLeft: 15, display: 'flex', alignItems: 'center' }}>
-                    <Box>
-                        {liked ? (
-                            <Link
-                                onClick={() => handleLike()}
-                                color='primary'
-                                style={{ fontWeight: 600, fontSize: 13 }}>
-                                {' '}
-                                Insightful
-                            </Link>
-                        ) : (
-                            <Link
-                                onClick={() => handleLike()}
-                                color='textPrimary'
-                                style={{ fontWeight: 600, fontSize: 13 }}>
-                                {' '}
-                                Insightful
-                            </Link>
-                        )}
-                    </Box> */}
-                {/* <Box style={{ marginLeft: 5 }}>
-                        <EmojiObjectsIcon
-                            color='primary'
-                            fontSize='small'
-                            style={{ verticalAlign: 'middle' }}
-                        />
-                    </Box>
-                    <Box>
-                        <Typography color='textSecondary' variant='body2'>
-                            {numlikes}
-                        </Typography>
-                    </Box>
-                    <Box className={classes.countBox}>
-                        <Link
-                            onClick={toggleOpen}
-                            color='textPrimary'
-                            style={{ fontWeight: 600, fontSize: 13 }}>
-                            {' '}
-                            {review.reviewDetails.replies?.length || 0} Replies
-                        </Link>
-                    </Box>
-                </Box> */}
-                {/* <CardActions>
-                    <Formik
-                        initialValues={{
-                            review: '',
-                        }}
-                        validateOnBlur={false}
-                        validationSchema={validationSchema}
-                        onSubmit={async ({ review }, { resetForm }) => {
-                            const data = {
-                                review,
-                                category: 'reply',
-                            };
-                            await addReply(data as any);
-                            resetForm();
-                        }}>
-                        <>
-                            <Form autoComplete='off' className={classes.replyForm}>
-                                <Avatar
-                                    style={{ marginRight: 10 }}
-                                    src={user?.profilePicture}
-                                />
-                                <FormInput
-                                    multiline
-                                    name='review'
-                                    className={classes.comment}
-                                    fullWidth
-                                    placeholder={`Reply to this ${review.reviewDetails.category}`}
-                                    variant='outlined'
-                                    size='small'
-                                />
-                                <IconButton type='submit' color='primary'>
-                                    <SendIcon />
-                                </IconButton>
-                            </Form>
-                        </>
-                    </Formik>
-                </CardActions> */}
-                {/* <Collapse in={isOpen} timeout='auto' unmountOnExit>
-                    {repliesLoading && <Typography>Loading....</Typography>}
+                <AnswersCard answersData={answersData} challenge={challenge} isPublic answer={answer} />
 
-                    {replies?.map((reply: any) => {
-                        return <ReviewCard key={reply._id} review={reply} />;
-                    })}
-                </Collapse> */}
+                {/* feedback */}
+                <CardActions className={classes.cardActions}>
+                    {/* {isPublic && ( */}
+                    <RatingCard project={answersData} />
+                    {/* )} */}
+                </CardActions>
+            </Card>
+            <Card elevation={0}>
+                <CardContent className={classes.cardContent}>
+                    {num > 1 && <Button onClick={handlePreviousReviews} style={{ textTransform: 'none' }}>
+                        Previous reviews
+                    </Button>}
+                    {isLoading && (
+                        <Typography color='primary' variant='caption'>
+                            Loading reviews
+                        </Typography>
+                    )}
+                    {reviews?.length > 0 && (
+                        <>
+                            <Box>
+                                {reviews?.map((review: Review) => {
+                                    return (
+                                        <ReviewsSection
+                                            key={review.reviewDetails!._id}
+                                            review={review} project={answersData}
+                                        />
+                                    );
+                                })}
+                            </Box>
+                            <Button onClick={handleMoreReviews} style={{ textTransform: 'none', marginBottom: -20 }}>
+                                Load more reviews
+                            </Button>
+                        </>
+                    )}
+                </CardContent>
             </Card>
         </>
     );
 };
 
-export default ReviewsSection;
+export default AnswerSection;

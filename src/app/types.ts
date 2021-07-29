@@ -47,9 +47,12 @@ export type Answer = Challenge & {
 	createdAt: Date | string | number;
 	updateAt?: Date | string | number;
 	projectFile: string;
-	// rating?: any;
-	// avgRating?: number;
-	// numberOfRatings: number;
+	description: string;
+	ratings?: any;
+	fineRatings: number;
+	goodRatings: number;
+	excellentRatings: number;
+	extraOrdinaryRatings: number;
 }
 
 export type Challenge = {
@@ -66,15 +69,10 @@ export type Challenge = {
 	title: string;
 	description: string;
 	answers: Answer[];
-	// ratings?: any;
 	updatedAt?: Date | string | number;
-	// avgRating?: number;
 	_id: string;
-	// numberOfRatings: number;
-	// tools: string[];
-	// skills: string[];
-	// contributorDetailsArr?: User[];
 	lastUpdatedDate?: Date;
+	closeAnswers: boolean;
 };
 
 export type ProjectFeed = Project & {

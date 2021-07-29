@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme: Theme) => {
 			// borderWidth: '4px',
 			// borderStyle: 'solid',
 			// borderColor: 'green',
+			minHeight: '100vh',
 			maxWidth: 900,
 			margin: 'auto',
 			backgroundColor: '#f5f5f5',
@@ -46,13 +47,11 @@ const useStyles = makeStyles((theme: Theme) => {
 const Feed: React.FC<FeedProps> = () => {
 	const classes = useStyles();
 	const [num, setNum] = useState(1);
-	// const [items, setItems] = useState<Array<any>>([{ "_id": "60f7d420ccd9631bf04f7202", "title": "Question Test", "description": "demo", "isCaseStudy": false, "createdBy": { "phone": { "phoneNumber": "", "code": "91" }, "isVerified": true, "interests": "Ed-tech", "_id": "60e56aa73374c14e18543252", "email": "gk886509@gmail.com", "name": "Gaurav Kumar", "username": "Gaurav Kumar", "projectsAdded": [{ "_id": "60f7d172cc8c913ae415b721" }, { "_id": "60f7ec27ccd9631bf04f7213" }, { "_id": "60f802016f134a1b7f260561" }], "createdAt": "2021-07-07T08:49:43.999Z", "updatedAt": "2021-07-21T11:16:17.597Z", "__v": 41, "about": "CS Student | React Developer | MERN", "hours": 2, "linkedinUrl": "www.linkedin.com/in/gauravkumar0130", "location": "", "profilePicture": "https://backend-sample-bucket.s3.ap-south-1.amazonaws.com/nl.jpg" }, "answers": [{ "_id": "60f7d43dccd9631bf04f7203" }, { "_id": "60f7d508ccd9631bf04f7206" }, { "_id": "60f7e599ccd9631bf04f7209" }, { "_id": "60f7e9a4ccd9631bf04f720c" }, { "_id": "60f7eb99ccd9631bf04f720f" }, { "_id": "60f7f43d98978e3660156a34" }], "createdAt": "2021-07-21T08:00:32.853Z", "updatedAt": "2021-07-21T10:17:34.106Z", "__v": 6 }]);
-
 
 	const [items, setItems] = useState<Array<any>>([]);
 
 
-	//getting all answers
+	//getting all questions
 	const { isLoading, data, refetch } = useQuery('feedChall', async () => {
 		const res = await axios({
 			method: 'get',

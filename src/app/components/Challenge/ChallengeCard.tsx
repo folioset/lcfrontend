@@ -49,6 +49,7 @@ import CreateCaseAnswer from './CreateCaseAnswer';
 import DeleteChallenge from './DeleteChallenge';
 import UpdateProject from '../Project/UpdateProject';
 import UpdateChallenge from './UpdateChallenge';
+import EndChallenge from './EndChallenge';
 
 const validationSchema = Yup.object().shape({
     text: Yup.string()
@@ -205,9 +206,6 @@ const useStyles = makeStyles((theme: Theme) => {
                 },
             },
         },
-        btnAlign: {
-
-        },
         dataOneHide: {
             display: 'none',
         },
@@ -294,6 +292,14 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
         refetch();
     }, [num]);
 
+    const handleMoreAnswers = () => {
+        setNum(num + 1);
+    }
+
+    const handlePreviousAnswers = () => {
+        setNum(num - 1);
+    }
+
     //adding normal answer
     const { mutate: addAnswerMutate, isLoading: addAnswerLoading } = useMutation(
         (data) =>
@@ -317,6 +323,8 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
         }
     );
 
+    // if (data?.length === 0 && num > 1) handlePreviousAnswers();
+
 
     // authorizing deletetion of question
     if (user._id === challenge.createdBy._id) isPublic = false;
@@ -339,7 +347,8 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                 onClose={onUpdateClose}
                 aria-labelledby='project-file'
                 aria-describedby='pdf file of the project'>
-                <UpdateChallenge onClose={onUpdateClose} challenge={challenge} />
+                {/* <UpdateChallenge onClose={onUpdateClose} challenge={challenge} /> */}
+                <EndChallenge onClose={onUpdateClose} challenge={challenge} />
             </Modal>
 
             {/* Delete challenge */}
@@ -378,7 +387,7 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                                             onClose={handleClose}
                                             TransitionComponent={Fade}
                                         >
-                                            <MenuItem onClick={onUpdateOpen}>Edit Challenge</MenuItem>
+                                            {!challenge.closeAnswers ? (<MenuItem onClick={onUpdateOpen}>End Challenge</MenuItem>) : <MenuItem style={{ cursor: 'not-allowed', color: 'gray' }}>Ended</MenuItem>}
                                             <MenuItem onClick={onDeleteOpen}>Delete Challenge</MenuItem>
                                         </Menu>
                                     </div>
@@ -398,11 +407,6 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                             className={classes.collabBox}>
                             {challenge.description && (
                                 <>
-                                    {/* <Grid item style={{
-                                        marginBottom: 10
-                                    }}>
-                                        <Typography variant='h4'>Question: {challenge.title}</Typography>
-                                    </Grid> */}
                                     <Grid item style={{
                                         marginBottom: 10
                                     }}>
@@ -417,7 +421,7 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                     </Grid>
                 </CardContent>
 
-                <CardActions className={classes.btnAlign}>
+                {!challenge.closeAnswers ? (<CardActions>
                     {challenge.isCaseStudy ?
                         (<Button size="small" color="primary" onClick={onOpen}>
                             Add Project
@@ -465,8 +469,9 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                                 </Grid>
                             </>
                         )}
-                    {/* <h3>{challenge.answers?.[0]}</h3> */}
-                    {/* {((challenge.answers.length)) ?
+                </CardActions>) : null}
+                {/* <h3>{challenge.answers?.[0]}</h3> */}
+                {/* {((challenge.answers.length)) ?
                     (
                         challenge.answers.map(ans => {
                             return (<Typography className={classes.description}>
@@ -478,8 +483,11 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                         No answers yet
                     </Typography>)}
                      */}
-
-                </CardActions>
+                {num > 1 &&
+                    (<Button onClick={handlePreviousAnswers} style={{ textTransform: 'none' }}>
+                        Load Previous answers.
+                    </Button>)
+                }
                 <CardContent>
                     {isLoading && (
                         <Typography color='primary' variant='caption'>
@@ -492,9 +500,21 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                         />
                     ) : null}
                     {!isLoading && !data?.length && (
-                        <Typography variant='body2'>No answers yet</Typography>
+                        num === 1 ?
+                            (<Typography variant='body2'>No answers yet</Typography>) : (<Typography variant='body2'>No more answers</Typography>)
                     )}
                 </CardContent >
+
+                {challenge.closeAnswers ? (
+                    <>
+                        <Box color="text.primary" style={{ textAlign: 'center', marginBottom: 10 }}>
+                            <Typography color='primary' variant='caption'>
+                                This challenge is ended!
+                            </Typography>
+                        </Box>
+                    </>
+                ) : null}
+
                 {data?.length > 1 ? (<Grid container style={{ justifyContent: 'flex-end' }}>
                     <Grid item>
                         <Button
@@ -528,9 +548,11 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                                 />
                             );
                         })) : null}
-                        {!isLoading && !data?.length && (
-                            <Typography variant='body2'>No answers yet</Typography>
-                        )}
+                        {data?.length ?
+                            (<Button onClick={handleMoreAnswers} style={{ textTransform: 'none' }}>
+                                Load more answers
+                            </Button>) : null
+                        }
                     </CardContent>
                 </Collapse>
             </Card>

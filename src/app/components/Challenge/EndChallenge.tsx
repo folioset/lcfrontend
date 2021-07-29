@@ -1,0 +1,108 @@
+import * as React from 'react';
+import axios from 'axios';
+import { useMutation, useQueryClient } from 'react-query';
+
+// Material UI core
+import { makeStyles, Theme } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Paper from '@material-ui/core/Paper';
+import DeleteIcon from '@material-ui/icons/Delete';
+
+// types
+import { Challenge } from '../../types';
+
+interface DeleteChallengeProps {
+    challenge: Challenge;
+    onClose: () => void;
+}
+
+const useStyles = makeStyles((theme: Theme) => {
+    return {
+        deleteConfirm: {
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: `translate(-50%, -50%)`,
+            padding: theme.spacing(3),
+
+            [theme.breakpoints.down('sm')]: {
+                width: '55%',
+            },
+
+            [theme.breakpoints.down('xs')]: {
+                width: '90%',
+            },
+        },
+        deleteConfirmBtns: {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: theme.spacing(2),
+
+            '& button': {
+                marginLeft: theme.spacing(1),
+                marginRight: theme.spacing(1),
+            },
+        },
+    };
+});
+
+const EndChallenge: React.FC<DeleteChallengeProps> = ({ challenge, onClose }) => {
+    const queryClient = useQueryClient();
+    const classes = useStyles();
+
+    const { mutate: deleteChallenge, isLoading: isDeletingChall } = useMutation(
+        async () => {
+            const res = await axios({
+                method: 'put',
+                url: `/api/question/${challenge._id}/close`,
+            });
+            return res.data;
+        },
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries('feedChall');
+                console.log("suucessFully ended challenge");
+
+                onClose();
+            },
+            onError: (err) => {
+                console.log(err);
+            }
+        }
+    );
+
+    return (
+        <>
+            <Paper className={classes.deleteConfirm}>
+                <Typography>Are you sure you want to End this challenge ?</Typography>
+                <Typography>Note: You will no longer accepting answers for this challenge.</Typography>
+                <Box className={classes.deleteConfirmBtns}>
+                    <Button
+                        disableElevation
+                        onClick={() => deleteChallenge()}
+                        variant='contained'
+                        color='primary'
+                        disabled={isDeletingChall}
+                        startIcon={
+                            isDeletingChall ? (
+                                <CircularProgress size='small' style={{ color: 'white' }} />
+                            ) : (
+                                <DeleteIcon />
+                            )
+                        }>
+                        Yes
+                    </Button>
+                    <Button variant='outlined' onClick={onClose}>
+                        Cancel
+                    </Button>
+                </Box>
+            </Paper>
+        </>
+    );
+};
+
+export default EndChallenge;
