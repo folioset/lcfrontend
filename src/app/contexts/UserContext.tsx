@@ -1,7 +1,7 @@
 import * as React from 'react';
 import axios from 'axios';
 import { useQuery } from 'react-query';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 // types
 import { User } from '../types';
@@ -13,6 +13,7 @@ interface UserContextProps {
 export const UserContext = React.createContext<Partial<UserContextProps>>({});
 
 const UserContextProvider: React.FC<UserContextProps> = ({ children }: any) => {
+	const location = useLocation();
 	const history = useHistory();
 
 	const { isLoading } = useQuery<User, Error>(
@@ -27,7 +28,11 @@ const UserContextProvider: React.FC<UserContextProps> = ({ children }: any) => {
 					if (!data._id) {
 						return history.replace('/');
 					} else if (!data.isVerified) {
-						return history.replace('/onboarding');
+						if (location.pathname.startsWith('/onboarding')) {
+							return history.replace(location.pathname);
+						} else {
+							return history.replace('/onboarding');
+						}
 					}
 				}
 			},

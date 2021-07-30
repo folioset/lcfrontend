@@ -19,7 +19,7 @@ const LayoutContextProvider = ({ children }: any) => {
 	React.useEffect(() => {
 		if (location.pathname.startsWith('/interview')) {
 			setLayout('Interview');
-		} else if (location.pathname === '/onboarding') {
+		} else if (location.pathname.startsWith('/onboarding')) {
 			setLayout('OnBoarding');
 		} else {
 			setLayout('App');

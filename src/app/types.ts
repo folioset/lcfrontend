@@ -16,6 +16,14 @@ export type User = {
 	profilePicture?: string;
 	location?: string;
 	numberOfProjects?: number;
+	currentCompany?: string;
+	jobTitle?: string;
+	degree?: string;
+	college?: string;
+	isStudent?: boolean;
+	field?: string;
+	knowledgeLevel?: number;
+	experience?: number;
 };
 
 export type Project = {
@@ -53,7 +61,7 @@ export type Answer = Challenge & {
 	goodRatings: number;
 	excellentRatings: number;
 	extraOrdinaryRatings: number;
-}
+};
 
 export type Challenge = {
 	createdAt: Date | string | number;

@@ -24,7 +24,7 @@ const Body: React.FC = () => {
 					{user ? <Feed /> : <Home />}
 				</Route>
 
-				<Route path='/onboarding' exact>
+				<Route path='/onboarding'>
 					<OnBoarding />
 				</Route>
 

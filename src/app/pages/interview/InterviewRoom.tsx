@@ -114,33 +114,36 @@ const InterviewRoom: React.FC<InterviewRoomProps> = () => {
 
 					<Box mb={5}>
 						<Box textAlign='center' mb={3}>
-							<Typography variant='h5'>Audio and Video Settings</Typography>
+							<Typography variant='h5'>Audio Settings</Typography>
 						</Box>
-						<Box display='flex' style={{ gap: '2rem' }}>
-							<FormControl fullWidth variant='filled'>
-								<InputLabel id='Audio'>Audio</InputLabel>
-								<Select
-									label='Audio'
-									labelId='demo-simple-select-filled-label'
-									id='demo-simple-select-filled'>
-									{microphoneDevices.map((device: any, i: any) => {
-										return (
-											<ListItem
-												onClick={() => setMicrophoneDevice(device)}
-												button
-												key={i}>
-												<ListItemText>{device.label}</ListItemText>
-												{device.deviceId === microphoneDevice.deviceId && (
-													<ListItemIcon>
-														<CheckIcon />
-													</ListItemIcon>
-												)}
-											</ListItem>
-										);
-									})}
-								</Select>
-							</FormControl>
-						</Box>
+						{microphoneDevice && (
+							<Box display='flex' style={{ gap: '2rem' }}>
+								<FormControl fullWidth variant='filled'>
+									<InputLabel id='Audio'>{microphoneDevice.label}</InputLabel>
+									<Select
+										value={microphoneDevice.deviceId}
+										label='Audio'
+										labelId='demo-simple-select-filled-label'
+										id='demo-simple-select-filled'>
+										{microphoneDevices.map((device: any, i: any) => {
+											return (
+												<ListItem
+													onClick={() => setMicrophoneDevice(device)}
+													button
+													key={i}>
+													<ListItemText>{device.label}</ListItemText>
+													{device.deviceId === microphoneDevice.deviceId && (
+														<ListItemIcon>
+															<CheckIcon />
+														</ListItemIcon>
+													)}
+												</ListItem>
+											);
+										})}
+									</Select>
+								</FormControl>
+							</Box>
+						)}
 					</Box>
 
 					<Box textAlign='center' mb={5}>
