@@ -19,7 +19,11 @@ const useStyles = makeStyles((theme) => {
 			textAlign: 'center',
 			marginTop: theme.spacing(2),
 			marginBottom: theme.spacing(10),
-			fontSize: 24
+			fontSize: 24,
+		},
+		container: {
+			padding: 40,
+			borderRadius: 10,
 		},
 	};
 });
@@ -44,9 +48,7 @@ const Education: React.FC = () => {
 
 	return (
 		<>
-			<Container
-				maxWidth='sm'
-				style={{ backgroundColor: 'white', padding: 40, borderRadius: 10 }}>
+			<Container maxWidth='sm'>
 				<Formik
 					{...{ validationSchema, initialValues }}
 					onSubmit={async (values) => {

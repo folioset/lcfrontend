@@ -16,11 +16,19 @@ import { OnboardingContext } from '../../contexts/OnboardingContext';
 
 const useStyles = makeStyles((theme) => {
 	return {
+		container: {
+			padding: 40,
+			borderRadius: 10,
+		},
 		heading: {
 			textAlign: 'center',
 			marginTop: theme.spacing(2),
 			marginBottom: theme.spacing(10),
-			fontSize: 24
+			fontSize: 24,
+		},
+		isStudentCheckBox: {
+			display: 'block',
+			marginBottom: 20,
 		},
 	};
 });
@@ -40,9 +48,7 @@ const CurrentRole: React.FC = () => {
 
 	return (
 		<>
-			<Container
-				maxWidth='sm'
-				style={{ backgroundColor: 'white', padding: 40, borderRadius: 10 }}>
+			<Container maxWidth='sm'>
 				<Formik
 					{...{ initialValues }}
 					onSubmit={async ({ jobTitle, company, isStudent }, { setErrors }) => {
@@ -87,7 +93,7 @@ const CurrentRole: React.FC = () => {
 								/>
 
 								<FormControlLabel
-									style={{ display: 'block', marginBottom: 20 }}
+									className={classes.isStudentCheckBox}
 									control={
 										<Checkbox
 											checked={values.isStudent}
