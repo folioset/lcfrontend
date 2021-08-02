@@ -126,11 +126,20 @@ const Home: React.FC = () => {
 
 					<Box mt={4}>
 						<Button
+							style={{ marginRight: 20 }}
 							className={classes.googleBtn}
 							href='/api/auth/google'
 							color='primary'
 							variant='contained'>
 							Sign In with Google
+						</Button>
+
+						<Button
+							className={classes.googleBtn}
+							href='/api/auth/linkedin'
+							color='primary'
+							variant='contained'>
+							Sign In with Linkedin
 						</Button>
 					</Box>
 				</Grid>
