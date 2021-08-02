@@ -17,14 +17,16 @@ const useStyles = makeStyles((theme: Theme) => {
 	return {
 		heading: {
 			textAlign: 'center',
-			marginBottom: theme.spacing(4),
+			marginTop: theme.spacing(2),
+			marginBottom: theme.spacing(10),
+			fontSize: 24
 		},
 		photoContainer: {
 			display: 'flex',
 			justifyContent: 'center',
 			alignItems: 'center',
 			flexDirection: 'column',
-			marginBottom: theme.spacing(5),
+			marginBottom: theme.spacing(10),
 		},
 		photo: {
 			height: '200px',
@@ -82,7 +84,8 @@ const ProfilePicture: React.FC<ProfilePictureProps> = () => {
 								history.push('/onboarding/current-role');
 							}}
 							fullWidth
-							variant='outlined'>
+							variant='outlined'
+							style={{border: '0px solid'}}>
 							{photoUrl ? 'Next' : 'Skip'}
 						</Button>
 					</Box>
