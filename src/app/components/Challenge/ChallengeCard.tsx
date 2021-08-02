@@ -250,6 +250,9 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
         setAnchorEl(null);
     };
 
+    console.log("challesasasas", challenge);
+
+
     // view Answer Toggler
     const {
         isOpen: isAnsViewOpen,
@@ -257,11 +260,11 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
         onClose: onAnsViewClose,
     } = useDisclosure();
 
-    // Delete Confirm Toggler
+    // End Confirm Toggler
     const {
-        isOpen: isDeleteOpen,
-        onOpen: onDeleteOpen,
-        onClose: onDeleteClose,
+        isOpen: isEndOpen,
+        onOpen: onEndOpen,
+        onClose: onEndClose,
     } = useDisclosure();
 
     // Update Challenge Toggler
@@ -293,12 +296,12 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
     }, [num]);
 
     const handleMoreAnswers = () => {
-        setNum(num + 1);
+        setNum(num + 5);
     }
 
-    const handlePreviousAnswers = () => {
-        setNum(num - 1);
-    }
+    // const handlePreviousAnswers = () => {
+    //     setNum(num - 1);
+    // }
 
     //adding normal answer
     const { mutate: addAnswerMutate, isLoading: addAnswerLoading } = useMutation(
@@ -326,7 +329,7 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
     // if (data?.length === 0 && num > 1) handlePreviousAnswers();
 
 
-    // authorizing deletetion of question
+    // authorizing Endtion of question
     if (user._id === challenge.createdBy._id) isPublic = false;
 
 
@@ -347,17 +350,17 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                 onClose={onUpdateClose}
                 aria-labelledby='project-file'
                 aria-describedby='pdf file of the project'>
-                {/* <UpdateChallenge onClose={onUpdateClose} challenge={challenge} /> */}
-                <EndChallenge onClose={onUpdateClose} challenge={challenge} />
+                <UpdateChallenge onClose={onUpdateClose} challenge={challenge} />
             </Modal>
 
-            {/* Delete challenge */}
+            {/* End challenge */}
             <Modal
-                open={isDeleteOpen}
-                onClose={onDeleteClose}
+                open={isEndOpen}
+                onClose={onEndClose}
                 aria-labelledby='challenge-file'
                 aria-describedby='pdf file of the challenge'>
-                <DeleteChallenge onClose={onDeleteClose} challenge={challenge} />
+                {/* <EndChallenge onClose={onEndClose} challenge={challenge} /> */}
+                <EndChallenge onClose={onEndClose} challenge={challenge} />
             </Modal>
 
             <Card className={classes.card}>
@@ -387,8 +390,8 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                                             onClose={handleClose}
                                             TransitionComponent={Fade}
                                         >
-                                            {!challenge.closeAnswers ? (<MenuItem onClick={onUpdateOpen}>End Challenge</MenuItem>) : <MenuItem style={{ cursor: 'not-allowed', color: 'gray' }}>Ended</MenuItem>}
-                                            <MenuItem onClick={onDeleteOpen}>Delete Challenge</MenuItem>
+                                            {!challenge.closeAnswers ? (<MenuItem onClick={onEndOpen}>End Challenge</MenuItem>) : <MenuItem style={{ cursor: 'not-allowed', color: 'gray' }}>Ended</MenuItem>}
+                                            <MenuItem onClick={onUpdateOpen}>Edit Challenge</MenuItem>
                                         </Menu>
                                     </div>
                                 </>
@@ -483,11 +486,13 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                         No answers yet
                     </Typography>)}
                      */}
-                {num > 1 &&
+                {/* {num > 1 &&
                     (<Button onClick={handlePreviousAnswers} style={{ textTransform: 'none' }}>
                         Load Previous answers.
                     </Button>)
-                }
+                } */}
+
+                {/* showing one answer immediately */}
                 <CardContent>
                     {isLoading && (
                         <Typography color='primary' variant='caption'>
@@ -508,53 +513,34 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                 {challenge.closeAnswers ? (
                     <>
                         <Box color="text.primary" style={{ textAlign: 'center', marginBottom: 10 }}>
-                            <Typography color='primary' variant='caption'>
-                                This challenge is ended!
+                            <Typography color='primary' variant='h4'>
+                                This challenge has now ended!
                             </Typography>
                         </Box>
                     </>
                 ) : null}
 
-                {data?.length > 1 ? (<Grid container style={{ justifyContent: 'flex-end' }}>
-                    <Grid item>
-                        <Button
-                            onClick={AnsViewToggleOpen}
-                            color='default'
-                            size='small'
-                            endIcon={
-                                <ExpandMoreIcon
-                                    className={clsx(classes.expand, {
-                                        [classes.expandOpen]: isAnsViewOpen,
-                                    })}
-                                />
-                            }>
-                            All Answers
-                        </Button>
-                    </Grid>
-                </Grid>) : null}
-
-                <Collapse in={isAnsViewOpen} timeout='auto' unmountOnExit>
-                    <CardContent>
-                        {isLoading && (
-                            <Typography color='primary' variant='caption'>
-                                Loading answers
-                            </Typography>
-                        )}
-                        {data?.length ? (data.slice(1).map((answer: Answer) => {
-                            return (
-                                <AnswerSection
-                                    key={answer._id}
-                                    {...{ answer, challenge }}
-                                />
-                            );
-                        })) : null}
-                        {data?.length ?
-                            (<Button onClick={handleMoreAnswers} style={{ textTransform: 'none' }}>
-                                Load more answers
-                            </Button>) : null
-                        }
-                    </CardContent>
-                </Collapse>
+                {/* Loading more answers here */}
+                <CardContent>
+                    {isLoading && (
+                        <Typography color='primary' variant='caption'>
+                            Loading answers
+                        </Typography>
+                    )}
+                    {data?.length ? (data.slice(1).map((answer: Answer) => {
+                        return (
+                            <AnswerSection
+                                key={answer._id}
+                                {...{ answer, challenge }}
+                            />
+                        );
+                    })) : null}
+                    {data?.length !== challenge?.answers.length ?
+                        (<Typography onClick={handleMoreAnswers} style={{ textTransform: 'none', cursor: 'pointer' }}>
+                            Load more answers
+                        </Typography>) : null
+                    }
+                </CardContent>
             </Card>
         </>
     );
