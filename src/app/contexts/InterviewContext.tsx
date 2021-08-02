@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import useScreenShare from '../hooks/useScreenShare';
 
 interface InterviewContextProps {
@@ -16,6 +17,7 @@ interface InterviewContextProps {
 	microphoneDevices: any;
 	microphoneDevice: any;
 	setMicrophoneDevice: any;
+	switchedTab: boolean;
 }
 
 export const InterviewContext = React.createContext<
@@ -27,6 +29,33 @@ const InterviewContextProvider: React.FC = ({ children }: any) => {
 	const [questionId, setQuestionId] = React.useState<string>('');
 	const [file, setFile] = React.useState<File>();
 	const [fileUrl, setFileUrl] = React.useState<string>('');
+	const [switchedTab, setSwitchedTab] = React.useState<boolean>(false);
+	const location = useLocation();
+	const history = useHistory();
+
+	React.useEffect(() => {
+		if (location.pathname === '/interview/room') {
+			window.onblur = () => {
+				setSwitchedTab(true);
+			};
+		} else {
+			setSwitchedTab(false);
+		}
+	}, [location]);
+
+	React.useEffect(() => {
+		if (location.pathname === '/interview/room') {
+			if (switchedTab) {
+				window.onfocus = () => {
+					const timer = setTimeout(() => {
+						window.close();
+						history.replace('/');
+					}, 1000);
+					return () => clearTimeout(timer);
+				};
+			}
+		}
+	}, [location, switchedTab, history]);
 
 	const {
 		userScreenVideoRef,
@@ -77,6 +106,7 @@ const InterviewContextProvider: React.FC = ({ children }: any) => {
 					microphoneDevices,
 					microphoneDevice,
 					setMicrophoneDevice,
+					switchedTab,
 				}}>
 				{children}
 			</InterviewContext.Provider>
