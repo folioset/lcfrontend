@@ -29,9 +29,6 @@ const useStyles = makeStyles((theme: Theme) => {
 			color: theme.palette.grey['50'],
 		},
 		GridContr: {
-			// borderWidth: '4px',
-			// borderStyle: 'solid',
-			// borderColor: 'green',
 			minHeight: '100vh',
 			maxWidth: 900,
 			margin: 'auto',

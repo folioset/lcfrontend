@@ -14,13 +14,13 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
+// import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import Collapse from '@material-ui/core/Collapse';
+// import Collapse from '@material-ui/core/Collapse';
 import Modal from '@material-ui/core/Modal';
-import Hidden from '@material-ui/core/Hidden';
+// import Hidden from '@material-ui/core/Hidden';
 import Fade from '@material-ui/core/Fade';
 import Menu from '@material-ui/core/Menu';
 
@@ -30,9 +30,9 @@ import SendIcon from '@material-ui/icons/Send';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 // components
-import Rating from '../shared/Rating';
-import ReviewsSection from '../Reviews/ReviewsSection';
-import PdfViewer from '../shared/Pdf/PdfViewer';
+// import Rating from '../shared/Rating';
+// import ReviewsSection from '../Reviews/ReviewsSection';
+// import PdfViewer from '../shared/Pdf/PdfViewer';
 import FormInput from '../shared/FormInput';
 import AnswerSection from '../Answers/AnswerSection';
 
@@ -43,11 +43,11 @@ import { Challenge, User, Answer } from '../../types';
 import useDisclosure from '../../hooks/useDisclosure';
 import { useLocation } from 'react-router-dom';
 
-import { Link as RouterLink } from 'react-router-dom';
-import PdfThumbnail from '../shared/Pdf/PdfThumbnail';
+// import { Link as RouterLink } from 'react-router-dom';
+// import PdfThumbnail from '../shared/Pdf/PdfThumbnail';
 import CreateCaseAnswer from './CreateCaseAnswer';
-import DeleteChallenge from './DeleteChallenge';
-import UpdateProject from '../Project/UpdateProject';
+// import DeleteChallenge from './DeleteChallenge';
+// import UpdateProject from '../Project/UpdateProject';
 import UpdateChallenge from './UpdateChallenge';
 import EndChallenge from './EndChallenge';
 
@@ -219,7 +219,15 @@ const useStyles = makeStyles((theme: Theme) => {
             color: 'black',
             borderRadius: 15,
         },
+        loadMore: {
+            textTransform: 'none',
+            cursor: 'pointer',
+            textAlign: 'right',
+            margin: '0 15px 10px 0',
+            fontSize: 13,
+        }
     };
+
 });
 
 interface ChallengeCardProps {
@@ -250,6 +258,9 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
         setAnchorEl(null);
     };
 
+    console.log("challesasasas", challenge);
+
+
     // view Answer Toggler
     const {
         isOpen: isAnsViewOpen,
@@ -257,11 +268,11 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
         onClose: onAnsViewClose,
     } = useDisclosure();
 
-    // Delete Confirm Toggler
+    // End Confirm Toggler
     const {
-        isOpen: isDeleteOpen,
-        onOpen: onDeleteOpen,
-        onClose: onDeleteClose,
+        isOpen: isEndOpen,
+        onOpen: onEndOpen,
+        onClose: onEndClose,
     } = useDisclosure();
 
     // Update Challenge Toggler
@@ -293,12 +304,12 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
     }, [num]);
 
     const handleMoreAnswers = () => {
-        setNum(num + 1);
+        setNum(num + 5);
     }
 
-    const handlePreviousAnswers = () => {
-        setNum(num - 1);
-    }
+    // const handlePreviousAnswers = () => {
+    //     setNum(num - 1);
+    // }
 
     //adding normal answer
     const { mutate: addAnswerMutate, isLoading: addAnswerLoading } = useMutation(
@@ -326,7 +337,7 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
     // if (data?.length === 0 && num > 1) handlePreviousAnswers();
 
 
-    // authorizing deletetion of question
+    // authorizing Endtion of question
     if (user._id === challenge.createdBy._id) isPublic = false;
 
 
@@ -347,17 +358,17 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                 onClose={onUpdateClose}
                 aria-labelledby='project-file'
                 aria-describedby='pdf file of the project'>
-                {/* <UpdateChallenge onClose={onUpdateClose} challenge={challenge} /> */}
-                <EndChallenge onClose={onUpdateClose} challenge={challenge} />
+                <UpdateChallenge onClose={onUpdateClose} challenge={challenge} />
             </Modal>
 
-            {/* Delete challenge */}
+            {/* End challenge */}
             <Modal
-                open={isDeleteOpen}
-                onClose={onDeleteClose}
+                open={isEndOpen}
+                onClose={onEndClose}
                 aria-labelledby='challenge-file'
                 aria-describedby='pdf file of the challenge'>
-                <DeleteChallenge onClose={onDeleteClose} challenge={challenge} />
+                {/* <EndChallenge onClose={onEndClose} challenge={challenge} /> */}
+                <EndChallenge onClose={onEndClose} challenge={challenge} />
             </Modal>
 
             <Card className={classes.card}>
@@ -387,8 +398,8 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                                             onClose={handleClose}
                                             TransitionComponent={Fade}
                                         >
-                                            {!challenge.closeAnswers ? (<MenuItem onClick={onUpdateOpen}>End Challenge</MenuItem>) : <MenuItem style={{ cursor: 'not-allowed', color: 'gray' }}>Ended</MenuItem>}
-                                            <MenuItem onClick={onDeleteOpen}>Delete Challenge</MenuItem>
+                                            {!challenge.closeAnswers ? (<MenuItem onClick={onEndOpen}>End Challenge</MenuItem>) : <MenuItem style={{ cursor: 'not-allowed', color: 'gray' }}>Ended</MenuItem>}
+                                            <MenuItem onClick={onUpdateOpen}>Edit Challenge</MenuItem>
                                         </Menu>
                                     </div>
                                 </>
@@ -483,11 +494,13 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                         No answers yet
                     </Typography>)}
                      */}
-                {num > 1 &&
+                {/* {num > 1 &&
                     (<Button onClick={handlePreviousAnswers} style={{ textTransform: 'none' }}>
                         Load Previous answers.
                     </Button>)
-                }
+                } */}
+
+                {/* showing one answer immediately */}
                 <CardContent>
                     {isLoading && (
                         <Typography color='primary' variant='caption'>
@@ -508,53 +521,41 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                 {challenge.closeAnswers ? (
                     <>
                         <Box color="text.primary" style={{ textAlign: 'center', marginBottom: 10 }}>
-                            <Typography color='primary' variant='caption'>
-                                This challenge is ended!
+                            <Typography color='primary' variant='h4'>
+                                This challenge has now ended!
                             </Typography>
                         </Box>
                     </>
                 ) : null}
 
-                {data?.length > 1 ? (<Grid container style={{ justifyContent: 'flex-end' }}>
-                    <Grid item>
-                        <Button
-                            onClick={AnsViewToggleOpen}
-                            color='default'
-                            size='small'
-                            endIcon={
-                                <ExpandMoreIcon
-                                    className={clsx(classes.expand, {
-                                        [classes.expandOpen]: isAnsViewOpen,
-                                    })}
-                                />
-                            }>
-                            All Answers
-                        </Button>
-                    </Grid>
-                </Grid>) : null}
+                {/* Loading more answers here */}
+                {data?.length > 1 ? (<CardContent>
+                    {isLoading && (
+                        <Typography color='primary' variant='caption'>
+                            Loading answers
+                        </Typography>
+                    )}
 
-                <Collapse in={isAnsViewOpen} timeout='auto' unmountOnExit>
-                    <CardContent>
-                        {isLoading && (
-                            <Typography color='primary' variant='caption'>
-                                Loading answers
-                            </Typography>
-                        )}
-                        {data?.length ? (data.slice(1).map((answer: Answer) => {
+                    {
+                        data.slice(1).map((answer: Answer) => {
                             return (
                                 <AnswerSection
                                     key={answer._id}
                                     {...{ answer, challenge }}
                                 />
                             );
-                        })) : null}
-                        {data?.length ?
-                            (<Button onClick={handleMoreAnswers} style={{ textTransform: 'none' }}>
-                                Load more answers
-                            </Button>) : null
-                        }
-                    </CardContent>
-                </Collapse>
+                        })
+                    }
+                </CardContent>) : null}
+                {data?.length !== challenge?.answers.length ?
+                    (
+                        <Box>
+                            <Typography onClick={handleMoreAnswers} className={classes.loadMore}>
+                                ..Load more answers
+                            </Typography>
+                        </Box>
+                    ) : null
+                }
             </Card>
         </>
     );

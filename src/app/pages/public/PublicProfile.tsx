@@ -29,9 +29,12 @@ const PublicProfile: React.FC<PublicProfileProps> = () => {
 			const res = await axios.get(
 				`/api/user/${params.userId}/get-all-projects`
 			);
+			console.log("projects", res.data);
 			return res.data;
 		}
 	);
+
+
 
 	return (
 		<>

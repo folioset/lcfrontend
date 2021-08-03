@@ -16,8 +16,10 @@ import { OnboardingContext } from '../../contexts/OnboardingContext';
 const useStyles = makeStyles((theme) => {
 	return {
 		heading: {
-			marginBottom: theme.spacing(5),
 			textAlign: 'center',
+			marginTop: theme.spacing(2),
+			marginBottom: theme.spacing(10),
+			fontSize: 24
 		},
 	};
 });
@@ -60,14 +62,14 @@ const Education: React.FC = () => {
 								<FormInput
 									name='degree'
 									variant='outlined'
-									label='Your Degree'
+									label='Degree'
 									required
 									fullWidth
 								/>
 								<FormInput
 									name='college'
 									variant='outlined'
-									label='College'
+									label='College/University'
 									required
 									fullWidth
 								/>

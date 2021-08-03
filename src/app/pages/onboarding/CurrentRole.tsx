@@ -17,8 +17,10 @@ import { OnboardingContext } from '../../contexts/OnboardingContext';
 const useStyles = makeStyles((theme) => {
 	return {
 		heading: {
-			marginBottom: theme.spacing(5),
 			textAlign: 'center',
+			marginTop: theme.spacing(2),
+			marginBottom: theme.spacing(10),
+			fontSize: 24
 		},
 	};
 });
@@ -67,12 +69,12 @@ const CurrentRole: React.FC = () => {
 						return (
 							<Form autoComplete='off' noValidate>
 								<Typography variant='h3' className={classes.heading}>
-									What is your current role ?
+									Describe your current role
 								</Typography>
 								<FormInput
 									name='jobTitle'
 									variant='outlined'
-									label='Your Current Job'
+									label='Current Job Title'
 									required
 									fullWidth
 								/>
@@ -94,7 +96,7 @@ const CurrentRole: React.FC = () => {
 											color='primary'
 										/>
 									}
-									label='Are you a Student ? '
+									label='I am a Student'
 								/>
 
 								<Button

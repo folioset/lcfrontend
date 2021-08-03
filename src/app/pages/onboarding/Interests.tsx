@@ -17,9 +17,16 @@ import { OnboardingContext } from '../../contexts/OnboardingContext';
 const useStyles = makeStyles((theme) => {
 	return {
 		heading: {
-			marginBottom: theme.spacing(5),
 			textAlign: 'center',
+			marginTop: theme.spacing(2),
+			marginBottom: theme.spacing(3),
+			fontSize: 24
 		},
+		subHeading: {
+			textAlign: 'center',
+			marginBottom: theme.spacing(3),
+	
+		}
 	};
 });
 
@@ -61,11 +68,10 @@ const Interests: React.FC = () => {
 							<Form autoComplete='off' noValidate>
 								<Box marginBottom={5}>
 									<Typography variant='h3' className={classes.heading}>
-										Which Field are you interested in ?
+										Which field are you interested in ?
 									</Typography>
-									<Typography>
-										Helps show you relevant content and case studies related to
-										your field
+									<Typography className={classes.subHeading}>
+										Helps us show you relevant content
 									</Typography>
 								</Box>
 								<FormInput
@@ -78,7 +84,7 @@ const Interests: React.FC = () => {
 								<FormInput
 									name='pmK'
 									variant='outlined'
-									label='Your Knowledge level in product management (1-10)'
+									label='Rate your skill level in product management (1-10)'
 									min={1}
 									max={10}
 									required

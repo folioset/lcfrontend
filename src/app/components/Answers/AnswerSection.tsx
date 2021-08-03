@@ -48,7 +48,7 @@ const validationSchema = Yup.object().shape({
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            marginBottom: theme.spacing(3),
+            marginBottom: theme.spacing(1),
             backgroundColor: theme.palette.grey['100'],
             borderRadius: 15
         },
@@ -81,9 +81,6 @@ const useStyles = makeStyles((theme: Theme) =>
             flexDirection: 'column',
         },
         cardContent: {
-            marginTop: -20,
-            borderBottomWidth: '1px',
-            borderBottomStyle: 'solid',
             borderBottomColor: theme.palette.divider,
             paddingBottom: theme.spacing(4),
         },
@@ -144,28 +141,28 @@ const AnswerSection: React.FC<AnswersSectionProps> = ({ answer, challenge }) => 
 
     return (
         <>
+
             <Card elevation={0} className={classes.root}>
                 <AnswersCard answersData={answersData} challenge={challenge} isPublic answer={answer} />
 
                 {/* feedback */}
                 <CardActions className={classes.cardActions}>
-                    {/* {isPublic && ( */}
                     <RatingCard project={answersData} />
-                    {/* )} */}
                 </CardActions>
             </Card>
-            <Card elevation={0}>
-                <CardContent className={classes.cardContent}>
-                    {num > 1 && <Button onClick={handlePreviousReviews} style={{ textTransform: 'none' }}>
-                        Previous reviews
-                    </Button>}
-                    {isLoading && (
-                        <Typography color='primary' variant='caption'>
-                            Loading reviews
-                        </Typography>
-                    )}
-                    {reviews?.length > 0 && (
-                        <>
+            {reviews?.length > 0 && (
+                <>
+                    <Card elevation={0}>
+                        <CardContent className={classes.cardContent}>
+                            {num > 1 && <Button onClick={handlePreviousReviews} style={{ textTransform: 'none' }}>
+                                Previous reviews
+                            </Button>}
+                            {isLoading && (
+                                <Typography color='primary' variant='caption'>
+                                    Loading reviews
+                                </Typography>
+                            )}
+
                             <Box>
                                 {reviews?.map((review: Review) => {
                                     return (
@@ -179,10 +176,10 @@ const AnswerSection: React.FC<AnswersSectionProps> = ({ answer, challenge }) => 
                             <Button onClick={handleMoreReviews} style={{ textTransform: 'none', marginBottom: -20 }}>
                                 Load more reviews
                             </Button>
-                        </>
-                    )}
-                </CardContent>
-            </Card>
+                        </CardContent>
+                    </Card>
+                </>
+            )}
         </>
     );
 };

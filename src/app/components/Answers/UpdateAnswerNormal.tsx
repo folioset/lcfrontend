@@ -88,6 +88,9 @@ const UpdateAnswer: React.FC<UpdateAnswerProps> = React.forwardRef(
             }
         );
 
+        console.log("answer data is here", answersData);
+
+
         const initialValues: InitialValues = {
             description: answersData?.description,
         };
@@ -113,7 +116,7 @@ const UpdateAnswer: React.FC<UpdateAnswerProps> = React.forwardRef(
                                 description
                             }) => {
                                 const data = {
-                                    description
+                                    description: description
                                 }
 
                                 await mutate(data as any);

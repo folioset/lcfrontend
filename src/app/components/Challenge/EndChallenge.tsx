@@ -78,8 +78,8 @@ const EndChallenge: React.FC<DeleteChallengeProps> = ({ challenge, onClose }) =>
     return (
         <>
             <Paper className={classes.deleteConfirm}>
-                <Typography>Are you sure you want to End this challenge ?</Typography>
-                <Typography>Note: You will no longer accepting answers for this challenge.</Typography>
+                <Typography style={{ textAlign: 'center' }}>Are you sure you want to end this challenge ?</Typography>
+                <Typography variant='h5' >Note: You will no longer accepting answers for this challenge.</Typography>
                 <Box className={classes.deleteConfirmBtns}>
                     <Button
                         disableElevation

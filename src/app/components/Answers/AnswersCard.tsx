@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         content: {
             justifyContent: 'center',
-            marginLeft: 30,
+            // marginLeft: 30,
             whiteSpace: 'pre-line',
         },
         comment: {
@@ -124,7 +124,8 @@ const AnswersCard: React.FC<AnswerCardProps> = ({ answersData, challenge, isPubl
         }
     );
 
-    console.log("asnswr data from ", answersData);
+    // console.log("asnwer", answer);
+    // console.log("answersData", answersData);
 
 
 
@@ -269,7 +270,7 @@ const AnswersCard: React.FC<AnswerCardProps> = ({ answersData, challenge, isPubl
                                     'dd MMMM yyyy'
                                 )}
                             </Typography>
-                            {!isPublic && (
+                            {(answersData?.createdBy._id === user._id) && (
                                 <>
                                     <div>
                                         <Button aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}>
@@ -331,8 +332,7 @@ const AnswersCard: React.FC<AnswerCardProps> = ({ answersData, challenge, isPubl
             </Card>
             {answersHalfData?.description !== answersData?.description ? (<Typography className={classes.readMore}>
                 {!showMore ?
-                    <Button style={{ textTransform: 'lowercase', backgroundColor: 'transparent' }} color="primary" onClick={() => { setShowMore(true) }}>...show more</Button> :
-                    <Button style={{ textTransform: 'lowercase', backgroundColor: 'transparent' }} color="primary" onClick={() => { setShowMore(false) }}>...hide some</Button>}
+                    <Button style={{ textTransform: 'lowercase', backgroundColor: 'transparent' }} color="primary" onClick={() => { setShowMore(true) }}>...show more</Button> : null}
             </Typography>) : null}
         </>
     );
