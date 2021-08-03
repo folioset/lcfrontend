@@ -8,6 +8,8 @@ import {
 	ListItem,
 	ListItemIcon,
 	ListItemText,
+	Modal,
+	Paper,
 } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -59,6 +61,7 @@ const InterviewRoom: React.FC<InterviewRoomProps> = () => {
 		isRecording,
 		microphoneDevice,
 		setMicrophoneDevice,
+		switchedTab,
 	} = React.useContext(InterviewContext);
 
 	const classes = useStyles();
@@ -85,6 +88,24 @@ const InterviewRoom: React.FC<InterviewRoomProps> = () => {
 
 	return (
 		<>
+			<Modal
+				open={switchedTab!}
+				onClose={() => {}}
+				aria-labelledby='simple-modal-title'
+				aria-describedby='simple-modal-description'>
+				<Paper
+					style={{
+						padding: 20,
+						position: 'absolute',
+						top: 100,
+						left: '50%',
+						transform: 'translateX(-50%)',
+					}}>
+					<Typography>
+						You have switched tabs, you will be Redirected
+					</Typography>
+				</Paper>
+			</Modal>
 			<Box className={classes.box}>
 				<Container>
 					<Typography variant='h3' className={classes.heading}>

@@ -20,13 +20,17 @@ const useStyles = makeStyles((theme) => {
 			textAlign: 'center',
 			marginTop: theme.spacing(2),
 			marginBottom: theme.spacing(3),
-			fontSize: 24
+			fontSize: 24,
 		},
 		subHeading: {
 			textAlign: 'center',
 			marginBottom: theme.spacing(3),
-	
-		}
+		},
+		container: {
+			backgroundColor: 'white',
+			padding: 40,
+			borderRadius: 10,
+		},
 	};
 });
 
@@ -53,9 +57,7 @@ const Interests: React.FC = () => {
 
 	return (
 		<>
-			<Container
-				maxWidth='sm'
-				style={{ backgroundColor: 'white', padding: 40, borderRadius: 10 }}>
+			<Container maxWidth='sm'>
 				<Formik
 					{...{ validationSchema, initialValues }}
 					onSubmit={async ({ field, pmK, years }) => {

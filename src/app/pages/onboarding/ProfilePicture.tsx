@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) => {
 			textAlign: 'center',
 			marginTop: theme.spacing(2),
 			marginBottom: theme.spacing(10),
-			fontSize: 24
+			fontSize: 24,
 		},
 		photoContainer: {
 			display: 'flex',
@@ -85,7 +85,7 @@ const ProfilePicture: React.FC<ProfilePictureProps> = () => {
 							}}
 							fullWidth
 							variant='outlined'
-							style={{border: '0px solid'}}>
+							style={{ border: '0px solid' }}>
 							{photoUrl ? 'Next' : 'Skip'}
 						</Button>
 					</Box>
