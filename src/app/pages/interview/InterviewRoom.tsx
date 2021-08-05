@@ -71,7 +71,7 @@ const InterviewRoom: React.FC<InterviewRoomProps> = () => {
 				method: 'post',
 				url: '/api/interview/getquestion',
 				data: {
-					category: localStorage.getItem('interviewType'),
+					category: localStorage.getItem('fieldInterest'),
 				},
 			});
 			return res.data;
