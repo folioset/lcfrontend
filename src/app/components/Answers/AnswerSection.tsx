@@ -112,9 +112,6 @@ const AnswerSection: React.FC<AnswersSectionProps> = ({ answer, challenge }) => 
         }
     );
 
-    // console.log("answer", answer);
-    // console.log("answersData", answersData);
-
 
     React.useEffect(() => {
         console.log(num, 'this is num in 2nd use');

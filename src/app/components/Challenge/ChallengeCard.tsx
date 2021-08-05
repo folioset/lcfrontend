@@ -250,9 +250,6 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
         setAnchorEl(null);
     };
 
-    console.log("challesasasas", challenge);
-
-
     // view Answer Toggler
     const {
         isOpen: isAnsViewOpen,
