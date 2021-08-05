@@ -4,6 +4,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 const PublicProfile = React.lazy(() => import('./PublicProfile'));
 const Users = React.lazy(() => import('./Users'));
 const Challenges = React.lazy(() => import('../Challenges'));
+const Notifications = React.lazy(() => import('../Notifications'));
 
 interface PublicProps { }
 
@@ -21,6 +22,10 @@ const Public: React.FC<PublicProps> = () => {
 
 				<Route exact path='/public/challenges'>
 					<Challenges />
+				</Route>
+
+				<Route exact path='/public/notifications'>
+					<Notifications />
 				</Route>
 
 				<Redirect to='/public/users' />

@@ -26,7 +26,7 @@ const Dashboard: React.FC = () => {
 	);
 
 
-	console.log("projects data", data);
+	// console.log("projects data", data);
 
 
 	return (

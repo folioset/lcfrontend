@@ -71,7 +71,7 @@ const CurrentRole: React.FC = () => {
 						}
 					}}>
 					{({ isSubmitting, handleChange, values }) => {
-						console.log(values);
+						// console.log(values);
 						return (
 							<Form autoComplete='off' noValidate>
 								<Typography variant='h3' className={classes.heading}>

@@ -58,7 +58,7 @@ const Feed: React.FC<FeedProps> = () => {
 			url: `/api/question/${num}`,
 		});
 		setItems(items => ([...items, ...res.data]));
-		console.log("challenges", res.data);
+		// console.log("challenges", res.data);
 		return res.data;
 	});
 
@@ -69,11 +69,11 @@ const Feed: React.FC<FeedProps> = () => {
 	}, [])
 
 	useEffect(() => {
-		console.log(items, "i am in items");
+		// console.log(items, "i am in items");
 	}, [items]);
 
 	useEffect(() => {
-		console.log(num, 'i am in useeffect');
+		// console.log(num, 'i am in useeffect');
 		refetch();
 	}, [num]);
 

@@ -121,3 +121,13 @@ export type Review = {
 	about?: string;
 	reviewDetails: ReviewDetail;
 };
+
+export type NotifiType = {
+	userid: string,
+	notifyfrom: string,
+	notifyfromname: string,
+	notifyfromprofile: string,
+	timenotified: Date,
+	message: string,
+	projectid: string,
+}
