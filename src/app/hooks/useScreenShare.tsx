@@ -12,35 +12,74 @@ const useScreenShare = () => {
 	const [isRecording, setIsRecording] = React.useState<boolean>(false);
 	const [videoBlob, setVideoBlob] = React.useState<Blob>();
 	const { saveFile } = React.useContext(InterviewContext);
-
+	const [permission, setPermission] = React.useState<any>(true);
+	const [browserAllowed, setBrowserAllowed] = React.useState<any>(true);
 	const [microphoneDevices, setMicrophoneDevices] = React.useState<any>([]);
 	const [microphoneDevice, setMicrophoneDevice] = React.useState<any>();
+
+	React.useEffect(() => {
+		(() => {
+			if (
+				navigator.userAgent.indexOf('Chrome') > -1 ||
+				navigator.userAgent.indexOf('Edge') > -1
+			) {
+				setBrowserAllowed(true);
+			} else {
+				setBrowserAllowed(false);
+			}
+		})();
+	}, []);
+
+	const checkMediaPermission = async () => {
+		try {
+			const stream = await navigator.mediaDevices.getUserMedia({
+				audio: true,
+				video: true,
+			});
+			setPermission(true);
+
+			stream.getTracks().forEach((e) => {
+				e.stop();
+			});
+		} catch (err) {
+			setPermission(false);
+		}
+	};
 
 	React.useEffect(() => {
 		(async () => {
 			const devices: MediaDeviceInfo[] =
 				await navigator.mediaDevices.enumerateDevices();
 
+			if (!devices.length) {
+				setPermission(false);
+				return;
+			}
+
 			// audio devices
 			const audioInputDevices = devices.filter((d) => d.kind === 'audioinput');
-			const currentDevice = devices.filter((d) => d.deviceId === 'default')[0];
+			const currentDevice =
+				devices.filter((d) => d.deviceId === 'default')[0] ||
+				audioInputDevices[0];
 			setMicrophoneDevice(currentDevice);
 			setMicrophoneDevices(audioInputDevices);
 		})();
-	}, []);
+	}, [permission]);
 
 	React.useEffect(() => {
-		navigator.mediaDevices.ondevicechange = async function (event) {
+		navigator.mediaDevices.ondevicechange = async function (e) {
 			const devices: MediaDeviceInfo[] =
 				await navigator.mediaDevices.enumerateDevices();
 
 			// audio devices
 			const audioInputDevices = devices.filter((d) => d.kind === 'audioinput');
-			const currentDevice = devices.filter((d) => d.deviceId === 'default')[0];
+			const currentDevice =
+				devices.filter((d) => d.deviceId === 'default')[0] ||
+				audioInputDevices[0];
 			setMicrophoneDevice(currentDevice);
 			setMicrophoneDevices(audioInputDevices);
 		};
-	}, []);
+	}, [permission]);
 
 	React.useEffect(() => {
 		if (chunks.length) {
@@ -98,6 +137,7 @@ const useScreenShare = () => {
 			await recorderRef.current.start();
 			setIsRecording(true);
 		} catch (err) {
+			console.log({ ...err });
 			setIsRecording(false);
 		}
 	};
@@ -128,6 +168,10 @@ const useScreenShare = () => {
 		videoBlob,
 		microphoneDevice,
 		setMicrophoneDevice,
+		permission,
+		browserAllowed,
+		setIsRecording,
+		checkMediaPermission,
 	};
 };
 

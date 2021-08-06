@@ -18,6 +18,8 @@ interface InterviewContextProps {
 	microphoneDevice: any;
 	setMicrophoneDevice: any;
 	switchedTab: boolean;
+	permission: boolean;
+	browserAllowed: boolean;
 }
 
 export const InterviewContext = React.createContext<
@@ -33,30 +35,6 @@ const InterviewContextProvider: React.FC = ({ children }: any) => {
 	const location = useLocation();
 	const history = useHistory();
 
-	React.useEffect(() => {
-		if (location.pathname === '/interview/room') {
-			window.onblur = () => {
-				setSwitchedTab(true);
-			};
-		} else {
-			setSwitchedTab(false);
-		}
-	}, [location]);
-
-	React.useEffect(() => {
-		if (location.pathname === '/interview/room') {
-			if (switchedTab) {
-				window.onfocus = () => {
-					const timer = setTimeout(() => {
-						window.close();
-						history.replace('/');
-					}, 1000);
-					return () => clearTimeout(timer);
-				};
-			}
-		}
-	}, [location, switchedTab, history]);
-
 	const {
 		userScreenVideoRef,
 		userVideoRef,
@@ -67,7 +45,64 @@ const InterviewContextProvider: React.FC = ({ children }: any) => {
 		microphoneDevices,
 		microphoneDevice,
 		setMicrophoneDevice,
+		permission,
+		browserAllowed,
+		checkMediaPermission,
 	} = useScreenShare();
+
+	React.useEffect(() => {
+		if (location.pathname === '/interview/room') {
+			checkMediaPermission();
+		}
+	}, [location, checkMediaPermission]);
+
+	React.useEffect(() => {
+		if (!permission) {
+			alert('please give access to microphone and webcam');
+		}
+	}, [permission]);
+
+	React.useEffect(() => {
+		if (location.pathname === '/interview/room' && isRecording) {
+			window.onblur = () => {
+				setSwitchedTab(true);
+			};
+		} else {
+			setSwitchedTab(false);
+		}
+	}, [location, isRecording]);
+
+	React.useEffect(() => {
+		if (location.pathname === '/interview/room' && isRecording) {
+			if (switchedTab) {
+				window.onfocus = async () => {
+					const timer = setTimeout(async () => {
+						window.close();
+						userVideoRef.current?.srcObject
+							?.getTracks()
+							.forEach(async (track: any) => {
+								await track?.stop();
+							});
+						userScreenVideoRef.current?.srcObject
+							?.getTracks()
+							.forEach(async (track: any) => {
+								await track?.stop();
+							});
+
+						window.location.href = '/';
+					}, 1000);
+					return () => clearTimeout(timer);
+				};
+			}
+		}
+	}, [
+		location.pathname,
+		switchedTab,
+		history,
+		isRecording,
+		userScreenVideoRef,
+		userVideoRef,
+	]);
 
 	React.useEffect(() => {
 		if (videoBlob) {
@@ -107,6 +142,8 @@ const InterviewContextProvider: React.FC = ({ children }: any) => {
 					microphoneDevice,
 					setMicrophoneDevice,
 					switchedTab,
+					permission,
+					browserAllowed,
 				}}>
 				{children}
 			</InterviewContext.Provider>

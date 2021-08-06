@@ -24,7 +24,7 @@ const LayoutContextProvider = ({ children }: any) => {
 		} else {
 			setLayout('App');
 		}
-	}, [location]);
+	}, [location.pathname]);
 
 	return (
 		<LayoutContext.Provider value={{ layout }}>
