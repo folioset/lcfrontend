@@ -25,10 +25,6 @@ const Dashboard: React.FC = () => {
 		}
 	);
 
-
-	console.log("projects data", data);
-
-
 	return (
 		<>
 			<ProfileView user={user} isLoading={isLoading} data={data} />

@@ -141,7 +141,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 		setAnchorEl(null);
 	};
 
-	console.log('project is ', project);
 
 	// Project Modal Toggler
 	const {
@@ -197,12 +196,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 		return res.data;
 	});
 
-	const handleMoreReviews = () => {
-		setNum(num + 1);
-	};
+	// console.log("projecttttttt", project);
 
-	const handlePreviousReviews = () => {
-		setNum(num - 1);
+
+	const handleMoreReviews = () => {
+		setNum(num + 5);
 	};
 
 	return (
@@ -360,13 +358,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 					{isPublic && <RatingCard {...{ project }} />}
 				</CardActions>
 				<CardContent className={classes.cardContent}>
-					{num > 1 && (
-						<Button
-							onClick={handlePreviousReviews}
-							style={{ textTransform: 'none' }}>
-							Previous reviews
-						</Button>
-					)}
 					{isLoading && (
 						<Typography color='primary' variant='caption'>
 							Loading reviews
@@ -384,11 +375,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 									);
 								})}
 							</Box>
-							<Button
+							{reviews?.length !== project?.reviews.length ? (<Button
 								onClick={handleMoreReviews}
 								style={{ textTransform: 'none', marginBottom: -20 }}>
 								Load more reviews
-							</Button>
+							</Button>) : null}
 						</>
 					)}
 				</CardContent>

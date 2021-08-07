@@ -55,8 +55,6 @@ const DeleteAnswer: React.FC<DeleteAnswerProps> = ({ onClose, challenge, answers
     const queryClient = useQueryClient();
     const classes = useStyles();
 
-    console.log(answersData);
-
 
     const { mutate: deleteAnswer, isLoading: isDeletingAnswer } = useMutation(
         async () => {

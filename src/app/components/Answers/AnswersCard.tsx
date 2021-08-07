@@ -131,11 +131,6 @@ const AnswersCard: React.FC<AnswerCardProps> = ({ answersData, challenge, isPubl
         }
     );
 
-    console.log("asnwer", answer);
-    console.log("answersData", answersData);
-
-
-
     //menu
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
