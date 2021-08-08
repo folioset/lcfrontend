@@ -127,7 +127,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 		setAnchorEl(null);
 	};
 
-	console.log("project is ", project);
 
 
 	// Project Modal Toggler

@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { useHistory } from 'react-router';
-import { useQueryClient } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 
 // Material UI
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
 import { Typography } from '@material-ui/core';
+import Badge from '@material-ui/core/Badge';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -23,6 +24,7 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import HomeIcon from '@material-ui/icons/Home';
 import TrendingUpSharpIcon from '@material-ui/icons/TrendingUpSharp';
 import ForumIcon from '@material-ui/icons/Forum';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 
 // Components
 import NavItem from './NavItem';
@@ -32,6 +34,7 @@ import { User } from '../../../types';
 import Logo from '../../../components/shared/Logo';
 import MenuLink from '../../../components/shared/HrefLink/MenuLink';
 import Avatar from '../../../components/shared/Avatar';
+import axios from 'axios';
 
 // Styles
 const useStyles = makeStyles((theme) => {
@@ -71,6 +74,19 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 
 	const user = queryClient.getQueryData<User>('user');
 
+	//getting notifications count
+	const { isLoading, data } = useQuery(
+		'notifiCount',
+		async () => {
+			const res = await axios({
+				method: 'GET',
+				url: `/api/notifications/num`,
+			});
+			return res.data;
+		},
+	);
+
+
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
 	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -82,96 +98,108 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 	};
 
 	return (
-		<AppBar className={classes.appBar} elevation={0} position='static'>
-			<Toolbar className={classes.toolbar}>
-				<Logo onClick={() => history.push('/')} />
+		<>
+			<AppBar className={classes.appBar} elevation={0} position='static'>
+				<Toolbar className={classes.toolbar}>
+					<Logo onClick={() => history.push('/')} />
 
-				<Hidden only={['sm', 'xs']}>
-					{user && (
-						<Box className={classes.nav}>
-							<NavItem exact to='/' icon={<HomeIcon color='secondary' />}>
-								<Typography color='secondary'>Feed</Typography>
-							</NavItem>
-							<NavItem
-								exact
-								to='/public/users'
-								icon={<AccountCircleIcon color='secondary' />}>
-								<Typography color='secondary'>Users</Typography>
-							</NavItem>
-							<NavItem
-								exact
-								to='/interview'
-								icon={<ForumIcon color='secondary' />}>
-								<Typography color='secondary'>Interview</Typography>
-							</NavItem>
-							<NavItem
-								exact
-								to='/public/challenges'
-								icon={<TrendingUpSharpIcon color='secondary' />}>
-								<Typography color='secondary'>Challenges</Typography>
-							</NavItem>
-							<Button
-								startIcon={<Avatar alt={user.name} src={user.profilePicture} />}
-								aria-controls='dropdown'
-								aria-haspopup='true'
-								color='secondary'
-								endIcon={<KeyboardArrowDownIcon />}
-								onClick={handleClick}>
-								{user.name.split(' ')[0]}
-							</Button>
-							<Menu
-								elevation={3}
-								getContentAnchorEl={null}
-								anchorOrigin={{
-									vertical: 'bottom',
-									horizontal: 'center',
-								}}
-								anchorEl={anchorEl}
-								keepMounted
-								open={Boolean(anchorEl)}
-								onClose={handleClose}
-								transformOrigin={{
-									vertical: 'top',
-									horizontal: 'center',
-								}}>
-								<Box paddingTop={3}>
-									<NavItem
-										icon={<AccountCircleIcon color='secondary' />}
-										dropdown
-										exact
-										to='/dashboard'>
-										Profile
-									</NavItem>
-									<NavItem
-										icon={<EditIcon color='secondary' />}
-										dropdown
-										exact
-										to='/dashboard/me/update'>
-										Edit Profile
-									</NavItem>
-									<Divider />
-									<MenuLink
-										style={{ color: 'red' }}
-										href='/api/logout'
-										icon={<ExitToAppIcon style={{ color: 'red' }} />}>
-										Logout
-									</MenuLink>
-								</Box>
-							</Menu>
-						</Box>
-					)}
-				</Hidden>
-				{user && (
-					<Hidden only={['xl', 'lg', 'md']}>
-						<Box ml='auto' color='white'>
-							<IconButton color='inherit' onClick={onOpen}>
-								<MenuIcon color='secondary' />
-							</IconButton>
-						</Box>
+					<Hidden only={['sm', 'xs']}>
+						{user && (
+							<Box className={classes.nav}>
+								<NavItem exact to='/' icon={<HomeIcon color='secondary' />}>
+									<Typography style={{ textTransform: 'capitalize' }} color='secondary'>Feed</Typography>
+								</NavItem>
+								<NavItem
+									exact
+									to='/public/users'
+									icon={<AccountCircleIcon color='secondary' />}>
+									<Typography style={{ textTransform: 'capitalize' }} color='secondary'>Users</Typography>
+								</NavItem>
+								<NavItem
+									exact
+									to='/interview'
+									icon={<ForumIcon color='secondary' />}>
+									<Typography style={{ textTransform: 'capitalize' }} color='secondary'>Interview</Typography>
+								</NavItem>
+								<NavItem
+									exact
+									to='/public/challenges'
+									icon={<TrendingUpSharpIcon color='secondary' />}>
+									<Typography style={{ textTransform: 'capitalize' }} color='secondary'>Challenges</Typography>
+								</NavItem>
+								<NavItem
+									exact
+									to='/public/notifications'
+									icon={
+										<Badge badgeContent={data?.count} color="primary">
+											<NotificationsIcon color='secondary' />
+										</Badge>
+									}>
+									<Typography style={{ textTransform: 'capitalize' }} color='secondary'>Notifications</Typography>
+								</NavItem>
+								<Button
+									startIcon={<Avatar alt={user.name} src={user.profilePicture} />}
+									aria-controls='dropdown'
+									aria-haspopup='true'
+									color='secondary'
+									endIcon={<KeyboardArrowDownIcon />}
+									onClick={handleClick}>
+									{user.name.split(' ')[0]}
+								</Button>
+								<Menu
+									elevation={3}
+									getContentAnchorEl={null}
+									anchorOrigin={{
+										vertical: 'bottom',
+										horizontal: 'center',
+									}}
+									anchorEl={anchorEl}
+									keepMounted
+									open={Boolean(anchorEl)}
+									onClose={handleClose}
+									transformOrigin={{
+										vertical: 'top',
+										horizontal: 'center',
+									}}>
+									<Box paddingTop={3}>
+										<NavItem
+											icon={<AccountCircleIcon color='secondary' />}
+											dropdown
+											exact
+											to='/dashboard'>
+											Profile
+										</NavItem>
+										<NavItem
+											icon={<EditIcon color='secondary' />}
+											dropdown
+											exact
+											to='/dashboard/me/update'>
+											Edit Profile
+										</NavItem>
+										<Divider />
+										<MenuLink
+											style={{ color: 'red' }}
+											href='/api/logout'
+											icon={<ExitToAppIcon style={{ color: 'red' }} />}>
+											Logout
+										</MenuLink>
+									</Box>
+								</Menu>
+							</Box>
+						)}
 					</Hidden>
-				)}
-			</Toolbar>
-		</AppBar>
+					{user && (
+						<Hidden only={['xl', 'lg', 'md']}>
+							<Box ml='auto' color='white'>
+								<IconButton color='inherit' onClick={onOpen}>
+									<MenuIcon color='secondary' />
+								</IconButton>
+							</Box>
+						</Hidden>
+					)}
+				</Toolbar>
+			</AppBar>
+		</>
 	);
 };
 

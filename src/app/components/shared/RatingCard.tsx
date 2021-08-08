@@ -99,7 +99,7 @@ const RatingCard: React.FC<RatingCardProps> = ({ project }) => {
 		},
 		{
 			onSuccess: async () => {
-				console.log('success!');
+				// console.log('success!');
 				if (location.pathname === '/') {
 					await queryClient.invalidateQueries('feed');
 				} else {
