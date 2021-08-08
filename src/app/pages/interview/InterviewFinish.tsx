@@ -1,12 +1,9 @@
-import {
-	Box,
-	Button,
-	CircularProgress,
-	Container,
-	makeStyles,
-	Theme,
-	Typography,
-} from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core';
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
 import * as React from 'react';
 import { useMutation } from 'react-query';

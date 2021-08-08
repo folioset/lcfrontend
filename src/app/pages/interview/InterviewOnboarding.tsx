@@ -1,13 +1,10 @@
-import {
-	Button,
-	makeStyles,
-	MenuItem,
-	Theme,
-	Typography,
-} from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core';
 import * as Yup from 'yup';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
+import Button from '@material-ui/core/Button';
+import MenuItem from '@material-ui/core/MenuItem';
+import Typography from '@material-ui/core/Typography';
 import { Form, Formik } from 'formik';
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
@@ -42,7 +39,6 @@ const InterviewOnboarding: React.FC<InterviewOnboardingProps> = () => {
 
 	return (
 		<>
-			<Button color='primary'>Exit Interview</Button>
 			<Box className={classes.box}>
 				<Container maxWidth='md'>
 					<Typography variant='h3' className={classes.heading}>
