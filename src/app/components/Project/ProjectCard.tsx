@@ -9,7 +9,21 @@ import { useState, useEffect } from 'react';
 // Material UI
 import { makeStyles, Theme, Link, MenuItem } from '@material-ui/core';
 
-import { Card, CardContent, CardHeader, CardActions, Box, Grid, Button, Modal, Hidden, Typography, IconButton, Fade, Menu } from '@material-ui/core';
+import {
+	Card,
+	CardContent,
+	CardHeader,
+	CardActions,
+	Box,
+	Grid,
+	Button,
+	Modal,
+	Hidden,
+	Typography,
+	IconButton,
+	Fade,
+	Menu,
+} from '@material-ui/core';
 
 import CancelIcon from '@material-ui/icons/Cancel';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
@@ -34,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) => {
 	return {
 		card: {
 			paddingLeft: 3,
-			paddingRight: 5
+			paddingRight: 5,
 		},
 		cardActions: {
 			flexDirection: 'column',
@@ -64,13 +78,13 @@ const useStyles = makeStyles((theme: Theme) => {
 			paddingLeft: 10,
 			paddingRight: 10,
 			marginLeft: 3,
-			marginRight: 3
+			marginRight: 3,
 		},
 		thumbnail: {
 			// paddingRight: theme.spacing(4),
 			display: 'flex',
 			alignItems: 'center',
-			justifyContent: 'center'
+			justifyContent: 'center',
 		},
 		pdf: {
 			height: '100vh',
@@ -100,7 +114,7 @@ const useStyles = makeStyles((theme: Theme) => {
 		},
 		MenuItem: {
 			color: 'red',
-		}
+		},
 	};
 });
 
@@ -128,7 +142,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 	};
 
 
-
 	// Project Modal Toggler
 	const {
 		isOpen: isModalOpen,
@@ -150,7 +163,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 		onClose: onUpdateClose,
 	} = useDisclosure();
 
-
 	// Set Default Project Rating
 	// React.useEffect(() => {
 	// 	if (project) {
@@ -164,33 +176,32 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 	// 	}
 	// }, [project, user._id]);
 
-
 	useEffect(() => {
 		console.log(num, 'this is num in 2nd use');
 		refetchReviews();
-	}, [num])
+	}, [num]);
 
 	// Get all Project Reviews
-	const { isLoading, data: reviews, refetch: refetchReviews } = useQuery(
-		['project-reviews', project._id, num],
-		async () => {
-			const res = await axios({
-				method: 'get',
-				url: `/api/project/${project._id}/reviews/${num}`,
-			});
-			console.log(res.data);
+	const {
+		isLoading,
+		data: reviews,
+		refetch: refetchReviews,
+	} = useQuery(['project-reviews', project._id, num], async () => {
+		const res = await axios({
+			method: 'get',
+			url: `/api/project/${project._id}/reviews/${num}`,
+		});
+		console.log(res.data);
 
-			return res.data;
-		}
-	);
+		return res.data;
+	});
+
+	// console.log("projecttttttt", project);
+
 
 	const handleMoreReviews = () => {
-		setNum(num + 1);
-	}
-
-	const handlePreviousReviews = () => {
-		setNum(num - 1);
-	}
+		setNum(num + 5);
+	};
 
 	return (
 		<>
@@ -232,7 +243,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 				<CardHeader
 					title={<Typography variant='h4'>{project.title}</Typography>}
 					action={
-						<Box style={{ display: 'flex', textAlign: 'center', alignItems: 'center', justifyContent: 'center' }}>
+						<Box
+							style={{
+								display: 'flex',
+								textAlign: 'center',
+								alignItems: 'center',
+								justifyContent: 'center',
+							}}>
 							<Typography color='textSecondary' variant='caption'>
 								{format(
 									new Date(project.lastUpdatedDate || project.createdAt!),
@@ -244,19 +261,23 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 							{!isPublic && (
 								<>
 									<div>
-										<Button aria-controls="fade-menu" aria-haspopup="true" onClick={handleClick}>
+										<Button
+											aria-controls='fade-menu'
+											aria-haspopup='true'
+											onClick={handleClick}>
 											<MoreHorizIcon />
 										</Button>
 										<Menu
-											id="fade-menu"
+											id='fade-menu'
 											anchorEl={anchorEl}
 											keepMounted
 											open={open}
 											onClose={handleClose}
-											TransitionComponent={Fade}
-										>
+											TransitionComponent={Fade}>
 											<MenuItem onClick={onUpdateOpen}>Edit Challenge</MenuItem>
-											<MenuItem onClick={onDeleteOpen}>Delete Challenge</MenuItem>
+											<MenuItem onClick={onDeleteOpen}>
+												Delete Challenge
+											</MenuItem>
 										</Menu>
 									</div>
 								</>
@@ -268,9 +289,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 					<Grid container>
 						{project.description && (
 							<Grid item style={{ marginBottom: 10 }}>
-								<Typography variant='body2'>
-									{project.description}
-								</Typography>
+								<Typography variant='body2'>{project.description}</Typography>
 							</Grid>
 						)}
 						<Grid item container direction='row'>
@@ -279,9 +298,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 									{project.skills.map((el: any, i: number) => {
 										return (
 											<Grid item className={classes.tag}>
-												<Typography
-													key={i}
-													variant='h5'>
+												<Typography key={i} variant='h5'>
 													{el}
 												</Typography>
 											</Grid>
@@ -294,9 +311,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 									{project.tools.map((el: any, i: number) => {
 										return (
 											<Grid item className={classes.tag}>
-												<Typography
-													key={i}
-													variant='h5'>
+												<Typography key={i} variant='h5'>
 													{el}
 												</Typography>
 											</Grid>
@@ -305,9 +320,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 								</Grid>
 							) : null}
 						</Grid>
-						<Grid item sm={12} className={classes.thumbnail}>
-							<PdfThumbnail file={project.projectFile} onClick={onModalOpen} />
-						</Grid>
+						{project.projectFile && (
+							<Grid item sm={12} className={classes.thumbnail}>
+								<PdfThumbnail
+									file={project.projectFile}
+									onClick={onModalOpen}
+								/>
+							</Grid>
+						)}
 						{project.contributors.length !== 0 ? (
 							<Grid item container direction='row'>
 								<Grid item style={{ marginRight: 5 }}>
@@ -316,35 +336,28 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 									</Typography>
 								</Grid>
 								<Grid item>
-									{project.contributorDetailsArr?.map(
-										(el: any, i: number) => {
-											return (
-												<Link
-													key={i}
-													component={RouterLink}
-													to={`/public/users/${el._id}`}
-													color='primary'
-													style={{ fontSize: 14, fontWeight: 550 }}>
-													{el.name}
-													{i === project.contributors.length - 1 ? '' : ', '}
-												</Link>
-											);
-										}
-									)}
+									{project.contributorDetailsArr?.map((el: any, i: number) => {
+										return (
+											<Link
+												key={i}
+												component={RouterLink}
+												to={`/public/users/${el._id}`}
+												color='primary'
+												style={{ fontSize: 14, fontWeight: 550 }}>
+												{el.name}
+												{i === project.contributors.length - 1 ? '' : ', '}
+											</Link>
+										);
+									})}
 								</Grid>
 							</Grid>
 						) : null}
 					</Grid>
 				</CardContent>
 				<CardActions className={classes.cardActions}>
-					{isPublic && (
-						<RatingCard {...{ project }} />
-					)}
+					{isPublic && <RatingCard {...{ project }} />}
 				</CardActions>
 				<CardContent className={classes.cardContent}>
-					{num > 1 && <Button onClick={handlePreviousReviews} style={{ textTransform: 'none' }}>
-						Previous reviews
-					</Button>}
 					{isLoading && (
 						<Typography color='primary' variant='caption'>
 							Loading reviews
@@ -362,9 +375,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 									);
 								})}
 							</Box>
-							<Button onClick={handleMoreReviews} style={{ textTransform: 'none', marginBottom: -20 }}>
+							{reviews?.length !== project?.reviews.length ? (<Button
+								onClick={handleMoreReviews}
+								style={{ textTransform: 'none', marginBottom: -20 }}>
 								Load more reviews
-							</Button>
+							</Button>) : null}
 						</>
 					)}
 				</CardContent>

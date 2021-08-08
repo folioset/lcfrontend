@@ -127,13 +127,16 @@ const AnswerSection: React.FC<AnswersSectionProps> = ({ answer, challenge }) => 
         }
     );
 
+    // console.log("reviewssss", reviews);
+    // console.log("answer yaha h", answersData?.reviews.length);
+
     const handleMoreReviews = () => {
-        setNum(num + 1);
+        setNum(num + 5);
     }
 
-    const handlePreviousReviews = () => {
-        setNum(num - 1);
-    }
+    // const handlePreviousReviews = () => {
+    //     setNum(num - 1);
+    // }
 
 
     return (
@@ -147,19 +150,18 @@ const AnswerSection: React.FC<AnswersSectionProps> = ({ answer, challenge }) => 
                     <RatingCard project={answersData} />
                 </CardActions>
             </Card>
-            {reviews?.length > 0 && (
-                <>
-                    <Card elevation={0}>
-                        <CardContent className={classes.cardContent}>
-                            {num > 1 && <Button onClick={handlePreviousReviews} style={{ textTransform: 'none' }}>
-                                Previous reviews
-                            </Button>}
-                            {isLoading && (
-                                <Typography color='primary' variant='caption'>
-                                    Loading reviews
-                                </Typography>
-                            )}
-
+            <Card elevation={0}>
+                <CardContent className={classes.cardContent}>
+                    {/* {num > 1 && <Button onClick={handlePreviousReviews} style={{ textTransform: 'none' }}>
+                        Previous reviews
+                    </Button>} */}
+                    {isLoading && (
+                        <Typography color='primary' variant='caption'>
+                            Loading reviews
+                        </Typography>
+                    )}
+                    {reviews?.length > 0 && (
+                        <>
                             <Box>
                                 {reviews?.map((review: Review) => {
                                     return (
@@ -170,13 +172,14 @@ const AnswerSection: React.FC<AnswersSectionProps> = ({ answer, challenge }) => 
                                     );
                                 })}
                             </Box>
-                            <Button onClick={handleMoreReviews} style={{ textTransform: 'none', marginBottom: -20 }}>
+
+                            {reviews?.length !== answersData?.reviews.length ? (<Button onClick={handleMoreReviews} style={{ textTransform: 'none', marginBottom: -20 }}>
                                 Load more reviews
-                            </Button>
-                        </CardContent>
-                    </Card>
-                </>
-            )}
+                            </Button>) : null}
+                        </>
+                    )}
+                </CardContent>
+            </Card>
         </>
     );
 };

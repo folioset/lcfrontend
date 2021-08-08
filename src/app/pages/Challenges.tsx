@@ -55,7 +55,6 @@ const Feed: React.FC<FeedProps> = () => {
 			url: `/api/question/${num}`,
 		});
 		setItems(items => ([...items, ...res.data]));
-		// console.log("challenges", res.data);
 		return res.data;
 	});
 

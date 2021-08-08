@@ -62,6 +62,8 @@ const InterviewRoom: React.FC<InterviewRoomProps> = () => {
 		microphoneDevice,
 		setMicrophoneDevice,
 		switchedTab,
+		permission,
+		browserAllowed,
 	} = React.useContext(InterviewContext);
 
 	const classes = useStyles();
@@ -71,7 +73,7 @@ const InterviewRoom: React.FC<InterviewRoomProps> = () => {
 				method: 'post',
 				url: '/api/interview/getquestion',
 				data: {
-					category: localStorage.getItem('interviewType'),
+					category: localStorage.getItem('fieldInterest'),
 				},
 			});
 			return res.data;
@@ -106,7 +108,15 @@ const InterviewRoom: React.FC<InterviewRoomProps> = () => {
 					</Typography>
 				</Paper>
 			</Modal>
+
 			<Box className={classes.box}>
+				{!browserAllowed && (
+					<Typography
+						color='error'
+						style={{ textAlign: 'center', marginBottom: 20 }}>
+						Use Microsoft Edge or Google Chrome for recording interviews
+					</Typography>
+				)}
 				<Container>
 					<Typography variant='h3' className={classes.heading}>
 						Answer a question in a timed interview-like format
@@ -115,7 +125,7 @@ const InterviewRoom: React.FC<InterviewRoomProps> = () => {
 						Your screen and Video will be recorded while interview is in
 						progress
 					</Typography>
-					{question && (
+					{isRecording && question && (
 						<Typography
 							style={{ fontWeight: 'bold' }}
 							variant='h4'
@@ -176,7 +186,11 @@ const InterviewRoom: React.FC<InterviewRoomProps> = () => {
 											isLoading ? <CircularProgress size='1rem' /> : null
 										}
 										onClick={async () => {
-											await mutate();
+											if (!permission) {
+												return alert('grant webcam and microphone');
+											}
+
+											mutate();
 										}}
 										variant='contained'
 										color='primary'>

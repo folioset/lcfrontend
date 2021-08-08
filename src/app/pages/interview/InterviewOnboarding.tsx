@@ -42,6 +42,7 @@ const InterviewOnboarding: React.FC<InterviewOnboardingProps> = () => {
 
 	return (
 		<>
+			<Button color='primary'>Exit Interview</Button>
 			<Box className={classes.box}>
 				<Container maxWidth='md'>
 					<Typography variant='h3' className={classes.heading}>
@@ -55,15 +56,15 @@ const InterviewOnboarding: React.FC<InterviewOnboardingProps> = () => {
 						<Formik
 							validationSchema={validationSchema}
 							initialValues={{
-								fieldInterest: '',
-								interviewType: 'Product Management',
+								fieldInterest: 'Product Management',
+								interviewType: '',
 							}}
 							onSubmit={({ fieldInterest, interviewType }) => {
 								localStorage.setItem('interviewType', interviewType);
 								localStorage.setItem('fieldInterest', fieldInterest);
 								history.replace('/interview/room');
 							}}>
-							{() => {
+							{({ handleChange }) => {
 								return (
 									<Form autoComplete='off'>
 										<FormInput
@@ -71,12 +72,14 @@ const InterviewOnboarding: React.FC<InterviewOnboardingProps> = () => {
 											name='fieldInterest'
 											fullWidth
 											variant='filled'
+											defaultValue='Product Management'
+											onChange={(e: any) => handleChange('Product Management')}
+											disabled
 										/>
 										<FormSelect
 											name='interviewType'
 											label='What type of interview would you like to take ?'>
 											{[
-												'Product Management',
 												'Product Improvement',
 												'Product Design',
 												'Product Strategy',

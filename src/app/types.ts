@@ -45,6 +45,7 @@ export type Project = {
 	lastUpdatedDate?: Date;
 	fineRatings: number;
 	goodRatings: number;
+	reviews: string[];
 	excellentRatings: number;
 	extraOrdinaryRatings: number;
 };

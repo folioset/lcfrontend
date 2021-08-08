@@ -56,7 +56,6 @@ const DeleteAnswer: React.FC<DeleteAnswerProps> = ({ onClose, challenge, answers
     const classes = useStyles();
 
 
-
     const { mutate: deleteAnswer, isLoading: isDeletingAnswer } = useMutation(
         async () => {
             const res = await axios({
