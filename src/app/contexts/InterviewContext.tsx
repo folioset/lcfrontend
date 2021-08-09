@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import useScreenShare from '../hooks/useScreenShare';
+import useRecordStream from '../hooks/useRecordStream';
 
 interface InterviewContextProps {
 	question: string;
 	questionId: string;
 	updateQuestion: (question: string, id: string) => void;
-	userScreenVideoRef: React.MutableRefObject<any>;
 	userVideoRef: React.MutableRefObject<any>;
 	startRecord: () => Promise<void>;
 	stopRecord: () => Promise<void>;
@@ -36,7 +35,6 @@ const InterviewContextProvider: React.FC = ({ children }: any) => {
 	const history = useHistory();
 
 	const {
-		userScreenVideoRef,
 		userVideoRef,
 		startRecord,
 		stopRecord,
@@ -48,7 +46,7 @@ const InterviewContextProvider: React.FC = ({ children }: any) => {
 		permission,
 		browserAllowed,
 		checkMediaPermission,
-	} = useScreenShare();
+	} = useRecordStream();
 
 	React.useEffect(() => {
 		if (location.pathname === '/interview/room') {
@@ -83,11 +81,6 @@ const InterviewContextProvider: React.FC = ({ children }: any) => {
 							.forEach(async (track: any) => {
 								await track?.stop();
 							});
-						userScreenVideoRef.current?.srcObject
-							?.getTracks()
-							.forEach(async (track: any) => {
-								await track?.stop();
-							});
 
 						window.location.href = '/';
 					}, 1000);
@@ -95,14 +88,7 @@ const InterviewContextProvider: React.FC = ({ children }: any) => {
 				};
 			}
 		}
-	}, [
-		location.pathname,
-		switchedTab,
-		history,
-		isRecording,
-		userScreenVideoRef,
-		userVideoRef,
-	]);
+	}, [location.pathname, switchedTab, history, isRecording, userVideoRef]);
 
 	React.useEffect(() => {
 		if (videoBlob) {
@@ -131,7 +117,6 @@ const InterviewContextProvider: React.FC = ({ children }: any) => {
 					question,
 					questionId,
 					updateQuestion,
-					userScreenVideoRef,
 					userVideoRef,
 					startRecord,
 					stopRecord,

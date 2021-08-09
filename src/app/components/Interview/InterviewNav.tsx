@@ -45,12 +45,11 @@ const InterviewNav: React.FC<InterviewNavProps> = () => {
 					<Typography variant='subtitle1'>
 						{user?.name?.split(' ')[0]}
 					</Typography>
-					{!isRecording ||
-						(location.pathname !== '/interview/finish' && (
-							<NavItem exact to='/' icon={<ExitToAppIcon />}>
-								Exit Interview
-							</NavItem>
-						))}
+					{!isRecording && location.pathname !== '/interview/finish' && (
+						<NavItem exact to='/' icon={<ExitToAppIcon />}>
+							Exit Interview
+						</NavItem>
+					)}
 				</Box>
 			</Box>
 		</>

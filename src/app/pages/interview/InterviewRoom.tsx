@@ -1,17 +1,14 @@
-import {
-	Button,
-	makeStyles,
-	Theme,
-	CircularProgress,
-	Select,
-	FormControl,
-	ListItem,
-	ListItemIcon,
-	ListItemText,
-	Modal,
-	Paper,
-} from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Select from '@material-ui/core/Select';
+import FormControl from '@material-ui/core/FormControl';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Modal from '@material-ui/core/Modal';
+import Paper from '@material-ui/core/Paper';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
 import InputLabel from '@material-ui/core/InputLabel';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
@@ -51,7 +48,6 @@ const useStyles = makeStyles((theme: Theme) => {
 
 const InterviewRoom: React.FC<InterviewRoomProps> = () => {
 	const {
-		userScreenVideoRef,
 		userVideoRef,
 		updateQuestion,
 		question,
@@ -63,7 +59,6 @@ const InterviewRoom: React.FC<InterviewRoomProps> = () => {
 		setMicrophoneDevice,
 		switchedTab,
 		permission,
-		browserAllowed,
 	} = React.useContext(InterviewContext);
 
 	const classes = useStyles();
@@ -110,13 +105,6 @@ const InterviewRoom: React.FC<InterviewRoomProps> = () => {
 			</Modal>
 
 			<Box className={classes.box}>
-				{!browserAllowed && (
-					<Typography
-						color='error'
-						style={{ textAlign: 'center', marginBottom: 20 }}>
-						Use Microsoft Edge or Google Chrome for recording interviews
-					</Typography>
-				)}
 				<Container>
 					<Typography variant='h3' className={classes.heading}>
 						Answer a question in a timed interview-like format
@@ -187,10 +175,10 @@ const InterviewRoom: React.FC<InterviewRoomProps> = () => {
 										}
 										onClick={async () => {
 											if (!permission) {
-												return alert('grant webcam and microphone');
+												alert('grant webcam and microphone');
+											} else {
+												mutate();
 											}
-
-											mutate();
 										}}
 										variant='contained'
 										color='primary'>
@@ -227,14 +215,6 @@ const InterviewRoom: React.FC<InterviewRoomProps> = () => {
 								autoPlay
 								className={classes.video}
 								src={userVideoRef?.current?.srcObject}
-							/>
-						</Grid>
-						<Grid item md={6}>
-							<video
-								ref={userScreenVideoRef}
-								src={userScreenVideoRef?.current?.srcObject}
-								autoPlay
-								className={classes.video}
 							/>
 						</Grid>
 					</Grid>

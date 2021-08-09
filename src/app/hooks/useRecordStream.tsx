@@ -4,7 +4,6 @@ import { InterviewContext } from '../contexts/InterviewContext';
 
 const useScreenShare = () => {
 	const history = useHistory();
-	const userScreenVideoRef = React.useRef<any>();
 	const userVideoRef = React.useRef<any>();
 	const recorderRef = React.useRef<any>();
 	const streamRef = React.useRef<any>();
@@ -94,14 +93,6 @@ const useScreenShare = () => {
 	}, [chunks, history, saveFile]);
 
 	const getStream = async () => {
-		// Screen record stream
-		const userVideoScreenStream = await (
-			navigator.mediaDevices as any
-		).getDisplayMedia({
-			video: true,
-		});
-		userScreenVideoRef.current.srcObject = userVideoScreenStream;
-
 		// User Media (Webcam & Microphone)
 		const userVideoStream = await navigator.mediaDevices.getUserMedia({
 			audio: {
@@ -113,10 +104,7 @@ const useScreenShare = () => {
 		userVideoRef.current.srcObject = userVideoStream;
 		userVideoRef.current.muted = true;
 
-		return new MediaStream([
-			...userScreenVideoRef.current.srcObject.getTracks(),
-			...userVideoRef.current.srcObject.getTracks(),
-		]);
+		return new MediaStream(userVideoRef.current.srcObject.getTracks());
 	};
 
 	const handleDataAvailable = (event: any) => {
@@ -146,20 +134,14 @@ const useScreenShare = () => {
 		userVideoRef.current?.srcObject?.getTracks().forEach(async (track: any) => {
 			await track.stop();
 		});
-		userScreenVideoRef.current?.srcObject
-			?.getTracks()
-			.forEach(async (track: any) => {
-				await track.stop();
-			});
+
 		userVideoRef.current.pause();
-		userScreenVideoRef.current.srcObject = undefined;
 		userVideoRef.current.srcObject = undefined;
 		await recorderRef.current?.stop();
 		setIsRecording(false);
 	};
 
 	return {
-		userScreenVideoRef,
 		userVideoRef,
 		startRecord,
 		stopRecord,
