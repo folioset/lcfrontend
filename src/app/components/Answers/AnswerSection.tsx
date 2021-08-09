@@ -48,7 +48,7 @@ const validationSchema = Yup.object().shape({
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            marginBottom: theme.spacing(3),
+            marginBottom: theme.spacing(1),
             backgroundColor: theme.palette.grey['100'],
             borderRadius: 15
         },
@@ -81,9 +81,6 @@ const useStyles = makeStyles((theme: Theme) =>
             flexDirection: 'column',
         },
         cardContent: {
-            marginTop: -20,
-            borderBottomWidth: '1px',
-            borderBottomStyle: 'solid',
             borderBottomColor: theme.palette.divider,
             paddingBottom: theme.spacing(4),
         },
@@ -111,9 +108,6 @@ const AnswerSection: React.FC<AnswersSectionProps> = ({ answer, challenge }) => 
             return res.data;
         }
     );
-
-    // console.log("answer", answer);
-    // console.log("answersData", answersData);
 
 
     React.useEffect(() => {
@@ -147,14 +141,13 @@ const AnswerSection: React.FC<AnswersSectionProps> = ({ answer, challenge }) => 
 
     return (
         <>
+
             <Card elevation={0} className={classes.root}>
                 <AnswersCard answersData={answersData} challenge={challenge} isPublic answer={answer} />
 
                 {/* feedback */}
                 <CardActions className={classes.cardActions}>
-                    {/* {isPublic && ( */}
                     <RatingCard project={answersData} />
-                    {/* )} */}
                 </CardActions>
             </Card>
             <Card elevation={0}>

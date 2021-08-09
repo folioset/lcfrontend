@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useQueryClient } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 
 // MUI
 import MUIDrawer from '@material-ui/core/Drawer';
@@ -9,6 +9,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 // Components
 import DrawerItem from './DrawerItem';
 import {
+	Badge,
 	Box,
 	Divider,
 	ListItemText,
@@ -28,8 +29,10 @@ import Logo from '../../../components/shared/Logo';
 import { User } from '../../../types';
 import Avatar from '../../../components/shared/Avatar';
 import { useHistory } from 'react-router-dom';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 
 import HomeIcon from '@material-ui/icons/Home';
+import axios from 'axios';
 
 interface Props {
 	isOpen: boolean;
@@ -66,6 +69,19 @@ const Drawer: React.FC<Props> = ({ isOpen, onClose }) => {
 	const color = theme.palette.error.main;
 	const classes = useStyles();
 	const history = useHistory();
+
+
+	//getting notifications count
+	const { isLoading, data } = useQuery(
+		'notifiCount',
+		async () => {
+			const res = await axios({
+				method: 'GET',
+				url: `/api/notifications/num`,
+			});
+			return res.data;
+		},
+	);
 
 	return (
 		<MUIDrawer
@@ -105,6 +121,16 @@ const Drawer: React.FC<Props> = ({ isOpen, onClose }) => {
 						icon={<TrendingUpSharpIcon color={'inherit'} />}
 						text='Challenges'
 						to='/public/challenges'
+						onClose={onClose}
+					/>
+					<DrawerItem
+						icon={
+							<Badge badgeContent={data?.count} color="primary">
+								<NotificationsIcon color='secondary' />
+							</Badge>
+						}
+						text='Notifications'
+						to='/public/notifications'
 						onClose={onClose}
 					/>
 					<Divider />

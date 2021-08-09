@@ -21,6 +21,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import FormInput from '../shared/FormInput';
 import axios from 'axios';
 import { Form } from 'formik';
+import UpdateAnswer from './UpdateAnswerNormal';
 
 interface AnswerCardProps {
     answersData: Answer;
@@ -41,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         content: {
             justifyContent: 'center',
-            marginLeft: 30,
+            // marginLeft: 30,
             whiteSpace: 'pre-line',
         },
         comment: {
@@ -100,14 +101,6 @@ const useStyles = makeStyles((theme: Theme) =>
         ratings: {
             display: 'flex',
         },
-        // fullShow: {
-        //     height: 'max-content'
-        // },
-        // halfShow: {
-        //     fontSize: 16,
-        //     height: 3 * 19.2,
-        //     lineHeight: 'normal'
-        // },
         readMore: {
             textAlign: 'end',
         }
@@ -219,14 +212,14 @@ const AnswersCard: React.FC<AnswerCardProps> = ({ answersData, challenge, isPubl
             {/* {answersHalfData ? handleHalf : ""}
             {console.log(answersHalfData)
             } */}
-            {/* Update answer */}
-            {/* <Modal
+            {/* Update noraml answer */}
+            <Modal
                 open={isUpdateOpen}
                 onClose={onUpdateClose}
-                aria-labelledby='project-file'
-                aria-describedby='pdf file of the project'>
-                <UpdateAnswer onClose={onUpdateClose} answer={answer} />
-            </Modal> */}
+                aria-labelledby='answer-file'
+                aria-describedby='text of the answer'>
+                <UpdateAnswer onClose={onUpdateClose} challenge={challenge} answersData={answersData} />
+            </Modal>
 
             {/* Delete answer */}
             <Modal

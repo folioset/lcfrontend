@@ -29,9 +29,6 @@ const useStyles = makeStyles((theme: Theme) => {
 			color: theme.palette.grey['50'],
 		},
 		GridContr: {
-			// borderWidth: '4px',
-			// borderStyle: 'solid',
-			// borderColor: 'green',
 			minHeight: '100vh',
 			maxWidth: 900,
 			margin: 'auto',
@@ -68,11 +65,11 @@ const Feed: React.FC<FeedProps> = () => {
 	}, [])
 
 	useEffect(() => {
-		console.log(items, "i am in items");
+		// console.log(items, "i am in items");
 	}, [items]);
 
 	useEffect(() => {
-		console.log(num, 'i am in useeffect');
+		// console.log(num, 'i am in useeffect');
 		refetch();
 	}, [num]);
 

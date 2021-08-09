@@ -14,13 +14,13 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
+// import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import Collapse from '@material-ui/core/Collapse';
+// import Collapse from '@material-ui/core/Collapse';
 import Modal from '@material-ui/core/Modal';
-import Hidden from '@material-ui/core/Hidden';
+// import Hidden from '@material-ui/core/Hidden';
 import Fade from '@material-ui/core/Fade';
 import Menu from '@material-ui/core/Menu';
 
@@ -30,9 +30,9 @@ import SendIcon from '@material-ui/icons/Send';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 // components
-import Rating from '../shared/Rating';
-import ReviewsSection from '../Reviews/ReviewsSection';
-import PdfViewer from '../shared/Pdf/PdfViewer';
+// import Rating from '../shared/Rating';
+// import ReviewsSection from '../Reviews/ReviewsSection';
+// import PdfViewer from '../shared/Pdf/PdfViewer';
 import FormInput from '../shared/FormInput';
 import AnswerSection from '../Answers/AnswerSection';
 
@@ -43,11 +43,11 @@ import { Challenge, User, Answer } from '../../types';
 import useDisclosure from '../../hooks/useDisclosure';
 import { useLocation } from 'react-router-dom';
 
-import { Link as RouterLink } from 'react-router-dom';
-import PdfThumbnail from '../shared/Pdf/PdfThumbnail';
+// import { Link as RouterLink } from 'react-router-dom';
+// import PdfThumbnail from '../shared/Pdf/PdfThumbnail';
 import CreateCaseAnswer from './CreateCaseAnswer';
-import DeleteChallenge from './DeleteChallenge';
-import UpdateProject from '../Project/UpdateProject';
+// import DeleteChallenge from './DeleteChallenge';
+// import UpdateProject from '../Project/UpdateProject';
 import UpdateChallenge from './UpdateChallenge';
 import EndChallenge from './EndChallenge';
 
@@ -219,7 +219,15 @@ const useStyles = makeStyles((theme: Theme) => {
             color: 'black',
             borderRadius: 15,
         },
+        loadMore: {
+            textTransform: 'none',
+            cursor: 'pointer',
+            textAlign: 'right',
+            margin: '0 15px 10px 0',
+            fontSize: 13,
+        }
     };
+
 });
 
 interface ChallengeCardProps {
@@ -249,7 +257,6 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
     const handleClose = () => {
         setAnchorEl(null);
     };
-
 
     // view Answer Toggler
     const {
@@ -519,26 +526,33 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                 ) : null}
 
                 {/* Loading more answers here */}
-                <CardContent>
+                {data?.length > 1 ? (<CardContent>
                     {isLoading && (
                         <Typography color='primary' variant='caption'>
                             Loading answers
                         </Typography>
                     )}
-                    {data?.length ? (data.slice(1).map((answer: Answer) => {
-                        return (
-                            <AnswerSection
-                                key={answer._id}
-                                {...{ answer, challenge }}
-                            />
-                        );
-                    })) : null}
-                    {data?.length !== challenge?.answers.length ?
-                        (<Typography onClick={handleMoreAnswers} style={{ textTransform: 'none', cursor: 'pointer' }}>
-                            Load more answers
-                        </Typography>) : null
+
+                    {
+                        data.slice(1).map((answer: Answer) => {
+                            return (
+                                <AnswerSection
+                                    key={answer._id}
+                                    {...{ answer, challenge }}
+                                />
+                            );
+                        })
                     }
-                </CardContent>
+                </CardContent>) : null}
+                {data?.length !== challenge?.answers.length ?
+                    (
+                        <Box>
+                            <Typography onClick={handleMoreAnswers} className={classes.loadMore}>
+                                ..Load more answers
+                            </Typography>
+                        </Box>
+                    ) : null
+                }
             </Card>
         </>
     );
