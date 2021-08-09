@@ -191,8 +191,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 			method: 'get',
 			url: `/api/project/${project._id}/reviews/${num}`,
 		});
-		console.log(res.data);
-
 		return res.data;
 	});
 

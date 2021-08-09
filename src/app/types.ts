@@ -48,6 +48,8 @@ export type Project = {
 	reviews: string[];
 	excellentRatings: number;
 	extraOrdinaryRatings: number;
+	videoFile: string;
+	videoInterviewQuestion: string;
 };
 
 export type Answer = Challenge & {

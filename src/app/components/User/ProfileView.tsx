@@ -1,20 +1,16 @@
-import { makeStyles, Box, Container, Typography } from '@material-ui/core';
+import { makeStyles, Box, Grid, Container, Typography } from '@material-ui/core';
 import * as React from 'react';
 import { Project, User } from '../../types';
 import ProfileCard from './ProfileCard';
 import ProjectCard from '../Project/ProjectCard';
+import InterviewCard from '../Interviews/InterviewCard';
 
 const useStyles = makeStyles((theme) => {
 	return {
 		root: {
 			minHeight: '100vh',
 			backgroundColor: theme.palette.background.default,
-			padding: theme.spacing(4),
-
-			[theme.breakpoints.down('md')]: {
-				padding: theme.spacing(2),
-				height: 'auto',
-			},
+			padding: theme.spacing(1),
 
 			[theme.breakpoints.down('sm')]: {
 				padding: theme.spacing(1),
@@ -36,6 +32,11 @@ const useStyles = makeStyles((theme) => {
 				fontSize: 30,
 			},
 		},
+		GridContr: {
+			margin: 'auto',
+			backgroundColor: '#f5f5f5',
+			justifyContent: 'center'
+		},
 		projects: {
 			'& > *': {
 				marginBottom: 30,
@@ -46,15 +47,19 @@ const useStyles = makeStyles((theme) => {
 
 interface ProfileViewProps {
 	user?: User;
-	isLoading: boolean;
-	data: any;
+	isLoadingProjects: boolean;
+	projects: any;
+	interviews: any;
+	isLoadingInterviews: boolean;
 	isPublic?: boolean;
 }
 
 const ProfileView: React.FC<ProfileViewProps> = ({
 	user,
-	isLoading,
-	data,
+	isLoadingProjects,
+	projects,
+	interviews,
+	isLoadingInterviews,
 	isPublic,
 }) => {
 	const classes = useStyles();
@@ -62,33 +67,50 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 	return (
 		<>
 			<Box className={classes.root}>
-				<Container maxWidth='md'>
+				<Container>
 					{user && (
 						<Box>
 							<ProfileCard user={user} isPublic={isPublic} />
 						</Box>
 					)}
-					<Box className={classes.projects}>
-						{isLoading && (
-							<Box textAlign='center'>
-								<Typography color='primary'>Loading Projects ....</Typography>
-							</Box>
-						)}
-						{data?.length ? (data.map((project: Project) => {
-							return (
-								<Box className={classes.card}>
-									<ProjectCard
-										isPublic={isPublic}
-										key={project._id}
-										{...{ project }}
-									/>
+				<Grid container className={classes.GridContr}>
+					<Grid item xs={12} md={6} className={classes.projects}>
+							{isLoadingProjects && (
+								<Box textAlign='center'>
+									<Typography color='primary'>Loading Projects ....</Typography>
 								</Box>
-							);
-						})) : (<Box textAlign='center'>
-							<Typography color='primary' variant='h4'>No Projects Yet!!</Typography>
-						</Box>)
-						}
-					</Box>
+							)}
+							{projects?.length ? (projects.map((project: Project) => {
+								return (
+									<Box className={classes.card}>
+										<ProjectCard
+											isPublic={isPublic}
+											key={project._id}
+											{...{ project }}
+										/>
+									</Box>
+								);
+							})) : (<Box textAlign='center'>
+								<Typography color='primary' variant='h4'>No Projects Yet!!</Typography>
+							</Box>)
+							}
+					</Grid>
+					<Grid item xs={12} md={6}>
+						{interviews?.length ? (interviews.map((interview: Project) => {
+								return (
+									<Box className={classes.card}>
+										<InterviewCard
+											key={interview._id}
+											{...{ interview }}
+										/>
+									</Box>
+								);
+							})) : (<Box textAlign='center'>
+								<Typography color='primary' variant='h4'>No Projects Yet!!</Typography>
+							</Box>)
+							}
+					</Grid>
+				</Grid>
 				</Container>
 			</Box>
 		</>

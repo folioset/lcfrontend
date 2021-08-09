@@ -13,7 +13,7 @@ const Dashboard: React.FC = () => {
 	const queryClient = useQueryClient();
 	const user = queryClient.getQueryData<User>('user')!;
 
-	const { isLoading, data } = useQuery<ProjectType[]>(
+	const { isLoading: isLoadingProjects, data: projects } = useQuery<ProjectType[]>(
 		'my-projects',
 		async () => {
 			try {
@@ -25,9 +25,23 @@ const Dashboard: React.FC = () => {
 		}
 	);
 
+	const { isLoading: isLoadingInterviews, data: interviews } = useQuery<ProjectType[]>(
+		'interviews',
+		async () => {
+			try {
+				const res = await axios.get(`/api/interview/${user._id}/interviews`);
+				console.log(res.data, 'i am interviews');
+				return res.data;
+			} catch (err) {
+				return err;
+			}
+		}
+	);
+
+
 	return (
 		<>
-			<ProfileView user={user} isLoading={isLoading} data={data} />
+			<ProfileView user={user} isLoadingProjects={isLoadingProjects} isLoadingInterviews={isLoadingInterviews} interviews={interviews} projects={projects} />
 		</>
 	);
 };

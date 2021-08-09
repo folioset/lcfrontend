@@ -23,7 +23,7 @@ const PublicProfile: React.FC<PublicProfileProps> = () => {
 		}
 	);
 
-	const { isLoading, data } = useQuery<ProjectType[]>(
+	const { isLoading: isLoadingProjects, data: projects } = useQuery<ProjectType[]>(
 		['projects', params.userId],
 		async () => {
 			const res = await axios.get(
@@ -34,14 +34,22 @@ const PublicProfile: React.FC<PublicProfileProps> = () => {
 		}
 	);
 
+	const { isLoading: isLoadingInterviews, data: interviews } = useQuery<ProjectType[]>(
+		['interviews', params.userId],
+		async () => {
+			const res = await axios.get(
+				`/api/interview/${params.userId}/interviews`
+			);
+			console.log("interviews", res.data);
+			return res.data;
+		}
+	);
 
 
 	return (
 		<>
-			{(isLoading || isUserLoading) && <Loader fullScreen />}
-			{data && (
-				<ProfileView isLoading={isLoading} data={data} user={user} isPublic />
-			)}
+			{(isLoadingProjects || isUserLoading || isLoadingInterviews) && <Loader fullScreen />}
+				<ProfileView isLoadingProjects={isLoadingProjects} isLoadingInterviews={isLoadingInterviews} projects={projects} interviews={interviews} user={user} isPublic />
 		</>
 	);
 };
