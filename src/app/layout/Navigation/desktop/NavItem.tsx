@@ -1,16 +1,12 @@
 import * as React from 'react';
 import { NavLink } from 'react-router-dom';
 
-// MUI
-import {
-	Button,
-	ListItemIcon,
-	ListItemText,
-	makeStyles,
-	MenuItem,
-} from '@material-ui/core';
-
-// styles
+import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import MenuItem from '@material-ui/core/MenuItem';
+import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => {
 	return {
@@ -20,6 +16,17 @@ const useStyles = makeStyles((theme) => {
 		},
 		active: {
 			color: theme.palette.primary.main,
+		},
+		btnContent: {
+			display: 'flex',
+			flexDirection: 'column',
+			alignItems: 'center',
+		},
+		btnIcon: {
+			height: 30,
+		},
+		btnText: {
+			textTransform: 'capitalize',
 		},
 	};
 });
@@ -56,12 +63,15 @@ const NavItem: React.FC<Props> = ({
 
 	return (
 		<Button
-			startIcon={icon}
+			size='small'
 			className={classes.navLink}
 			activeClassName={classes.active}
 			{...{ to, exact, variant, color }}
 			component={NavLink}>
-			{children}
+			<Box className={classes.btnContent}>
+				<Box className={classes.btnIcon}>{icon}</Box>
+				<Box className={classes.btnText}>{children}</Box>
+			</Box>
 		</Button>
 	);
 };

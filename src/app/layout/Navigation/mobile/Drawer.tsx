@@ -26,12 +26,13 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import PeopleIcon from '@material-ui/icons/People';
 import TrendingUpSharpIcon from '@material-ui/icons/TrendingUpSharp';
 import Logo from '../../../components/shared/Logo';
-import { User } from '../../../types';
 import Avatar from '../../../components/shared/Avatar';
-import { useHistory } from 'react-router-dom';
+import ForumIcon from '@material-ui/icons/Forum';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 
 import HomeIcon from '@material-ui/icons/Home';
+import { User } from '../../../types';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 interface Props {
@@ -70,18 +71,14 @@ const Drawer: React.FC<Props> = ({ isOpen, onClose }) => {
 	const classes = useStyles();
 	const history = useHistory();
 
-
 	//getting notifications count
-	const { isLoading, data } = useQuery(
-		'notifiCount',
-		async () => {
-			const res = await axios({
-				method: 'GET',
-				url: `/api/notifications/num`,
-			});
-			return res.data;
-		},
-	);
+	const { data } = useQuery('notifiCount', async () => {
+		const res = await axios({
+			method: 'GET',
+			url: `/api/notifications/num`,
+		});
+		return res.data;
+	});
 
 	return (
 		<MUIDrawer
@@ -124,8 +121,14 @@ const Drawer: React.FC<Props> = ({ isOpen, onClose }) => {
 						onClose={onClose}
 					/>
 					<DrawerItem
+						icon={<ForumIcon color={'inherit'} />}
+						text='Interviews'
+						to='/dashboard/me/interviews'
+						onClose={onClose}
+					/>
+					<DrawerItem
 						icon={
-							<Badge badgeContent={data?.count} color="primary">
+							<Badge badgeContent={data?.count} color='primary'>
 								<NotificationsIcon color='secondary' />
 							</Badge>
 						}
@@ -140,6 +143,7 @@ const Drawer: React.FC<Props> = ({ isOpen, onClose }) => {
 						to='/dashboard'
 						onClose={onClose}
 					/>
+
 					<DrawerItem
 						icon={<EditIcon color={'inherit'} />}
 						text='Edit Profile'

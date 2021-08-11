@@ -6,12 +6,13 @@ import { useQuery, useQueryClient } from 'react-query';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Box from '@material-ui/core/Box';
-import { Typography } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 import Badge from '@material-ui/core/Badge';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
 import Toolbar from '@material-ui/core/Toolbar';
-import { Divider, makeStyles } from '@material-ui/core';
+import Divider from '@material-ui/core/Divider';
+import { makeStyles } from '@material-ui/core';
 
 import Menu from '@material-ui/core/Menu';
 
@@ -75,7 +76,7 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 	const user = queryClient.getQueryData<User>('user');
 
 	//getting notifications count
-	const { isLoading, data } = useQuery('notifiCount', async () => {
+	const { data } = useQuery('notifiCount', async () => {
 		const res = await axios({
 			method: 'GET',
 			url: `/api/notifications/num`,
@@ -103,41 +104,25 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 						{user && (
 							<Box className={classes.nav}>
 								<NavItem exact to='/' icon={<HomeIcon color='secondary' />}>
-									<Typography
-										style={{ textTransform: 'capitalize' }}
-										color='secondary'>
-										Feed
-									</Typography>
+									<Typography color='secondary'>Feed</Typography>
 								</NavItem>
 								<NavItem
 									exact
 									to='/public/users'
 									icon={<AccountCircleIcon color='secondary' />}>
-									<Typography
-										style={{ textTransform: 'capitalize' }}
-										color='secondary'>
-										Users
-									</Typography>
+									<Typography color='secondary'>Users</Typography>
 								</NavItem>
 								<NavItem
 									exact
 									to='/dashboard/me/interviews'
 									icon={<ForumIcon color='secondary' />}>
-									<Typography
-										style={{ textTransform: 'capitalize' }}
-										color='secondary'>
-										Interview
-									</Typography>
+									<Typography color='secondary'>Interview</Typography>
 								</NavItem>
 								<NavItem
 									exact
 									to='/public/challenges'
 									icon={<TrendingUpSharpIcon color='secondary' />}>
-									<Typography
-										style={{ textTransform: 'capitalize' }}
-										color='secondary'>
-										Challenges
-									</Typography>
+									<Typography color='secondary'>Challenges</Typography>
 								</NavItem>
 								<NavItem
 									exact
@@ -147,11 +132,7 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 											<NotificationsIcon color='secondary' />
 										</Badge>
 									}>
-									<Typography
-										style={{ textTransform: 'capitalize' }}
-										color='secondary'>
-										Notifications
-									</Typography>
+									<Typography color='secondary'>Notifications</Typography>
 								</NavItem>
 								<Button
 									startIcon={
