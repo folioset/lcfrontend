@@ -10,7 +10,7 @@ import {
 import { Form, Formik } from 'formik';
 import * as React from 'react';
 import {useState, useEffect} from 'react';
-import FormInput from '../../components/shared/FormInput';
+import FormInput from '../shared/FormInput';
 import * as Yup from 'yup';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
@@ -18,10 +18,10 @@ import { useHistory, useLocation } from 'react-router-dom';
 import useAuthRoute from '../../hooks/useAuthRoute';
 // import FormSelect from '../../components/shared/FormSelect';
 import { User } from '../../types';
-import FormSelect from '../../components/shared/FormSelect';
+import FormSelect from '../shared/FormSelect';
 import InfiniteScroll from 'react-infinite-scroll-component';
 // import InfiniteScroll from 'react-infinite-scroller';
-import FeedProject from '../../components/Project/FeedProjectCard';
+import FeedProject from '../Project/FeedProjectCard';
 import { ProjectFeed } from '../../types';
 import ReactPlayer from 'react-player'
 

@@ -139,6 +139,7 @@ const SideBtnCard: React.FC<ProfileCardProps> = ({ isPublic }) => {
                     <Button size="large" color="primary" className={classes.action} onClick={onOpen}>Add Project</Button>
                     <Button size="large" color="primary" className={classes.action} onClick={onOpenChall}>Add Challenge</Button>
                     <Button size="large" color="primary" className={classes.action} onClick={onOpenAnswer}>Ask a Question</Button>
+                    <Button size="large" color="primary" className={classes.action}>Take an Interview</Button>
                 </Box>
             </Card>
         </>

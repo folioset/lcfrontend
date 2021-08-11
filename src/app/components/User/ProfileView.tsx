@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Project, User } from '../../types';
 import ProfileCard from './ProfileCard';
 import ProjectCard from '../Project/ProjectCard';
-import InterviewCard from '../Interviews/InterviewCard';
+import InterviewCard from '../Interview/InterviewCard';
 
 const useStyles = makeStyles((theme) => {
 	return {

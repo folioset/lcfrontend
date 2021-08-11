@@ -94,6 +94,9 @@ const SideBtnCard: React.FC<ProfileCardProps> = ({ isPublic }) => {
 					<Button size='small' color='primary' disabled>
 						Add Challenge
 					</Button>
+					<Button size='small' color='primary' disabled>
+						Take an interview
+					</Button>
 				</CardActions>
 			</Card>
 		</>
