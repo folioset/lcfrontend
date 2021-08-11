@@ -4,6 +4,7 @@ import { Redirect, Route, Switch, useRouteMatch } from 'react-router';
 // Pages
 const Dashboard = React.lazy(() => import('./Dashboard'));
 const UpdateProfile = React.lazy(() => import('./UpdateProfile'));
+const Interviews = React.lazy(() => import('./Interviews'));
 
 const DashboardRoutes: React.FC = () => {
 	const { path } = useRouteMatch();
@@ -12,6 +13,10 @@ const DashboardRoutes: React.FC = () => {
 		<Switch>
 			<Route path={`${path}`} exact>
 				<Dashboard />
+			</Route>
+
+			<Route path={`${path}/me/interviews`} exact>
+				<Interviews />
 			</Route>
 
 			<Route path={`${path}/me/update`} exact>

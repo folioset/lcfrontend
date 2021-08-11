@@ -75,17 +75,13 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 	const user = queryClient.getQueryData<User>('user');
 
 	//getting notifications count
-	const { isLoading, data } = useQuery(
-		'notifiCount',
-		async () => {
-			const res = await axios({
-				method: 'GET',
-				url: `/api/notifications/num`,
-			});
-			return res.data;
-		},
-	);
-
+	const { isLoading, data } = useQuery('notifiCount', async () => {
+		const res = await axios({
+			method: 'GET',
+			url: `/api/notifications/num`,
+		});
+		return res.data;
+	});
 
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -107,38 +103,60 @@ const Navbar: React.FC<Props> = ({ onOpen }) => {
 						{user && (
 							<Box className={classes.nav}>
 								<NavItem exact to='/' icon={<HomeIcon color='secondary' />}>
-									<Typography style={{ textTransform: 'capitalize' }} color='secondary'>Feed</Typography>
+									<Typography
+										style={{ textTransform: 'capitalize' }}
+										color='secondary'>
+										Feed
+									</Typography>
 								</NavItem>
 								<NavItem
 									exact
 									to='/public/users'
 									icon={<AccountCircleIcon color='secondary' />}>
-									<Typography style={{ textTransform: 'capitalize' }} color='secondary'>Users</Typography>
+									<Typography
+										style={{ textTransform: 'capitalize' }}
+										color='secondary'>
+										Users
+									</Typography>
 								</NavItem>
 								<NavItem
 									exact
-									to='/interview'
+									to='/dashboard/me/interviews'
 									icon={<ForumIcon color='secondary' />}>
-									<Typography style={{ textTransform: 'capitalize' }} color='secondary'>Interview</Typography>
+									<Typography
+										style={{ textTransform: 'capitalize' }}
+										color='secondary'>
+										Interview
+									</Typography>
 								</NavItem>
 								<NavItem
 									exact
 									to='/public/challenges'
 									icon={<TrendingUpSharpIcon color='secondary' />}>
-									<Typography style={{ textTransform: 'capitalize' }} color='secondary'>Challenges</Typography>
+									<Typography
+										style={{ textTransform: 'capitalize' }}
+										color='secondary'>
+										Challenges
+									</Typography>
 								</NavItem>
 								<NavItem
 									exact
 									to='/public/notifications'
 									icon={
-										<Badge badgeContent={data?.count} color="primary">
+										<Badge badgeContent={data?.count} color='primary'>
 											<NotificationsIcon color='secondary' />
 										</Badge>
 									}>
-									<Typography style={{ textTransform: 'capitalize' }} color='secondary'>Notifications</Typography>
+									<Typography
+										style={{ textTransform: 'capitalize' }}
+										color='secondary'>
+										Notifications
+									</Typography>
 								</NavItem>
 								<Button
-									startIcon={<Avatar alt={user.name} src={user.profilePicture} />}
+									startIcon={
+										<Avatar alt={user.name} src={user.profilePicture} />
+									}
 									aria-controls='dropdown'
 									aria-haspopup='true'
 									color='secondary'
