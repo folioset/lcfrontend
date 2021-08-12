@@ -57,6 +57,8 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, project }) => {
 	const classes = useStyles();
 	const [more, setMore] = useState(false);
 
+
+	//getting complete review
 	const { isLoading: completeReviewLoading, data: completeReview } = useQuery(
 		['complete-review', project?._id, review.reviewDetails._id],
 		async () => {
@@ -68,8 +70,20 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, project }) => {
 		}
 	);
 
+	//getting half review
+	const { isLoading: halfReviewLoading, data: halfReview } = useQuery(
+		['half-review', project?._id, review.reviewDetails._id],
+		async () => {
+			const res = await axios({
+				method: 'GET',
+				url: `/api/project/${project._id}/reviews/${review.reviewDetails._id}/get`,
+			});
+			return res.data;
+		}
+	);
+
 	const handleSeeMore = () => {
-		setMore(true);
+		setMore(true)
 	}
 
 	return (
@@ -102,29 +116,12 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, project }) => {
 
 			/>
 			<CardContent className={classes.content}>
-				{more ?
-					completeReview.split('\n').map((el: any) => {
-						if (!el.length) {
-							return <br />;
-						}
-						return <Typography variant='body2'>{el}</Typography>;
-					})
-					:
-					<>
-						{
-							`${review.reviewDetails?.review}`.split('\n').map((el) => {
-								if (!el.length) {
-									return <br />;
-								}
-								return <Typography variant='body2'>{el}</Typography>;
-							})
-						}
-						<Link onClick={handleSeeMore}>
-							<Typography variant='body2' color='secondary'>see more</Typography>
-						</Link>
-					</>
-
-				}
+				{!more ? (<Typography variant='body2' color='secondary'>{halfReview?.review}</Typography>) :
+					(<Typography variant='body2' color='secondary'>{completeReview?.review}</Typography>)}
+				{(!more && (completeReview?.review !== halfReview?.review)) ? "..." : null}
+				{(!more && (completeReview?.review !== halfReview?.review)) ? (<Link onClick={handleSeeMore}>
+					<Typography style={{ paddingRight: 15 }} align='right' variant='body2' color='secondary'>show more</Typography>
+				</Link>) : null}
 			</CardContent>
 		</Card>
 	);
