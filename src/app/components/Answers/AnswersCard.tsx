@@ -9,7 +9,7 @@ import Avatar from '../shared/Avatar';
 import { format } from 'date-fns';
 import PdfViewer from '../shared/Pdf/PdfViewer';
 import PdfThumbnail from '../shared/Pdf/PdfThumbnail';
-import { Box, Button, Grid, Hidden, IconButton, MenuItem, Modal } from '@material-ui/core';
+import { Link, Box, Button, Grid, Hidden, IconButton, MenuItem, Modal } from '@material-ui/core';
 import useDisclosure from '../../hooks/useDisclosure';
 import CancelIcon from '@material-ui/icons/Cancel';
 import DeleteAnswer from './DeleteAnswer';
@@ -142,9 +142,6 @@ const AnswersCard: React.FC<AnswerCardProps> = ({ answersData, challenge, isPubl
     const [showMore, setShowMore] = React.useState(false);
 
 
-    // if (answersHalfData) handleHalf;
-    // showMore ? setCurrAnswerDescription() : setCurrAnswerDescription("half answer");
-
     const {
         isOpen: isModalOpen,
         onOpen: onModalOpen,
@@ -165,12 +162,6 @@ const AnswersCard: React.FC<AnswerCardProps> = ({ answersData, challenge, isPubl
         onClose: onUpdateClose,
     } = useDisclosure();
 
-
-    // const {
-    //     isOpen: isModalOpen,
-    //     onOpen: onModalOpen,
-    //     onClose: onModalClose,
-    // } = useDisclosure();
 
     // authorizing deletetion of answer
     if (user._id === challenge.createdBy._id) isPublic = false;
@@ -311,24 +302,20 @@ const AnswersCard: React.FC<AnswerCardProps> = ({ answersData, challenge, isPubl
                 </Grid>) : null}
 
                 <CardContent className={classes.content}>
-                    {/* <Typography className={showMore ? classes.fullShow : classes.halfShow} variant="body1" color="textPrimary" component="p"> */}
                     <Typography variant="body1" color="textPrimary" component="p">
                         <Typography variant="subtitle1" color="textPrimary" component="p">
                             Answer :
                         </Typography>
-                        {/* {answersData?.description} */}
                         {!showMore ? answersHalfData?.description : answersData?.description}
+                        {(!showMore && (answersHalfData?.description !== answersData?.description)) ? "..." : null}
                     </Typography>
-                    {/* {!showMore &&
-                        (<Typography variant="body1" color="textPrimary" component="p">
-                            read more
-                        </Typography>)} */}
+                    {(!showMore && (answersHalfData?.description !== answersData?.description)) ? (<Typography className={classes.readMore}>
+                        <Link onClick={() => { setShowMore(true) }}>
+                            <Typography style={{ paddingRight: 15 }} align='right' variant='body2' color='secondary'>show more</Typography>
+                        </Link>
+                    </Typography>) : null}
                 </CardContent>
             </Card>
-            {answersHalfData?.description !== answersData?.description ? (<Typography className={classes.readMore}>
-                {!showMore ?
-                    <Button style={{ textTransform: 'lowercase', backgroundColor: 'transparent' }} color="primary" onClick={() => { setShowMore(true) }}>...show more</Button> : null}
-            </Typography>) : null}
         </>
     );
 };

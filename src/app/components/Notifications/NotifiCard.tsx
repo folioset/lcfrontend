@@ -9,7 +9,7 @@ import Hidden from '@material-ui/core/Hidden';
 import { format, formatDistance, getDate, subDays } from 'date-fns';
 import Typography from '@material-ui/core/Typography';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import { makeStyles, Theme } from '@material-ui/core';
+import { Link, makeStyles, Theme } from '@material-ui/core';
 import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 
 // types
@@ -67,13 +67,11 @@ const NotifiCard: React.FC<NotifiItemProps> = ({ notifi, isNew }) => {
     const history = useHistory();
     const classes = useStyles();
 
-    // console.log(notifi);
-
-
     return (
         <>
+
             <Card
-                // onClick={() => history.push(`/public/users/${user._id ?? user.id}`)}
+                onClick={() => history.push(`/public/api/feed/getproject/${notifi.projectid}`)}
                 className={isNew ? classes.notifiHighlight : classes.notifiDefault}
             >
                 <CardActionArea>
@@ -108,7 +106,7 @@ const NotifiCard: React.FC<NotifiItemProps> = ({ notifi, isNew }) => {
                                 </Grid>
                                 {/* <Grid item>
                                     <Typography variant='body2' color='textSecondary'>
-                                        {notifi.location}
+                                    {notifi.location}
                                     </Typography>
                                 </Grid> */}
                             </Grid>

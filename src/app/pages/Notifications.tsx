@@ -12,12 +12,6 @@ import Box from '@material-ui/core/Box';
 import axios from 'axios';
 import * as React from 'react';
 import { useQuery } from 'react-query';
-import { useLocation } from 'react-router-dom';
-// import UserItem from '../../components/User/UserItem';
-// import useAuthRoute from '../../hooks/useAuthRoute';
-// import { User } from '../../types';
-import SearchOutlinedIcon from '@material-ui/icons/SearchOutlined';
-import Fuse from 'fuse.js';
 import NotifiCard from '../components/Notifications/NotifiCard';
 import { NotifiType } from '../types';
 
@@ -47,9 +41,6 @@ const useStyles = makeStyles((theme: Theme) => {
 });
 
 const Notifications: React.FC<NotifiProps> = () => {
-    // const location = useLocation();
-    // useAuthRoute(location.pathname);
-    // const [users, setUsers] = React.useState<User[]>([]);
 
     const classes = useStyles();
     const { isLoading, data: notifiData } = useQuery(
@@ -61,11 +52,6 @@ const Notifications: React.FC<NotifiProps> = () => {
             });
             return res.data;
         },
-        {
-            onSuccess: () => {
-                console.log(notifiData);
-            },
-        }
     );
 
 
