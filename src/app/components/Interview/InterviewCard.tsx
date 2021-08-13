@@ -25,30 +25,39 @@ import FeedProject from '../Project/FeedProjectCard';
 import { ProjectFeed } from '../../types';
 import ReactPlayer from 'react-player'
 
+import RatingCard from '../shared/RatingCard';
+import ReviewsSection from '../Reviews/ReviewsSection';
+
 // types
 import { Project } from '../../types';
 
 const useStyles = makeStyles((theme) => {
 	return {
 		heading: {
-			marginBottom: theme.spacing(5),
-			textAlign: 'center',
+			paddingLeft: theme.spacing(2),
+			paddingRight: theme.spacing(2),
+			marginTop: theme.spacing(2),
+			marginBottom: theme.spacing(3)
 		},
+		video: {
+			// alignContent: 'center',
+			// alignItems: 'center',
+			// justifyContent: 'center',
+			// textAlign: 'center'
+		},
+		ratings: {
+			padding: theme.spacing(1)
+		}
 	};
 });
 
-// const validationSchema = Yup.object().shape({
-// 	username: Yup.string().required('This field is required'),
-// 	about: Yup.string().required('This field is required'),
-// 	// hours: Yup.number().required('This field is required').positive(),
-// 	interests: Yup.string().required('This field is required'),
-// });
 
 interface InterviewCardProps {
-	interview: Project;
+	project: Project;
+	isPublic?: boolean;
 }
 
-const InterviewCard: React.FC<InterviewCardProps> = ({ interview }) => {
+const InterviewCard: React.FC<InterviewCardProps> = ({ project, isPublic }) => {
 	const location = useLocation();
 	useAuthRoute(location.pathname);
 	const classes = useStyles();
@@ -75,14 +84,18 @@ const InterviewCard: React.FC<InterviewCardProps> = ({ interview }) => {
 
 	return ( 
 		<Box>
-            <Typography>{interview.videoInterviewQuestion}</Typography>
+            <Typography variant='h4' className={classes.heading}>{project.videoInterviewQuestion}</Typography>
 			<ReactPlayer 
-			url={interview.videoFile}
+			url={project.videoFile}
 			playing={true}
 			controls={true}
-			// width='600px'
-			// height='300px'
+			className={classes.video}
+			height='600px'
+			width='800px'
 			/>
+			<div className={classes.ratings} >
+				{isPublic && <RatingCard {...{ project }} />}
+			</div>
 		</Box>
 	);
 };

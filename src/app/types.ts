@@ -50,6 +50,7 @@ export type Project = {
 	extraOrdinaryRatings: number;
 	videoFile: string;
 	videoInterviewQuestion: string;
+	isVideoInterview: boolean;
 };
 
 export type Answer = Challenge & {

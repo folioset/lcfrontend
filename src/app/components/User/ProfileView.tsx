@@ -96,12 +96,12 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 							}
 					</Grid>
 					<Grid item xs={12} md={6}>
-						{interviews?.length ? (interviews.map((interview: Project) => {
+						{interviews?.length ? (interviews.map((project: Project) => {
 								return (
 									<Box className={classes.card}>
 										<InterviewCard
-											key={interview._id}
-											{...{ interview }}
+											key={project._id}
+											{...{ project }}
 										/>
 									</Box>
 								);

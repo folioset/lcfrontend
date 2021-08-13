@@ -2,7 +2,7 @@ import { Link, Typography, Button, Grid, Box } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import * as React from 'react';
 import { Project, Review } from '../../types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery, useQueryClient, useMutation } from 'react-query';
 import axios from 'axios';
 import { Form, Formik } from 'formik';
@@ -26,9 +26,12 @@ const useStyles = makeStyles((theme: Theme) =>
 		section: {
 			padding: theme.spacing(0.5),
 		},
-		ratings: {
+		giveRatings: {
 			display: 'flex',
 			marginBottom: 3
+		},
+		showRatings: {
+
 		},
 		active: {
 			color: theme.palette.primary.main,
@@ -38,7 +41,6 @@ const useStyles = makeStyles((theme: Theme) =>
 			display: 'flex',
 			flexDirection: 'row',
 			alignItems: 'center'
-
 		},
 		inactive: {
 			color: theme.palette.secondary.main,
@@ -48,7 +50,6 @@ const useStyles = makeStyles((theme: Theme) =>
 			display: 'flex',
 			flexDirection: 'row',
 			alignItems: 'center'
-
 		},
 		submitButton: {
 			marginTop: 10,
@@ -69,6 +70,17 @@ const RatingCard: React.FC<RatingCardProps> = ({ project }) => {
 	const location = useLocation();
 	const [rating, setRating] = useState('');
 	const [typing, setTyping] = useState(false);
+	const [goodRatings, setGoodRatings] = useState(project.goodRatings);
+	const [excellentRatings, setExcellentRatings] = useState(project.excellentRatings);
+	const [extraOrdinaryRatings, setExtraOrdinaryRatings] = useState(project.extraOrdinaryRatings);
+
+
+	useEffect(() => {
+		if (rating=='good') setGoodRatings(goodRatings+1);
+		if (rating=='excellent') setExcellentRatings(excellentRatings+1);
+		if (rating=='extraordinary') setExtraOrdinaryRatings(extraOrdinaryRatings+1);
+	}, [rating]);
+
 
 	//  Add Review
 	const { mutate: addReview } = useMutation(
@@ -117,9 +129,13 @@ const RatingCard: React.FC<RatingCardProps> = ({ project }) => {
 
 	return (
 		<Grid container direction='column' className={classes.section}>
-			<Grid item className={classes.ratings}>
+			<Grid item className={classes.showRatings}>
+				
+			</Grid>
+			<Grid item className={classes.giveRatings}>
 				<Button onClick={() => showRating('good')}>
 					<Box className={rating === 'good' ? classes.active : classes.inactive}>
+						<Typography style={{ marginRight: 4, marginTop: 1.5, fontWeight: 450 }}>({goodRatings})</Typography>
 						<Typography style={{ marginRight: 4, marginTop: 1.5, fontWeight: 450 }}>Good</Typography>
 						{rating === 'good' ?
 							<ThumbUpAltRoundedIcon fontSize='small' color='primary'></ThumbUpAltRoundedIcon>
@@ -131,6 +147,7 @@ const RatingCard: React.FC<RatingCardProps> = ({ project }) => {
 				</Button>
 				<Button onClick={() => showRating('excellent')}>
 					<Box className={rating === 'excellent' ? classes.active : classes.inactive}>
+						<Typography style={{ marginRight: 4, marginTop: 1.5, fontWeight: 450 }}>({excellentRatings})</Typography>
 						<Typography style={{ marginRight: 4, marginTop: 1.5, fontWeight: 450 }}>Excellent</Typography>
 						{rating === 'excellent' ?
 							<ThumbUpAltRoundedIcon fontSize='small' color='primary'></ThumbUpAltRoundedIcon>
@@ -142,11 +159,11 @@ const RatingCard: React.FC<RatingCardProps> = ({ project }) => {
 							:
 							<ThumbUpAltOutlinedIcon fontSize='small' color='secondary'></ThumbUpAltOutlinedIcon>
 						}
-
 					</Box>
 				</Button>
 				<Button onClick={() => showRating('extraordinary')}>
 					<Box className={rating === 'extraordinary' ? classes.active : classes.inactive}>
+						<Typography style={{ marginRight: 4, marginTop: 1.5, fontWeight: 450 }}>({extraOrdinaryRatings})</Typography>
 						<Typography style={{ marginRight: 4, marginTop: 1.5, fontWeight: 450 }}>Extraordinary</Typography>
 						{rating === 'extraordinary' ?
 							<ThumbUpAltRoundedIcon fontSize='small' color='primary'></ThumbUpAltRoundedIcon>

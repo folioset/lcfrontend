@@ -4,12 +4,13 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import axios from 'axios';
-import FeedProject from '../../components/Project/FeedProjectCard';
-import { ChallengeFeed } from '../../types';
-import Loader from '../../components/shared/Loader';
-import ChallengeCard from '../../components/Challenge/ChallengeCard';
-import SideBtnCard from '../../components/User/SideBtnCard';
+import FeedProject from '../components/Project/FeedProjectCard';
+import { ChallengeFeed } from '../types';
+import Loader from '../components/shared/Loader';
+import ChallengeCard from '../components/Challenge/ChallengeCard';
+import SideBtnCard from '../components/User/SideBtnCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { ProjectFeed } from '../types';
 
 interface InterviewsProps {}
 
@@ -17,6 +18,7 @@ const useStyles = makeStyles((theme: Theme) => {
 	return {
 		container: {
 			padding: theme.spacing(1),
+			width: '815px',
 		},
 		heading: {
 			color: theme.palette.grey['200'],
@@ -30,7 +32,6 @@ const useStyles = makeStyles((theme: Theme) => {
 		},
 		GridContr: {
 			minHeight: '100vh',
-			maxWidth: 900,
 			margin: 'auto',
 			backgroundColor: '#f5f5f5',
 			justifyContent: 'center',
@@ -44,60 +45,54 @@ const useStyles = makeStyles((theme: Theme) => {
 const Interviews: React.FC<InterviewsProps> = () => {
 	const classes = useStyles();
 	const [num, setNum] = useState(1);
-
 	const [items, setItems] = useState<Array<any>>([]);
 
-	//getting all questions
-	const { isLoading, data, refetch } = useQuery('feedChall', async () => {
+
+    const { isLoading, data, refetch } = useQuery('interviews', async () => {
 		const res = await axios({
 			method: 'get',
-			url: `/api/question/${num}`,
+			url: `/api/interview/feed/${num}`,
 		});
-		setItems((items) => [...items, ...res.data]);
+		setItems(items => ([...items, ...res.data]));
+		console.log(res.data);
 		return res.data;
 	});
 
 	useEffect(() => {
 		refetch();
-		// eslint-disable-next-line
-	}, []);
-
-	// useEffect(() => {
-	// 	// console.log(items, "i am in items");
-	// }, [items]);
+	}, [])
 
 	useEffect(() => {
-		// console.log(num, 'i am in useeffect');
-		refetch();
-		// eslint-disable-next-line
-	}, [num]);
+		console.log(items, "i am in items");
+	}, [items]);
+
+    useEffect(() => {
+		console.log(num, 'i am in useeffect');
+        refetch();
+      }, [num]);
 
 	return (
 		<>
 			<Grid container className={classes.GridContr}>
-				<Grid item xs={12} md={4} className={classes.check}>
+				<Grid item xs={12} md={2} className={classes.check} >
 					<SideBtnCard />
 				</Grid>
-				<Grid item xs={12} md={8}>
+				<Grid item xs={12} md={10}>
 					<InfiniteScroll
 						dataLength={items.length}
 						next={() => {
-							console.log(num, 'i am in next');
-							setNum(num + 1);
+							console.log(num, "i am in next");
+							setNum(num+1)
 						}}
 						hasMore={true}
 						loader={<h4>Loading...</h4>}
-						scrollThreshold={0.7}>
-						<Container maxWidth='sm' className={classes.container}>
-							{items.map((challenge: ChallengeFeed) => {
-								return (
-									<ChallengeCard
-										key={challenge._id}
-										challenge={challenge}
-										isPublic
-									/>
-								);
-							})}
+						scrollThreshold={0.7}
+						>
+						<Container className={classes.container}>
+							{items.map((project: ProjectFeed) => {
+								return <FeedProject key={project._id} {...{ project }} />;
+							})
+							}
 						</Container>
 					</InfiniteScroll>
 				</Grid>

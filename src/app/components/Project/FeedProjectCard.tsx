@@ -6,6 +6,7 @@ import { ProjectFeed } from '../../types';
 import Avatar from '../shared/Avatar';
 import { Link as RouterLink } from 'react-router-dom';
 import ProjectCard from './ProjectCard';
+import InterviewCard from '../Interview/InterviewCard';
 
 interface FeedProjectProps {
 	project: ProjectFeed;
@@ -56,7 +57,10 @@ const FeedProject: React.FC<FeedProjectProps> = ({ project }) => {
 					}
 					subheader={<Typography variant='body2' className={classes.about}>{project.about}</Typography>}
 				/>
-				<ProjectCard isPublic project={project} />
+				{project.isVideoInterview == true 
+				? <InterviewCard isPublic project={project} />
+				: <ProjectCard isPublic project={project} />
+				}
 			</Card>
 		</>
 	);
