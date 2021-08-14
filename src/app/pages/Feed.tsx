@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme: Theme) => {
 		GridContr: {
 			maxWidth: 900,
 			margin: 'auto',
-			backgroundColor: '#f5f5f5',
 			justifyContent: 'center'
 		},
 		check: {
