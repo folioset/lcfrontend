@@ -34,7 +34,6 @@ const useStyles = makeStyles((theme) => {
 		},
 		GridContr: {
 			margin: 'auto',
-			backgroundColor: '#f5f5f5',
 			justifyContent: 'center'
 		},
 		projects: {
@@ -74,7 +73,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 						</Box>
 					)}
 				<Grid container className={classes.GridContr}>
-					<Grid item xs={12} md={6} className={classes.projects}>
+					<Grid item xs={12} md={12} className={classes.projects}>
 							{isLoadingProjects && (
 								<Box textAlign='center'>
 									<Typography color='primary'>Loading Projects ....</Typography>
@@ -95,7 +94,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 							</Box>)
 							}
 					</Grid>
-					<Grid item xs={12} md={6}>
+					{/* <Grid item xs={12} md={6}>
 						{interviews?.length ? (interviews.map((project: Project) => {
 								return (
 									<Box className={classes.card}>
@@ -109,7 +108,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 								<Typography color='primary' variant='h4'>No Projects Yet!!</Typography>
 							</Box>)
 							}
-					</Grid>
+					</Grid> */}
 				</Grid>
 				</Container>
 			</Box>

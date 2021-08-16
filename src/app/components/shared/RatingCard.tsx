@@ -70,10 +70,9 @@ const RatingCard: React.FC<RatingCardProps> = ({ project }) => {
 	const location = useLocation();
 	const [rating, setRating] = useState('');
 	const [typing, setTyping] = useState(false);
-	const [goodRatings, setGoodRatings] = useState(project.goodRatings);
-	const [excellentRatings, setExcellentRatings] = useState(project.excellentRatings);
-	const [extraOrdinaryRatings, setExtraOrdinaryRatings] = useState(project.extraOrdinaryRatings);
-
+	const [goodRatings, setGoodRatings] = useState(1);
+	const [excellentRatings, setExcellentRatings] = useState(1);
+	const [extraOrdinaryRatings, setExtraOrdinaryRatings] = useState(1);
 
 	useEffect(() => {
 		if (rating=='good') setGoodRatings(goodRatings+1);
@@ -129,9 +128,6 @@ const RatingCard: React.FC<RatingCardProps> = ({ project }) => {
 
 	return (
 		<Grid container direction='column' className={classes.section}>
-			<Grid item className={classes.showRatings}>
-				
-			</Grid>
 			<Grid item className={classes.giveRatings}>
 				<Button onClick={() => showRating('good')}>
 					<Box className={rating === 'good' ? classes.active : classes.inactive}>

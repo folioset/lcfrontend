@@ -98,13 +98,14 @@ const AnswerSection: React.FC<AnswersSectionProps> = ({ answer, challenge }) => 
 
 
     //get complete answer by ID
-    const { isLoading: isAnswerLoading, data: answersData } = useQuery(
+    const { isLoading: isAnswerLoading, data: project } = useQuery(
         ['all-answer', answer._id],
         async () => {
             const res = await axios({
                 method: 'get',
                 url: `/api/question/${challenge._id}/${answer._id}/complete`,
             });
+            console.log(res.data, 'i am the data');
             return res.data;
         }
     );
@@ -143,11 +144,11 @@ const AnswerSection: React.FC<AnswersSectionProps> = ({ answer, challenge }) => 
         <>
 
             <Card elevation={0} className={classes.root}>
-                <AnswersCard answersData={answersData} challenge={challenge} isPublic answer={answer} />
+                <AnswersCard answersData={project} challenge={challenge} isPublic answer={answer} />
 
                 {/* feedback */}
                 <CardActions className={classes.cardActions}>
-                    <RatingCard project={answersData} />
+                    <RatingCard {...{ project }} />
                 </CardActions>
             </Card>
             <Card elevation={0}>
@@ -167,13 +168,13 @@ const AnswerSection: React.FC<AnswersSectionProps> = ({ answer, challenge }) => 
                                     return (
                                         <ReviewsSection
                                             key={review.reviewDetails!._id}
-                                            review={review} project={answersData}
+                                            review={review} project={project}
                                         />
                                     );
                                 })}
                             </Box>
 
-                            {reviews?.length !== answersData?.reviews.length ? (<Button onClick={handleMoreReviews} style={{ textTransform: 'none', marginBottom: -20 }}>
+                            {reviews?.length !== project?.reviews.length ? (<Button onClick={handleMoreReviews} style={{ textTransform: 'none', marginBottom: -20 }}>
                                 Load more reviews
                             </Button>) : null}
                         </>

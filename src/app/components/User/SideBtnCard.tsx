@@ -2,48 +2,47 @@ import {
 	CardMedia,
 	CardContent,
 	CardActionArea,
+	CardHeader,
 	Button,
 	makeStyles,
 	Theme,
 	Typography,
+	Link
 } from '@material-ui/core';
 import { Card, Box } from '@material-ui/core';
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink} from 'react-router-dom';
 import { User } from '../../types';
 import { useQueryClient } from 'react-query';
 import useDisclosure from '../../hooks/useDisclosure';
 import Modal from '@material-ui/core/Modal';
 import CreateProject from '../Project/CreateProject';
 import CreateChallenge from '../Challenge/CreateChallenge';
+import Avatar from '../shared/Avatar';
 
 const useStyles = makeStyles((theme: Theme) => {
 	return {
 		root: {
 			maxWidth: 580,
 			position: 'sticky',
-			top: 90,
 			margin: 'auto',
 			borderRadius: 8,
-			padding: 20,
+			padding: theme.spacing(2),
 		},
-		CardImg: {
-			borderRadius: '50%',
-			width: '50%',
-			margin: 'auto',
-			marginTop: 10,
-			[theme.breakpoints.down('sm')]: {
-				borderRadius: '50%',
-				width: '25%',
-			},
-			[theme.breakpoints.down('xs')]: {
-				borderRadius: '50%',
-				width: '35%',
-			},
+		avatarBox: {
+			justifyContent: 'center',
+			width: '100%',
+			display: 'flex',
+			marginTop: theme.spacing(2)
 		},
-		textAlign: {
+		avatar: {
+            height: '5rem',
+            width: '5rem',
+        },
+		userDetails: {
 			textAlign: 'center',
-		},
+			marginTop: theme.spacing(1)
+		}, 
 		btnAlign: {
 			display: 'flex',
 			flexDirection: 'column',
@@ -53,10 +52,9 @@ const useStyles = makeStyles((theme: Theme) => {
 		},
 		cardTypo: {
 			color: 'black',
-			fontWeight: 600,
-			'&:hover': {
-				textDecoration: 'underline',
-			},
+			fontWeight: 550,
+			fontSize: 17
+			
 		},
 		action: {
 			textTransform: 'none',
@@ -121,30 +119,32 @@ const SideBtnCard: React.FC<ProfileCardProps> = ({ isPublic }) => {
 				</Modal>
 			)}
 			<Card className={classes.root}>
-				<Link to='/dashboard'>
 					<CardActionArea>
-						<CardMedia
-							className={classes.CardImg}
-							component='img'
-							alt='Profile Picture'
-							height='140'
-							image={user.profilePicture}
-							title='Contemplative Reptile'
-						/>
-						<CardContent className={classes.textAlign}>
-							<Typography
-								gutterBottom
-								variant='h5'
-								component='h2'
-								className={classes.cardTypo}>
-								{user.name}
-							</Typography>
-							<Typography variant='body2' color='textSecondary' component='p'>
-								{user.about}
-							</Typography>
-						</CardContent>
+						<Box className={classes.avatarBox}>
+							<Avatar
+								className={classes.avatar}
+								src={user.profilePicture}
+							/>
+						</Box>
+						<Link
+							component={RouterLink}
+							to={`/dashboard`}>
+							<CardContent className={classes.userDetails}>
+								<Typography
+									gutterBottom
+									variant='h4'
+									component='h2'
+									className={classes.cardTypo}>
+									{user.name}
+								</Typography>
+								<Typography variant='body2' color='textSecondary' component='p'>
+									{user.about}
+								</Typography>
+							</CardContent>
+						</Link>
+						
 					</CardActionArea>
-				</Link>
+			
 				<Box className={classes.btnAlign}>
 					<Button
 						size='large'
@@ -168,7 +168,7 @@ const SideBtnCard: React.FC<ProfileCardProps> = ({ isPublic }) => {
 						Ask a Question
 					</Button>
 					<Button
-						component={Link}
+						component={RouterLink}
 						to='/interview'
 						size='large'
 						color='primary'

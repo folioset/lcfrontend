@@ -10,26 +10,17 @@ import {
 import { Form, Formik } from 'formik';
 import * as React from 'react';
 import {useState, useEffect} from 'react';
-import FormInput from '../shared/FormInput';
-import * as Yup from 'yup';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import axios from 'axios';
 import { useHistory, useLocation } from 'react-router-dom';
 import useAuthRoute from '../../hooks/useAuthRoute';
-// import FormSelect from '../../components/shared/FormSelect';
-import { User } from '../../types';
-import FormSelect from '../shared/FormSelect';
-import InfiniteScroll from 'react-infinite-scroll-component';
-// import InfiniteScroll from 'react-infinite-scroller';
-import FeedProject from '../Project/FeedProjectCard';
-import { ProjectFeed } from '../../types';
 import ReactPlayer from 'react-player'
 
 import RatingCard from '../shared/RatingCard';
 import ReviewsSection from '../Reviews/ReviewsSection';
 
 // types
-import { Project } from '../../types';
+import { Project, Review, User } from '../../types';
 
 const useStyles = makeStyles((theme) => {
 	return {
@@ -47,7 +38,14 @@ const useStyles = makeStyles((theme) => {
 		},
 		ratings: {
 			padding: theme.spacing(1)
-		}
+		},
+		cardContent: {
+			marginTop: -20,
+			borderBottomWidth: '1px',
+			borderBottomStyle: 'solid',
+			borderBottomColor: theme.palette.divider,
+			paddingBottom: theme.spacing(4),
+		},
 	};
 });
 
@@ -67,7 +65,27 @@ const InterviewCard: React.FC<InterviewCardProps> = ({ project, isPublic }) => {
 	const [num, setNum] = useState(1);
 	const [mute, setMute] = useState(true);
 	
+	// Get all Project Reviews
+	const {
+		isLoading,
+		data: reviews,
+		refetch: refetchReviews,
+	} = useQuery(['project-reviews', project._id, num], async () => {
+		const res = await axios({
+			method: 'get',
+			url: `/api/project/${project._id}/reviews/${num}`,
+		});
+		return res.data;
+	});
 
+	useEffect(() => {
+		console.log(num, 'this is num in 2nd use');
+		refetchReviews();
+	}, [num]);
+
+	const handleMoreReviews = () => {
+		setNum(num + 5);
+	};
 	
 
 	return ( 
@@ -84,6 +102,32 @@ const InterviewCard: React.FC<InterviewCardProps> = ({ project, isPublic }) => {
 			<div className={classes.ratings} >
 				{isPublic && <RatingCard {...{ project }} />}
 			</div>
+			<div className={classes.cardContent}>
+					{isLoading && (
+						<Typography color='primary' variant='caption'>
+							Loading reviews
+						</Typography>
+					)}
+					{reviews?.length > 0 && (
+						<>
+							<Box>
+								{reviews?.map((review: Review) => {
+									return (
+										<ReviewsSection
+											key={review.reviewDetails!._id}
+											{...{ review, project }}
+										/>
+									);
+								})}
+							</Box>
+							{reviews?.length !== project?.reviews.length ? (<Button
+								onClick={handleMoreReviews}
+								style={{ textTransform: 'none', marginBottom: -20 }}>
+								Load more reviews
+							</Button>) : null}
+						</>
+					)}
+				</div>
 		</Box>
 	);
 };

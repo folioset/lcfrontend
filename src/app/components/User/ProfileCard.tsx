@@ -10,6 +10,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import { useHistory } from 'react-router-dom';
 import Avatar from '../shared/Avatar';
 import CreateChallenge from '../Challenge/CreateChallenge';
+import CreateResume from './CreateResume';
 import AddIcon from '@material-ui/icons/Add';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -94,6 +95,11 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 		onOpen: onOpenChall,
 		onClose: onCloseChall,
 	} = useDisclosure();
+	const {
+		isOpen: isOpenResume,
+		onOpen: onOpenResume,
+		onClose: onCloseResume,
+	} = useDisclosure();
 	const history = useHistory();
 
 	return (
@@ -114,6 +120,15 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 					aria-labelledby='simple-modal-title'
 					aria-describedby='simple-modal-description'>
 					<CreateChallenge {...{ onCloseChall }} />
+				</Modal>
+			)}
+			{!isPublic && (
+				<Modal
+					open={isOpenResume}
+					onClose={onCloseResume}
+					aria-labelledby='simple-modal-title'
+					aria-describedby='simple-modal-description'>
+					<CreateResume {...{ onCloseResume }} />
 				</Modal>
 			)}
 			<Box className={classes.root}>
@@ -156,6 +171,9 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 									<Button> All Challenges</Button>
 									<Button onClick={onOpenChall}><AddIcon /></Button>
 								</ButtonGroup>
+								<Button color='primary' variant='contained' onClick={onOpenResume}>
+									Add Resume
+								</Button>
 							</Box>
 						)}
 					</Grid>

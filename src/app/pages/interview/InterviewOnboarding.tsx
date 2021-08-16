@@ -20,7 +20,7 @@ const validationSchema = Yup.object().shape({
 const useStyles = makeStyles((theme: Theme) => {
 	return {
 		box: {
-			padding: theme.spacing(5),
+			padding: theme.spacing(5)
 		},
 		heading: {
 			textAlign: 'center',
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) => {
 		},
 		subheading: {
 			textAlign: 'center',
-			marginBottom: theme.spacing(5),
+			marginBottom: theme.spacing(7),
 		},
 	};
 });
@@ -42,7 +42,7 @@ const InterviewOnboarding: React.FC<InterviewOnboardingProps> = () => {
 			<Box className={classes.box}>
 				<Container maxWidth='md'>
 					<Typography variant='h3' className={classes.heading}>
-						Showcase your skills by taking an interview
+						Showcase your skills by answering interview questions
 					</Typography>
 					<Typography variant='subtitle1' className={classes.subheading}>
 						Help companies discover your skills, and improve by getting feedback
@@ -64,7 +64,7 @@ const InterviewOnboarding: React.FC<InterviewOnboardingProps> = () => {
 								return (
 									<Form autoComplete='off'>
 										<FormInput
-											label='Which field are you interested in ?'
+											label='Field'
 											name='fieldInterest'
 											fullWidth
 											variant='filled'
@@ -74,7 +74,7 @@ const InterviewOnboarding: React.FC<InterviewOnboardingProps> = () => {
 										/>
 										<FormSelect
 											name='interviewType'
-											label='What type of interview would you like to take ?'>
+											label='What type of question would you like to answer?'>
 											{[
 												'Product Improvement',
 												'Product Design',

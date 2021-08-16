@@ -41,10 +41,6 @@ const InterviewNav: React.FC<InterviewNavProps> = () => {
 				</Box>
 
 				<Box className={classes.avatar} style={{ gap: '1rem' }}>
-					<Avatar alt={user?.name} src={user?.profilePicture} />
-					<Typography variant='subtitle1'>
-						{user?.name?.split(' ')[0]}
-					</Typography>
 					{!isRecording && location.pathname !== '/interview/finish' && (
 						<NavItem exact to='/' icon={<ExitToAppIcon />}>
 							Exit Interview
