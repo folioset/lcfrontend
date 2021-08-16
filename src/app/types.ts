@@ -76,6 +76,7 @@ export type Challenge = {
 		profilePicture: string;
 		_id: string;
 	};
+	skills: string[];
 	isCaseStudy: boolean;
 	title: string;
 	description: string;
