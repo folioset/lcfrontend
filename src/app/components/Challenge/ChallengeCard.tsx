@@ -108,7 +108,7 @@ const useStyles = makeStyles((theme: Theme) => {
         centered: {
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
 
             [theme.breakpoints.down('xs')]: {
                 flexDirection: 'column',
@@ -225,7 +225,18 @@ const useStyles = makeStyles((theme: Theme) => {
             textAlign: 'right',
             margin: '0 15px 10px 0',
             fontSize: 13,
-        }
+        },
+        tag: {
+            backgroundColor: theme.palette.grey['200'],
+            borderRadius: 8,
+            paddingTop: 4,
+            paddingBottom: 4,
+            paddingLeft: 10,
+            paddingRight: 10,
+            marginLeft: 3,
+            marginRight: 3,
+            marginBottom: 3
+        },
     };
 
 });
@@ -258,12 +269,6 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
         setAnchorEl(null);
     };
 
-    // view Answer Toggler
-    const {
-        isOpen: isAnsViewOpen,
-        toggleOpen: AnsViewToggleOpen,
-        onClose: onAnsViewClose,
-    } = useDisclosure();
 
     // End Confirm Toggler
     const {
@@ -405,7 +410,7 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                     }
                 />
                 <CardContent className={classes.cardContent}>
-                    <Grid container direction='row' className={classes.centered}>
+                    <Grid spacing={5} container direction='row' className={classes.centered}>
 
                         <Grid
                             item
@@ -425,6 +430,24 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                                     </Grid>
                                 </>
                             )}
+                        </Grid>
+                        <Grid item direction='row'>
+                            {challenge.skills.length !== 0 ? (
+                                <Grid item container direction='row'>
+                                    <Typography variant='h6' color='primary'>
+                                        Skills Required :
+                                    </Typography>
+                                    {challenge.skills.map((el: any, i: number) => {
+                                        return (
+                                            <Grid item className={classes.tag}>
+                                                <Typography key={i} variant='h5'>
+                                                    {el}
+                                                </Typography>
+                                            </Grid>
+                                        );
+                                    })}
+                                </Grid>
+                            ) : null}
                         </Grid>
                     </Grid>
                 </CardContent>
@@ -478,26 +501,6 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                             </>
                         )}
                 </CardActions>) : null}
-                {/* <h3>{challenge.answers?.[0]}</h3> */}
-                {/* {((challenge.answers.length)) ?
-                    (
-                        challenge.answers.map(ans => {
-                            return (<Typography className={classes.description}>
-                                {ans._id}
-                                </Typography>)
-                            })
-                            ) :
-                    (<Typography className={classes.description}>
-                        No answers yet
-                    </Typography>)}
-                     */}
-                {/* {num > 1 &&
-                    (<Button onClick={handlePreviousAnswers} style={{ textTransform: 'none' }}>
-                        Load Previous answers.
-                    </Button>)
-                } */}
-
-                {/* showing one answer immediately */}
                 <CardContent>
                     {isLoading && (
                         <Typography color='primary' variant='caption'>

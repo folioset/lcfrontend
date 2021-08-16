@@ -18,13 +18,9 @@ import * as React from 'react';
 import * as Yup from 'yup';
 import FormInput from '../shared/FormInput';
 import FormGroup from '@material-ui/core/FormGroup';
-// import { PictureAsPdf } from '@material-ui/icons';
-// import FileUpload from '../shared/FileUpload';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import axios from 'axios';
-// import PdfViewer from '../shared/Pdf/PdfViewer';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import useFileUpload from '../../hooks/useFileUpload';
 
 interface CreateChallengeProps {
     onCloseChall: () => void;
@@ -34,21 +30,18 @@ interface CreateChallengeProps {
 interface InitialValues {
     title: string;
     description: string;
-    // isCaseStudy: boolean;
-    // skills: string[];
+    skills: string[];
 }
 
 const initialValues: InitialValues = {
     title: '',
     description: '',
-    // isCaseStudy: false,
-    // skills: [],
+    skills: [],
 };
 
-// const SUPPORTED_FORMATS = ['application/pdf'];
 
 const validationSchema = Yup.object().shape({
-    title: Yup.string().required('title statement is required!').max(30, 'You can only enter a max of 30 characters'),
+    title: Yup.string().required('title statement is required!').max(150, 'You can only enter a max of 150 characters'),
     description: Yup.string()
         .notRequired()
         .max(1000, 'You can only enter a max of 1000 characters'),
@@ -78,9 +71,6 @@ const useStyles = makeStyles((theme: Theme) => {
         heading: {
             marginBottom: theme.spacing(2),
         },
-        // formRow: {
-        //     justifyContent: 'flex-end',
-        // }
     };
 });
 
@@ -104,14 +94,6 @@ const SKILLS = [
 
 const CreateChallenge: React.FC<CreateChallengeProps> = React.forwardRef(
     ({ onCloseChall, isCaseStudy }) => {
-        // const [state, setState] = React.useState({
-        //     isCaseStudy: false,
-        // });
-        // console.log(state);
-
-        // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        //     setState({ ...state, [event.target.name]: event.target.checked });
-        // };
 
         const classes = useStyles();
         const queryClient = useQueryClient();
@@ -123,13 +105,11 @@ const CreateChallenge: React.FC<CreateChallengeProps> = React.forwardRef(
                     data
                 }),
             {
-                onSuccess: () => {
-                    queryClient.invalidateQueries('feedChall');
-                },
                 onSettled: (data) => {
                     if (data) {
                         onCloseChall();
                     }
+                    queryClient.invalidateQueries('feedChall');
                 },
                 onError: (err) => {
                     console.log(err);
@@ -140,7 +120,7 @@ const CreateChallenge: React.FC<CreateChallengeProps> = React.forwardRef(
         return (
             <>
                 <Grid container className={classes.container}>
-                    <Grid item>
+                    <Grid item xs={12}>
                         <Container>
                             <Typography
                                 color='primary'
@@ -152,7 +132,8 @@ const CreateChallenge: React.FC<CreateChallengeProps> = React.forwardRef(
                                 onSubmit={async (
                                     // { title, description, skills },
                                     // { title, description, isCaseStudy },
-                                    { title, description },
+                                    { title, description, skills },
+
                                     { resetForm }
                                 ) => {
                                     // const data = new FormData();
@@ -164,16 +145,17 @@ const CreateChallenge: React.FC<CreateChallengeProps> = React.forwardRef(
                                     const data = {
                                         title: title,
                                         description: description,
-                                        isCaseStudy: isCaseStudy
+                                        isCaseStudy: isCaseStudy,
+                                        skills: skills
                                     }
+                                    // console.log(data.skills);
 
                                     await mutate(data as any);
                                     resetForm();
                                 }}
                                 initialValues={initialValues}
                                 validationSchema={validationSchema}>
-                                {/* {({ values, setFieldValue }) => { */}
-                                {() => {
+                                {({ values, setFieldValue }) => {
                                     return (
                                         <Form noValidate autoComplete='off'>
                                             <FormInput
@@ -192,13 +174,28 @@ const CreateChallenge: React.FC<CreateChallengeProps> = React.forwardRef(
                                                 size='small'
                                                 label='Description'
                                             />
-                                            {/* <FormGroup row className={classes.formRow}>
-                                                <FormControlLabel
-                                                    control={<Switch checked={state.isCaseStudy} onChange={handleChange} name="isCaseStudy" />}
-                                                    label="Case Study"
+                                            <Box mb={3}>
+                                                <Autocomplete
+                                                    multiple
+                                                    id='skills-auto-complete'
+                                                    options={SKILLS}
+                                                    onChange={(e: React.ChangeEvent<{}>, value: any) => {
+                                                        setFieldValue('skills', value);
+                                                    }}
+                                                    getOptionLabel={(option: any) => option}
+                                                    renderInput={(params) => (
+                                                        <TextField
+                                                            {...params}
+                                                            // fullWidth
+                                                            style={{ maxWidth: '50vw' }}
+                                                            variant='outlined'
+                                                            name='skills'
+                                                            size='small'
+                                                            label='Skills'
+                                                        />
+                                                    )}
                                                 />
-
-                                            </FormGroup> */}
+                                            </Box>
                                             <Button
                                                 type='submit'
                                                 size='small'
