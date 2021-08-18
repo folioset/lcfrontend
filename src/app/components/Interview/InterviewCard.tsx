@@ -1,26 +1,16 @@
-import {
-	Button,
-    Box,
-	CircularProgress,
-	Container,
-	makeStyles,
-	MenuItem,
-	Typography,
-} from '@material-ui/core';
-import { Form, Formik } from 'formik';
+import { Button, Box, makeStyles, Typography } from '@material-ui/core';
 import * as React from 'react';
-import {useState, useEffect} from 'react';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 import axios from 'axios';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import useAuthRoute from '../../hooks/useAuthRoute';
-import ReactPlayer from 'react-player'
 
 import RatingCard from '../shared/RatingCard';
 import ReviewsSection from '../Reviews/ReviewsSection';
+// import ReactPlayer from 'react-player';
 
 // types
-import { Project, Review, User } from '../../types';
+import { Project, Review } from '../../types';
 
 const useStyles = makeStyles((theme) => {
 	return {
@@ -28,7 +18,7 @@ const useStyles = makeStyles((theme) => {
 			paddingLeft: theme.spacing(2),
 			paddingRight: theme.spacing(2),
 			marginTop: theme.spacing(2),
-			marginBottom: theme.spacing(2)
+			marginBottom: theme.spacing(2),
 		},
 		video: {
 			// alignContent: 'center',
@@ -37,7 +27,7 @@ const useStyles = makeStyles((theme) => {
 			// textAlign: 'center'
 		},
 		ratings: {
-			padding: theme.spacing(1)
+			padding: theme.spacing(1),
 		},
 		cardContent: {
 			marginTop: -20,
@@ -49,7 +39,6 @@ const useStyles = makeStyles((theme) => {
 	};
 });
 
-
 interface InterviewCardProps {
 	project: Project;
 	isPublic?: boolean;
@@ -57,14 +46,11 @@ interface InterviewCardProps {
 
 const InterviewCard: React.FC<InterviewCardProps> = ({ project, isPublic }) => {
 	const location = useLocation();
+	const videoRef = React.useRef<any>(null);
 	useAuthRoute(location.pathname);
 	const classes = useStyles();
-	const history = useHistory();
-	const queryClient = useQueryClient();
-	const user = queryClient.getQueryData<User>('user');
-	const [num, setNum] = useState(1);
-	const [mute, setMute] = useState(true);
-	
+	const [num, setNum] = React.useState(1);
+
 	// Get all Project Reviews
 	const {
 		isLoading,
@@ -78,7 +64,30 @@ const InterviewCard: React.FC<InterviewCardProps> = ({ project, isPublic }) => {
 		return res.data;
 	});
 
-	useEffect(() => {
+	React.useEffect(() => {
+		let options = {
+			rootMargin: '100px',
+			threshold: 0.25,
+		};
+
+		if (videoRef.current) {
+			let handlePlay = (entries: any, _: any) => {
+				entries.forEach(async (entry: any) => {
+					if (entry.isIntersecting) {
+						await videoRef?.current?.play();
+					} else {
+						await videoRef?.current?.pause();
+					}
+				});
+			};
+
+			let observer = new IntersectionObserver(handlePlay, options);
+
+			observer.observe(videoRef.current);
+		}
+	});
+
+	React.useEffect(() => {
 		console.log(num, 'this is num in 2nd use');
 		refetchReviews();
 	}, [num]);
@@ -86,48 +95,50 @@ const InterviewCard: React.FC<InterviewCardProps> = ({ project, isPublic }) => {
 	const handleMoreReviews = () => {
 		setNum(num + 5);
 	};
-	
 
-	return ( 
+	return (
 		<Box>
-            <Typography variant='h4' className={classes.heading}>{project.videoInterviewQuestion}</Typography>
-			<ReactPlayer 
-			url={project.videoFile}
-			playing={true}
-			controls={true}
-			className={classes.video}
-			height='600px'
-			width='800px'
+			<Typography variant='h4' className={classes.heading}>
+				{project.videoInterviewQuestion}
+			</Typography>
+			<video
+				src={project.videoFile}
+				height={600}
+				width={800}
+				controls
+				ref={videoRef}
 			/>
-			<div className={classes.ratings} >
+			<div className={classes.ratings}>
 				{isPublic && <RatingCard {...{ project }} />}
 			</div>
 			<div className={classes.cardContent}>
-					{isLoading && (
-						<Typography color='primary' variant='caption'>
-							Loading reviews
-						</Typography>
-					)}
-					{reviews?.length > 0 && (
-						<>
-							<Box>
-								{reviews?.map((review: Review) => {
-									return (
-										<ReviewsSection
-											key={review.reviewDetails!._id}
-											{...{ review, project }}
-										/>
-									);
-								})}
-							</Box>
-							{reviews?.length !== project?.reviews.length ? (<Button
+				{isLoading && (
+					<Typography color='primary' variant='caption'>
+						Loading reviews
+					</Typography>
+				)}
+				{reviews?.length > 0 && (
+					<>
+						<Box>
+							{reviews?.map((review: Review) => {
+								return (
+									<ReviewsSection
+										key={review.reviewDetails!._id}
+										{...{ review, project }}
+									/>
+								);
+							})}
+						</Box>
+						{reviews?.length !== project?.reviews.length ? (
+							<Button
 								onClick={handleMoreReviews}
 								style={{ textTransform: 'none', marginBottom: -20 }}>
 								Load more reviews
-							</Button>) : null}
-						</>
-					)}
-				</div>
+							</Button>
+						) : null}
+					</>
+				)}
+			</div>
 		</Box>
 	);
 };

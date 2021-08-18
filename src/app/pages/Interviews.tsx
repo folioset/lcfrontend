@@ -46,52 +46,49 @@ const Interviews: React.FC<InterviewsProps> = () => {
 	const [num, setNum] = useState(1);
 	const [items, setItems] = useState<Array<any>>([]);
 
-
-    const { isLoading, data, refetch } = useQuery('interviews', async () => {
+	const { isLoading, data, refetch } = useQuery('interviews', async () => {
 		const res = await axios({
 			method: 'get',
 			url: `/api/interview/feed/${num}`,
 		});
-		setItems(items => ([...items, ...res.data]));
+		setItems((items) => [...items, ...res.data]);
 		console.log(res.data);
 		return res.data;
 	});
 
 	useEffect(() => {
 		refetch();
-	}, [])
+	}, []);
 
 	useEffect(() => {
-		console.log(items, "i am in items");
+		console.log(items, 'i am in items');
 	}, [items]);
 
-    useEffect(() => {
+	useEffect(() => {
 		console.log(num, 'i am in useeffect');
-        refetch();
-      }, [num]);
+		refetch();
+	}, [num]);
 
 	return (
 		<>
 			<Grid container className={classes.GridContr}>
-				<Grid item xs={12} md={2} className={classes.check} >
+				<Grid item xs={12} md={2} className={classes.check}>
 					<SideBtnCard />
 				</Grid>
 				<Grid item xs={12} md={10}>
 					<InfiniteScroll
 						dataLength={items.length}
 						next={() => {
-							console.log(num, "i am in next");
-							setNum(num+1)
+							console.log(num, 'i am in next');
+							setNum(num + 1);
 						}}
 						hasMore={true}
 						loader={<h4>Loading...</h4>}
-						scrollThreshold={0.7}
-						>
+						scrollThreshold={0.7}>
 						<Container className={classes.container}>
 							{items.map((project: ProjectFeed) => {
 								return <FeedProject key={project._id} {...{ project }} />;
-							})
-							}
+							})}
 						</Container>
 					</InfiniteScroll>
 				</Grid>
