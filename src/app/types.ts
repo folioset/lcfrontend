@@ -33,7 +33,7 @@ export type Project = {
 	createdBy: string;
 	description: string;
 	projectFile: string;
-	ratings?: any;
+	ratings?: Map<String, String>;
 	title: string;
 	updatedAt?: Date | string | number;
 	avgRating?: number;

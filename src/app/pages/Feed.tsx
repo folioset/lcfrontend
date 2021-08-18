@@ -45,13 +45,20 @@ const Feed: React.FC<FeedProps> = () => {
 	const [items, setItems] = useState<Array<any>>([]);
 
 
-
 	const { isLoading, data, refetch } = useQuery('feed', async () => {
 		const res = await axios({
 			method: 'get',
 			url: `/api/feed/${num}`,
 		});
 		setItems(items => ([...items, ...res.data]));
+		return res.data;
+	});
+
+	const { isLoading: isLoadingNumber , data: numberProjects } = useQuery('numberProjects', async () => {
+		const res = await axios({
+			method: 'get',
+			url: '/api/numprojects',
+		});
 		console.log(res.data);
 		return res.data;
 	});
@@ -61,12 +68,11 @@ const Feed: React.FC<FeedProps> = () => {
 	}, [])
 
 	useEffect(() => {
-		console.log(items, "i am in items");
 	}, [items]);
 
 	useEffect(() => {
-		console.log(num, 'i am in useeffect');
 		refetch();
+		console.log(numberProjects?.count, 'i am count');
 	}, [num]);
 
 	return (

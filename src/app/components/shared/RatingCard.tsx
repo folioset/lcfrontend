@@ -1,7 +1,7 @@
 import { Link, Typography, Button, Grid, Box } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import * as React from 'react';
-import { Project, Review } from '../../types';
+import { Project, Review, User } from '../../types';
 import { useState, useEffect } from 'react';
 import { useQuery, useQueryClient, useMutation } from 'react-query';
 import axios from 'axios';
@@ -67,12 +67,13 @@ const useStyles = makeStyles((theme: Theme) =>
 const RatingCard: React.FC<RatingCardProps> = ({ project }) => {
 	const classes = useStyles();
 	const queryClient = useQueryClient();
+	const user = queryClient.getQueryData<User>('user');
 	const location = useLocation();
 	const [rating, setRating] = useState('');
 	const [typing, setTyping] = useState(false);
-	const [goodRatings, setGoodRatings] = useState(1);
-	const [excellentRatings, setExcellentRatings] = useState(1);
-	const [extraOrdinaryRatings, setExtraOrdinaryRatings] = useState(1);
+	const [goodRatings, setGoodRatings] = useState(project?.goodRatings);
+	const [excellentRatings, setExcellentRatings] = useState(project?.excellentRatings);
+	const [extraOrdinaryRatings, setExtraOrdinaryRatings] = useState(project?.extraOrdinaryRatings);
 
 	useEffect(() => {
 		if (rating=='good') setGoodRatings(goodRatings+1);
@@ -80,6 +81,11 @@ const RatingCard: React.FC<RatingCardProps> = ({ project }) => {
 		if (rating=='extraordinary') setExtraOrdinaryRatings(extraOrdinaryRatings+1);
 	}, [rating]);
 
+	useEffect(() => {
+		console.log(user && project?.ratings ? 
+			project?.ratings
+			: "")
+	}, [])
 
 	//  Add Review
 	const { mutate: addReview } = useMutation(

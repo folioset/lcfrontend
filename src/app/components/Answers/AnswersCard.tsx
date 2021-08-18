@@ -1,6 +1,4 @@
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardHeader from '@material-ui/core/CardHeader';
+import {Card, CardContent, CardHeader, CardActions } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import * as React from 'react';
@@ -22,6 +20,7 @@ import FormInput from '../shared/FormInput';
 import axios from 'axios';
 import { Form } from 'formik';
 import UpdateAnswer from './UpdateAnswerNormal';
+import RatingCard from '../shared/RatingCard';
 
 interface AnswerCardProps {
     answersData: Answer;
@@ -33,7 +32,7 @@ interface AnswerCardProps {
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            // marginBottom: theme.spacing(1),
+            marginBottom: theme.spacing(1),
             backgroundColor: theme.palette.grey['100'],
             // borderRadius: 10,
         },
@@ -42,6 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         content: {
             justifyContent: 'center',
+            marginTop: -20,
             // marginLeft: 30,
             whiteSpace: 'pre-line',
         },
@@ -103,6 +103,9 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         readMore: {
             textAlign: 'end',
+        },
+        cardActions: {
+            flexDirection: 'column',
         }
     })
 );
@@ -303,18 +306,18 @@ const AnswersCard: React.FC<AnswerCardProps> = ({ answersData, challenge, isPubl
 
                 <CardContent className={classes.content}>
                     <Typography variant="body1" color="textPrimary" component="p">
-                        <Typography variant="subtitle1" color="textPrimary" component="p">
-                            Answer :
-                        </Typography>
                         {!showMore ? answersHalfData?.description : answersData?.description}
                         {(!showMore && (answersHalfData?.description !== answersData?.description)) ? "..." : null}
                     </Typography>
                     {(!showMore && (answersHalfData?.description !== answersData?.description)) ? (<Typography className={classes.readMore}>
                         <Link onClick={() => { setShowMore(true) }}>
-                            <Typography style={{ paddingRight: 15 }} align='right' variant='body2' color='secondary'>show more</Typography>
+                            <Typography align='right' variant='body2' color='secondary'>show more</Typography>
                         </Link>
                     </Typography>) : null}
                 </CardContent>
+                 {/* <CardActions className={classes.cardActions}>
+                    <RatingCard {...{ answersData }} />
+                </CardActions> */}
             </Card>
         </>
     );

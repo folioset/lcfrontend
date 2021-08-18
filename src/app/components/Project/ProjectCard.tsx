@@ -357,7 +357,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 				</CardActions>
 				<CardContent className={classes.cardContent}>
 					{isLoading && (
-						<Typography color='primary' variant='caption'>
+						<Typography variant='caption'>
 							Loading reviews
 						</Typography>
 					)}

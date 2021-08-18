@@ -120,7 +120,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ review, project }) => {
 					(<Typography variant='body2' color='secondary'>{completeReview?.review}</Typography>)}
 				{(!more && (completeReview?.review !== halfReview?.review)) ? "..." : null}
 				{(!more && (completeReview?.review !== halfReview?.review)) ? (<Link onClick={handleSeeMore}>
-					<Typography style={{ paddingRight: 15 }} align='right' variant='body2' color='secondary'>show more</Typography>
+					<Typography align='right' variant='body2' color='secondary'>show more</Typography>
 				</Link>) : null}
 			</CardContent>
 		</Card>
