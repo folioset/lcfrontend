@@ -37,11 +37,14 @@ const useStyles = makeStyles((theme: Theme) => {
 		videoContainer: {
 			position: 'relative',
 		},
-		video: {
-			height: '500px',
-			width: '100%',
-			borderRadius: 30,
-			backgroundColor: 'black',
+		video: ({ isRecording }: any) => {
+			return {
+				height: '500px',
+				width: '100%',
+				borderRadius: 30,
+				backgroundColor: 'black',
+				display: isRecording ? 'block' : 'none',
+			};
 		},
 	};
 });
@@ -61,7 +64,7 @@ const InterviewRoom: React.FC<InterviewRoomProps> = () => {
 		permission,
 	} = React.useContext(InterviewContext);
 
-	const classes = useStyles();
+	const classes = useStyles({ isRecording });
 	const { mutate, isLoading } = useMutation(
 		async () => {
 			const res = await axios({
@@ -209,7 +212,7 @@ const InterviewRoom: React.FC<InterviewRoomProps> = () => {
 						)}
 					</Box>
 					<Grid container spacing={5}>
-						<Grid item md={6} className={classes.videoContainer}>
+						<Grid item md={12} className={classes.videoContainer}>
 							<video
 								ref={userVideoRef}
 								autoPlay
