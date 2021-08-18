@@ -28,11 +28,9 @@ const useStyles = makeStyles((theme: Theme) =>
 		},
 		giveRatings: {
 			display: 'flex',
-			marginBottom: 3
+			marginBottom: 3,
 		},
-		showRatings: {
-
-		},
+		showRatings: {},
 		active: {
 			color: theme.palette.primary.main,
 			textTransform: 'none',
@@ -40,7 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
 			fontSize: 16,
 			display: 'flex',
 			flexDirection: 'row',
-			alignItems: 'center'
+			alignItems: 'center',
 		},
 		inactive: {
 			color: theme.palette.secondary.main,
@@ -49,7 +47,7 @@ const useStyles = makeStyles((theme: Theme) =>
 			marginRight: 10,
 			display: 'flex',
 			flexDirection: 'row',
-			alignItems: 'center'
+			alignItems: 'center',
 		},
 		submitButton: {
 			marginTop: 10,
@@ -59,7 +57,7 @@ const useStyles = makeStyles((theme: Theme) =>
 			height: '30px',
 			backgroundColor: theme.palette.primary.main,
 			color: 'black',
-			borderRadius: 15
+			borderRadius: 15,
 		},
 	})
 );
@@ -70,16 +68,6 @@ const RatingCard: React.FC<RatingCardProps> = ({ project }) => {
 	const location = useLocation();
 	const [rating, setRating] = useState('');
 	const [typing, setTyping] = useState(false);
-	const [goodRatings, setGoodRatings] = useState(1);
-	const [excellentRatings, setExcellentRatings] = useState(1);
-	const [extraOrdinaryRatings, setExtraOrdinaryRatings] = useState(1);
-
-	useEffect(() => {
-		if (rating=='good') setGoodRatings(goodRatings+1);
-		if (rating=='excellent') setExcellentRatings(excellentRatings+1);
-		if (rating=='extraordinary') setExtraOrdinaryRatings(extraOrdinaryRatings+1);
-	}, [rating]);
-
 
 	//  Add Review
 	const { mutate: addReview } = useMutation(
@@ -110,7 +98,6 @@ const RatingCard: React.FC<RatingCardProps> = ({ project }) => {
 		},
 		{
 			onSuccess: async () => {
-				// console.log('success!');
 				if (location.pathname === '/') {
 					await queryClient.invalidateQueries('feed');
 				} else {
@@ -121,61 +108,108 @@ const RatingCard: React.FC<RatingCardProps> = ({ project }) => {
 	);
 
 	const showRating = (value: any) => {
-		setRating(value)
-		addRating({ value: value } as any)
-	}
-
+		setRating(value);
+		addRating({ value: value } as any);
+	};
 
 	return (
 		<Grid container direction='column' className={classes.section}>
 			<Grid item className={classes.giveRatings}>
 				<Button onClick={() => showRating('good')}>
-					<Box className={rating === 'good' ? classes.active : classes.inactive}>
-						<Typography style={{ marginRight: 4, marginTop: 1.5, fontWeight: 450 }}>({goodRatings})</Typography>
-						<Typography style={{ marginRight: 4, marginTop: 1.5, fontWeight: 450 }}>Good</Typography>
-						{rating === 'good' ?
-							<ThumbUpAltRoundedIcon fontSize='small' color='primary'></ThumbUpAltRoundedIcon>
-							:
-							<ThumbUpAltOutlinedIcon fontSize='small' color='secondary'></ThumbUpAltOutlinedIcon>
-						}
-
+					<Box
+						className={rating === 'good' ? classes.active : classes.inactive}>
+						<Typography
+							style={{ marginRight: 4, marginTop: 1.5, fontWeight: 450 }}>
+							({project.goodRatings})
+						</Typography>
+						<Typography
+							style={{ marginRight: 4, marginTop: 1.5, fontWeight: 450 }}>
+							Good
+						</Typography>
+						{rating === 'good' ? (
+							<ThumbUpAltRoundedIcon
+								fontSize='small'
+								color='primary'></ThumbUpAltRoundedIcon>
+						) : (
+							<ThumbUpAltOutlinedIcon
+								fontSize='small'
+								color='secondary'></ThumbUpAltOutlinedIcon>
+						)}
 					</Box>
 				</Button>
 				<Button onClick={() => showRating('excellent')}>
-					<Box className={rating === 'excellent' ? classes.active : classes.inactive}>
-						<Typography style={{ marginRight: 4, marginTop: 1.5, fontWeight: 450 }}>({excellentRatings})</Typography>
-						<Typography style={{ marginRight: 4, marginTop: 1.5, fontWeight: 450 }}>Excellent</Typography>
-						{rating === 'excellent' ?
-							<ThumbUpAltRoundedIcon fontSize='small' color='primary'></ThumbUpAltRoundedIcon>
-							:
-							<ThumbUpAltOutlinedIcon fontSize='small' color='secondary'></ThumbUpAltOutlinedIcon>
-						}
-						{rating === 'excellent' ?
-							<ThumbUpAltRoundedIcon fontSize='small' color='primary'></ThumbUpAltRoundedIcon>
-							:
-							<ThumbUpAltOutlinedIcon fontSize='small' color='secondary'></ThumbUpAltOutlinedIcon>
-						}
+					<Box
+						className={
+							rating === 'excellent' ? classes.active : classes.inactive
+						}>
+						<Typography
+							style={{ marginRight: 4, marginTop: 1.5, fontWeight: 450 }}>
+							({project.excellentRatings})
+						</Typography>
+						<Typography
+							style={{ marginRight: 4, marginTop: 1.5, fontWeight: 450 }}>
+							Excellent
+						</Typography>
+						{rating === 'excellent' ? (
+							<ThumbUpAltRoundedIcon
+								fontSize='small'
+								color='primary'></ThumbUpAltRoundedIcon>
+						) : (
+							<ThumbUpAltOutlinedIcon
+								fontSize='small'
+								color='secondary'></ThumbUpAltOutlinedIcon>
+						)}
+						{rating === 'excellent' ? (
+							<ThumbUpAltRoundedIcon
+								fontSize='small'
+								color='primary'></ThumbUpAltRoundedIcon>
+						) : (
+							<ThumbUpAltOutlinedIcon
+								fontSize='small'
+								color='secondary'></ThumbUpAltOutlinedIcon>
+						)}
 					</Box>
 				</Button>
 				<Button onClick={() => showRating('extraordinary')}>
-					<Box className={rating === 'extraordinary' ? classes.active : classes.inactive}>
-						<Typography style={{ marginRight: 4, marginTop: 1.5, fontWeight: 450 }}>({extraOrdinaryRatings})</Typography>
-						<Typography style={{ marginRight: 4, marginTop: 1.5, fontWeight: 450 }}>Extraordinary</Typography>
-						{rating === 'extraordinary' ?
-							<ThumbUpAltRoundedIcon fontSize='small' color='primary'></ThumbUpAltRoundedIcon>
-							:
-							<ThumbUpAltOutlinedIcon fontSize='small' color='secondary'></ThumbUpAltOutlinedIcon>
-						}
-						{rating === 'extraordinary' ?
-							<ThumbUpAltRoundedIcon fontSize='small' color='primary'></ThumbUpAltRoundedIcon>
-							:
-							<ThumbUpAltOutlinedIcon fontSize='small' color='secondary'></ThumbUpAltOutlinedIcon>
-						}
-						{rating === 'extraordinary' ?
-							<ThumbUpAltRoundedIcon fontSize='small' color='primary'></ThumbUpAltRoundedIcon>
-							:
-							<ThumbUpAltOutlinedIcon fontSize='small' color='secondary'></ThumbUpAltOutlinedIcon>
-						}
+					<Box
+						className={
+							rating === 'extraordinary' ? classes.active : classes.inactive
+						}>
+						<Typography
+							style={{ marginRight: 4, marginTop: 1.5, fontWeight: 450 }}>
+							({project.extraOrdinaryRatings})
+						</Typography>
+						<Typography
+							style={{ marginRight: 4, marginTop: 1.5, fontWeight: 450 }}>
+							Extraordinary
+						</Typography>
+						{rating === 'extraordinary' ? (
+							<ThumbUpAltRoundedIcon
+								fontSize='small'
+								color='primary'></ThumbUpAltRoundedIcon>
+						) : (
+							<ThumbUpAltOutlinedIcon
+								fontSize='small'
+								color='secondary'></ThumbUpAltOutlinedIcon>
+						)}
+						{rating === 'extraordinary' ? (
+							<ThumbUpAltRoundedIcon
+								fontSize='small'
+								color='primary'></ThumbUpAltRoundedIcon>
+						) : (
+							<ThumbUpAltOutlinedIcon
+								fontSize='small'
+								color='secondary'></ThumbUpAltOutlinedIcon>
+						)}
+						{rating === 'extraordinary' ? (
+							<ThumbUpAltRoundedIcon
+								fontSize='small'
+								color='primary'></ThumbUpAltRoundedIcon>
+						) : (
+							<ThumbUpAltOutlinedIcon
+								fontSize='small'
+								color='secondary'></ThumbUpAltOutlinedIcon>
+						)}
 					</Box>
 				</Button>
 			</Grid>
@@ -192,14 +226,17 @@ const RatingCard: React.FC<RatingCardProps> = ({ project }) => {
 						};
 						await addReview(data as any);
 						resetForm();
-					}}
-				>
+					}}>
 					{({ values }) => {
 						return (
 							<>
 								<Form
 									autoComplete='off'
-									style={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
+									style={{
+										display: 'flex',
+										flexDirection: 'column',
+										textAlign: 'left',
+									}}>
 									<FormInput
 										multiline
 										name='review'
@@ -210,7 +247,14 @@ const RatingCard: React.FC<RatingCardProps> = ({ project }) => {
 										size='small'
 										onFocus={() => setTyping(true)}
 									/>
-									{typing && <Button type='submit' color='primary' className={classes.submitButton}>Post</Button>}
+									{typing && (
+										<Button
+											type='submit'
+											color='primary'
+											className={classes.submitButton}>
+											Post
+										</Button>
+									)}
 								</Form>
 							</>
 						);

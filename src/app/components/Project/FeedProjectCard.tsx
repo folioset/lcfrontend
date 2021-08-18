@@ -18,12 +18,12 @@ const useStyles = makeStyles((theme: Theme) => {
 			cursor: 'pointer',
 			fontSize: 15,
 			fontWeight: 450,
-			marginLeft: -7
+			marginLeft: -7,
 		},
 		about: {
 			fontSize: 13,
 			fontColor: 'textSecondary',
-			marginLeft: -7
+			marginLeft: -7,
 		},
 		root: {
 			marginBottom: theme.spacing(4),
@@ -55,12 +55,17 @@ const FeedProject: React.FC<FeedProjectProps> = ({ project }) => {
 							{project.name}
 						</Link>
 					}
-					subheader={<Typography variant='body2' className={classes.about}>{project.about}</Typography>}
+					subheader={
+						<Typography variant='body2' className={classes.about}>
+							{project.about}
+						</Typography>
+					}
 				/>
-				{project.isVideoInterview == true 
-				? <InterviewCard isPublic project={project} />
-				: <ProjectCard isPublic project={project} />
-				}
+				{project.isVideoInterview ? (
+					<InterviewCard isPublic project={project} />
+				) : (
+					<ProjectCard isPublic project={project} />
+				)}
 			</Card>
 		</>
 	);

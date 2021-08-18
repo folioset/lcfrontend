@@ -95,7 +95,7 @@ const InterviewContextProvider: React.FC = ({ children }: any) => {
 			let date = new Date();
 			let b: any = videoBlob;
 			b.lastModifiedDate = date;
-			b.name = `interview-${date.toISOString()}.mp4`;
+			b.name = `interview-${date.toISOString()}.wav`;
 			const f = new File([b], b.name, {
 				type: b.type,
 			});

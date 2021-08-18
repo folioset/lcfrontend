@@ -141,7 +141,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 		setAnchorEl(null);
 	};
 
-
 	// Project Modal Toggler
 	const {
 		isOpen: isModalOpen,
@@ -163,19 +162,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 		onClose: onUpdateClose,
 	} = useDisclosure();
 
-	// Set Default Project Rating
-	// React.useEffect(() => {
-	// 	if (project) {
-	// 		project.ratings.forEach((el: any) => {
-	// 			if (el.createdBy === user._id) {
-	// 				setRating(el.value);
-	// 				setRated(true);
-	// 				// console.log(el.value)
-	// 			}
-	// 		});
-	// 	}
-	// }, [project, user._id]);
-
 	useEffect(() => {
 		console.log(num, 'this is num in 2nd use');
 		refetchReviews();
@@ -195,7 +181,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 	});
 
 	// console.log("projecttttttt", project);
-
 
 	const handleMoreReviews = () => {
 		setNum(num + 5);
@@ -373,11 +358,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 									);
 								})}
 							</Box>
-							{reviews?.length !== project?.reviews.length ? (<Button
-								onClick={handleMoreReviews}
-								style={{ textTransform: 'none', marginBottom: -20 }}>
-								Load more reviews
-							</Button>) : null}
+							{reviews?.length !== project?.reviews.length ? (
+								<Button
+									onClick={handleMoreReviews}
+									style={{ textTransform: 'none', marginBottom: -20 }}>
+									Load more reviews
+								</Button>
+							) : null}
 						</>
 					)}
 				</CardContent>

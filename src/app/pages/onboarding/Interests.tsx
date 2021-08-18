@@ -65,7 +65,7 @@ const Interests: React.FC = () => {
 							updateField(field, pmK, years);
 						}
 					}}>
-					{() => {
+					{({ handleChange }) => {
 						return (
 							<Form autoComplete='off' noValidate>
 								<Box marginBottom={5}>
@@ -82,6 +82,9 @@ const Interests: React.FC = () => {
 									label='Field'
 									required
 									fullWidth
+									defaultValue='Product Management'
+									onChange={(e: any) => handleChange('Product Management')}
+									disabled
 								/>
 								<FormInput
 									name='pmK'
