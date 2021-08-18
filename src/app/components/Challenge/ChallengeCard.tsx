@@ -69,6 +69,7 @@ const useStyles = makeStyles((theme: Theme) => {
             elevation: 0,
             boxShadow: '0 0 3px 1px rgba(0, 0, 0, 0.1)',
             width: '100%',
+            height: 'auto',
             margin: 'auto',
         },
         cardActions: {
@@ -85,10 +86,7 @@ const useStyles = makeStyles((theme: Theme) => {
             transform: 'rotate(180deg)',
         },
         cardContent: {
-            borderBottomWidth: '1px',
-            borderBottomStyle: 'solid',
-            borderBottomColor: theme.palette.divider,
-            paddingBottom: theme.spacing(4),
+            marginTop: -theme.spacing(2)
         },
         rating: {
             paddingLeft: theme.spacing(0.7),
@@ -127,7 +125,7 @@ const useStyles = makeStyles((theme: Theme) => {
                 textAlign: 'left',
                 fontSize: 15,
                 marginBottom: theme.spacing(3),
-            },
+            }
         },
         centeredPadding: {
             display: 'flex',
@@ -142,12 +140,6 @@ const useStyles = makeStyles((theme: Theme) => {
         },
         thumbnail: {
             // paddingRight: theme.spacing(4),
-        },
-        collabBox: {
-            display: 'flex',
-            justifyContent: 'flex-start',
-            // paddingLeft: theme.spacing(1),
-
         },
         pdf: {
             height: '100vh',
@@ -223,8 +215,8 @@ const useStyles = makeStyles((theme: Theme) => {
             textTransform: 'none',
             cursor: 'pointer',
             textAlign: 'right',
-            margin: '0 15px 10px 0',
-            fontSize: 13,
+            margin: '-20px 15px 10px 0',
+            
         },
         tag: {
             backgroundColor: theme.palette.grey['200'],
@@ -237,6 +229,9 @@ const useStyles = makeStyles((theme: Theme) => {
             marginRight: 3,
             marginBottom: 3
         },
+        answers: {
+            marginTop: -theme.spacing(2),
+        }
     };
 
 });
@@ -376,7 +371,7 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
             <Card className={classes.card}>
                 <CardHeader
                     title={
-                        <Typography variant='h4'>Question: {challenge.title}</Typography>
+                        <Typography variant='h4'>{challenge.title}</Typography>
                     }
                     action={
                         <Box style={{ display: 'flex', textAlign: 'center', alignItems: 'center', justifyContent: 'center' }}>
@@ -410,33 +405,18 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                     }
                 />
                 <CardContent className={classes.cardContent}>
-                    <Grid spacing={5} container direction='row' className={classes.centered}>
-
-                        <Grid
-                            item
-                            sm={12}
-                            container
-                            direction='column'
-                            className={classes.collabBox}>
+                    <Grid container direction='row' className={classes.centered}>
+                        <Grid item sm={12}>
                             {challenge.description && (
-                                <>
-                                    <Grid item style={{
-                                        marginBottom: 10
-                                    }}>
-
-                                        <Typography className={classes.description}>
-                                            Description: {challenge.description}
-                                        </Typography>
-                                    </Grid>
-                                </>
+                                <Typography className={classes.description}>
+                                            {challenge.description}
+                                </Typography>
+                              
                             )}
                         </Grid>
                         <Grid item direction='row'>
                             {challenge.skills.length !== 0 ? (
                                 <Grid item container direction='row'>
-                                    <Typography variant='h6' color='primary'>
-                                        Skills Required :
-                                    </Typography>
                                     {challenge.skills.map((el: any, i: number) => {
                                         return (
                                             <Grid item className={classes.tag}>
@@ -501,10 +481,10 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                             </>
                         )}
                 </CardActions>) : null}
-                <CardContent>
+                <CardContent className={classes.answers}>
                     {isLoading && (
-                        <Typography color='primary' variant='caption'>
-                            Loading answers
+                        <Typography variant='caption'>
+                            Loading answers...
                         </Typography>
                     )}
                     {data?.length ? (
@@ -514,14 +494,14 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                     ) : null}
                     {!isLoading && !data?.length && (
                         num === 1 ?
-                            (<Typography variant='body2'>No answers yet</Typography>) : (<Typography variant='body2'>No more answers</Typography>)
+                            (<Typography variant='body2' style={{marginTop: 2}}>Be the first to answer!</Typography>) : (<Typography variant='body2'>No more answers</Typography>)
                     )}
                 </CardContent >
 
                 {challenge.closeAnswers ? (
                     <>
                         <Box color="text.primary" style={{ textAlign: 'center', marginBottom: 10 }}>
-                            <Typography color='primary' variant='h4'>
+                            <Typography variant='h5'>
                                 This challenge has now ended!
                             </Typography>
                         </Box>
@@ -529,10 +509,10 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                 ) : null}
 
                 {/* Loading more answers here */}
-                {data?.length > 1 ? (<CardContent>
+                {data?.length > 1 ? (<CardContent className={classes.answers}>
                     {isLoading && (
-                        <Typography color='primary' variant='caption'>
-                            Loading answers
+                        <Typography variant='caption'>
+                            Loading answers...
                         </Typography>
                     )}
 
@@ -547,13 +527,11 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, isPublic }) =>
                         })
                     }
                 </CardContent>) : null}
-                {data?.length !== challenge?.answers.length ?
+                {data?.length !== challenge?.answers.length && !isLoading && challenge?.answers.length > 1 ?
                     (
-                        <Box>
-                            <Typography onClick={handleMoreAnswers} className={classes.loadMore}>
-                                ..Load more answers
-                            </Typography>
-                        </Box>
+                            <Button onClick={handleMoreAnswers} className={classes.loadMore}>
+                                Load more answers
+                            </Button>
                     ) : null
                 }
             </Card>
