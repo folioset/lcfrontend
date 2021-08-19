@@ -1,28 +1,26 @@
 import * as React from 'react';
 import { ReactComponent as LogoIcon } from './../../../assets/logo.svg';
-import { Box, makeStyles } from '@material-ui/core';
+import { Box, makeStyles, Typography } from '@material-ui/core';
 
 interface LogoProps {
 	onClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 }
 
-const useStyles = makeStyles((theme) => {
+const useStyles = makeStyles(() => {
 	return {
 		logo: {
-			width: 100,
+			maxHeight: '45px',
 			cursor: 'pointer',
-
-			[theme.breakpoints.down('md')]: {
-				marginLeft: theme.spacing(2),
-			},
-
-			[theme.breakpoints.down('sm')]: {
-				marginLeft: theme.spacing(3),
-			},
-
-			[theme.breakpoints.down('xs')]: {
-				marginLeft: theme.spacing(2),
-			},
+		},
+		logoBox: {
+			display: 'flex',
+			alignItems: 'center',
+			cursor: 'pointer',
+		},
+		text: {
+			marginTop: 10,
+			marginLeft: 10,
+			fontSize: 25,
 		},
 	};
 });
@@ -31,8 +29,11 @@ const Logo: React.FC<LogoProps> = ({ onClick }) => {
 	const classes = useStyles();
 	return (
 		<>
-			<Box {...{ onClick }}>
+			<Box className={classes.logoBox} {...{ onClick }}>
 				<LogoIcon className={classes.logo} />
+				<Typography color='textPrimary' variant='h4' className={classes.text}>
+					Folioset
+				</Typography>
 			</Box>
 		</>
 	);

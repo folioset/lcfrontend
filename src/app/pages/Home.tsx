@@ -10,9 +10,11 @@ import { makeStyles } from '@material-ui/core';
 import ForumIcon from '@material-ui/icons/Forum';
 import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
 import CreateIcon from '@material-ui/icons/Create';
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
 
 // Assets
 import { ReactComponent as SvgBackground } from '../../assets/home.svg';
+import { ReactComponent as GoogleIcon } from '../../assets/google.svg';
 
 // Styles
 const useStyles = makeStyles((theme) => {
@@ -45,9 +47,7 @@ const useStyles = makeStyles((theme) => {
 			color: theme.palette.common.black,
 			textTransform: 'capitalize',
 		},
-		subHeading: {
-			
-		},
+		subHeading: {},
 		subHeadingContainer: {
 			display: 'flex',
 			alignItems: 'center',
@@ -117,6 +117,7 @@ const Home: React.FC = () => {
 
 					<Box mt={4}>
 						<Button
+							startIcon={<GoogleIcon />}
 							style={{ marginRight: 20 }}
 							className={classes.googleBtn}
 							href='/api/auth/google'
@@ -126,6 +127,7 @@ const Home: React.FC = () => {
 						</Button>
 
 						<Button
+							startIcon={<LinkedInIcon />}
 							className={classes.googleBtn}
 							href='/api/auth/linkedin'
 							color='primary'

@@ -25,6 +25,14 @@ const useStyles = makeStyles((theme: Theme) => {
 	return {
 		box: {
 			padding: theme.spacing(5),
+
+			[theme.breakpoints.down('sm')]: {
+				padding: theme.spacing(3),
+			},
+
+			[theme.breakpoints.down('xs')]: {
+				padding: theme.spacing(2),
+			},
 		},
 		heading: {
 			textAlign: 'center',
@@ -45,6 +53,18 @@ const useStyles = makeStyles((theme: Theme) => {
 				backgroundColor: 'black',
 				display: isRecording ? 'block' : 'none',
 			};
+		},
+		inputBox: {
+			width: '50%',
+			margin: '0 auto',
+
+			[theme.breakpoints.down('sm')]: {
+				width: '85%',
+			},
+
+			[theme.breakpoints.down('xs')]: {
+				width: '100%',
+			},
 		},
 	};
 });
@@ -139,7 +159,10 @@ const InterviewRoom: React.FC<InterviewRoomProps> = () => {
 							<Typography variant='h5'>Audio Settings</Typography>
 						</Box>
 						{microphoneDevice && (
-							<Box display='flex' style={{ gap: '2rem' }}>
+							<Box
+								display='flex'
+								className={classes.inputBox}
+								style={{ gap: '2rem' }}>
 								<FormControl fullWidth variant='filled'>
 									<InputLabel id='Audio'>{microphoneDevice.label}</InputLabel>
 									<Select
