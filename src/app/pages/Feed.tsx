@@ -6,7 +6,6 @@ import { useQuery } from 'react-query';
 import axios from 'axios';
 import FeedProject from '../components/Project/FeedProjectCard';
 import { ProjectFeed } from '../types';
-import Loader from '../components/shared/Loader';
 import SideBtnCard from '../components/User/SideBtnCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
@@ -59,7 +58,6 @@ const Feed: React.FC<FeedProps> = () => {
 			method: 'get',
 			url: '/api/numprojects',
 		});
-		console.log(res.data);
 		return res.data;
 	});
 
@@ -72,7 +70,6 @@ const Feed: React.FC<FeedProps> = () => {
 
 	useEffect(() => {
 		refetch();
-		console.log(numberProjects?.count, 'i am count');
 	}, [num]);
 
 	return (
@@ -85,10 +82,9 @@ const Feed: React.FC<FeedProps> = () => {
 					<InfiniteScroll
 						dataLength={items.length}
 						next={() => {
-							console.log(num, "i am in next");
 							setNum(num + 1)
 						}}
-						hasMore={true}
+						hasMore={num < (numberProjects?.count/10) + 1}
 						loader={<h4>Loading...</h4>}
 						scrollThreshold={0.7}
 					>

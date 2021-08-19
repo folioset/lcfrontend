@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) => {
 			marginLeft: -7,
 		},
 		root: {
-			marginBottom: theme.spacing(4),
+			marginBottom: theme.spacing(3),
 			borderRadius: 10,
 			borderWidth: 5,
 			borderColor: '#111111',

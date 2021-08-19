@@ -74,15 +74,21 @@ const RatingCard: React.FC<RatingCardProps> = ({ project }) => {
 	const [extraOrdinaryRatings, setExtraOrdinaryRatings] = useState(project?.extraOrdinaryRatings);
 
 	useEffect(() => {
-		if (rating=='good') setGoodRatings(goodRatings+1);
-		if (rating=='excellent') setExcellentRatings(excellentRatings+1);
-		if (rating=='extraordinary') setExtraOrdinaryRatings(extraOrdinaryRatings+1);
-	}, [rating]);
-
-	useEffect(() => {
 		console.log(user && project?.ratings ? 
-			project?.ratings
-			: "")
+			project?.ratings[`${user?._id}`]
+			: "") 
+		if(project?.ratings && project?.ratings[`${user?._id}`]) {
+			if(project?.ratings[`${user?._id}`] == 'good') {
+				setRating('good')
+			}
+			if(project?.ratings[`${user?._id}`] == 'excellent') {
+				setRating('excellent')
+			}
+			if(project?.ratings[`${user?._id}`] == 'extraordinary') {
+				setRating('extraordinary')
+			}
+		}
+		
 	}, [])
 
 	//  Add Review
@@ -124,8 +130,19 @@ const RatingCard: React.FC<RatingCardProps> = ({ project }) => {
 	);
 
 	const showRating = (value: any) => {
+		if(rating!=''){
+			if(rating=='good') {setGoodRatings(goodRatings-1)}
+			else if (rating=='excellent') {setExcellentRatings(excellentRatings-1)}
+			else if (rating=='extraordinary') {setExtraOrdinaryRatings(extraOrdinaryRatings-1)}
+		}
+		
+		if(value=='good') {setGoodRatings(goodRatings+1)}
+		else if (value=='excellent') {setExcellentRatings(excellentRatings+1)}
+		else if (value=='extraordinary') {setExtraOrdinaryRatings(extraOrdinaryRatings+1)}
+
 		setRating(value);
 		addRating({ value: value } as any);
+
 	};
 
 	return (
@@ -136,7 +153,7 @@ const RatingCard: React.FC<RatingCardProps> = ({ project }) => {
 						className={rating === 'good' ? classes.active : classes.inactive}>
 						<Typography
 							style={{ marginRight: 4, marginTop: 1.5, fontWeight: 450 }}>
-							({project.goodRatings})
+							({goodRatings})
 						</Typography>
 						<Typography
 							style={{ marginRight: 4, marginTop: 1.5, fontWeight: 450 }}>
@@ -160,7 +177,7 @@ const RatingCard: React.FC<RatingCardProps> = ({ project }) => {
 						}>
 						<Typography
 							style={{ marginRight: 4, marginTop: 1.5, fontWeight: 450 }}>
-							({project.excellentRatings})
+							({excellentRatings})
 						</Typography>
 						<Typography
 							style={{ marginRight: 4, marginTop: 1.5, fontWeight: 450 }}>
@@ -193,7 +210,7 @@ const RatingCard: React.FC<RatingCardProps> = ({ project }) => {
 						}>
 						<Typography
 							style={{ marginRight: 4, marginTop: 1.5, fontWeight: 450 }}>
-							({project.extraOrdinaryRatings})
+							({extraOrdinaryRatings})
 						</Typography>
 						<Typography
 							style={{ marginRight: 4, marginTop: 1.5, fontWeight: 450 }}>

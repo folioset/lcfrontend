@@ -87,7 +87,6 @@ const SideBtnCard: React.FC<ProfileCardProps> = ({ isPublic }) => {
 	} = useDisclosure();
 
 	const classes = useStyles();
-	// const history = useHistory();
 
 	return (
 		<>

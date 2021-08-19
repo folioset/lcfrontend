@@ -33,12 +33,6 @@ const useStyles = makeStyles((theme) => {
 		},
 		mainHeading: {
 			fontWeight: 'bold',
-
-			[theme.breakpoints.down('md')]: {
-				marginTop: theme.spacing(4),
-				fontSize: 40,
-			},
-
 			[theme.breakpoints.down('sm')]: {
 				fontSize: 30,
 			},
@@ -52,10 +46,7 @@ const useStyles = makeStyles((theme) => {
 			textTransform: 'capitalize',
 		},
 		subHeading: {
-			[theme.breakpoints.down('xs')]: {
-				fontSize: 15,
-				fontColor: theme.palette.common.white,
-			},
+			
 		},
 		subHeadingContainer: {
 			display: 'flex',
@@ -81,13 +72,13 @@ const Home: React.FC = () => {
 				justify='center'
 				container
 				className={classes.grid}>
-				<Grid item lg={6} xs={12}>
+				<Grid item lg={8} md={8} sm={8} xs={12}>
 					<Box>
 						<Typography
 							className={classes.mainHeading}
 							variant='h3'
 							component='h1'>
-							Build your Product Portfolio
+							Showcase your Product Skills. Get noticed!
 						</Typography>
 					</Box>
 
@@ -109,7 +100,7 @@ const Home: React.FC = () => {
 							color='primary'
 						/>
 						<Typography className={classes.subHeading} variant='subtitle1'>
-							Showcase your Product thinking.
+							Showcase your Product thinking. Build your Portfolio.
 						</Typography>
 					</Box>
 
@@ -143,7 +134,7 @@ const Home: React.FC = () => {
 						</Button>
 					</Box>
 				</Grid>
-				<Grid item lg={4} md={6} sm={8} xs={12}>
+				<Grid item lg={4} md={4} sm={4} xs={12}>
 					<SvgBackground className={classes.svgBg} />
 				</Grid>
 			</Grid>

@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => {
 			borderBottomStyle: 'solid',
 			borderBottomColor: theme.palette.divider,
 			paddingBottom: theme.spacing(4),
+			padding: theme.spacing(2)
 		},
 	};
 });

@@ -5,9 +5,6 @@ import { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import FeedProject from '../components/Project/FeedProjectCard';
-import { ChallengeFeed } from '../types';
-import Loader from '../components/shared/Loader';
-import ChallengeCard from '../components/Challenge/ChallengeCard';
 import SideBtnCard from '../components/User/SideBtnCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { ProjectFeed } from '../types';
@@ -52,7 +49,14 @@ const Interviews: React.FC<InterviewsProps> = () => {
 			url: `/api/interview/feed/${num}`,
 		});
 		setItems((items) => [...items, ...res.data]);
-		console.log(res.data);
+		return res.data;
+	});
+
+	const { isLoading: isLoadingNumber , data: numberInterviews } = useQuery('numberInterviews', async () => {
+		const res = await axios({
+			method: 'get',
+			url: '/api/numinterviews',
+		});
 		return res.data;
 	});
 
@@ -61,11 +65,9 @@ const Interviews: React.FC<InterviewsProps> = () => {
 	}, []);
 
 	useEffect(() => {
-		console.log(items, 'i am in items');
 	}, [items]);
 
 	useEffect(() => {
-		console.log(num, 'i am in useeffect');
 		refetch();
 	}, [num]);
 
@@ -79,10 +81,9 @@ const Interviews: React.FC<InterviewsProps> = () => {
 					<InfiniteScroll
 						dataLength={items.length}
 						next={() => {
-							console.log(num, 'i am in next');
 							setNum(num + 1);
 						}}
-						hasMore={true}
+						hasMore={num < (numberInterviews?.count/10) + 1}
 						loader={<h4>Loading...</h4>}
 						scrollThreshold={0.7}>
 						<Container className={classes.container}>

@@ -17,13 +17,14 @@ const useStyles = makeStyles((theme) => {
 			},
 		},
 		card: {
-			borderRadius: 10,
+			borderRadius: 20,
 			borderWidth: 5,
 			borderColor: '#111111',
 			elevation: 0,
 			boxShadow: '0 0 3px 1px rgba(0, 0, 0, 0.1)',
 			width: '95%',
 			margin: 'auto',
+			marginBottom: 30,
 		},
 		heading: {
 			marginBottom: theme.spacing(4),
@@ -33,14 +34,14 @@ const useStyles = makeStyles((theme) => {
 			},
 		},
 		GridContr: {
+			maxWidth: 900,
 			margin: 'auto',
-			justifyContent: 'center'
+			justifyContent: 'center',
+			marginTop: theme.spacing(2)
 		},
-		projects: {
-			'& > *': {
-				marginBottom: 30,
-			},
-		},
+		check: {
+			padding: theme.spacing(1),
+		}
 	};
 });
 
@@ -64,17 +65,61 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 	const classes = useStyles();
 
 	return (
-		<>
-			<Box className={classes.root}>
-				<Container>
-					{user && (
-						<Box>
-							<ProfileCard user={user} isPublic={isPublic} />
-						</Box>
-					)}
-				<Grid container className={classes.GridContr}>
-					<Grid item xs={12} md={12} className={classes.projects}>
-							{isLoadingProjects && (
+		// <>
+		// 	<Box className={classes.root}>
+		// 		<Container>
+		// 			{user && (
+		// 				<Box>
+		// 					<ProfileCard user={user} isPublic={isPublic} />
+		// 				</Box>
+		// 			)}
+		// 		<Grid container className={classes.GridContr}>
+		// 			<Grid item xs={12} md={12} className={classes.projects}>
+		// 					{isLoadingProjects && (
+		// 						<Box textAlign='center'>
+		// 							<Typography color='primary'>Loading Projects ....</Typography>
+		// 						</Box>
+		// 					)}
+		// 					{projects?.length ? (projects.map((project: Project) => {
+		// 						return (
+		// 							<Box className={classes.card}>
+		// 								<ProjectCard
+		// 									isPublic={isPublic}
+		// 									key={project._id}
+		// 									{...{ project }}
+		// 								/>
+		// 							</Box>
+		// 						);
+		// 					})) : (<Box textAlign='center'>
+		// 						<Typography color='primary' variant='h4'>No Projects Yet!!</Typography>
+		// 					</Box>)
+		// 					}
+		// 			</Grid>
+		// 			{/* <Grid item xs={12} md={6}>
+		// 				{interviews?.length ? (interviews.map((project: Project) => {
+		// 						return (
+		// 							<Box className={classes.card}>
+		// 								<InterviewCard
+		// 									key={project._id}
+		// 									{...{ project }}
+		// 								/>
+		// 							</Box>
+		// 						);
+		// 					})) : (<Box textAlign='center'>
+		// 						<Typography color='primary' variant='h4'>No Projects Yet!!</Typography>
+		// 					</Box>)
+		// 					}
+		// 			</Grid> */}
+		// 		</Grid>
+		// 		</Container>
+		// 	</Box>
+		// </>
+		<Grid container className={classes.GridContr}>
+			<Grid item xs={12} md={4} className={classes.check} >
+				{user && <ProfileCard user={user} isPublic={isPublic} />}
+			</Grid>
+			<Grid item xs={12} md={8}>
+				{isLoadingProjects && (
 								<Box textAlign='center'>
 									<Typography color='primary'>Loading Projects ....</Typography>
 								</Box>
@@ -93,26 +138,8 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 								<Typography color='primary' variant='h4'>No Projects Yet!!</Typography>
 							</Box>)
 							}
-					</Grid>
-					{/* <Grid item xs={12} md={6}>
-						{interviews?.length ? (interviews.map((project: Project) => {
-								return (
-									<Box className={classes.card}>
-										<InterviewCard
-											key={project._id}
-											{...{ project }}
-										/>
-									</Box>
-								);
-							})) : (<Box textAlign='center'>
-								<Typography color='primary' variant='h4'>No Projects Yet!!</Typography>
-							</Box>)
-							}
-					</Grid> */}
-				</Grid>
-				</Container>
-			</Box>
-		</>
+			</Grid>
+	</Grid>
 	);
 };
 

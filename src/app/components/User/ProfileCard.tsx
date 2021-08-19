@@ -1,19 +1,16 @@
 import * as React from 'react';
-import Modal from '@material-ui/core/Modal';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import { Box, Button, makeStyles, Theme, IconButton, ButtonGroup } from '@material-ui/core';
+import { Box, Button, makeStyles, Theme, IconButton, Link, Modal, Grid, Typography } from '@material-ui/core';
 import { User } from '../../types';
 import useDisclosure from '../../hooks/useDisclosure';
 import CreateProject from '../Project/CreateProject';
 import EditIcon from '@material-ui/icons/Edit';
-import { useHistory } from 'react-router-dom';
 import Avatar from '../shared/Avatar';
 import CreateChallenge from '../Challenge/CreateChallenge';
-import CreateResume from './CreateResume';
-import AddIcon from '@material-ui/icons/Add';
+// import CreateResume from './CreateResume';
+import { Link as RouterLink, useHistory} from 'react-router-dom';
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles((theme: Theme) => {
+	return {
 	root: {
 		flexGrow: 1,
 		backgroundColor: theme.palette.common.white,
@@ -79,8 +76,13 @@ const useStyles = makeStyles((theme: Theme) => ({
 			marginLeft: 0,
 			marginTop: theme.spacing(1),
 		},
-	}
-}));
+	},
+	action: {
+		textTransform: 'none',
+		fontWeight: 'bold',
+	},
+	};
+});
 
 interface ProfileCardProps {
 	user: User;
@@ -90,16 +92,11 @@ interface ProfileCardProps {
 const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 	const classes = useStyles();
 	const { isOpen, onOpen, onClose } = useDisclosure();
-	const {
-		isOpen: isOpenChall,
-		onOpen: onOpenChall,
-		onClose: onCloseChall,
-	} = useDisclosure();
-	const {
-		isOpen: isOpenResume,
-		onOpen: onOpenResume,
-		onClose: onCloseResume,
-	} = useDisclosure();
+	// const {
+	// 	isOpen: isOpenResume,
+	// 	onOpen: onOpenResume,
+	// 	onClose: onCloseResume,
+	// } = useDisclosure();
 	const history = useHistory();
 
 	return (
@@ -113,16 +110,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 					<CreateProject {...{ onClose }} />
 				</Modal>
 			)}
-			{!isPublic && (
-				<Modal
-					open={isOpenChall}
-					onClose={onCloseChall}
-					aria-labelledby='simple-modal-title'
-					aria-describedby='simple-modal-description'>
-					<CreateChallenge {...{ onCloseChall }} />
-				</Modal>
-			)}
-			{!isPublic && (
+			{/* {!isPublic && (
 				<Modal
 					open={isOpenResume}
 					onClose={onCloseResume}
@@ -130,7 +118,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 					aria-describedby='simple-modal-description'>
 					<CreateResume {...{ onCloseResume }} />
 				</Modal>
-			)}
+			)} */}
 			<Box className={classes.root}>
 				<Grid container direction='row'>
 					<Grid item xs={12} sm={11} className={classes.details}>
@@ -161,19 +149,18 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 								<Button color='primary' variant='contained' onClick={onOpen}>
 									Add Project
 								</Button>
-								{/* <Button color='primary' variant='contained' onClick={onOpenChall} className={classes.btnPad}>
-									Add Challenge
+								<Button
+									component={RouterLink}
+									to='/interview'
+									size='large'
+									color='primary'
+									className={classes.action}>
+									Take an Interview
 								</Button>
-								<Button color='primary' variant='contained' className={classes.btnPad}>
-									All Challenges
+							
+								{/* <Button color='primary' variant='contained' onClick={onOpenResume}>
+								Add Resume
 								</Button> */}
-								<ButtonGroup variant="contained" color="primary" aria-label="contained primary button group" className={classes.btnPad}>
-									<Button> All Challenges</Button>
-									<Button onClick={onOpenChall}><AddIcon /></Button>
-								</ButtonGroup>
-								<Button color='primary' variant='contained' onClick={onOpenResume}>
-									Add Resume
-								</Button>
 							</Box>
 						)}
 					</Grid>

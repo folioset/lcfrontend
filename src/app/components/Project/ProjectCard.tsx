@@ -1,6 +1,4 @@
 import * as React from 'react';
-import * as Yup from 'yup';
-import clsx from 'clsx';
 import axios from 'axios';
 import { format } from 'date-fns';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -163,19 +161,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 		onClose: onUpdateClose,
 	} = useDisclosure();
 
-	// Set Default Project Rating
-	// React.useEffect(() => {
-	// 	if (project) {
-	// 		project.ratings.forEach((el: any) => {
-	// 			if (el.createdBy === user._id) {
-	// 				setRating(el.value);
-	// 				setRated(true);
-	// 				// console.log(el.value)
-	// 			}
-	// 		});
-	// 	}
-	// }, [project, user._id]);
-
 	useEffect(() => {
 		console.log(num, 'this is num in 2nd use');
 		refetchReviews();
@@ -193,10 +178,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 		});
 		return res.data;
 	});
-
-	// console.log("projecttttttt", project);
-
-
 	const handleMoreReviews = () => {
 		setNum(num + 5);
 	};

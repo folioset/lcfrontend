@@ -4,9 +4,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useQuery } from 'react-query';
 import axios from 'axios';
-import FeedProject from '../components/Project/FeedProjectCard';
 import { ChallengeFeed } from '../types';
-import Loader from '../components/shared/Loader';
 import ChallengeCard from '../components/Challenge/ChallengeCard';
 import SideBtnCard from '../components/User/SideBtnCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -58,17 +56,22 @@ const Feed: React.FC<FeedProps> = () => {
 	});
 
 
+	const { isLoading: isLoadingNumber , data: numberQuestions } = useQuery('numberQuestions', async () => {
+		const res = await axios({
+			method: 'get',
+			url: '/api/numquestions',
+		});
+		return res.data;
+	});
 
 	useEffect(() => {
 		refetch();
 	}, [])
 
 	useEffect(() => {
-		// console.log(items, "i am in items");
 	}, [items]);
 
 	useEffect(() => {
-		// console.log(num, 'i am in useeffect');
 		refetch();
 	}, [num]);
 
@@ -82,10 +85,9 @@ const Feed: React.FC<FeedProps> = () => {
 					<InfiniteScroll
 						dataLength={items.length}
 						next={() => {
-							console.log(num, "i am in next");
 							setNum(num + 1)
 						}}
-						hasMore={true}
+						hasMore={num < (numberQuestions?.count/10) + 1}
 						loader={<h4>Loading...</h4>}
 						scrollThreshold={0.7}
 					>
