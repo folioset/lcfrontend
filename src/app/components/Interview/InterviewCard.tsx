@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => {
 			borderBottomStyle: 'solid',
 			borderBottomColor: theme.palette.divider,
 			paddingBottom: theme.spacing(4),
-			padding: theme.spacing(2)
+			padding: theme.spacing(2),
 		},
 	};
 });
@@ -75,9 +75,13 @@ const InterviewCard: React.FC<InterviewCardProps> = ({ project, isPublic }) => {
 			let handlePlay = (entries: any, _: any) => {
 				entries.forEach(async (entry: any) => {
 					if (entry.isIntersecting) {
-						await videoRef?.current?.play();
+						try {
+							await videoRef?.current?.play();
+						} catch (err) {}
 					} else {
-						await videoRef?.current?.pause();
+						try {
+							await videoRef?.current?.pause();
+						} catch (err) {}
 					}
 				});
 			};

@@ -11,7 +11,7 @@ const Home = React.lazy(() => import('../pages/Home'));
 const OnBoarding = React.lazy(() => import('../pages/onboarding'));
 const Public = React.lazy(() => import('../pages/public'));
 const Feed = React.lazy(() => import('../pages/Feed'));
-const Test = React.lazy(() => import('../pages/test'));
+// const Test = React.lazy(() => import('../pages/test'));
 const InterviewRoutes = React.lazy(() => import('../pages/interview'));
 
 const Body: React.FC = () => {
@@ -32,9 +32,9 @@ const Body: React.FC = () => {
 					<Dashboard />
 				</Route>
 
-				<Route path='/test'>
+				{/* <Route path='/test'>
 					<Test />
-				</Route>
+				</Route> */}
 
 				<Route path='/interview'>
 					<InterviewRoutes />

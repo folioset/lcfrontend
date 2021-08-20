@@ -46,9 +46,7 @@ const useStyles = makeStyles((theme: Theme) => {
 	return {
 		toolbar: theme.mixins.toolbar,
 		logo: {
-			paddingRight: theme.spacing(1),
 			paddingTop: theme.spacing(2),
-			paddingLeft: theme.spacing(1),
 		},
 		user: {
 			paddingTop: theme.spacing(3),

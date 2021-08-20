@@ -56,7 +56,11 @@ const useScreenShare = () => {
 			}
 
 			// audio devices
-			const audioInputDevices = devices.filter((d) => d.kind === 'audioinput');
+			const audioInputDevices = devices.filter(
+				(d) =>
+					d.kind === 'audioinput' &&
+					(d.label.includes('Microphone') || d.label.includes('microphone'))
+			);
 			const currentDevice =
 				devices.filter((d) => d.deviceId === 'default')[0] ||
 				audioInputDevices[0];
