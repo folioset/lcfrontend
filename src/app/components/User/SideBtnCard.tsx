@@ -7,9 +7,8 @@ import {
 	makeStyles,
 	Theme,
 	Typography,
-	Link
+	Link, Card, Box
 } from '@material-ui/core';
-import { Card, Box } from '@material-ui/core';
 import * as React from 'react';
 import { Link as RouterLink} from 'react-router-dom';
 import { User } from '../../types';

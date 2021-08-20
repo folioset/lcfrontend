@@ -65,55 +65,6 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 	const classes = useStyles();
 
 	return (
-		// <>
-		// 	<Box className={classes.root}>
-		// 		<Container>
-		// 			{user && (
-		// 				<Box>
-		// 					<ProfileCard user={user} isPublic={isPublic} />
-		// 				</Box>
-		// 			)}
-		// 		<Grid container className={classes.GridContr}>
-		// 			<Grid item xs={12} md={12} className={classes.projects}>
-		// 					{isLoadingProjects && (
-		// 						<Box textAlign='center'>
-		// 							<Typography color='primary'>Loading Projects ....</Typography>
-		// 						</Box>
-		// 					)}
-		// 					{projects?.length ? (projects.map((project: Project) => {
-		// 						return (
-		// 							<Box className={classes.card}>
-		// 								<ProjectCard
-		// 									isPublic={isPublic}
-		// 									key={project._id}
-		// 									{...{ project }}
-		// 								/>
-		// 							</Box>
-		// 						);
-		// 					})) : (<Box textAlign='center'>
-		// 						<Typography color='primary' variant='h4'>No Projects Yet!!</Typography>
-		// 					</Box>)
-		// 					}
-		// 			</Grid>
-		// 			{/* <Grid item xs={12} md={6}>
-		// 				{interviews?.length ? (interviews.map((project: Project) => {
-		// 						return (
-		// 							<Box className={classes.card}>
-		// 								<InterviewCard
-		// 									key={project._id}
-		// 									{...{ project }}
-		// 								/>
-		// 							</Box>
-		// 						);
-		// 					})) : (<Box textAlign='center'>
-		// 						<Typography color='primary' variant='h4'>No Projects Yet!!</Typography>
-		// 					</Box>)
-		// 					}
-		// 			</Grid> */}
-		// 		</Grid>
-		// 		</Container>
-		// 	</Box>
-		// </>
 		<Grid container className={classes.GridContr}>
 			<Grid item xs={12} md={4} className={classes.check} >
 				{user && <ProfileCard user={user} isPublic={isPublic} />}
@@ -121,10 +72,10 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 			<Grid item xs={12} md={8}>
 				{isLoadingProjects && (
 								<Box textAlign='center'>
-									<Typography color='primary'>Loading Projects ....</Typography>
+									<Typography color="secondary">Loading Projects ....</Typography>
 								</Box>
-							)}
-							{projects?.length ? (projects.map((project: Project) => {
+				)}
+				{!isLoadingProjects && (projects.map((project: Project) => {
 								return (
 									<Box className={classes.card}>
 										<ProjectCard
@@ -134,10 +85,24 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 										/>
 									</Box>
 								);
-							})) : (<Box textAlign='center'>
-								<Typography color='primary' variant='h4'>No Projects Yet!!</Typography>
-							</Box>)
-							}
+							}))
+				}
+				{!isLoadingInterviews && (interviews.map((project: Project) => {
+								return (
+									<Box className={classes.card}>
+										<InterviewCard
+											isPublic={isPublic}
+											key={project._id}
+											{...{ project }}
+										/>
+									</Box>
+								);
+							})) 
+				}
+				{!projects?.length && !interviews?.length ?
+				(<Box textAlign='center' style={{marginTop: 200}}>
+					<Typography color="secondary" variant='h4'>No projects to display</Typography>
+				</Box>) : null}
 			</Grid>
 	</Grid>
 	);

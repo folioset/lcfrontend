@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Box, Button, makeStyles, Theme, IconButton, Link, Modal, Grid, Typography } from '@material-ui/core';
+import { Box, Button, makeStyles, Theme, IconButton, Link, Modal, Grid, Typography, CardContent,
+	CardActionArea, Card } from '@material-ui/core';
 import { User } from '../../types';
 import useDisclosure from '../../hooks/useDisclosure';
 import CreateProject from '../Project/CreateProject';
@@ -11,76 +12,44 @@ import { Link as RouterLink, useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) => {
 	return {
-	root: {
-		flexGrow: 1,
-		backgroundColor: theme.palette.common.white,
-		marginBottom: 20,
-		paddingLeft: 5,
-		paddingRight: 5,
-		borderRadius: 10,
-		borderWidth: 5,
-		borderColor: '#111111',
-		elevation: 0,
-		boxShadow: '0 0 3px 1px rgba(0, 0, 0, 0.1)',
-	},
-	details: {
-		padding: theme.spacing(3),
-
-		[theme.breakpoints.down('sm')]: {
-			paddingTop: theme.spacing(2),
-			paddingBottom: theme.spacing(2),
+		root: {
+			maxWidth: 580,
+			position: 'sticky',
+			margin: 'auto',
+			borderRadius: 8,
+			padding: theme.spacing(2),
 		},
-
-		[theme.breakpoints.down('xs')]: {
-			display: 'flex',
+		avatarBox: {
 			justifyContent: 'center',
+			width: '100%',
+			display: 'flex',
+			marginTop: theme.spacing(2)
+		},
+		avatar: {
+            height: '5rem',
+            width: '5rem',
+        },
+		userDetails: {
+			textAlign: 'center',
+			marginTop: theme.spacing(1)
+		}, 
+		btnAlign: {
+			display: 'flex',
 			flexDirection: 'column',
+			justifyContent: 'center',
 			alignItems: 'center',
 			textAlign: 'center',
 		},
-	},
-	about: {
-		marginBottom: theme.spacing(1),
-	},
-	avatar: {
-		backgroundColor: theme.palette.primary.light,
-		marginBottom: theme.spacing(3),
-		height: 100,
-		width: 100,
-	},
-	addProjectGridBtn: {
-		marginTop: theme.spacing(2),
-		[theme.breakpoints.down('xs')]: {
-			display: 'flex',
-			flexDirection: "column",
-			alignItems: 'center',
-			marginTop: theme.spacing(2),
+		cardTypo: {
+			color: 'black',
+			fontWeight: 550,
+			fontSize: 17
+			
 		},
-	},
-	link: {
-		cursor: 'pointer',
-	},
-	editIcon: {
-		display: 'flex',
-		alignItems: 'flex-start',
-		justifyContent: 'flex-end',
-
-		[theme.breakpoints.down('xs')]: {
-			order: -1,
-			alignItems: 'center',
+		action: {
+			textTransform: 'none',
+			fontWeight: 'bold',
 		},
-	},
-	btnPad: {
-		marginLeft: 15,
-		[theme.breakpoints.down('xs')]: {
-			marginLeft: 0,
-			marginTop: theme.spacing(1),
-		},
-	},
-	action: {
-		textTransform: 'none',
-		fontWeight: 'bold',
-	},
 	};
 });
 
@@ -119,60 +88,51 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, isPublic }) => {
 					<CreateResume {...{ onCloseResume }} />
 				</Modal>
 			)} */}
-			<Box className={classes.root}>
-				<Grid container direction='row'>
-					<Grid item xs={12} sm={11} className={classes.details}>
-						<Avatar
-							className={classes.avatar}
-							alt={user.name}
-							src={user.profilePicture}
-						/>
-
-						<Typography gutterBottom variant='h4'>
-							{user.name}
-						</Typography>
-						{user.about && (
-							<Typography
-								variant='body2'
-								gutterBottom
-								className={classes.about}>
-								{user.about}
-							</Typography>
-						)}
-						{user.location && (
-							<Typography variant='body2' color='textSecondary'>
-								{user.location}
-							</Typography>
-						)}
-						{!isPublic && (
-							<Box className={classes.addProjectGridBtn}>
-								<Button color='primary' variant='contained' onClick={onOpen}>
-									Add Project
-								</Button>
-								<Button
-									component={RouterLink}
-									to='/interview'
-									size='large'
-									color='primary'
-									className={classes.action}>
-									Take an Interview
-								</Button>
-							
-								{/* <Button color='primary' variant='contained' onClick={onOpenResume}>
-								Add Resume
-								</Button> */}
-							</Box>
-						)}
-					</Grid>
-					<Grid item xs={12} sm={1} className={classes.editIcon}>
-						{!isPublic && (
-							<IconButton onClick={() => history.push('/dashboard/me/update')}>
-								<EditIcon color='primary' />
-							</IconButton>
-						)}
-					</Grid>
-				</Grid>
-			</Box>
+			<Card className={classes.root}>
+					<CardActionArea>
+						<Box className={classes.avatarBox}>
+							<Avatar
+								className={classes.avatar}
+								src={user.profilePicture}
+							/>
+						</Box>
+						<Link
+							component={RouterLink}
+							to={`/dashboard`}>
+							<CardContent className={classes.userDetails}>
+								<Typography
+									gutterBottom
+									variant='h4'
+									component='h2'
+									className={classes.cardTypo}>
+									{user.name}
+								</Typography>
+								<Typography variant='body2' color='textSecondary' component='p'>
+									{user.about}
+								</Typography>
+							</CardContent>
+						</Link>
+						
+					</CardActionArea>
+			
+				<Box className={classes.btnAlign}>
+					<Button
+						size='large'
+						color='primary'
+						className={classes.action}
+						onClick={onOpen}>
+						Add Project
+					</Button>
+					<Button
+						component={RouterLink}
+						to='/interview'
+						size='large'
+						color='primary'
+						className={classes.action}>
+						Take an Interview
+					</Button>
+				</Box>
+			</Card>
 		</>
 	);
 };

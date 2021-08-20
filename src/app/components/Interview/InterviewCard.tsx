@@ -104,8 +104,8 @@ const InterviewCard: React.FC<InterviewCardProps> = ({ project, isPublic }) => {
 			</Typography>
 			<video
 				src={project.videoFile}
-				height={600}
-				width={800}
+				height={500}
+				width={'100%'}
 				controls
 				ref={videoRef}
 			/>
