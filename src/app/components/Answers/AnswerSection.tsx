@@ -93,8 +93,8 @@ const useStyles = makeStyles((theme: Theme) =>
             justifyContent: 'center',
             marginLeft: 10,
 			paddingLeft: 10,
-			borderLeft: '1px solid',
-			borderLeftColor: theme.palette.divider,
+			// borderLeft: '0.1px solid',
+			// borderLeftColor: theme.palette.divider,
 		},
 		inactive: {
 			color: theme.palette.secondary.main,
@@ -106,8 +106,8 @@ const useStyles = makeStyles((theme: Theme) =>
             justifyContent: 'center',
             marginLeft: 10,
 			paddingLeft: 10,
-			borderLeft: '1px solid',
-			borderLeftColor: theme.palette.divider,
+			// borderLeft: '0.1px solid',
+			// borderLeftColor: theme.palette.divider,
 		},
         ratingButton: {
             marginTop: 1.5, 
@@ -229,8 +229,9 @@ const AnswerSection: React.FC<AnswersSectionProps> = ({ answer, challenge }) => 
 
             <Card elevation={0}>
                 <AnswersCard answersData={project} challenge={challenge} isPublic answer={answer} />
-                <Box style={{ display: 'flex', alignItems: 'center'}}>
+                <Box style={{ display: 'flex', alignItems: 'center', paddingBottom: 20}}>
 					<Link onClick={() => showRating('good')}
+                    style={{paddingLeft: 0}}
                     className={rating === 'good' ? classes.active : classes.inactive}>
 						{rating === 'good' ?
 							<ThumbUpAltRoundedIcon fontSize='small' color='primary'></ThumbUpAltRoundedIcon>
@@ -269,15 +270,15 @@ const AnswerSection: React.FC<AnswersSectionProps> = ({ answer, challenge }) => 
 							<ThumbUpAltOutlinedIcon fontSize='small' color='secondary'></ThumbUpAltOutlinedIcon>
 						}
                     </Link>
-                    {!isAnswerLoading && <Link className={classes.display}>
+                    {/* {!isAnswerLoading && <Link className={classes.display}>
                         {ratings} ratings
-                    </Link>}
+                    </Link>} */}
                     <Link
-							onClick={toggleOpen}
-                            className={classes.display}
+						onClick={toggleOpen}
+                        className={classes.display}
 					>
-							Reply
-						</Link>
+						{reviews?.length || 0} Replies
+					</Link>
                 </Box>
                 <Collapse in={isOpen} timeout='auto' unmountOnExit>
                 <Box>
@@ -318,9 +319,6 @@ const AnswerSection: React.FC<AnswersSectionProps> = ({ answer, challenge }) => 
 					}}
 				</Formik>
 				</Box>
-                </Collapse>
-            </Card>
-            <Card elevation={0}>
                 <CardContent className={classes.cardContent}>
                     {isLoading && (
                         <Typography color='primary' variant='caption'>
@@ -347,6 +345,7 @@ const AnswerSection: React.FC<AnswersSectionProps> = ({ answer, challenge }) => 
                         </>
                     )}
                 </CardContent>
+                </Collapse>
             </Card>
         </>
     );

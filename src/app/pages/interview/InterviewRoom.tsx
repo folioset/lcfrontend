@@ -40,7 +40,8 @@ const useStyles = makeStyles((theme: Theme) => {
 		},
 		subheading: {
 			textAlign: 'center',
-			marginBottom: theme.spacing(3),
+			marginTop: theme.spacing(3),
+			marginBottom: theme.spacing(5),
 		},
 		videoContainer: {
 			position: 'relative',
@@ -66,6 +67,11 @@ const useStyles = makeStyles((theme: Theme) => {
 				width: '100%',
 			},
 		},
+		audioContainer: {
+			justifyContent: 'center',
+			alignItems: 'center',
+			marginTop: theme.spacing(5)
+		}
 	};
 });
 
@@ -129,69 +135,74 @@ const InterviewRoom: React.FC<InterviewRoomProps> = () => {
 
 			<Box className={classes.box}>
 				<Container>
-					<Typography variant='h3' className={classes.heading}>
-						Answer a question in a timed interview-like format
-					</Typography>
-					<Typography variant='h4' className={classes.subheading}>
-						Your screen and Video will be recorded while interview is in
-						progress
-					</Typography>
+					{!isRecording && <Box>
+						<Typography variant='h3' className={classes.heading}>
+							Answer a question in a timed interview-like format
+						</Typography>
+						<Typography variant='h4' className={classes.subheading}>
+							Help companies discover your knowledge and skills!
+						</Typography>
+						<Typography>
+							Instructions:  
+						</Typography>
+						<Typography>
+							1. Video will start recording once you start the interview. 
+						</Typography>
+						<Typography style={{
+										fontWeight: 'bold',
+										color: 'red',
+									}}>
+							2. Please do not refresh your page and do not open any other tab while the interview is in progress.
+						</Typography>
+						<Typography>
+							If you switch tabs, the interview will start again with a different question.
+						</Typography>
+
+						<Grid container direction='row' className={classes.audioContainer}>
+							<Grid item xs={2} style={{justifyContent: 'center'}}>
+								<Typography variant='h5'>Select the correct Microphone source</Typography>
+							</Grid>
+							{microphoneDevice && (
+								<Grid item xs={10} className={classes.inputBox}>
+									<FormControl fullWidth variant='filled'>
+										<InputLabel id='Audio'>{microphoneDevice.label}</InputLabel>
+										<Select
+											value={microphoneDevice.deviceId}
+											label='Audio'
+											labelId='demo-simple-select-filled-label'
+											id='demo-simple-select-filled'>
+											{microphoneDevices.map((device: any, i: any) => {
+												return (
+													<ListItem
+														onClick={() => setMicrophoneDevice(device)}
+														button
+														key={i}>
+														<ListItemText>{device.label}</ListItemText>
+														{device.deviceId === microphoneDevice.deviceId && (
+															<ListItemIcon>
+																<CheckIcon />
+															</ListItemIcon>
+														)}
+													</ListItem>
+												);
+											})}
+										</Select>
+									</FormControl>
+								</Grid>
+							)}
+						</Grid>
+					</Box>}
+
 					{isRecording && question && (
-						<Typography
-							style={{ fontWeight: 'bold' }}
-							variant='h4'
-							className={classes.subheading}>
+						<Box>
+						<Typography variant='h3' className={classes.heading}>
 							{question}
 						</Typography>
-					)}
-					<Typography
-						style={{
-							fontWeight: 'bold',
-							color: 'red',
-							textAlign: 'center',
-							marginBottom: 20,
-						}}>
-						Please do not refresh your page
-					</Typography>
-
-					<Box mb={5}>
-						<Box textAlign='center' mb={3}>
-							<Typography variant='h5'>Audio Settings</Typography>
 						</Box>
-						{microphoneDevice && (
-							<Box
-								display='flex'
-								className={classes.inputBox}
-								style={{ gap: '2rem' }}>
-								<FormControl fullWidth variant='filled'>
-									<InputLabel id='Audio'>{microphoneDevice.label}</InputLabel>
-									<Select
-										value={microphoneDevice.deviceId}
-										label='Audio'
-										labelId='demo-simple-select-filled-label'
-										id='demo-simple-select-filled'>
-										{microphoneDevices.map((device: any, i: any) => {
-											return (
-												<ListItem
-													onClick={() => setMicrophoneDevice(device)}
-													button
-													key={i}>
-													<ListItemText>{device.label}</ListItemText>
-													{device.deviceId === microphoneDevice.deviceId && (
-														<ListItemIcon>
-															<CheckIcon />
-														</ListItemIcon>
-													)}
-												</ListItem>
-											);
-										})}
-									</Select>
-								</FormControl>
-							</Box>
-						)}
-					</Box>
+						
+					)}
 
-					<Box textAlign='center' mb={5}>
+					<Box textAlign='center' mb={5} mt={5}>
 						{!isRecording && (
 							<>
 								<Box display='flex' alignItems='center' justifyContent='center'>
@@ -214,24 +225,29 @@ const InterviewRoom: React.FC<InterviewRoomProps> = () => {
 							</>
 						)}
 						{isRecording && (
-							<Box display='flex' alignItems='center' justifyContent='center'>
-								<Typography
-									style={{
-										fontWeight: 'bold',
-										color: 'red',
-										textAlign: 'center',
-									}}>
-									Recording...
-								</Typography>
-								<Button
-									onClick={async () => {
-										if (stopRecord) stopRecord();
-									}}
-									variant='contained'
-									color='primary'>
-									End Interview
-								</Button>
-							</Box>
+							<Grid container direction='column'>
+								<Grid item xs={12}>
+									<Typography
+										style={{
+											fontWeight: 'bold',
+											color: 'red',
+											textAlign: 'center',
+											marginBottom: 20
+										}}>
+										Recording in progess
+									</Typography>
+								</Grid>
+								<Grid item xs={12}>
+									<Button
+										onClick={async () => {
+											if (stopRecord) stopRecord();
+										}}
+										variant='contained'
+										color='primary'>
+										End Interview
+									</Button>
+								</Grid>
+							</Grid>
 						)}
 					</Box>
 					<Grid container spacing={5}>

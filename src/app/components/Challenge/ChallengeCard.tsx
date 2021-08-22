@@ -60,9 +60,9 @@ const validationSchema = Yup.object().shape({
 const useStyles = makeStyles((theme: Theme) => {
 	return {
 		card: {
-			marginBottom: 20,
-			paddingLeft: 5,
-			paddingRight: 5,
+			marginBottom: theme.spacing(3),
+			paddingLeft: theme.spacing(1),
+			paddingRight: theme.spacing(1),
 			borderRadius: 10,
 			borderWidth: 5,
 			borderColor: '#111111',
@@ -97,7 +97,7 @@ const useStyles = makeStyles((theme: Theme) => {
 		},
 		comment: {
 			'& fieldset': {
-				borderRadius: 30,
+				borderRadius: 10,
 			},
 		},
 		section: {
@@ -167,37 +167,6 @@ const useStyles = makeStyles((theme: Theme) => {
 			right: 30,
 			zIndex: 2000,
 		},
-		avgRating: {
-			display: 'flex',
-			justifyContent: 'center',
-			alignItems: 'center',
-			textAlign: 'center',
-			paddingLeft: theme.spacing(1),
-
-			[theme.breakpoints.down('xs')]: {
-				justifyContent: 'flex-start',
-			},
-		},
-		avgRatingBox: {
-			display: 'flex',
-			justifyContent: 'space-around',
-			alignItems: 'center',
-		},
-		ratingBox: {
-			display: 'flex',
-			justifyContent: 'center',
-			alignItems: 'center',
-
-			[theme.breakpoints.down('xs')]: {
-				marginTop: 10,
-				flexDirection: 'column',
-				alignItems: 'start',
-
-				'& h6': {
-					paddingLeft: theme.spacing(1),
-				},
-			},
-		},
 		dataOneHide: {
 			display: 'none',
 		},
@@ -215,7 +184,7 @@ const useStyles = makeStyles((theme: Theme) => {
 			textTransform: 'none',
 			cursor: 'pointer',
 			textAlign: 'right',
-			margin: '-20px 15px 10px 0',
+			margin: '-20px 15px 5px 0',
 		},
 		tag: {
 			backgroundColor: theme.palette.grey['200'],
@@ -229,8 +198,15 @@ const useStyles = makeStyles((theme: Theme) => {
 			marginBottom: 3,
 		},
 		answers: {
-			marginTop: -theme.spacing(2),
+			marginTop: -theme.spacing(2)
 		},
+		ended: {
+			marginBottom: theme.spacing(1),
+			paddingLeft: theme.spacing(1)
+		},
+		gridItem: {
+			marginTop: theme.spacing(2)
+		}
 	};
 });
 
@@ -302,9 +278,6 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({
 		setNum(num + 5);
 	};
 
-	// const handlePreviousAnswers = () => {
-	//     setNum(num - 1);
-	// }
 
 	//adding normal answer
 	const { mutate: addAnswerMutate, isLoading: addAnswerLoading } = useMutation(
@@ -329,7 +302,6 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({
 		}
 	);
 
-	// if (data?.length === 0 && num > 1) handlePreviousAnswers();
 
 	// authorizing Endtion of question
 	if (user._id === challenge.createdBy._id) isPublic = false;
@@ -411,7 +383,7 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({
 					}
 				/>
 				<CardContent className={classes.cardContent}>
-					<Grid container direction='row' className={classes.centered}>
+					<Grid container direction='column'>
 						<Grid item sm={12}>
 							{challenge.description && (
 								<Typography className={classes.description}>
@@ -419,9 +391,8 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({
 								</Typography>
 							)}
 						</Grid>
-						<Grid item direction='row'>
-							{challenge.skills.length !== 0 ? (
-								<Grid item container direction='row'>
+						{challenge.skills.length !== 0 ? (
+								<Grid item sm={12}className={classes.gridItem} container direction='row'>
 									{challenge.skills.map((el: any, i: number) => {
 										return (
 											<Grid item className={classes.tag}>
@@ -433,21 +404,40 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({
 									})}
 								</Grid>
 							) : null}
-						</Grid>
+					<Grid item className={classes.gridItem}>
+					{isLoading && (
+						<Typography variant='caption'>Loading answers...</Typography>
+					)}
+					{data?.length ? (
+						<AnswerSection answer={data[0]} challenge={challenge} />
+					) : null}
+					{data?.length > 1 ? 
+						data.slice(1).map((answer: Answer) => {
+								return (
+									<AnswerSection key={answer._id} {...{ answer, challenge }} />
+								);
+						}
+					) : null}
 					</Grid>
-				</CardContent>
+				<Grid item sm={12} className={classes.gridItem}>
 
+				{data?.length !== challenge?.answers.length &&
+				!isLoading &&
+				challenge?.answers.length > 1 ? (
+					<Button onClick={handleMoreAnswers} className={classes.loadMore}>
+						Load more answers
+					</Button>
+				) : null}
+				</Grid>
+				<Grid item sm={12}>
 				{!challenge.closeAnswers ? (
-					<CardActions>
-						{challenge.isCaseStudy ? (
+						challenge.isCaseStudy ? (
 							<Button size='small' color='primary' onClick={onOpen}>
 								Add Project
 							</Button>
 						) : (
-							<>
-								<Grid style={{ width: '100%' }}>
-									<Grid item>
-										<Formik
+							<Box width='100%'>
+									<Formik
 											initialValues={{
 												text: ``,
 											}}
@@ -476,7 +466,7 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({
 																name='text'
 																className={classes.comment}
 																fullWidth
-																placeholder={`Share your Answer...`}
+																placeholder={`Answer this question`}
 																variant='outlined'
 																size='small'
 																onFocus={() => setTyping(true)}
@@ -494,63 +484,30 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({
 												);
 											}}
 										</Formik>
-									</Grid>
-								</Grid>
-							</>
-						)}
-					</CardActions>
+							</Box>
+						)
 				) : null}
-				<CardContent className={classes.answers}>
-					{isLoading && (
-						<Typography variant='caption'>Loading answers...</Typography>
-					)}
-					{data?.length ? (
-						<AnswerSection answer={data[0]} challenge={challenge} />
-					) : null}
-					{!isLoading &&
-						!data?.length &&
-						(num === 1 ? (
+				</Grid>
+				{!isLoading && !data?.length && !challenge.closeAnswers ? 
+				    (num === 1 ? (
+						<Grid item sm={12} className={classes.gridItem}>
 							<Typography variant='body2' style={{ marginTop: 2 }}>
 								Be the first to answer!
 							</Typography>
+						</Grid>
 						) : (
+						<Grid item sm={12} className={classes.gridItem}>
 							<Typography variant='body2'>No more answers</Typography>
-						))}
+						</Grid>)
+					) : null}
+				<Grid item sm={12}>
+				{challenge.closeAnswers ? (<Typography variant='body2'>
+						This challenge has ended 
+						</Typography>) : null}
+				</Grid>
+				</Grid>
 				</CardContent>
 
-				{challenge.closeAnswers ? (
-					<>
-						<Box
-							color='text.primary'
-							style={{ textAlign: 'center', marginBottom: 10 }}>
-							<Typography variant='h5'>
-								This challenge has now ended!
-							</Typography>
-						</Box>
-					</>
-				) : null}
-
-				{/* Loading more answers here */}
-				{data?.length > 1 ? (
-					<CardContent className={classes.answers}>
-						{isLoading && (
-							<Typography variant='caption'>Loading answers...</Typography>
-						)}
-
-						{data.slice(1).map((answer: Answer) => {
-							return (
-								<AnswerSection key={answer._id} {...{ answer, challenge }} />
-							);
-						})}
-					</CardContent>
-				) : null}
-				{data?.length !== challenge?.answers.length &&
-				!isLoading &&
-				challenge?.answers.length > 1 ? (
-					<Button onClick={handleMoreAnswers} className={classes.loadMore}>
-						Load more answers
-					</Button>
-				) : null}
 			</Card>
 		</>
 	);

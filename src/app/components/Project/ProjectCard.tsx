@@ -218,7 +218,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 					<PdfViewer className={classes.pdf} filename={project.projectFile} />
 				</>
 			</Modal>
-			<Card className={classes.card}>
+			<Card elevation={0} className={classes.card}>
 				<CardHeader
 					title={<Typography variant='h4'>{project.title}</Typography>}
 					action={
@@ -283,10 +283,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, isPublic }) => {
 											</Grid>
 										);
 									})}
-								</Grid>
-							) : null}
-							{project.tools.length !== 0 ? (
-								<Grid item container direction='row'>
 									{project.tools.map((el: any, i: number) => {
 										return (
 											<Grid item className={classes.tag}>

@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
         root: {
             marginBottom: theme.spacing(1),
             backgroundColor: theme.palette.grey['100'],
-            // borderRadius: 10,
+            borderRadius: 10,
         },
         avatar: {
             backgroundColor: theme.palette.primary.main,

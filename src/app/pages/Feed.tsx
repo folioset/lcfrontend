@@ -75,10 +75,10 @@ const Feed: React.FC<FeedProps> = () => {
 	return (
 		<>
 			<Grid container className={classes.GridContr}>
-				<Grid item xs={12} md={4} className={classes.check} >
+				<Grid item xs={12} md={3} className={classes.check} >
 					<SideBtnCard />
 				</Grid>
-				<Grid item xs={12} md={8}>
+				<Grid item xs={12} md={9}>
 					<InfiniteScroll
 						dataLength={items.length}
 						next={() => {
@@ -88,7 +88,7 @@ const Feed: React.FC<FeedProps> = () => {
 						loader={<h4>Loading...</h4>}
 						scrollThreshold={0.7}
 					>
-						<Container maxWidth='sm' className={classes.container}>
+						<Container className={classes.container}>
 							{items.map((project: ProjectFeed) => {
 								return <FeedProject key={project._id} {...{ project }} />;
 							})

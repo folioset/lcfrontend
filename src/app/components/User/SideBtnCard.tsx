@@ -151,7 +151,7 @@ const SideBtnCard: React.FC<ProfileCardProps> = ({ isPublic }) => {
 						onClick={onOpen}>
 						Add Project
 					</Button>
-					<Button
+					{/* <Button
 						size='large'
 						color='primary'
 						className={classes.action}
@@ -164,7 +164,7 @@ const SideBtnCard: React.FC<ProfileCardProps> = ({ isPublic }) => {
 						className={classes.action}
 						onClick={onOpenAnswer}>
 						Ask a Question
-					</Button>
+					</Button> */}
 					<Button
 						component={RouterLink}
 						to='/interview'

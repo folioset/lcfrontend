@@ -66,10 +66,10 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 
 	return (
 		<Grid container className={classes.GridContr}>
-			<Grid item xs={12} md={4} className={classes.check} >
+			<Grid item xs={12} md={3} className={classes.check} >
 				{user && <ProfileCard user={user} isPublic={isPublic} />}
 			</Grid>
-			<Grid item xs={12} md={8}>
+			<Grid item xs={12} md={9}>
 				{isLoadingProjects && (
 								<Box textAlign='center'>
 									<Typography color="secondary">Loading Projects ....</Typography>
@@ -99,7 +99,7 @@ const ProfileView: React.FC<ProfileViewProps> = ({
 								);
 							})) 
 				}
-				{!projects?.length && !interviews?.length ?
+				{!isLoadingInterviews && !isLoadingProjects && !projects?.length && !interviews?.length ?
 				(<Box textAlign='center' style={{marginTop: 200}}>
 					<Typography color="secondary" variant='h4'>No projects to display</Typography>
 				</Box>) : null}

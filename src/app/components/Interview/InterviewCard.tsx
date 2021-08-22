@@ -14,28 +14,35 @@ import { Project, Review } from '../../types';
 
 const useStyles = makeStyles((theme) => {
 	return {
+		root: {
+			backgroundColor: 'white',
+			borderRadius: 10,
+			maxWidth: 700
+		},
 		heading: {
 			paddingLeft: theme.spacing(2),
 			paddingRight: theme.spacing(2),
-			marginTop: theme.spacing(2),
-			marginBottom: theme.spacing(2),
+			paddingTop: theme.spacing(2),
+			paddingBottom: theme.spacing(1)
 		},
 		video: {
 			// alignContent: 'center',
 			// alignItems: 'center',
 			// justifyContent: 'center',
 			// textAlign: 'center'
+			// marginTop: -theme.spacing(2)
 		},
 		ratings: {
-			padding: theme.spacing(1),
+			padding: theme.spacing(0.5)
 		},
 		cardContent: {
-			marginTop: -20,
+			marginTop: -theme.spacing(6),
 			borderBottomWidth: '1px',
 			borderBottomStyle: 'solid',
 			borderBottomColor: theme.palette.divider,
-			paddingBottom: theme.spacing(4),
 			padding: theme.spacing(2),
+			paddingTop: theme.spacing(3),
+			paddingBottom: theme.spacing(3)
 		},
 	};
 });
@@ -102,7 +109,7 @@ const InterviewCard: React.FC<InterviewCardProps> = ({ project, isPublic }) => {
 	};
 
 	return (
-		<Box>
+		<Box className={classes.root}>
 			<Typography variant='h4' className={classes.heading}>
 				{project.videoInterviewQuestion}
 			</Typography>
@@ -110,12 +117,15 @@ const InterviewCard: React.FC<InterviewCardProps> = ({ project, isPublic }) => {
 				src={project.videoFile}
 				height={500}
 				width={'100%'}
+				className={classes.video}
 				controls
 				ref={videoRef}
 			/>
-			<div className={classes.ratings}>
-				{isPublic && <RatingCard {...{ project }} />}
-			</div>
+			{
+				isPublic && <div className={classes.ratings}>
+				<RatingCard {...{ project }} />
+				</div>
+			}
 			<div className={classes.cardContent}>
 				{isLoading && (
 					<Typography color='primary' variant='caption'>

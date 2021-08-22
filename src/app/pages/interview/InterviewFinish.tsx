@@ -71,7 +71,7 @@ const InterviewFinish: React.FC<InterviewFinishProps> = () => {
 				<Box className={classes.videoContainer}>
 					<video className={classes.video} controls src={fileUrl} />
 				</Box>
-				<Box textAlign='center'>
+				<Box textAlign='center' mb={10}>
 					<Button
 						startIcon={isLoading ? <CircularProgress size='1rem' /> : null}
 						onClick={() => {
@@ -79,7 +79,7 @@ const InterviewFinish: React.FC<InterviewFinishProps> = () => {
 						}}
 						variant='contained'
 						color='primary'>
-						Finish Interview
+						Submit Interview
 					</Button>
 				</Box>
 			</Container>

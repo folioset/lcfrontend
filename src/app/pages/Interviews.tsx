@@ -15,7 +15,6 @@ const useStyles = makeStyles((theme: Theme) => {
 	return {
 		container: {
 			padding: theme.spacing(1),
-			width: '815px',
 		},
 		heading: {
 			color: theme.palette.grey['200'],
@@ -29,8 +28,9 @@ const useStyles = makeStyles((theme: Theme) => {
 		},
 		GridContr: {
 			minHeight: '100vh',
+			maxWidth: 900,
 			margin: 'auto',
-			justifyContent: 'center',
+			justifyContent: 'center'
 		},
 		check: {
 			padding: theme.spacing(1),
@@ -74,10 +74,10 @@ const Interviews: React.FC<InterviewsProps> = () => {
 	return (
 		<>
 			<Grid container className={classes.GridContr}>
-				<Grid item xs={12} md={2} className={classes.check}>
+				<Grid item xs={12} md={3} className={classes.check}>
 					<SideBtnCard />
 				</Grid>
-				<Grid item xs={12} md={10}>
+				<Grid item xs={12} md={9}>
 					<InfiniteScroll
 						dataLength={items.length}
 						next={() => {
