@@ -56,7 +56,7 @@ const InterviewContextProvider: React.FC = ({ children }: any) => {
 
 	React.useEffect(() => {
 		if (!permission) {
-			alert('please give access to microphone and webcam');
+			alert('Please give access to microphone and webcam');
 		}
 	}, [permission]);
 

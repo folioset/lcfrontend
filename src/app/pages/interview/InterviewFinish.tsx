@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) => {
 const InterviewFinish: React.FC<InterviewFinishProps> = () => {
 	const history = useHistory();
 	const classes = useStyles();
-	const { file, fileUrl, questionId } = React.useContext(InterviewContext);
+	const { file, fileUrl, question } = React.useContext(InterviewContext);
 
 	const { mutate, isLoading } = useMutation(
 		async (data) => {
@@ -58,7 +58,7 @@ const InterviewFinish: React.FC<InterviewFinishProps> = () => {
 	const handleInterviewSubmission = () => {
 		const data = new FormData();
 		data.append('file', file as any);
-		data.append('questionid', questionId!);
+		data.append('questionid', question!);
 		mutate(data as any);
 	};
 

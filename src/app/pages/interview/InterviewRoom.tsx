@@ -97,7 +97,8 @@ const InterviewRoom: React.FC<InterviewRoomProps> = () => {
 				method: 'post',
 				url: '/api/interview/getquestion',
 				data: {
-					category: localStorage.getItem('fieldInterest'),
+					category: "Product Management" 
+					//localStorage.getItem('interviewType'),
 				},
 			});
 			return res.data;
@@ -212,7 +213,7 @@ const InterviewRoom: React.FC<InterviewRoomProps> = () => {
 										}
 										onClick={async () => {
 											if (!permission) {
-												alert('grant webcam and microphone');
+												alert('Grant webcam and microphone');
 											} else {
 												mutate();
 											}
