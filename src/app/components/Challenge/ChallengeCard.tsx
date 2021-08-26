@@ -14,13 +14,10 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Typography from '@material-ui/core/Typography';
-// import IconButton from '@material-ui/core/IconButton';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-// import Collapse from '@material-ui/core/Collapse';
 import Modal from '@material-ui/core/Modal';
-// import Hidden from '@material-ui/core/Hidden';
 import Fade from '@material-ui/core/Fade';
 import Menu from '@material-ui/core/Menu';
 
@@ -29,10 +26,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SendIcon from '@material-ui/icons/Send';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
-// components
-// import Rating from '../shared/Rating';
-// import ReviewsSection from '../Reviews/ReviewsSection';
-// import PdfViewer from '../shared/Pdf/PdfViewer';
 import FormInput from '../shared/FormInput';
 import AnswerSection from '../Answers/AnswerSection';
 
@@ -41,13 +34,8 @@ import { Challenge, User, Answer } from '../../types';
 
 // hooks
 import useDisclosure from '../../hooks/useDisclosure';
-import { useLocation } from 'react-router-dom';
 
-// import { Link as RouterLink } from 'react-router-dom';
-// import PdfThumbnail from '../shared/Pdf/PdfThumbnail';
 import CreateCaseAnswer from './CreateCaseAnswer';
-// import DeleteChallenge from './DeleteChallenge';
-// import UpdateProject from '../Project/UpdateProject';
 import UpdateChallenge from './UpdateChallenge';
 import EndChallenge from './EndChallenge';
 
@@ -225,7 +213,6 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({
 	const [num, setNum] = useState(1);
 	const classes = useStyles();
 	const { isOpen, onClose, onOpen } = useDisclosure();
-	const location = useLocation();
 	const [typing, setTyping] = useState(false);
 
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -488,7 +475,7 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({
 						)
 				) : null}
 				</Grid>
-				{!isLoading && !data?.length && !challenge.closeAnswers ? 
+				{/* {!isLoading && !data?.length && !challenge.closeAnswers ? 
 				    (num === 1 ? (
 						<Grid item sm={12} className={classes.gridItem}>
 							<Typography variant='body2' style={{ marginTop: 2 }}>
@@ -499,7 +486,7 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({
 						<Grid item sm={12} className={classes.gridItem}>
 							<Typography variant='body2'>No more answers</Typography>
 						</Grid>)
-					) : null}
+					) : null} */}
 				<Grid item sm={12}>
 				{challenge.closeAnswers ? (<Typography variant='body2'>
 						This challenge has ended 

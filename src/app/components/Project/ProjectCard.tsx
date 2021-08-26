@@ -79,7 +79,8 @@ const useStyles = makeStyles((theme: Theme) => {
 			marginRight: 3,
 		},
 		thumbnail: {
-			// paddingRight: theme.spacing(4),
+			paddingTop: theme.spacing(2),
+			paddingBottom: theme.spacing(2),
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',

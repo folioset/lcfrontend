@@ -47,7 +47,7 @@ const FeedProject: React.FC<FeedProjectProps> = ({ project }) => {
 					title={
 						<Link
 							component={RouterLink}
-							to={`/public/users/${project.createdBy}`}
+							to={`/public/users/${project?.createdBy}`}
 							className={classes.name}
 							color='textPrimary'
 							variant='h4'>
