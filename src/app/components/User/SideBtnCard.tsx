@@ -145,6 +145,14 @@ const SideBtnCard: React.FC<ProfileCardProps> = ({ isPublic }) => {
 			
 				<Box className={classes.btnAlign}>
 					<Button
+						component={RouterLink}
+						to='/interview'
+						size='large'
+						color='primary'
+						className={classes.action}>
+						Take an Interview
+					</Button>
+					<Button
 						size='large'
 						color='primary'
 						className={classes.action}
@@ -164,14 +172,6 @@ const SideBtnCard: React.FC<ProfileCardProps> = ({ isPublic }) => {
 						className={classes.action}
 						onClick={onOpenAnswer}>
 						Ask a Question
-					</Button>
-					<Button
-						component={RouterLink}
-						to='/interview'
-						size='large'
-						color='primary'
-						className={classes.action}>
-						Take an Interview
 					</Button>
 				</Box>
 			</Card>

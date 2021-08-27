@@ -77,7 +77,6 @@ const InterviewOnboarding: React.FC<InterviewOnboardingProps> = () => {
 											label='What type of question would you like to answer?'>
 											{[
 												'Product Improvement',
-												'Product Design',
 												'Product Strategy',
 												'Product Metrics',
 												'Product Execution',
