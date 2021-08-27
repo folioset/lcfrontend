@@ -17,8 +17,8 @@ const useStyles = makeStyles((theme: Theme) => {
 	return {
 		heading: {
 			textAlign: 'center',
-			marginTop: theme.spacing(2),
-			marginBottom: theme.spacing(10),
+			marginTop: theme.spacing(1),
+			marginBottom: theme.spacing(5),
 			fontSize: 24,
 		},
 		photoContainer: {
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) => {
 			justifyContent: 'center',
 			alignItems: 'center',
 			flexDirection: 'column',
-			marginBottom: theme.spacing(10),
+			marginBottom: theme.spacing(5),
 		},
 		photo: {
 			height: '200px',
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) => {
 			margin: '0 auto',
 
 			'& label': {
-				marginBottom: theme.spacing(4),
+				marginBottom: theme.spacing(2),
 			},
 		},
 	};

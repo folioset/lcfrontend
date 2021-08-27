@@ -89,7 +89,7 @@ const Interests: React.FC = () => {
 								<FormInput
 									name='pmK'
 									variant='outlined'
-									label='Rate your skill level in product management (1-10)'
+									label='Rate your skill level in product management as a number between 1-10 (1 being Beginner, 10 being Expert'
 									min={1}
 									max={10}
 									required
@@ -98,7 +98,7 @@ const Interests: React.FC = () => {
 								<FormInput
 									name='years'
 									variant='outlined'
-									label='How many years of experience do you have in PM ?'
+									label='How many years of experience do you have in PM? (Put a number)'
 									required
 									fullWidth
 								/>
