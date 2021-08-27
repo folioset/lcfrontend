@@ -93,12 +93,12 @@ const InterviewRoom: React.FC<InterviewRoomProps> = () => {
 	const classes = useStyles({ isRecording });
 	const { mutate, isLoading } = useMutation(
 		async () => {
+			console.log(localStorage.getItem('interviewType'));
 			const res = await axios({
 				method: 'post',
 				url: '/api/interview/getquestion',
 				data: {
-					category: "Product Management" 
-					//localStorage.getItem('interviewType'),
+					category: localStorage.getItem('interviewType'),
 				},
 			});
 			return res.data;
