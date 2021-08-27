@@ -44,7 +44,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const initialValues = {
-	field: '',
+	field: 'Product Management',
 	pmK: 1,
 	years: 1,
 };
