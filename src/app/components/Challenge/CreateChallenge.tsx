@@ -41,7 +41,7 @@ const initialValues: InitialValues = {
 
 
 const validationSchema = Yup.object().shape({
-    title: Yup.string().required('title statement is required!').max(150, 'You can only enter a max of 150 characters'),
+    title: Yup.string().required('Question title is required!'),
     description: Yup.string()
         .notRequired()
         .max(1000, 'You can only enter a max of 1000 characters'),
