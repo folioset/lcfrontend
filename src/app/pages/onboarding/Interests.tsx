@@ -45,8 +45,8 @@ const validationSchema = Yup.object().shape({
 
 const initialValues = {
 	field: 'Product Management',
-	pmK: 1,
-	years: 1,
+	pmK: '',
+	years: '',
 };
 
 const Interests: React.FC = () => {
@@ -62,7 +62,7 @@ const Interests: React.FC = () => {
 					{...{ validationSchema, initialValues }}
 					onSubmit={async ({ field, pmK, years }) => {
 						if (updateField) {
-							updateField(field, pmK, years);
+							updateField(field, parseInt(pmK), parseInt(years));
 						}
 					}}>
 					{({ handleChange }) => {
