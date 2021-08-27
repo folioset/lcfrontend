@@ -37,7 +37,8 @@ const useStyles = makeStyles((theme: Theme) => {
 
 const FeedRedirect: React.FC = () => {
 	const classes = useStyles();
-	const { id } : any = useParams<{ id: any }>();
+	const { id } = useParams<{ id: string }>();
+	const { sumParams } : any = useParams();
 
 	const { data } = useQuery('feedRedirect', async () => {
 		const res = await axios({

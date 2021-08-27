@@ -162,7 +162,7 @@ const CreateChallenge: React.FC<CreateChallengeProps> = React.forwardRef(
                                                 name='title'
                                                 fullWidth
                                                 variant='outlined'
-                                                label='title'
+                                                label='Question'
                                                 size='small'
                                             />
                                             <FormInput
@@ -172,7 +172,7 @@ const CreateChallenge: React.FC<CreateChallengeProps> = React.forwardRef(
                                                 rows={4}
                                                 variant='outlined'
                                                 size='small'
-                                                label='Description'
+                                                label='Details'
                                             />
                                             <Box mb={3}>
                                                 <Autocomplete
@@ -191,7 +191,7 @@ const CreateChallenge: React.FC<CreateChallengeProps> = React.forwardRef(
                                                             variant='outlined'
                                                             name='skills'
                                                             size='small'
-                                                            label='Skills'
+                                                            label='Skills needed to answer this question'
                                                         />
                                                     )}
                                                 />
